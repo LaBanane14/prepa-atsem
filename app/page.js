@@ -78,7 +78,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-red-600 text-white p-2 rounded-xl shadow-sm">
-              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.1L2 5v2.8c0 2.7 2.2 4.8 4.8 4.8h2.4c2.7 0 4.8-2.2 4.8-4.8V5l-2.8-2.9"/><path d="M8 15v1a2 2 0 0 0 4 0v-1"/><circle cx="20" cy="10" r="2"/><path d="M20 12v2c0 2.2-1.8 4-4 4h-1"/><path d="M2 2h3"/><path d="M11 2h3"/></svg>
+              <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.1 2 5v2.8a4.8 4.8 0 0 0 4.8 4.8h2.4a4.8 4.8 0 0 0 4.8-4.8V5l-2.8-2.9"/><path d="M8 15v1a2 2 0 0 0 4 0v-1"/><circle cx="20" cy="10" r="2"/><path d="M20 12v2a4 4 0 0 1-4 4h-1"/><path d="M2 2h3"/><path d="M11 2h3"/></svg>
             </div>
             <div>
               <span className="font-black text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-red-600">FPC</span></span>
