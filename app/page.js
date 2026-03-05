@@ -92,8 +92,8 @@ export default function HomePage() {
           <div className="flex items-center gap-4">
            {!authLoading && (user ? (
               <>
-                <button onClick={handleLogout} className="hidden md:block text-slate-600 font-semibold hover:text-red-600 transition text-sm cursor-pointer">Déconnexion</button>
                 <a href="/dashboard" className="hidden md:inline-flex bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-bold shadow-lg shadow-red-200 transition transform hover:-translate-y-0.5 text-sm">Mon tableau de bord</a>
+                <button onClick={handleLogout} className="hidden md:block text-slate-600 font-semibold hover:text-red-600 transition text-sm cursor-pointer">Déconnexion</button>
               </>
             ) : (
               <>
