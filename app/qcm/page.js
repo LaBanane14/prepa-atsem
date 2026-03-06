@@ -126,8 +126,8 @@ export default function QuizPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col" style={{backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
       <style>{`
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
       `}</style>
 
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -137,13 +137,15 @@ export default function QuizPage() {
 
       <Nav />
 
-      <main className="flex-grow w-full max-w-6xl mx-auto px-4 py-4 sm:py-6 overflow-hidden">
-        
-        {/* Conteneur Flex - La question reste TOUJOURS à 50% de largeur sur PC (via w-[calc(50%-1rem)]) */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start w-full transition-all duration-700 ease-in-out">
+      {/* Utilisation de CSS Grid avec 1fr_auto_1fr pour forcer le centrage mathématique */}
+      <main className="flex-grow w-full max-w-[1600px] mx-auto px-4 py-4 sm:py-6 overflow-x-hidden">
+        <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-6 xl:gap-8 items-start w-full">
           
-          {/* QCM CARD - Largeur strictement fixe pour ne pas se réduire, mais glisse au centre si non répondu */}
-          <div className={`w-full lg:w-[calc(50%-1rem)] lg:flex-shrink-0 transition-all duration-700 ease-in-out ${hasAnswered ? 'mx-0' : 'lg:mx-auto'} ${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm mt-2 sm:mt-4`}>
+          {/* Colonne 1 : Vide, elle sert à équilibrer la grille pour garder le centre parfaitement au milieu */}
+          <div className="hidden xl:block"></div>
+
+          {/* Colonne 2 : QCM CARD - Largeur fixe sur PC (xl:w-[650px]), toujours centrée */}
+          <div className={`w-full max-w-2xl mx-auto xl:w-[650px] ${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm mt-2 sm:mt-4`}>
             <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
               {/* Header */}
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
@@ -227,10 +229,10 @@ export default function QuizPage() {
             </div>
           </div>
 
-          {/* EXPLANATION - Toujours la même taille fixe sur la moitié droite */}
-          {hasAnswered && (
-            <div className="w-full lg:w-[calc(50%-1rem)] lg:flex-shrink-0 animate-fade-in mt-2 sm:mt-4 lg:mt-8">
-              <div className={`rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col border-2 transition-colors duration-300 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
+          {/* Colonne 3 : EXPLANATION - Apparaît à droite (ou en dessous sur mobile) */}
+          <div className="w-full max-w-2xl mx-auto xl:mx-0 flex flex-col justify-start xl:pr-4">
+            {hasAnswered && (
+              <div className={`animate-fade-in mt-2 sm:mt-4 xl:mt-8 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col border-2 transition-colors duration-300 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
                     {isCorrect ? (
@@ -243,8 +245,8 @@ export default function QuizPage() {
                 </div>
                 <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 sm:p-5 rounded-xl border border-white/40 shadow-sm text-sm sm:text-base" dangerouslySetInnerHTML={{__html: data.explanation}}></div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
         </div>
       </main>
