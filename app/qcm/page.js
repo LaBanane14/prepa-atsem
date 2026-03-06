@@ -137,14 +137,13 @@ export default function QuizPage() {
 
       <Nav />
 
-      {/* Remplacement du conteneur max-w-3xl par max-w-6xl pour permettre un affichage côte à côte */}
       <main className="flex-grow w-full max-w-6xl mx-auto px-4 py-4 sm:py-6 overflow-hidden">
         
-        {/* Conteneur Flex pour afficher la question et la réponse côte à côte sur PC */}
-        <div className={`flex flex-col lg:flex-row gap-6 lg:gap-8 items-start transition-all duration-500 ease-in-out ${hasAnswered ? 'justify-start' : 'justify-center'}`}>
+        {/* Conteneur Flex - La question reste TOUJOURS à 50% de largeur sur PC (via w-[calc(50%-1rem)]) */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start w-full transition-all duration-700 ease-in-out">
           
-          {/* QCM CARD - S'adapte en largeur si on a répondu */}
-          <div className={`w-full ${hasAnswered ? 'lg:w-1/2' : 'lg:w-2/3 lg:max-w-3xl'} transition-all duration-500 ${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm mt-2 sm:mt-4`}>
+          {/* QCM CARD - Largeur strictement fixe pour ne pas se réduire, mais glisse au centre si non répondu */}
+          <div className={`w-full lg:w-[calc(50%-1rem)] lg:flex-shrink-0 transition-all duration-700 ease-in-out ${hasAnswered ? 'mx-0' : 'lg:mx-auto'} ${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm mt-2 sm:mt-4`}>
             <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
               {/* Header */}
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
@@ -228,9 +227,9 @@ export default function QuizPage() {
             </div>
           </div>
 
-          {/* EXPLANATION - À droite sur les écrans larges (lg), en dessous sur mobile */}
+          {/* EXPLANATION - Toujours la même taille fixe sur la moitié droite */}
           {hasAnswered && (
-            <div className="w-full lg:w-1/2 animate-fade-in mt-2 sm:mt-4 lg:mt-8">
+            <div className="w-full lg:w-[calc(50%-1rem)] lg:flex-shrink-0 animate-fade-in mt-2 sm:mt-4 lg:mt-8">
               <div className={`rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col border-2 transition-colors duration-300 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
