@@ -147,7 +147,7 @@ export default function HomePage() {
                 La première plateforme de révision conçue exclusivement pour les professionnels en reconversion. Maîtrisez parfaitement les <strong className="text-slate-800">calculs de doses</strong> <br/>et la <strong className="text-slate-800">culture sanitaire</strong>.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                <a href="/qcm.html" className="flex-1 bg-slate-900 hover:bg-black text-white px-6 py-4 rounded-2xl font-bold text-base shadow-xl transition-all flex items-center justify-center gap-2 group">
+                <a href="/qcm" className="flex-1 bg-slate-900 hover:bg-black text-white px-6 py-4 rounded-2xl font-bold text-base shadow-xl transition-all flex items-center justify-center gap-2 group">
                   Commencer l'entraînement
                   <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
                 </a>
