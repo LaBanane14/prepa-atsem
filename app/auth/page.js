@@ -118,7 +118,7 @@ export default function Auth() {
 
         <div className="flex flex-col items-center mb-8">
           <div className="bg-red-600 text-white p-3 rounded-2xl shadow-sm mb-4">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4.8 2.1L2 5v2.8A4.8 4.8 0 0 0 6.8 12h2.4A4.8 4.8 0 0 0 14 7.2V5l-2.8-2.9"/><path d="M8 15v1a2 2 0 0 0 4 0v-1"/><circle cx="20" cy="10" r="2"/><path d="M20 12v2a4 4 0 0 1-4 4h-1"/><line x1="2" y1="2" x2="5" y2="2"/><line x1="11" y1="2" x2="14" y2="2"/></svg>
+            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
           </div>
           <h1 className="text-2xl font-black text-slate-900 mb-1 text-center">
             {mode === 'login' ? 'Connectez-vous' : 'Débutez votre essai de 7 jours'}
