@@ -131,13 +131,15 @@ export default function ArticlePage() {
 
         <div className="prose prose-slate max-w-none [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-slate-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:text-slate-600 [&_p]:font-medium [&_p]:leading-relaxed [&_p]:mb-6" dangerouslySetInnerHTML={{__html: article.content}}></div>
 
-        <div className="mt-12 bg-slate-900 rounded-3xl p-8 text-center">
-          <h3 className="text-xl font-black text-white mb-3">Prêt(e) à vous entraîner ?</h3>
-          <p className="text-slate-400 font-medium mb-6">Rejoignez Prépa FPC et commencez vos révisions dès maintenant.</p>
-          <a href="/signup" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl transition shadow-lg shadow-red-900/30">
-            Commencer l'essai gratuit <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-          </a>
-        </div>
+        {!user && (
+      <div className="mt-12 bg-white rounded-3xl p-8 text-center border border-slate-200 shadow-sm">
+        <h3 className="text-xl font-black text-slate-900 mb-3">Prêt(e) à vous entraîner ?</h3>
+        <p className="text-slate-500 font-medium mb-6">Rejoignez Prépa FPC et commencez vos révisions dès maintenant.</p>
+        <a href="/signup" className="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white font-bold px-8 py-4 rounded-xl transition shadow-lg shadow-slate-200">
+      Inscrivez-vous dès maintenant <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </a>
+  </div>
+)}
       </article>
 
       {/* FOOTER */}

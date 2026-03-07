@@ -138,9 +138,14 @@ export default function BlogPage() {
               const colors = colorMap[article.category_color] || colorMap.blue
               return (
                 <a key={article.id} href={`/blog/${article.slug}`} className="article-card bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
-                  <div className={`h-48 relative flex items-center justify-center bg-gradient-to-br ${colors.bg}`}>
+                  <div className={`h-48 relative flex items-center justify-center bg-gradient-to-br ${colors.bg} overflow-hidden`}>
+                    {article.image_url ? (
+                     <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+                    ) : (
                     <svg className={`w-16 h-16 ${colors.icon}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                  </div>
+                    )}
+                </div>
+              </div>
                   <div className="p-6 flex flex-col flex-grow">
                     <span className={`${colors.text} font-bold text-xs uppercase tracking-wider mb-3 block`}>{article.category}</span>
                     <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2">{article.title}</h3>
