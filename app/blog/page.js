@@ -144,7 +144,6 @@ export default function BlogPage() {
                     ) : (
                     <svg className={`w-16 h-16 ${colors.icon}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     )}
-                </div>
               </div>
                   <div className="p-6 flex flex-col flex-grow">
                     <span className={`${colors.text} font-bold text-xs uppercase tracking-wider mb-3 block`}>{article.category}</span>
