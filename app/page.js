@@ -59,7 +59,7 @@ export default function HomePage() {
     { href: '/', label: 'Accueil', active: true },
     { href: '/calculs-doses.html', label: 'Calculs de doses', active: false },
     { href: '/blog.html', label: 'Blog', active: false },
-    { href: '/tarifs.html', label: 'Tarifs', active: false }
+    { href: '/tarifs', label: 'Tarifs', active: false }
   ]
 
   return (
