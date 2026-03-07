@@ -359,7 +359,7 @@ function Nav() {
           <a href="/" className="hover:text-red-600 transition">Accueil</a>
           <a href="/calculs-doses.html" className="hover:text-red-600 transition">Calculs de doses</a>
           <a href="/blog.html" className="hover:text-red-600 transition">Blog</a>
-          <a href="/tarifs.html" className="hover:text-red-600 transition">Tarifs</a>
+          <a href="/tarifs" className="hover:text-red-600 transition">Tarifs</a>
         </div>
         <div className="flex items-center gap-3 sm:gap-4">
           <a href="/login" className="hidden md:block text-slate-600 font-bold hover:text-slate-900 transition text-sm">Connexion</a>

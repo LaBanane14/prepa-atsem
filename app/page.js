@@ -363,7 +363,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-black mb-8">Découvrez nos formules d'accompagnement</h2>
           <p className="text-lg text-slate-400 font-medium mb-10 max-w-2xl mx-auto">Sans engagement ou jusqu'au concours, trouvez le rythme qui correspond à votre projet de reconversion.</p>
-          <a href="/tarifs.html" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-red-900/50">
+          <a href="/tarifs" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-red-900/50">
             Voir les tarifs en détail <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
           </a>
         </div>
