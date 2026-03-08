@@ -144,7 +144,7 @@ export default function OralPage() {
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Préparation Oral</h1>
-                  <p className="text-slate-500 font-medium max-w-lg mx-auto">Importez votre CV au format PDF. Grâce aux nombreuses données dont nous disposons, nous pouvons analyser votre parcours et générer 10 questions personnalisées semblables à celles posées lors de l'épreuve orale du concours FPC. <strong> Il n'y a pas de note à l'issue des 10 questions, étant donné qu'il s'agit de votre carrière ! Le but est seulement de vous préparer ! </strong></p>
+                  <p className="text-slate-500 font-medium max-w-lg mx-auto">Importez votre CV au format PDF. Grâce aux nombreuses données dont nous disposons, nous pouvons analyser votre parcours et générer 10 questions personnalisées semblables à celles posées lors de l'épreuve orale du concours FPC.</p>
                 </div>
 
                 {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-4 rounded-xl mb-6 text-center">{error}</div>}
@@ -172,6 +172,7 @@ export default function OralPage() {
                   <p><strong className="text-slate-800">2.</strong> L'IA analyse votre parcours professionnel</p>
                   <p><strong className="text-slate-800">3.</strong> 10 questions personnalisées sont générées (parcours, motivation, métier)</p>
                   <p><strong className="text-slate-800">4.</strong> Vous vous entraînez à répondre avec des conseils pour chaque question</p>
+                  <p><strong className="text-slate-800">5.</strong> Il n'y a pas de note à l'issue des 10 questions, étant donné qu'il s'agit de votre carrière ! Le but est seulement de vous préparer !</p>
                 </div>
               </div>
             </div>
