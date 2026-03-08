@@ -92,13 +92,12 @@ export default function OralPage() {
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>
 
   return (
-    <div className="min-h-screen bg-[#f8faf5] text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#6ee7b7 1px, transparent 1px)', backgroundSize: '24px 24px'}}
+    <div className="min-h-screen bg-emerald-50 text-slate-900 flex"}}>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
-    </div>
 
       {/* TOAST */}
       {uploadSuccess && (
