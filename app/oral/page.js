@@ -224,6 +224,7 @@ export default function OralPage() {
           )}
 
           {/* ===== QUESTIONS ===== */}
+          
          {step === 'questions' && q && (
             <div className="max-w-3xl mx-auto animate-fade-in">
               {/* Wrapper coloré style QCM */}
@@ -291,47 +292,6 @@ export default function OralPage() {
               <div className="mt-6 flex flex-wrap gap-2 justify-center">
                 {questions.map((qq, i) => (
                   <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`w-9 h-9 rounded-lg text-xs font-bold transition cursor-pointer ${i === currentQ ? 'bg-emerald-600 text-white' : answers[qq.id] ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}>
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-slate-700 mb-2">Votre réponse</label>
-                <textarea
-                  rows={5}
-                  value={answers[q.id] || ''}
-                  onChange={e => handleAnswer(q.id, e.target.value)}
-                  placeholder="Rédigez votre réponse ici comme si vous étiez face au jury..."
-                  className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none font-medium text-sm resize-y"
-                />
-              </div>
-
-              <div className="flex gap-3">
-                {currentQ > 0 && (
-                  <button onClick={() => { setCurrentQ(currentQ - 1); setShowTip(false) }} className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
-                    Précédent
-                  </button>
-                )}
-                {currentQ < questions.length - 1 ? (
-                  <button onClick={() => { setCurrentQ(currentQ + 1); setShowTip(false) }} className="flex-grow bg-slate-900 hover:bg-black text-white font-bold py-3 px-5 rounded-xl transition text-sm flex items-center justify-center gap-2">
-                    Question suivante
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                  </button>
-                ) : (
-                  <button onClick={restart} className="flex-grow bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-5 rounded-xl transition text-sm flex items-center justify-center gap-2">
-                    Recommencer avec un nouveau CV
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  </button>
-                )}
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-2">
-                {questions.map((qq, i) => (
-                  <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`w-9 h-9 rounded-lg text-xs font-bold transition cursor-pointer ${i === currentQ ? 'bg-red-600 text-white' : answers[qq.id] ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}>
                     {i + 1}
                   </button>
                 ))}
