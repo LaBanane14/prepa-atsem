@@ -9,18 +9,16 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Aucun fichier fourni' }, { status: 400 })
     }
 
-    // Convertir le PDF en base64
     const bytes = await file.arrayBuffer()
     const base64 = Buffer.from(bytes).toString('base64')
 
     const apiKey = process.env.GEMINI_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ error: 'Clé API Gemini manquante' }, { status: 500 })
+      return NextResponse.json({ error: 'Clé API Gemini manquante. Vérifiez GEMINI_API_KEY dans Vercel.' }, { status: 500 })
     }
 
-    // Appel Gemini
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -35,9 +33,9 @@ export async function POST(request) {
                   }
                 },
                 {
-                  text: `Tu es un membre du jury d'admission en IFSI (Institut de Formation en Soins Infirmiers) pour l'épreuve orale du concours FPC (Formation Professionnelle Continue). Tu viens de recevoir le CV/parcours d'un candidat qui est actuellement Aide-Soignant(e) ou Auxiliaire de Puériculture ou en reconversion total.
+                  text: `Tu es un membre du jury d'admission en IFSI (Institut de Formation en Soins Infirmiers) pour l'épreuve orale du concours FPC (Formation Professionnelle Continue). Tu viens de recevoir le CV/parcours d'un candidat qui est actuellement Aide-Soignant(e) ou Auxiliaire de Puériculture.
 
-Analyse attentivement ce document et génère exactement 10 questions personnalisées que le jury pourrait poser lors de l'entretien oral de 10 minutes. Les questions doivent couvrir ces 3 catégories :
+Analyse attentivement ce document et génère exactement 10 questions personnalisées que le jury pourrait poser lors de l'entretien oral de 20 minutes. Les questions doivent couvrir ces 3 catégories :
 
 CATÉGORIE 1 - PARCOURS PROFESSIONNEL (4 questions) :
 - Questions sur les expériences mentionnées dans le CV
@@ -78,25 +76,30 @@ Adapte chaque question au contenu réel du CV. Sois précis en faisant référen
     )
 
     if (!response.ok) {
-      const errorData = await response.text()
-      console.error('Gemini API error:', errorData)
-      return NextResponse.json({ error: 'Erreur API Gemini' }, { status: 500 })
+      const errorText = await response.text()
+      console.error('Gemini API error:', response.status, errorText)
+      return NextResponse.json({ error: `Erreur API Gemini (${response.status}). Vérifiez votre clé API.` }, { status: 500 })
     }
 
     const data = await response.json()
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text
 
     if (!text) {
-      return NextResponse.json({ error: 'Réponse vide de Gemini' }, { status: 500 })
+      console.error('Gemini empty response:', JSON.stringify(data))
+      return NextResponse.json({ error: 'Réponse vide de Gemini. Réessayez.' }, { status: 500 })
     }
 
-    // Nettoyer et parser le JSON
     const cleaned = text.replace(/```json/g, '').replace(/```/g, '').trim()
-    const questions = JSON.parse(cleaned)
 
-    return NextResponse.json({ questions })
+    try {
+      const questions = JSON.parse(cleaned)
+      return NextResponse.json({ questions })
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError, 'Raw:', cleaned.substring(0, 500))
+      return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
+    }
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Server error:', error)
     return NextResponse.json({ error: 'Erreur serveur : ' + error.message }, { status: 500 })
   }
 }

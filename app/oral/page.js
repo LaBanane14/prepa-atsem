@@ -14,13 +14,14 @@ export default function OralPage() {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
 
-  const [step, setStep] = useState('upload') // upload, loading, questions
+  const [step, setStep] = useState('upload')
   const [questions, setQuestions] = useState([])
   const [currentQ, setCurrentQ] = useState(0)
   const [showTip, setShowTip] = useState(false)
   const [answers, setAnswers] = useState({})
   const [error, setError] = useState('')
   const [fileName, setFileName] = useState('')
+  const [uploadSuccess, setUploadSuccess] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -44,6 +45,8 @@ export default function OralPage() {
 
     setFileName(file.name)
     setError('')
+    setUploadSuccess(true)
+    setTimeout(() => setUploadSuccess(false), 3000)
     setStep('loading')
 
     const formData = new FormData()
@@ -54,7 +57,7 @@ export default function OralPage() {
       const data = await res.json()
 
       if (!res.ok || data.error) {
-        setError(data.error || 'Erreur lors de l\'analyse du CV.')
+        setError(data.error || "Erreur lors de l'analyse du CV.")
         setStep('upload')
         return
       }
@@ -91,6 +94,14 @@ export default function OralPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col" style={{backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
+
+      {/* TOAST NOTIFICATION */}
+      {uploadSuccess && (
+        <div className="fixed top-4 right-4 z-[100] bg-green-50 border border-green-200 text-green-700 font-bold text-sm px-5 py-3 rounded-xl shadow-lg animate-fade-in flex items-center gap-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+          Fichier {fileName} uploadé avec succès !
+        </div>
+      )}
 
       {/* NAV */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
@@ -166,7 +177,6 @@ export default function OralPage() {
         {/* ÉTAPE 3 : QUESTIONS */}
         {step === 'questions' && q && (
           <div className="animate-fade-in">
-            {/* Progress */}
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-bold text-slate-500">Question {currentQ + 1}/{questions.length}</span>
               <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${colors.badge}`}>{q.category}</span>
@@ -175,12 +185,10 @@ export default function OralPage() {
               <div className="h-full bg-red-600 rounded-full transition-all duration-500" style={{width: `${progress}%`}}></div>
             </div>
 
-            {/* Question card */}
             <div className={`${colors.bg} border ${colors.border} rounded-2xl p-6 sm:p-8 mb-6`}>
               <h2 className="text-lg sm:text-xl font-black text-slate-900 leading-relaxed">{q.question}</h2>
             </div>
 
-            {/* Tip toggle */}
             <button onClick={() => setShowTip(!showTip)} className="flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition mb-4 cursor-pointer">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
               {showTip ? 'Masquer le conseil' : 'Voir le conseil'}
@@ -191,7 +199,6 @@ export default function OralPage() {
               </div>
             )}
 
-            {/* Answer zone */}
             <div className="mb-6">
               <label className="block text-sm font-bold text-slate-700 mb-2">Votre réponse</label>
               <textarea
@@ -203,7 +210,6 @@ export default function OralPage() {
               />
             </div>
 
-            {/* Navigation */}
             <div className="flex gap-3">
               {currentQ > 0 && (
                 <button onClick={() => { setCurrentQ(currentQ - 1); setShowTip(false) }} className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm flex items-center gap-2">
@@ -224,7 +230,6 @@ export default function OralPage() {
               )}
             </div>
 
-            {/* Questions overview */}
             <div className="mt-8 flex flex-wrap gap-2">
               {questions.map((qq, i) => (
                 <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`w-9 h-9 rounded-lg text-xs font-bold transition cursor-pointer ${i === currentQ ? 'bg-red-600 text-white' : answers[qq.id] ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}>
