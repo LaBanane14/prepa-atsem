@@ -92,7 +92,7 @@ export default function OralPage() {
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>
 
   return (
-    <div className="min-h-screen bg-emerald-50 text-slate-900 flex"}}>
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#22c55e 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
@@ -196,7 +196,7 @@ export default function OralPage() {
           )}
 
           {/* ===== LOADING ===== */}
-          {step === 'loading' && (
+            {step === 'loading' && (
             <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
               <style>{`
                 @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
@@ -206,10 +206,10 @@ export default function OralPage() {
               <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA lit <strong className="text-slate-700">{fileName}</strong> et prépare vos questions personnalisées.</p>
               <div className="w-full max-w-md space-y-3">
                 {[
-                  { label: 'Analyse de votre profil', icon: '👤' },
-                  { label: 'Analyse de vos diplômes', icon: '🎓' },
-                  { label: 'Analyse de votre expérience professionnelle', icon: '💼' },
-                  { label: 'Analyse de vos centres d\'intérêts', icon: '🎯' }
+                  { label: 'Analyse de votre profil'},
+                  { label: 'Analyse de vos diplômes'},
+                  { label: 'Analyse de votre expérience professionnelle'},
+                  { label: 'Analyse de vos centres d\'intérêts'}
                 ].map((ls, i) => (
                   <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < loadingStep ? 'bg-green-50 border border-green-200' : i === loadingStep ? 'bg-emerald-50 border border-emerald-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
                     <span className="text-xl">{ls.icon}</span>
