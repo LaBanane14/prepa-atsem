@@ -92,7 +92,13 @@ Adapte chaque question au contenu réel du CV. Sois précis en faisant référen
     const cleaned = text.replace(/```json/g, '').replace(/```/g, '').trim()
 
     try {
-      const questions = JSON.parse(cleaned)
+      // Extraire le JSON même s'il y a du texte autour
+      const jsonMatch = cleaned.match(/\[[\s\S]*\]/)
+      if (!jsonMatch) {
+        console.error('No JSON array found in:', cleaned.substring(0, 500))
+        return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
+      }
+      const questions = JSON.parse(jsonMatch[0])
       return NextResponse.json({ questions })
     } catch (parseError) {
       console.error('JSON parse error:', parseError, 'Raw:', cleaned.substring(0, 500))
