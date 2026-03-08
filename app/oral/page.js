@@ -132,7 +132,15 @@ export default function OralPage() {
           <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs">{firstName.charAt(0).toUpperCase()}</div>
         </header>
 
-        <main className="flex-grow w-full max-w-6xl mx-auto px-4 py-6 sm:py-10">
+        {/* Desktop top bar */}
+        <div className="hidden lg:flex items-center justify-end px-8 pt-4">
+          <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+            Quitter l'exercice
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </a>
+        </div>
+
+        <main className="flex-grow w-full max-w-6xl mx-auto px-4 py-4 sm:py-8">
 
           {/* ===== UPLOAD ===== */}
           {step === 'upload' && (
@@ -150,8 +158,8 @@ export default function OralPage() {
                 {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-4 rounded-xl mb-6 text-center">{error}</div>}
 
                 <label className="block cursor-pointer">
-                  <div className="bg-white border-2 border-dashed border-slate-300 hover:border-red-400 rounded-2xl p-10 sm:p-14 text-center transition-all hover:bg-red-50/30 group">
-                    <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-100 group-hover:text-red-500 transition-colors">
+                  <div className="bg-white border-2 border-dashed border-slate-300 hover:border-emerald-400 rounded-2xl p-10 sm:p-14 text-center transition-all hover:bg-emerald-50/30 group">
+                    <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-100 group-hover:text-emerald-500 transition-colors">
                       <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
                     </div>
                     <p className="font-bold text-slate-700 mb-1">Cliquez pour importer votre CV</p>
@@ -162,9 +170,9 @@ export default function OralPage() {
               </div>
 
               {/* Droite : Comment ça marche — fond vert */}
-              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 h-fit xl:mt-24">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 h-fit xl:self-end">
                 <h3 className="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2">
-                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                   Comment ça marche ?
                 </h3>
                 <div className="space-y-2 text-sm text-slate-600 font-medium">
@@ -172,7 +180,7 @@ export default function OralPage() {
                   <p><strong className="text-slate-800">2.</strong> Notre IA spécialisée analyse votre parcours professionnel</p>
                   <p><strong className="text-slate-800">3.</strong> 10 questions personnalisées sont générées (parcours, motivation, métier)</p>
                   <p><strong className="text-slate-800">4.</strong> Vous vous entraînez à répondre avec des conseils pour chaque question</p>
-                  <p><strong className="text-slate-800">5.</strong> <strong>Il n'y a pas de note à l'issue des 10 questions, étant donné qu'il s'agit de votre carrière ! Le but est seulement de vous préparer !</strong></p>
+                  <p><strong className="text-slate-800">5.</strong> <strong>Il n'y a pas de note à l'issue des 10 questions, étant donné qu'il s'agit de votre carrière ! <br/> Le but est seulement de vous préparer !</strong></p>
                 </div>
               </div>
             </div>
