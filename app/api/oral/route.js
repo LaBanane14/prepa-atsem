@@ -33,43 +33,36 @@ export async function POST(request) {
                   }
                 },
                 {
-                  text: `Tu es un membre expérimenté et bienveillant du jury d'admission en IFSI (Institut de Formation en Soins Infirmiers) pour l'épreuve orale du concours FPC (Formation Professionnelle Continue).
+                  text: `Tu es un membre du jury d'admission en IFSI (Institut de Formation en Soins Infirmiers) pour l'épreuve orale du concours FPC (Formation Professionnelle Continue). Tu viens de recevoir le CV/parcours d'un candidat qui est actuellement Aide-Soignant(e) ou Auxiliaire de Puériculture.
 
-CONTEXTE :
-Tu vas recevoir le CV et/ou le parcours professionnel d'un candidat actuellement Aide-Soignant(e) ou Auxiliaire de Puériculture, délimité par les balises <cv> et </cv>.
+Analyse attentivement ce document et génère exactement 10 questions personnalisées que le jury pourrait poser lors de l'entretien oral de 20 minutes. Les questions doivent couvrir ces 3 catégories :
 
-MISSION :
-Analyse attentivement ce document et génère exactement 10 questions personnalisées que le jury posera lors de l'entretien de 20 minutes. Adapte chaque question au contenu réel du CV (fais référence à ses postes spécifiques, ses services, ses années d'expérience).
+CATÉGORIE 1 - PARCOURS PROFESSIONNEL (4 questions) :
+- Questions sur les expériences mentionnées dans le CV
+- Questions sur les compétences acquises
+- Questions sur les choix de carrière et les transitions
 
-CONTRAINTES DE CONTENU :
-Les questions doivent être réparties exactement selon ces 3 catégories :
+CATÉGORIE 2 - MOTIVATION ET PROJET (3 questions) :
+- Pourquoi vouloir devenir infirmier/infirmière
+- Ce qui a déclenché cette envie de reconversion
+- Le projet professionnel à moyen/long terme
 
-1. CATÉGORIE "Parcours professionnel" (Exactement 4 questions) :
-- Expériences mentionnées dans le CV.
-- Compétences acquises sur le terrain.
-- Choix de carrière, transitions et évolution.
+CATÉGORIE 3 - CONNAISSANCES DU MÉTIER IDE (3 questions) :
+- Questions sur le rôle propre de l'infirmier vs aide-soignant
+- Questions sur l'éthique, la responsabilité, le cadre légal
+- Questions sur les réalités du métier (gardes, charge émotionnelle, etc.)
 
-2. CATÉGORIE "Motivation et projet" (Exactement 3 questions) :
-- Raisons profondes de la volonté de devenir infirmier/infirmière.
-- Le déclencheur de cette reconversion FPC.
-- Le projet professionnel à moyen/long terme.
-
-3. CATÉGORIE "Connaissances du métier IDE" (Exactement 3 questions) :
-- Différence entre le rôle propre de l'infirmier et celui de l'AS/AP.
-- Éthique, responsabilité et cadre légal.
-- Réalités du métier (gestion de la charge de travail, charge émotionnelle, horaires).
-
-CONTRAINTES DE FORMAT (STRICT) :
-Tu dois répondre UNIQUEMENT en JSON valide. N'inclus aucun texte avant ou après. N'utilise PAS de blocs de code markdown (pas de ```json).
-Le JSON doit être un tableau d'objets respectant scrupuleusement cette structure :
+IMPORTANT : Réponds UNIQUEMENT en JSON valide, sans backticks, sans markdown, avec cette structure exacte :
 [
   {
     "id": 1,
-    "category": "Nom de la catégorie",
-    "question": "La question personnalisée ici",
-    "tips": "Un conseil court et actionnable pour bien répondre"
+    "category": "Parcours professionnel",
+    "question": "La question ici",
+    "tips": "Un conseil court pour bien répondre à cette question"
   }
-] `
+]
+
+Adapte chaque question au contenu réel du CV. Sois précis en faisant référence aux postes, formations ou expériences du candidat.`
                 }
               ]
             }
@@ -93,7 +86,7 @@ Le JSON doit être un tableau d'objets respectant scrupuleusement cette structur
 
     if (!text) {
       console.error('Gemini empty response:', JSON.stringify(data))
-      return NextResponse.json({ error: 'Erreur. Réessayez.' }, { status: 500 })
+      return NextResponse.json({ error: 'Réponse vide . Réessayez.' }, { status: 500 })
     }
 
     const cleaned = text.replace(/```json/g, '').replace(/```/g, '').trim()
