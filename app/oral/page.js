@@ -31,6 +31,7 @@ export default function OralPage() {
   const [error, setError] = useState('')
   const [fileName, setFileName] = useState('')
   const [uploadSuccess, setUploadSuccess] = useState(false)
+  const [loadingStep, setLoadingStep] = useState(0)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -39,6 +40,13 @@ export default function OralPage() {
       setAuthLoading(false)
     })
   }, [])
+  useEffect(() => {
+    if (step !== 'loading') return
+    const interval = setInterval(() => {
+      setLoadingStep(prev => prev < 3 ? prev + 1 : prev)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [step])
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
@@ -52,6 +60,7 @@ export default function OralPage() {
     setError('')
     setUploadSuccess(true)
     setTimeout(() => setUploadSuccess(false), 3000)
+    setLoadingStep(0)
     setStep('loading')
 
     const formData = new FormData()
@@ -72,7 +81,7 @@ export default function OralPage() {
   function handleAnswer(id, value) { setAnswers({ ...answers, [id]: value }) }
 
   function restart() {
-    setStep('upload'); setQuestions([]); setCurrentQ(0); setAnswers({}); setShowTip(false); setFileName(''); setError('')
+    setStep('upload'); setQuestions([]); setCurrentQ(0); setAnswers({}); setShowTip(false); setFileName(''); setError(''); setLoadingStep(0)
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
@@ -188,14 +197,29 @@ export default function OralPage() {
 
           {/* ===== LOADING ===== */}
           {step === 'loading' && (
-            <div className="flex flex-col items-center justify-center py-20 animate-fade-in">
-              <div className="relative mb-6">
-                <div className="w-20 h-20 border-4 border-slate-200 rounded-full"></div>
-                <div className="absolute inset-0 w-20 h-20 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-              </div>
+            <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
+              <style>{`
+                @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
+              `}</style>
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 to-teal-500 shadow-xl shadow-emerald-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
               <h2 className="text-xl font-black text-slate-900 mb-2">Analyse de votre CV en cours...</h2>
-              <p className="text-slate-500 font-medium text-sm text-center">Notre IA lit <strong className="text-slate-700">{fileName}</strong> et prépare vos questions personnalisées.</p>
-              <p className="text-slate-400 text-xs mt-4">Cela peut prendre 10 à 20 secondes</p>
+              <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA lit <strong className="text-slate-700">{fileName}</strong> et prépare vos questions personnalisées.</p>
+              <div className="w-full max-w-md space-y-3">
+                {[
+                  { label: 'Analyse de votre profil', icon: '👤' },
+                  { label: 'Analyse de vos diplômes', icon: '🎓' },
+                  { label: 'Analyse de votre expérience professionnelle', icon: '💼' },
+                  { label: 'Analyse de vos centres d\'intérêts', icon: '🎯' }
+                ].map((ls, i) => (
+                  <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < loadingStep ? 'bg-green-50 border border-green-200' : i === loadingStep ? 'bg-emerald-50 border border-emerald-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
+                    <span className="text-xl">{ls.icon}</span>
+                    <span className={`font-bold text-sm flex-grow ${i < loadingStep ? 'text-green-700' : i === loadingStep ? 'text-emerald-700' : 'text-slate-400'}`}>{ls.label}</span>
+                    {i < loadingStep && <svg className="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                    {i === loadingStep && <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin shrink-0"></div>}
+                    <span className="text-xs font-bold text-slate-400">{i + 1}/4</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
