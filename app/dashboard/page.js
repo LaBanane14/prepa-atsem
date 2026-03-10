@@ -1,15 +1,14 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-
-const Stethoscope = ({className}) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
 
 const menuItems = [
-  { id: 'dashboard', label: 'Accueil', icon: (active) => <svg className="w-5 h-5" fill="none" stroke={active ? '#dc2626' : '#1e293b'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
-  { id: 'progression', label: 'Mes stats', icon: (active) => <svg className="w-5 h-5" fill="none" stroke={active ? '#dc2626' : '#1e293b'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg> },
-  { id: 'historique', label: 'Historique', icon: (active) => <svg className="w-5 h-5" fill="none" stroke={active ? '#dc2626' : '#1e293b'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 7v5l3 3"/><circle cx="12" cy="12" r="10"/></svg> },
-  { id: 'profil', label: 'Mon compte', icon: (active) => <svg className="w-5 h-5" fill="none" stroke={active ? '#dc2626' : '#1e293b'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> },
-  { id: 'abonnement', label: 'Mes offres', icon: (active) => <svg className="w-5 h-5" fill="none" stroke={active ? '#dc2626' : '#1e293b'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg> }
+  { id: 'dashboard', label: 'Accueil', icon: Home },
+  { id: 'progression', label: 'Mes stats', icon: TrendingUp },
+  { id: 'historique', label: 'Historique', icon: RotateCcw },
+  { id: 'profil', label: 'Mon compte', icon: UserRound },
+  { id: 'abonnement', label: 'Mes offres', icon: BadgeCheck }
 ]
 
 export default function Dashboard() {
@@ -83,45 +82,43 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
 
       {/* SIDEBAR FLOTTANTE */}
       <div className={`fixed inset-y-0 left-0 z-50 flex items-center pl-3 py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <aside className="w-[70px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-[calc(100vh-2.5rem)]">
-          {/* Logo */}
+        <aside className="w-[72px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
           <a href="/" className="mb-4">
             <div className="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
-              <Stethoscope className="w-5 h-5" />
+              <Stethoscope size={20} strokeWidth={2.5} />
             </div>
           </a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
 
-          {/* Nav */}
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {menuItems.map(item => (
-              <button key={item.id} onClick={() => navigateTo(item.id)} className={`w-full flex flex-col items-center gap-[3px] py-2.5 rounded-xl text-[9px] font-semibold tracking-wide transition-all cursor-pointer ${page === item.id ? 'bg-red-50 text-red-600' : 'text-slate-500 hover:bg-slate-50'}`}>
-                {item.icon(page === item.id)}
+              <button key={item.id} onClick={() => navigateTo(item.id)} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all cursor-pointer text-center group ${page === item.id ? 'bg-red-50 text-red-600' : 'text-slate-900 hover:bg-red-50 hover:text-red-600'}`}>
+                <item.icon size={21} strokeWidth={1.6} className="transition-transform duration-200 group-hover:scale-125" />
                 <span>{item.label}</span>
               </button>
             ))}
           </nav>
 
-          {/* Bottom */}
           <div className="flex flex-col items-center gap-2 mt-auto pt-3">
             <div className="w-7 h-px bg-slate-200 mb-1"></div>
             <button onClick={() => navigateTo('profil')} className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${page === 'profil' ? 'bg-red-600 text-white ring-2 ring-red-100' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
               {firstName.charAt(0).toUpperCase()}
             </button>
-            <button onClick={handleLogout} className="text-slate-300 hover:text-red-500 transition cursor-pointer p-1">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <button onClick={handleLogout} className="text-slate-900 hover:text-red-500 transition cursor-pointer p-1">
+              <LogOut size={16} strokeWidth={1.8} />
             </button>
           </div>
         </aside>
       </div>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-[88px]">
+      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px]">
         {/* Mobile top bar */}
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-30">
           <button onClick={() => setSidebarOpen(true)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
