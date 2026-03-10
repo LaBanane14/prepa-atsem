@@ -285,13 +285,19 @@ export default function OralPage() {
           
          {step === 'questions' && q && (
             <div className="max-w-3xl mx-auto animate-fade-in">
+              <div className="flex justify-end mb-4">
+                <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+                  Quitter l'exercice
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </a>
+              </div>
               {/* Wrapper coloré style QCM */}
-              <div className={`${colors.bg} border ${colors.border} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm`}>
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm">
                 <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
                   {/* Header */}
                   <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
                     <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {currentQ + 1}/{questions.length}</span>
-                    <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase`}>{q.category}</span>
+                    <span className="bg-emerald-100 text-emerald-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase">{q.category}</span>
                     <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
                       <div className="h-full bg-slate-900 transition-all duration-500" style={{width: `${progress}%`}}></div>
                     </div>
@@ -314,8 +320,8 @@ export default function OralPage() {
                     </div>
 
                     {/* Conseil */}
-                    <button onClick={() => setShowTip(!showTip)} className="flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition cursor-pointer mb-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    <button onClick={() => setShowTip(!showTip)} className="flex items-center gap-2 text-sm font-bold bg-amber-400 hover:bg-amber-500 text-black px-4 py-2 rounded-xl transition cursor-pointer mb-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg>
                       {showTip ? 'Masquer le conseil' : 'Voir le conseil'}
                     </button>
                     {showTip && (
@@ -339,7 +345,7 @@ export default function OralPage() {
                       </button>
                     ) : (
                       <button onClick={restart} className="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-md transition">
-                        Recommencer <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Terminer l'exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                       </button>
                     )}
                   </div>
