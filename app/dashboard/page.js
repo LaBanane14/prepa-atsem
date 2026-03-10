@@ -280,7 +280,7 @@ export default function Dashboard() {
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Mon compte</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Gérez vos informations personnelles.</p>
               {profileMsg && <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${profileMsg.startsWith('Erreur') ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-red-50 text-red-600 border border-red-200'}`}>{profileMsg}</div>}
-              <div className="flex flex-col lg:flex-row gap-6">
+              <div className="flex flex-col lg:flex-row lg:items-stretch gap-6">
                 <form onSubmit={updateProfile} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-5 flex-1">
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">Adresse email</label>
@@ -314,7 +314,7 @@ export default function Dashboard() {
                     <button type="submit" disabled={profileSaving} className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-red-600/20 text-sm">{profileSaving ? 'Enregistrement...' : 'Sauvegarder'}</button>
                   </div>
                 </form>
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 lg:w-[380px] h-fit">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 lg:w-[380px]">
                   <h3 className="font-black text-slate-900 mb-4">Informations du compte</h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between py-2 border-b border-slate-100"><span className="text-slate-500 font-medium">Email</span><span className="font-bold text-slate-900">{email}</span></div>
