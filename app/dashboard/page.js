@@ -659,8 +659,7 @@ function DashboardContent() {
                           <p className="text-slate-400 font-bold text-sm">Aucun exercice ce jour-là.</p>
                         </div>
                         ) : null
-                      })()
-                      )}
+                      })()}
                     </div>
                   ) : (
                     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center h-full flex flex-col items-center justify-center">
