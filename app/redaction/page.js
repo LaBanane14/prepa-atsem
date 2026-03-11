@@ -149,6 +149,7 @@ export default function RedactionPage() {
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes pulse-urgent { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .pulse-urgent { animation: pulse-urgent 1s ease-in-out infinite; }
+        @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
       `}</style>
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
@@ -264,9 +265,6 @@ export default function RedactionPage() {
           {step === 'loading' && (
             <div className="animate-fade-in min-h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
-                <style>{`
-                  @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
-                `}</style>
                 <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-500 shadow-xl shadow-purple-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Génération du sujet en cours...</h2>
                 <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA prépare votre épreuve de rédaction personnalisée.</p>
