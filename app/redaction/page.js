@@ -22,6 +22,7 @@ export default function RedactionPage() {
   const [correction, setCorrection] = useState(null)
   const [error, setError] = useState('')
   const [loadingStep, setLoadingStep] = useState(0)
+  const [correctingStep, setCorrectingStep] = useState(0)
 
   // Chrono
   const [timeLeft, setTimeLeft] = useState(30 * 60) // 30 min en secondes
@@ -41,7 +42,17 @@ export default function RedactionPage() {
     if (step !== 'loading') return
     const interval = setInterval(() => {
       setLoadingStep(prev => prev < 3 ? prev + 1 : prev)
-    }, 2500)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [step])
+
+  // Loading animation correction
+  useEffect(() => {
+    if (step !== 'correcting') return
+    setCorrectingStep(0)
+    const interval = setInterval(() => {
+      setCorrectingStep(prev => prev < 3 ? prev + 1 : prev)
+    }, 5000)
     return () => clearInterval(interval)
   }, [step])
 
@@ -97,6 +108,7 @@ export default function RedactionPage() {
     setStep('correcting')
 
     try {
+      const startTime = Date.now()
       const res = await fetch('/api/redaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -104,6 +116,8 @@ export default function RedactionPage() {
       })
       const data = await res.json()
       if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la correction.'); setStep('epreuve'); setTimerActive(false); return }
+      const elapsed = Date.now() - startTime
+      if (elapsed < 20000) await new Promise(r => setTimeout(r, 20000 - elapsed))
       setCorrection(data.correction)
       setStep('resultat')
     } catch (err) {
@@ -286,9 +300,13 @@ export default function RedactionPage() {
                     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${sujet.type === 'analyse' ? 'bg-blue-100 text-blue-700' : sujet.type === 'dissertation' ? 'bg-purple-100 text-purple-700' : 'bg-amber-100 text-amber-700'}`}>
                       {sujet.type === 'analyse' ? 'Analyse de texte' : sujet.type === 'dissertation' ? 'Dissertation' : 'Questions'}
                     </span>
-                    {sujet.source === 'annale' && (
+                    {sujet.source === 'annale' ? (
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-700">
                         Annale {sujet.annee}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-700">
+                        Sujet créé par nos soins
                       </span>
                     )}
                   </div>
@@ -358,13 +376,26 @@ export default function RedactionPage() {
 
           {/* ===== CORRECTING ===== */}
           {step === 'correcting' && (
-            <div className="animate-fade-in flex items-center justify-center min-h-[calc(100vh-2.5rem)]">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-10 sm:p-14 text-center max-w-md w-full">
-                <div className="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></div>
-                </div>
+            <div className="animate-fade-in min-h-[calc(100vh-2.5rem)] flex items-center justify-center">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
+                <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-500 shadow-xl shadow-purple-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Correction en cours...</h2>
-                <p className="text-slate-500 font-medium text-sm">L'IA analyse votre copie en détail</p>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA analyse votre copie en détail.</p>
+                <div className="w-full max-w-md space-y-3">
+                  {[
+                    { label: 'Lecture de votre copie' },
+                    { label: 'Analyse de l\'argumentation et de la structure' },
+                    { label: 'Vérification de l\'orthographe et de la syntaxe' },
+                    { label: 'Attribution de la note' }
+                  ].map((ls, i) => (
+                    <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < correctingStep ? 'bg-purple-50 border border-purple-200' : i === correctingStep ? 'bg-purple-50 border border-purple-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
+                      <span className={`font-bold text-sm flex-grow ${i < correctingStep ? 'text-purple-700' : i === correctingStep ? 'text-purple-700' : 'text-slate-400'}`}>{ls.label}</span>
+                      {i < correctingStep && <svg className="w-5 h-5 text-purple-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                      {i === correctingStep && <div className="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin shrink-0"></div>}
+                      <span className="text-xs font-bold text-slate-400">{i + 1}/4</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -377,7 +408,7 @@ export default function RedactionPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 text-center mb-6">
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Votre note</p>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className={`text-6xl font-black ${correction.note >= 15 ? 'text-emerald-600' : correction.note >= 10 ? 'text-amber-600' : 'text-red-600'}`}>{correction.note}</span>
+                  <span className="text-6xl font-black text-purple-600">{correction.note}</span>
                   <span className="text-2xl font-black text-slate-300">/{correction.noteMax || 20}</span>
                 </div>
                 <p className="text-slate-600 font-medium text-sm mt-4 max-w-lg mx-auto">{correction.appreciation}</p>
