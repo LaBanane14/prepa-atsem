@@ -179,7 +179,7 @@ function DashboardContent() {
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">{greeting} {firstName} !</h1>
                   <div className="relative h-5">
-                    <p className={`text-slate-500 font-medium text-sm absolute inset-x-0 transition-all duration-500 ${showTip ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>{subtitle}</p>
+                    <p className={`text-slate-500 font-medium text-sm absolute inset-x-0 whitespace-nowrap transition-all duration-500 ${showTip ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>{subtitle}</p>
                     <p className={`text-slate-500 font-medium text-sm absolute inset-x-0 transition-all duration-500 whitespace-nowrap ${showTip ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>💡 {tips[tipIndex]}</p>
                   </div>
                 </div>
@@ -211,13 +211,13 @@ function DashboardContent() {
                   <p className="text-xs text-slate-500 flex-1">Produit en croix, équations, calcul mental</p>
                   <span className="text-[10px] mt-2">&nbsp;</span>
                 </a>
-                <a href="/qcm" className="bg-white p-5 rounded-2xl border-2 border-red-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                <a href="/maths" className="bg-white p-5 rounded-2xl border-2 border-red-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-red-600 bg-red-50 px-1.5 py-0.5 rounded-md">30 min</span>
                   <div className="w-11 h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Entraînement mathématiques</h3>
-                  <p className="text-xs text-slate-500 flex-1">QCM calculs de doses, pourcentages, conversions</p>
+                  <p className="text-xs text-slate-500 flex-1">Calculs de doses, pourcentages, conversions</p>
                   <span className="text-[10px] font-black text-red-600 mt-2">Note /10</span>
                 </a>
                 <a href="/redaction" className="bg-white p-5 rounded-2xl border-2 border-purple-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
@@ -299,26 +299,26 @@ function DashboardContent() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">Blog</p>
+                    <p className="font-bold text-slate-900 text-sm">Méthodologie</p>
                     <p className="text-[10px] text-slate-400 font-medium">Articles & fiches</p>
                   </div>
                 </a>
-                <a href="/oral" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-200 transition group flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                <a href="#" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-amber-200 transition group flex items-center gap-3">
+                  <div className="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">Oral</p>
-                    <p className="text-[10px] text-slate-400 font-medium">Préparer l'entretien</p>
+                    <p className="font-bold text-slate-900 text-sm">Évaluez le site</p>
+                    <p className="text-[10px] text-slate-400 font-medium">Donnez votre avis</p>
                   </div>
                 </a>
-                <a href="/redaction" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 transition group flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <a href="#" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition group flex items-center gap-3">
+                  <div className="w-10 h-10 bg-slate-100 text-slate-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">Méthodologie</p>
-                    <p className="text-[10px] text-slate-400 font-medium">Rédaction & analyse</p>
+                    <p className="font-bold text-slate-900 text-sm">Support</p>
+                    <p className="text-[10px] text-slate-400 font-medium">Signaler un bug</p>
                   </div>
                 </a>
               </div>
