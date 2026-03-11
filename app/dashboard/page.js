@@ -116,6 +116,49 @@ function DashboardContent() {
   const email = user?.email || ''
   const createdAt = new Date(user?.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   const stats = { qcm: 0, score: '-', calculs: 0, redactions: 0 }
+
+  // Calcul streak (jours d'affilée)
+  const getStreak = () => {
+    if (historique.length === 0) return 0
+    const uniqueDays = [...new Set(historique.map(h => {
+      const d = new Date(h.created_at)
+      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+    }))].sort().reverse()
+    const today = new Date()
+    const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayKey = `${yesterday.getFullYear()}-${yesterday.getMonth()}-${yesterday.getDate()}`
+    if (uniqueDays[0] !== todayKey && uniqueDays[0] !== yesterdayKey) return 0
+    let streak = 0
+    let checkDate = new Date(today)
+    if (uniqueDays[0] !== todayKey) checkDate.setDate(checkDate.getDate() - 1)
+    for (let i = 0; i < 365; i++) {
+      const key = `${checkDate.getFullYear()}-${checkDate.getMonth()}-${checkDate.getDate()}`
+      if (uniqueDays.includes(key)) { streak++; checkDate.setDate(checkDate.getDate() - 1) }
+      else break
+    }
+    return streak
+  }
+  const streak = getStreak()
+
+  // Objectif semaine : exercices faits cette semaine (lundi à dimanche)
+  const getWeekData = () => {
+    const today = new Date()
+    const dayOfWeek = (today.getDay() + 6) % 7 // 0=lundi
+    const monday = new Date(today)
+    monday.setDate(today.getDate() - dayOfWeek)
+    monday.setHours(0, 0, 0, 0)
+    const weekExercises = historique.filter(h => new Date(h.created_at) >= monday)
+    const daysWithExercise = new Set()
+    weekExercises.forEach(h => {
+      const d = new Date(h.created_at)
+      daysWithExercise.add((d.getDay() + 6) % 7)
+    })
+    return { count: weekExercises.length, daysWithExercise }
+  }
+  const weekData = getWeekData()
+  const weekProgress = Math.min(100, (weekData.count / 5) * 100)
   const categories = [
     { name: 'Calculs de dose', color: 'bg-red-500', progress: 0 },
     { name: 'Pourcentages', color: 'bg-purple-500', progress: 0 },
@@ -266,8 +309,8 @@ function DashboardContent() {
                   <div className="flex items-center gap-4">
                     <div className="text-3xl">🔥</div>
                     <div>
-                      <p className="text-3xl font-black text-slate-900">0 <span className="text-sm font-bold text-slate-400">jour(s) d'affilée</span></p>
-                      <p className="text-xs font-bold text-orange-500 mt-1">Entraîne-toi aujourd'hui pour lancer ta série !</p>
+                      <p className="text-3xl font-black text-slate-900">{streak} <span className="text-sm font-bold text-slate-400">jour(s) d'affilée</span></p>
+                      <p className="text-xs font-bold text-orange-500 mt-1">{streak === 0 ? 'Entraîne-toi aujourd\'hui pour lancer ta série !' : streak < 3 ? 'Bon début, continue comme ça !' : streak < 7 ? 'Belle série, ne lâche rien !' : 'Incroyable, tu es en feu !'}</p>
                     </div>
                   </div>
                 </div>
@@ -276,16 +319,16 @@ function DashboardContent() {
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-sm font-black text-slate-900">Objectif de la semaine</p>
-                    <span className="text-xs font-black text-slate-400">0/5 exercices</span>
+                    <span className="text-xs font-black text-slate-400">{weekData.count}/5 exercices</span>
                   </div>
                   <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
-                    <div className="h-full bg-red-500 rounded-full transition-all duration-500" style={{width: '0%'}}></div>
+                    <div className="h-full bg-red-500 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
                   </div>
                   <div className="flex justify-between">
                     {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
                       <div key={i} className="flex flex-col items-center gap-1">
-                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black ${i < 0 ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-400'}`}>
-                          {i < 0 ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-400'}`}>
+                          {weekData.daysWithExercise.has(i) ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
                         </div>
                       </div>
                     ))}
