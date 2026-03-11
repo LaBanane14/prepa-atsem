@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
@@ -13,6 +13,14 @@ const menuItems = [
 ]
 
 export default function Dashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>}>
+      <DashboardContent />
+    </Suspense>
+  )
+}
+
+function DashboardContent() {
   const searchParams = useSearchParams()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
