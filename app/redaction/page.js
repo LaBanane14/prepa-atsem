@@ -5,10 +5,10 @@ import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope
 
 const sidebarItems = [
   { id: 'dashboard', label: 'Accueil', href: '/dashboard', icon: Home },
-  { id: 'progression', label: 'Mes stats', href: '/dashboard', icon: TrendingUp },
-  { id: 'historique', label: 'Historique', href: '/dashboard', icon: RotateCcw },
-  { id: 'profil', label: 'Compte', href: '/dashboard', icon: UserRound },
-  { id: 'abonnement', label: 'Devenir Premium', href: '/dashboard', icon: BadgeCheck, premium: true }
+  { id: 'progression', label: 'Mes stats', href: '/dashboard?tab=progression', icon: TrendingUp },
+  { id: 'historique', label: 'Historique', href: '/dashboard?tab=historique', icon: RotateCcw },
+  { id: 'profil', label: 'Compte', href: '/dashboard?tab=profil', icon: UserRound },
+  { id: 'abonnement', label: 'Devenir Premium', href: '/dashboard?tab=abonnement', icon: BadgeCheck, premium: true }
 ]
 
 export default function RedactionPage() {
@@ -169,7 +169,7 @@ export default function RedactionPage() {
           </nav>
           <div className="flex flex-col items-center gap-2 mt-auto pt-3">
             <div className="w-7 h-px bg-slate-200 mb-1"></div>
-            <a href="/dashboard" className="w-9 h-9 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-xs transition">{firstName.charAt(0).toUpperCase()}</a>
+            <a href="/dashboard?tab=profil" className="w-9 h-9 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-xs transition">{firstName.charAt(0).toUpperCase()}</a>
             <button onClick={handleLogout} className="text-slate-900 hover:text-red-500 transition cursor-pointer p-1">
               <LogOut size={16} strokeWidth={1.8} />
             </button>

@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
 
@@ -12,9 +13,10 @@ const menuItems = [
 ]
 
 export default function Dashboard() {
+  const searchParams = useSearchParams()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState('dashboard')
+  const [page, setPage] = useState(searchParams.get('tab') || 'dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [trialDays, setTrialDays] = useState(7)
   const [showTip, setShowTip] = useState(false)
@@ -168,7 +170,7 @@ export default function Dashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">{greeting} {firstName} !</h1>
-                  <div className="relative h-5 overflow-hidden">
+                  <div className="relative h-10 overflow-hidden">
                     <p className={`text-slate-500 font-medium text-sm absolute inset-x-0 transition-all duration-500 ${showTip ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'}`}>{subtitle}</p>
                     <p className={`text-slate-500 font-medium text-sm absolute inset-x-0 transition-all duration-500 ${showTip ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>💡 {tips[tipIndex]}</p>
                   </div>
