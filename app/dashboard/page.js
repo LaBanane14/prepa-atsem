@@ -162,7 +162,7 @@ function DashboardContent() {
 
   // Moyenne générale (ramenée sur 10)
   const notesAll = historique.filter(h => h.note != null && h.note_max)
-  const moyenneGenerale = notesAll.length > 0 ? (notesAll.reduce((sum, h) => sum + (h.note / h.note_max) * 20, 0) / notesAll.length).toFixed(1) : null
+  const moyenneGenerale = notesAll.length > 0 ? parseFloat((notesAll.reduce((sum, h) => sum + (h.note / h.note_max) * 20, 0) / notesAll.length).toFixed(1)) : null
   const categories = [
     { name: 'Calculs de dose', color: 'bg-red-500', progress: 0 },
     { name: 'Pourcentages', color: 'bg-purple-500', progress: 0 },
