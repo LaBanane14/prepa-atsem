@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
 
@@ -31,6 +31,9 @@ export default function OralPage() {
   const [fileName, setFileName] = useState('')
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
+  const [timeLeft, setTimeLeft] = useState(10 * 60)
+  const [timerActive, setTimerActive] = useState(false)
+  const timerRef = useRef(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -46,6 +49,22 @@ export default function OralPage() {
     }, 3000)
     return () => clearInterval(interval)
   }, [step])
+
+  // Timer 10 min
+  useEffect(() => {
+    if (!timerActive) return
+    timerRef.current = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current)
+          setTimerActive(false)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(timerRef.current)
+  }, [timerActive])
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
@@ -70,6 +89,8 @@ export default function OralPage() {
       const data = await res.json()
       if (!res.ok || data.error) { setError(data.error || "Erreur lors de l'analyse du CV."); setStep('upload'); return }
       setQuestions(data.questions)
+      setTimeLeft(10 * 60)
+      setTimerActive(true)
       setStep('questions')
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
@@ -80,6 +101,9 @@ export default function OralPage() {
   function handleAnswer(id, value) { setAnswers({ ...answers, [id]: value }) }
 
   async function finishExercice() {
+    setTimerActive(false)
+    if (timerRef.current) clearInterval(timerRef.current)
+    const durationUsed = Math.round((10 * 60 - timeLeft) / 60)
     await supabase.from('historique').insert({
       user_id: user.id,
       type: 'Oral',
@@ -87,13 +111,13 @@ export default function OralPage() {
       note: null,
       note_max: null,
       nb_questions: questions.length,
-      duration_minutes: null,
+      duration_minutes: durationUsed || 1,
     })
-    restart()
+    window.location.href = '/dashboard'
   }
 
   function restart() {
-    setStep('upload'); setQuestions([]); setCurrentQ(0); setAnswers({}); setShowTip(false); setFileName(''); setError(''); setLoadingStep(0)
+    setStep('upload'); setQuestions([]); setCurrentQ(0); setAnswers({}); setShowTip(false); setFileName(''); setError(''); setLoadingStep(0); setTimeLeft(10 * 60); setTimerActive(false)
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
@@ -299,9 +323,22 @@ export default function OralPage() {
 
           {/* ===== QUESTIONS ===== */}
           
-         {step === 'questions' && q && (
+         {step === 'questions' && q && (() => {
+            const oralMinutes = Math.floor(timeLeft / 60)
+            const oralSeconds = timeLeft % 60
+            const oralTimePercent = (timeLeft / (10 * 60)) * 100
+            const oralUrgent = timeLeft < 2 * 60
+            return (
             <div className="relative animate-fade-in">
-              <div className="absolute top-0 right-0">
+              <div className="absolute top-0 right-0 flex items-center gap-3">
+                <div className={`flex items-center gap-2 ${oralUrgent ? 'animate-pulse' : ''}`}>
+                  <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden hidden sm:block">
+                    <div className={`h-full rounded-full transition-all duration-1000 ${oralUrgent ? 'bg-red-500' : 'bg-emerald-500'}`} style={{width: `${oralTimePercent}%`}}></div>
+                  </div>
+                  <span className={`font-black text-sm tabular-nums ${oralUrgent ? 'text-red-600' : 'text-slate-700'}`}>
+                    {String(oralMinutes).padStart(2, '0')}:{String(oralSeconds).padStart(2, '0')}
+                  </span>
+                </div>
                 <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
                   Quitter l'exercice
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -379,7 +416,7 @@ export default function OralPage() {
               </div>
               </div>
             </div>
-          )}
+          )})()}
 
         </main>
       </div>
