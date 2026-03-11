@@ -108,9 +108,11 @@ Crée un sujet original en t'inspirant des thèmes, du format et du niveau de di
 
 Dans les deux cas :
 - Le sujet s'adresse à des aides-soignants ou auxiliaires de puériculture qui veulent devenir infirmiers
+- Le jury évalue : les qualités rédactionnelles, les aptitudes au questionnement, à l'analyse et à l'argumentation, ainsi que la capacité à se projeter dans le futur environnement professionnel
 - Le format peut être : une analyse de texte avec questions, une dissertation/réflexion argumentée, ou une réponse à une ou plusieurs questions sur un thème sanitaire et social
 - Le candidat dispose de 30 MINUTES seulement, adapte donc la quantité de travail demandé en conséquence (pas plus de 2-3 questions, ou 1 sujet de dissertation court)
 - Si le sujet comporte un texte source, il doit faire entre 150 et 300 mots
+- Précise dans le barème qu'un retrait de 0,25 point par faute d'orthographe est appliqué
 
 IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
 {
@@ -151,12 +153,14 @@ Barème : ${sujet.bareme}
 COPIE DU CANDIDAT :
 ${redaction}
 
+Le jury évalue : les qualités rédactionnelles, les aptitudes au questionnement, à l'analyse et à l'argumentation, ainsi que la capacité à se projeter dans le futur environnement professionnel.
+
 Corrige cette copie en analysant :
-1. La compréhension du sujet et la pertinence des arguments
-2. La structure et l'organisation (introduction, développement, conclusion)
-3. La qualité de l'expression écrite (syntaxe, vocabulaire, style)
-4. L'orthographe et la grammaire (liste les fautes trouvées)
-5. La connaissance du domaine sanitaire et social
+1. Les qualités rédactionnelles (style, clarté, fluidité)
+2. Les aptitudes au questionnement, à l'analyse et à l'argumentation
+3. La capacité à se projeter dans le futur environnement professionnel d'infirmier(e)
+4. La structure et l'organisation (introduction, développement, conclusion)
+5. L'orthographe et la grammaire — IMPORTANT : applique un retrait de 0,25 point par faute d'orthographe. Liste TOUTES les fautes trouvées.
 
 Sois juste mais bienveillant. Tiens compte du fait que le candidat n'avait que 30 minutes.
 

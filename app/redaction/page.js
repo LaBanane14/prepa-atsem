@@ -263,9 +263,9 @@ export default function RedactionPage() {
                     { label: 'Rédaction du sujet' },
                     { label: 'Mise en forme de la page' }
                   ].map((ls, i) => (
-                    <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < loadingStep ? 'bg-green-50 border border-green-200' : i === loadingStep ? 'bg-purple-50 border border-purple-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
-                      <span className={`font-bold text-sm flex-grow ${i < loadingStep ? 'text-green-700' : i === loadingStep ? 'text-purple-700' : 'text-slate-400'}`}>{ls.label}</span>
-                      {i < loadingStep && <svg className="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                    <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < loadingStep ? 'bg-purple-50 border border-purple-200' : i === loadingStep ? 'bg-purple-50 border border-purple-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
+                      <span className={`font-bold text-sm flex-grow ${i < loadingStep ? 'text-purple-700' : i === loadingStep ? 'text-purple-700' : 'text-slate-400'}`}>{ls.label}</span>
+                      {i < loadingStep && <svg className="w-5 h-5 text-purple-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
                       {i === loadingStep && <div className="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin shrink-0"></div>}
                       <span className="text-xs font-bold text-slate-400">{i + 1}/4</span>
                     </div>
@@ -287,7 +287,7 @@ export default function RedactionPage() {
                       {sujet.type === 'analyse' ? 'Analyse de texte' : sujet.type === 'dissertation' ? 'Dissertation' : 'Questions'}
                     </span>
                     {sujet.source === 'annale' && (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-100 text-emerald-700">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-700">
                         Annale {sujet.annee}
                       </span>
                     )}
