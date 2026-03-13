@@ -15,28 +15,28 @@ const familles = [
   {
     id: 'operations',
     titre: 'Opérations décimales',
-    description: 'Additions, soustractions, multiplications et divisions de nombres décimaux. Souvent présentées sous forme d\'opérations posées à effectuer sans calculatrice. C\'est la famille la plus fréquente (environ 60% des questions portent sur les divisions).',
+    description: 'Additions, soustractions, multiplications et divisions de nombres décimaux sans calculatrice.',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
     color: 'blue'
   },
   {
     id: 'pourcentages',
     titre: 'Pourcentages et proportionnalité',
-    description: 'Calculer un pourcentage, une augmentation/diminution, un taux d\'intérêt, un prix après remise. Problèmes concrets : hausse de production de 20%, prix d\'une location avec augmentation de 7%, calcul de matière grasse dans un fromage, etc.',
+    description: 'Pourcentages, augmentations, remises et problèmes de proportionnalité.',
     icon: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>,
     color: 'amber'
   },
   {
     id: 'conversions',
     titre: 'Conversions d\'unités',
-    description: 'Passer d\'une unité à une autre : heures en minutes, kg en grammes, cm3 en mL, litres en hectolitres, m2 en cm2. Utilisation des tableaux de conversion. Exercices de type : 1h25 = ? min, 1735 kg = ? g.',
+    description: 'Heures, masses, volumes, surfaces : maîtrisez les tableaux de conversion.',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-9L21 12m0 0-4.5 4.5M21 12H7.5"/></svg>,
     color: 'emerald'
   },
   {
     id: 'equations',
     titre: 'Équations et problèmes',
-    description: 'Mise en équation d\'un problème concret. Problèmes de logique (âges, répartitions, provisions). Exemple : trouver les âges de Pierre, Paul et leur père à partir d\'indices. Ou calculer le nombre de packs d\'eau pour un mois donné.',
+    description: 'Mise en équation et résolution de problèmes concrets de logique.',
     icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M4 6h16"/><circle cx="8" cy="18" r="2"/><circle cx="16" cy="18" r="2"/></svg>,
     color: 'purple'
   }
@@ -235,49 +235,44 @@ export default function SpecifiquePage() {
                 </div>
               </div>
 
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-5 py-3 rounded-xl mb-6 flex items-center gap-2">
-                  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                  {error}
-                </div>
-              )}
+              {/* Cadre principal */}
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
 
-              <p className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Choisissez une famille</p>
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-5 py-3 rounded-xl mb-6 flex items-center gap-2">
+                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    {error}
+                  </div>
+                )}
 
-              <div className="grid sm:grid-cols-2 gap-5">
-                {familles.map(f => {
-                  const fc = colorMap[f.color]
-                  return (
-                    <button key={f.id} onClick={() => startExercice(f)} className={`relative bg-white p-6 rounded-2xl border border-slate-200 hover:border-transparent shadow-sm hover:shadow-xl transition-all duration-300 text-left cursor-pointer group overflow-hidden`}>
-                      {/* Gradient top bar */}
-                      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${fc.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                <p className="text-sm font-black text-slate-400 uppercase tracking-widest mb-5 text-center">Choisissez une famille</p>
 
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${fc.gradient} text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                          {f.icon}
-                        </div>
-                        <div>
-                          <h2 className="text-lg font-black text-slate-900 group-hover:text-slate-800">{f.titre}</h2>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className={`text-[10px] font-black ${fc.text} uppercase tracking-wider`}>5-6 questions</span>
+                <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
+                  {familles.map(f => {
+                    const fc = colorMap[f.color]
+                    return (
+                      <button key={f.id} onClick={() => startExercice(f)} className={`bg-white p-5 rounded-2xl border-2 ${fc.border} ${fc.hoverBorder} shadow-sm hover:shadow-md transition text-left cursor-pointer group`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className={`w-11 h-11 ${fc.iconBg} ${fc.text} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            {f.icon}
                           </div>
+                          <h2 className="text-base font-black text-slate-900">{f.titre}</h2>
                         </div>
-                      </div>
-                      <p className="text-sm text-slate-500 leading-relaxed mb-4">{f.description}</p>
-                      <div className={`flex items-center gap-2 ${fc.text} text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
-                        <span>Commencer</span>
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
+                        <p className="text-sm text-slate-500 leading-relaxed">{f.description}</p>
+                        <div className="mt-3 flex items-center gap-2">
+                          <span className={`text-xs font-black ${fc.text} ${fc.bg} px-3 py-1 rounded-full`}>5-6 questions</span>
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
 
-              <div className="mt-8 text-center">
-                <a href="/dashboard" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 font-bold text-sm transition">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
-                  Retour au dashboard
-                </a>
+                <div className="mt-8 text-center">
+                  <a href="/dashboard" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 font-bold text-sm transition">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+                    Retour au dashboard
+                  </a>
+                </div>
               </div>
             </div>
           )}
