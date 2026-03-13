@@ -210,15 +210,27 @@ export default function SpecifiquePage() {
 
           {/* ===== CHOIX FAMILLE ===== */}
           {step === 'choix' && (
-            <div className="animate-fade-in max-w-4xl mx-auto">
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <div className="animate-fade-in max-w-5xl mx-auto">
+
+              {/* Hero header */}
+              <div className="bg-slate-900 rounded-2xl p-8 sm:p-10 mb-8 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.04]" style={{backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '20px 20px'}}></div>
+                <div className="relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-11 h-11 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    </div>
+                    <div>
+                      <h1 className="text-2xl font-black text-white">Entraînement spécifique</h1>
+                      <p className="text-slate-400 font-medium text-sm">Travaillez une famille d'exercices avec corrections détaillées par l'IA</p>
+                    </div>
                   </div>
-                  <div>
-                    <h1 className="text-2xl font-black text-slate-900">Entraînement spécifique</h1>
-                    <p className="text-slate-500 font-medium text-sm">Choisissez une famille d'exercices pour vous entraîner avec des explications détaillées.</p>
+                  <div className="flex flex-wrap items-center gap-3 mt-5">
+                    <span className="flex items-center gap-1.5 text-xs text-slate-400 font-medium"><svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>5-6 questions par session</span>
+                    <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                    <span className="flex items-center gap-1.5 text-xs text-slate-400 font-medium"><svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>Sans calculatrice</span>
+                    <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
+                    <span className="flex items-center gap-1.5 text-xs text-slate-400 font-medium"><svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/></svg>Explications pas à pas</span>
                   </div>
                 </div>
               </div>
@@ -230,29 +242,42 @@ export default function SpecifiquePage() {
                 </div>
               )}
 
+              <p className="text-sm font-black text-slate-400 uppercase tracking-widest mb-4">Choisissez une famille</p>
+
               <div className="grid sm:grid-cols-2 gap-5">
                 {familles.map(f => {
                   const fc = colorMap[f.color]
                   return (
-                    <button key={f.id} onClick={() => startExercice(f)} className={`bg-white p-6 rounded-2xl border-2 ${fc.border} ${fc.hoverBorder} shadow-sm hover:shadow-md transition text-left cursor-pointer group`}>
+                    <button key={f.id} onClick={() => startExercice(f)} className={`relative bg-white p-6 rounded-2xl border border-slate-200 hover:border-transparent shadow-sm hover:shadow-xl transition-all duration-300 text-left cursor-pointer group overflow-hidden`}>
+                      {/* Gradient top bar */}
+                      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${fc.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+
                       <div className="flex items-center gap-3 mb-3">
-                        <div className={`w-11 h-11 ${fc.iconBg} ${fc.text} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <div className={`w-12 h-12 bg-gradient-to-br ${fc.gradient} text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                           {f.icon}
                         </div>
-                        <h2 className="text-lg font-black text-slate-900">{f.titre}</h2>
+                        <div>
+                          <h2 className="text-lg font-black text-slate-900 group-hover:text-slate-800">{f.titre}</h2>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className={`text-[10px] font-black ${fc.text} uppercase tracking-wider`}>5-6 questions</span>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-sm text-slate-500 leading-relaxed">{f.description}</p>
-                      <div className="mt-4 flex items-center gap-2">
-                        <span className={`text-xs font-black ${fc.text} ${fc.bg} px-3 py-1 rounded-full`}>5-6 questions</span>
-                        <span className="text-xs font-black text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Sans calculatrice</span>
+                      <p className="text-sm text-slate-500 leading-relaxed mb-4">{f.description}</p>
+                      <div className={`flex items-center gap-2 ${fc.text} text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                        <span>Commencer</span>
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
                       </div>
                     </button>
                   )
                 })}
               </div>
 
-              <div className="mt-6 text-center">
-                <a href="/dashboard" className="text-slate-400 hover:text-slate-600 font-bold text-sm transition">Retour au dashboard</a>
+              <div className="mt-8 text-center">
+                <a href="/dashboard" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 font-bold text-sm transition">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+                  Retour au dashboard
+                </a>
               </div>
             </div>
           )}
