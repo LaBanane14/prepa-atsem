@@ -265,10 +265,10 @@ export default function RedactionPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
                 <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-500 shadow-xl shadow-purple-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Génération du sujet en cours...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA prépare votre épreuve de rédaction personnalisée.</p>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous préparons votre épreuve de rédaction.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
-                    { label: 'Récupération des sujets des annales' },
+                    { label: 'Récupération des annales' },
                     { label: 'Sélection du sujet' },
                     { label: 'Rédaction du sujet' },
                     { label: 'Mise en forme de la page' }

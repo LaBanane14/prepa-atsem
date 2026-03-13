@@ -332,7 +332,7 @@ export default function ExamenPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
                 <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-amber-500 shadow-xl shadow-yellow-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Préparation de l'examen blanc...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA génère les deux épreuves simultanément.</p>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous générons les deux épreuves simultanément.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
                     { label: 'Analyse des annales' },

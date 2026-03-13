@@ -299,7 +299,7 @@ export default function OralPage() {
               `}</style>
               <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 to-teal-500 shadow-xl shadow-emerald-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
               <h2 className="text-xl font-black text-slate-900 mb-2">Analyse de votre CV en cours...</h2>
-              <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA parcours votre <strong className="text-slate-700">{fileName}</strong> et prépare vos questions personnalisées.</p>
+              <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous parcourons votre CV et préparons vos questions personnalisées.</p>
               <div className="w-full max-w-md space-y-3">
                 {[
                   { label: 'Analyse de votre profil'},

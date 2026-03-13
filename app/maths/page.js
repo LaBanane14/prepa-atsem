@@ -283,10 +283,10 @@ export default function MathsPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
                 <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-rose-500 shadow-xl shadow-red-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Génération des exercices en cours...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA prépare votre épreuve de mathématiques.</p>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous préparons votre épreuve de mathématiques.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
-                    { label: 'Récupération des sujets des annales' },
+                    { label: 'Récupération des annales' },
                     { label: 'Sélection des exercices' },
                     { label: 'Calibrage de la difficulté' },
                     { label: 'Mise en forme des questions' }
