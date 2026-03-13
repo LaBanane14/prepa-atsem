@@ -204,17 +204,26 @@ export default function HomePage() {
                     })}
                   </div>
                 </div>
-                <div onClick={validateAnswer} className={`${answered ? (selectedIndex === correctIndex ? 'bg-green-600' : 'bg-red-600') : 'bg-slate-900 hover:bg-black cursor-pointer'} p-4 text-center transition flex items-center justify-center gap-2 group`}>
-                  {answered ? (
-                    selectedIndex === correctIndex ? (
+                {answered && (
+                  <div className={`${selectedIndex === correctIndex ? 'bg-green-600' : 'bg-red-600'} px-4 py-3 flex items-center justify-center gap-2`}>
+                    {selectedIndex === correctIndex ? (
                       <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-bold text-sm">Bonne réponse ! 1,5g ÷ 500mg × 5ml = 15ml</span></>
                     ) : (
                       <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span className="text-white font-bold text-sm">Raté ! La réponse était 15 ml</span></>
-                    )
-                  ) : (
-                    <><span className="text-white font-bold text-sm">Valider ma réponse</span><svg className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
+                {answered ? (
+                  <a href="/qcm" className="bg-slate-900 hover:bg-black p-4 text-center transition flex items-center justify-center gap-2 group cursor-pointer">
+                    <span className="text-white font-bold text-sm">Lancer l'entraînement complet</span>
+                    <svg className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                  </a>
+                ) : (
+                  <div onClick={validateAnswer} className="bg-slate-900 hover:bg-black cursor-pointer p-4 text-center transition flex items-center justify-center gap-2 group">
+                    <span className="text-white font-bold text-sm">Valider ma réponse</span>
+                    <svg className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                  </div>
+                )}
               </div>
             </div>
           </div>

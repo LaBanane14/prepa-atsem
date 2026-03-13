@@ -41,15 +41,6 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState(new Array(quizData.length).fill(null))
   const [state, setState] = useState('questioning')
   const [showResults, setShowResults] = useState(false)
-  const [seconds, setSeconds] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => setSeconds(s => s + 1), 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const mins = String(Math.floor(seconds / 60)).padStart(2, '0')
-  const secs = String(seconds % 60).padStart(2, '0')
   const data = quizData[current]
   const hasAnswered = answers[current] !== null
   const progress = ((current + 1) / quizData.length) * 100
@@ -162,6 +153,14 @@ export default function QuizPage() {
                 {resultMessage}
               </p>
 
+              {/* Bouton d'action */}
+              <div className="flex flex-col items-center justify-center w-full mb-8">
+                <a href="/signup" className="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-xl shadow-slate-900/20 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm sm:text-base transform hover:-translate-y-1">
+                  Continuer à m'entrainer en m'inscrivant dès maintenant
+                  <svg className="w-5 h-5 shrink-0 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+              </div>
+
               {/* Détail par catégorie */}
               <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 sm:p-6 mb-8 text-left">
                 <h3 className="font-bold text-slate-800 mb-4 text-sm sm:text-base">Détail de vos compétences :</h3>
@@ -192,15 +191,7 @@ export default function QuizPage() {
                   })}
                 </div>
               </div>
-              
-              {/* Bouton d'action */}
-              <div className="flex flex-col items-center justify-center w-full">
-                <a href="/signup" className="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-xl shadow-slate-900/20 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm sm:text-base transform hover:-translate-y-1">
-                  Continuer à m'entrainer en m'inscrivant dès maintenant 
-                  <svg className="w-5 h-5 shrink-0 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
-              </div>
-              
+
             </div>
           </div>
         </main>
@@ -230,18 +221,19 @@ export default function QuizPage() {
           {/* Colonne 1 : Vide, elle sert à équilibrer la grille pour garder le centre parfaitement au milieu */}
           <div className="hidden xl:block"></div>
 
-          {/* Colonne 2 : QCM CARD - Largeur fixe sur PC (xl:w-[650px]), toujours centrée */}
-          <div className={`w-full max-w-2xl mx-auto xl:w-[650px] ${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm mt-2 sm:mt-4`}>
+          {/* Colonne 2 : QCM CARD */}
+          <div className="w-full max-w-2xl mx-auto xl:w-[650px] relative mt-2 sm:mt-4">
+            {/* Croix quitter (hors du cadre, en haut à droite) */}
+            <a href="/" className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-20 w-9 h-9 sm:w-10 sm:h-10 bg-slate-900 hover:bg-black text-white rounded-full flex items-center justify-center transition shadow-lg">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </a>
+
+            {/* QCM CARD */}
+            <div className={`${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-3 sm:p-6 shadow-sm`}>
             <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
               {/* Header */}
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
-                <div className="flex items-center gap-2 sm:gap-4">
-                  <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{quizData.length}</span>
-                  <div className="flex items-center gap-1.5 bg-slate-100 border border-slate-200 px-2 sm:px-3 py-1 rounded-lg font-bold text-slate-700 text-xs">
-                    <svg className="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span className="tabular-nums">{mins}:{secs}</span>
-                  </div>
-                </div>
+                <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{quizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
                   <div className="h-full bg-slate-900 transition-all duration-500" style={{width: `${progress}%`}}></div>
@@ -313,6 +305,7 @@ export default function QuizPage() {
                 </button>
               </div>
             </div>
+          </div>
           </div>
 
           {/* Colonne 3 : EXPLANATION - Apparaît à droite (ou en dessous sur mobile) */}
