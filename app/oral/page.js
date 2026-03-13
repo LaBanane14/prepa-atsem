@@ -22,7 +22,7 @@ export default function OralPage() {
   const [authLoading, setAuthLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const [step, setStep] = useState('upload')
+  const [step, setStep] = useState(null)
   const [questions, setQuestions] = useState([])
   const [currentQ, setCurrentQ] = useState(0)
   const [showTip, setShowTip] = useState(false)
@@ -43,8 +43,11 @@ export default function OralPage() {
       setUser(session.user)
       setAuthLoading(false)
       const skipPopup = localStorage.getItem('oral_skip_info') === 'true'
-      if (!skipPopup) {
+      if (skipPopup) {
+        setStep('upload')
+      } else {
         setShowInfoPopup(true)
+        setStep(null)
       }
     })
   }, [])
@@ -75,6 +78,7 @@ export default function OralPage() {
   function handleStartFromPopup() {
     if (dontShowAgain) localStorage.setItem('oral_skip_info', 'true')
     setShowInfoPopup(false)
+    setStep('upload')
   }
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
@@ -195,11 +199,11 @@ export default function OralPage() {
 
           {/* ===== POPUP INFO ===== */}
           {showInfoPopup && (
-            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={handleStartFromPopup}>
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }}>
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
 
                 <div className="bg-slate-900 px-6 py-5 relative">
-                  <button onClick={handleStartFromPopup} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                  <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                   <h2 className="text-lg font-black text-white pr-8">Préparation à l'oral</h2>
