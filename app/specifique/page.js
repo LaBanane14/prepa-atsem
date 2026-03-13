@@ -213,23 +213,25 @@ export default function SpecifiquePage() {
             <div className="animate-fade-in max-w-5xl mx-auto">
 
               {/* Cadre principal */}
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden relative">
+
+                {/* Croix fermeture */}
+                <a href="/dashboard" className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </a>
 
                 {/* Hero header */}
                 <div className="bg-slate-900 p-8 sm:p-10 relative overflow-hidden">
                   <div className="absolute inset-0 opacity-[0.04]" style={{backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '20px 20px'}}></div>
                   <div className="relative">
-                    <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center gap-3 mb-4 pr-10">
                       <div className="w-11 h-11 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                       </div>
-                      <div className="flex-1">
+                      <div>
                         <h1 className="text-2xl font-black text-white">Entraînement spécifique</h1>
                         <p className="text-slate-400 font-medium text-sm">Travaillez une famille d'exercices avec corrections détaillées par l'IA</p>
                       </div>
-                      <a href="/dashboard" className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition shrink-0">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                      </a>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 mt-5">
                       <span className="flex items-center gap-1.5 text-xs text-slate-400 font-medium"><svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>5-6 questions par session</span>
@@ -252,18 +254,20 @@ export default function SpecifiquePage() {
 
                 <p className="text-sm font-black text-slate-400 uppercase tracking-widest mb-5 text-center">Choisissez une famille</p>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
                   {familles.map(f => {
                     const fc = colorMap[f.color]
                     return (
-                      <button key={f.id} onClick={() => startExercice(f)} className={`bg-white p-4 rounded-2xl border-2 ${fc.border} ${fc.hoverBorder} shadow-sm hover:shadow-md transition text-center cursor-pointer group`}>
-                        <div className={`w-12 h-12 ${fc.iconBg} ${fc.text} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform mx-auto mb-3`}>
-                          {f.icon}
+                      <button key={f.id} onClick={() => startExercice(f)} className={`bg-white p-5 rounded-2xl border-2 ${fc.border} ${fc.hoverBorder} shadow-sm hover:shadow-md transition text-left cursor-pointer group`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className={`w-11 h-11 ${fc.iconBg} ${fc.text} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            {f.icon}
+                          </div>
+                          <h2 className="text-base font-black text-slate-900">{f.titre}</h2>
                         </div>
-                        <h2 className="text-sm font-black text-slate-900 mb-1">{f.titre}</h2>
-                        <p className="text-xs text-slate-500 leading-relaxed">{f.description}</p>
-                        <div className="mt-3">
-                          <span className={`text-[10px] font-black ${fc.text} ${fc.bg} px-2.5 py-1 rounded-full`}>5-6 questions</span>
+                        <p className="text-sm text-slate-500 leading-relaxed">{f.description}</p>
+                        <div className="mt-3 flex items-center gap-2">
+                          <span className={`text-xs font-black ${fc.text} ${fc.bg} px-3 py-1 rounded-full`}>5-6 questions</span>
                         </div>
                       </button>
                     )
