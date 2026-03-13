@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope, Timer, CalculatorOff, Sparkles, ClipboardCheck } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope, Timer, Ban, Sparkles, ClipboardCheck } from 'lucide-react'
 
 const sidebarItems = [
   { id: 'dashboard', label: 'Accueil', href: '/dashboard', icon: Home },
@@ -249,7 +249,7 @@ export default function MathsPage() {
                   <div className="space-y-4 mb-6">
                     {[
                       { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronomètre de 30 minutes', text: 'Le compte à rebours démarre dès la génération du sujet. À la fin du temps, vos réponses sont envoyées automatiquement.' },
-                      { icon: <CalculatorOff size={18} strokeWidth={2} />, title: 'Sans calculatrice', text: 'Comme au concours IFSI, vous devez poser vos calculs à la main. Munissez-vous d\'un brouillon.' },
+                      { icon: <Ban size={18} strokeWidth={2} />, title: 'Sans calculatrice', text: 'Comme au concours IFSI, vous devez poser vos calculs à la main. Munissez-vous d\'un brouillon.' },
                       { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Exercices générés par l\'IA', text: 'Opérations décimales, pourcentages, conversions d\'unités et équations — le sujet est différent à chaque fois.' },
                       { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'Correction détaillée et note /10', text: 'Chaque réponse est corrigée avec la méthode de résolution complète pour progresser.' }
                     ].map((item, i) => (
