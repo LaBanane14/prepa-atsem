@@ -197,6 +197,8 @@ export default function MathsPage() {
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes pulse-urgent { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .pulse-urgent { animation: pulse-urgent 1s ease-in-out infinite; }
+        @keyframes hourglass-flip { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        .hourglass-anim { animation: hourglass-flip 3s ease-in-out infinite; }
         @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
       `}</style>
 
@@ -312,14 +314,28 @@ export default function MathsPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-[calc(100vh-2.5rem)] flex flex-col">
 
                 {/* Barre du haut : chrono */}
-                <div className="bg-slate-900 rounded-t-2xl px-6 py-4">
-                  <div className="mb-3">
-                    <h2 className="text-lg font-black text-white mb-1">{sujet.titre}</h2>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur {sujet.noteMax || 10} points — Durée : 30 minutes — Sans calculatrice</p>
+                <div className="bg-slate-900 rounded-t-2xl px-6 py-5">
+                  <div className="flex items-start justify-between mb-4">
+                    <h2 className="text-xl sm:text-2xl font-black text-white">{sujet.titre}</h2>
+                    <div className="flex items-center gap-4 shrink-0 ml-4">
+                      <div className={`flex items-center gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
+                        <div className="w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
+                          <div className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? 'bg-red-500' : 'bg-red-400'}`} style={{width: `${timePercent}%`}}></div>
+                        </div>
+                        <div className={`flex items-center gap-2 font-black text-lg tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
+                          <svg className="w-6 h-6 text-red-400 hourglass-anim" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
+                          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+                        </div>
+                      </div>
+                      <a href="/dashboard" className="bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+                        Quitter l'exercice
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      </a>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/15 text-white">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-red-600 text-white">
                         Mathématiques
                       </span>
                       {sujet.source === 'annale' ? (
@@ -331,25 +347,11 @@ export default function MathsPage() {
                           Sujet créé par nos soins
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-slate-300">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-red-600 text-white">
                         Sans calculatrice
                       </span>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className={`flex items-center gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
-                        <div className="w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
-                          <div className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? 'bg-red-500' : 'bg-red-400'}`} style={{width: `${timePercent}%`}}></div>
-                        </div>
-                        <div className={`flex items-center gap-1.5 font-black text-lg tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-                        </div>
-                      </div>
-                      <a href="/dashboard" className="bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
-                        Quitter l'exercice
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                      </a>
-                    </div>
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur {sujet.noteMax || 10} points — Durée : 30 minutes</p>
                   </div>
                 </div>
 
