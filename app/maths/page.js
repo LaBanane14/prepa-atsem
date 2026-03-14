@@ -344,12 +344,14 @@ export default function MathsPage() {
                       Quitter l'exercice
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </a>
+                    <div className="mt-3">
+                      <h2 className="text-lg font-black text-white mb-1">{sujet.titre}</h2>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur {sujet.noteMax || 10} points — Durée : 30 minutes — Sans calculatrice</p>
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex-1 p-6 sm:p-8 overflow-y-auto">
-                  <h2 className="text-lg font-black text-slate-900 mb-1">{sujet.titre}</h2>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-6">Note sur {sujet.noteMax || 10} points — Durée : 30 minutes — Sans calculatrice</p>
 
                   <div className="space-y-8">
                     {sujet.exercices?.map((ex, exIdx) => (
