@@ -353,7 +353,7 @@ export default function MathsPage() {
 
                   <div className="space-y-8">
                     {sujet.exercices?.map((ex, exIdx) => (
-                      <div key={exIdx} className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+                      <div key={exIdx} className="bg-red-50 border border-red-200 rounded-2xl shadow-sm p-6">
                         <div className="flex items-center gap-3 mb-5">
                           <span className="w-9 h-9 bg-red-600 text-white rounded-xl flex items-center justify-center font-black text-sm shadow-sm">{ex.numero}</span>
                           <div className="flex-1">
