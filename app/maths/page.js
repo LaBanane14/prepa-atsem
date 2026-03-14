@@ -353,7 +353,7 @@ export default function MathsPage() {
 
                   <div className="space-y-8">
                     {sujet.exercices?.map((ex, exIdx) => (
-                      <div key={exIdx} className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                      <div key={exIdx} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 border-l-4 border-l-red-500">
                         <div className="flex items-center gap-3 mb-4">
                           <span className="w-8 h-8 bg-red-100 text-red-700 rounded-lg flex items-center justify-center font-black text-sm">{ex.numero}</span>
                           <h3 className="font-black text-slate-900 text-sm flex-1">{ex.titre}</h3>
@@ -361,8 +361,14 @@ export default function MathsPage() {
                         </div>
 
                         {ex.enonce && (
-                          <div className="bg-white border border-slate-200 rounded-xl p-4 mb-5">
-                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{ex.enonce}</p>
+                          <div className="bg-red-50/60 border border-red-200/60 rounded-xl p-4 mb-5 flex items-start gap-3">
+                            <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                              <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Énoncé</p>
+                              <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{ex.enonce}</p>
+                            </div>
                           </div>
                         )}
 
@@ -374,13 +380,16 @@ export default function MathsPage() {
                                 <p className="text-sm text-slate-800 font-medium leading-relaxed whitespace-pre-line">{q.question}</p>
                                 <span className="text-xs font-bold text-slate-400 shrink-0 ml-auto">{q.points} pt{q.points > 1 ? 's' : ''}</span>
                               </div>
-                              <input
-                                type="text"
-                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-400 transition placeholder:text-slate-400"
-                                placeholder="Votre réponse..."
-                                value={reponses[q.id] || ''}
-                                onChange={(e) => updateReponse(q.id, e.target.value)}
-                              />
+                              <div className="bg-amber-50/70 border-2 border-amber-300/70 rounded-xl p-3">
+                                <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1.5">Réponse</p>
+                                <input
+                                  type="text"
+                                  className="w-full bg-white border border-amber-200 rounded-lg px-4 py-3 text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition placeholder:text-slate-400 placeholder:font-normal"
+                                  placeholder="Saisissez votre réponse ici..."
+                                  value={reponses[q.id] || ''}
+                                  onChange={(e) => updateReponse(q.id, e.target.value)}
+                                />
+                              </div>
                             </div>
                           ))}
                         </div>
