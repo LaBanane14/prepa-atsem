@@ -21,6 +21,7 @@ export default function ExamenPage() {
   // Steps: null (popup), loading, epreuve-maths, transition, epreuve-redaction, correcting, resultat
   const [step, setStep] = useState('loading')
   const [error, setError] = useState('')
+  const [showBareme, setShowBareme] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
 
@@ -560,9 +561,33 @@ export default function ExamenPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Durée : 30 minutes</p>
+                    <div className="flex items-center gap-4">
+                      <button onClick={() => setShowBareme(true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition cursor-pointer">
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+                        Barème de notation
+                      </button>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Durée : 30 minutes</p>
+                    </div>
                   </div>
                 </div>
+
+                {/* Popup barème */}
+                {showBareme && (
+                  <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowBareme(false)}>
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
+                      <div className="bg-purple-600 px-6 py-5 relative">
+                        <button onClick={() => setShowBareme(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                        <h2 className="text-lg font-black text-white pr-8">Barème de notation</h2>
+                        <p className="text-purple-200 text-sm font-medium mt-1">Comment votre copie est évaluée</p>
+                      </div>
+                      <div className="p-6">
+                        <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{sujetRedaction.bareme}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex-1 flex flex-col lg:flex-row">
                   {/* Sujet */}
