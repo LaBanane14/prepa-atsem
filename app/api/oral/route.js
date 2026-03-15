@@ -69,7 +69,8 @@ Adapte chaque question au contenu réel du CV. Sois précis en faisant référen
           ],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 4000
+            maxOutputTokens: 4000,
+            responseMimeType: "application/json"
           }
         })
       }

@@ -35,7 +35,7 @@ async function callGeminiWithPdf(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts }],
-        generationConfig: { temperature: 0.8, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.8, maxOutputTokens: 8000, responseMimeType: "application/json" }
       })
     }
   )
@@ -63,7 +63,7 @@ async function callGemini(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 8000, responseMimeType: "application/json" }
       })
     }
   )

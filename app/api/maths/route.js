@@ -35,7 +35,7 @@ async function callGeminiWithPdf(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts }],
-        generationConfig: { temperature: 0.8, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.8, maxOutputTokens: 8000, responseMimeType: "application/json" }
       })
     }
   )
@@ -63,7 +63,7 @@ async function callGemini(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 8000, responseMimeType: "application/json" }
       })
     }
   )
@@ -94,34 +94,30 @@ export async function POST(request) {
 
     // === GÉNÉRER DES EXERCICES ===
     if (action === 'generer') {
-      const prompt = `Tu es un examinateur du concours IFSI FPC (Formation Professionnelle Continue) pour l'épreuve de mathématiques.
+      // Choix côté serveur : 1 chance sur 4 annale, 3 chances sur 4 original
+      const useAnnale = Math.random() < 0.25
 
-Le document PDF ci-joint contient des annales réelles du concours IFSI FPC des dernières années. Tu dois t'en servir comme base principale.
+      const promptAnnale = `Tu es un examinateur du concours IFSI FPC (Formation Professionnelle Continue) pour l'épreuve de mathématiques.
 
-Tu as DEUX possibilités (choisis-en une au hasard, avec une probabilité de 50/50) :
+Le document PDF ci-joint contient des annales réelles du concours IFSI FPC des dernières années. Tu dois t'en servir comme base exclusive.
 
-OPTION 1 — SUJET D'ANNALE :
-Reprends un sujet tel quel ou très proche d'un sujet présent dans les annales du PDF. Mentionne l'année et la ville d'origine dans le titre (ex: "Annale Marseille 2024"). Reproduis fidèlement les exercices et questions tels qu'ils apparaissent dans le document.
-
-OPTION 2 — SUJET ORIGINAL INSPIRÉ DES ANNALES :
-Crée un sujet original en t'inspirant des thèmes, du format et du niveau de difficulté des annales du PDF. Le sujet doit être réaliste et cohérent avec ce qui est demandé au concours.
+MISSION :
+Reprends un sujet tel quel ou très proche d'un sujet présent dans les annales du PDF. Reproduis fidèlement les exercices et les questions tels qu'ils apparaissent dans le document d'origine.
 
 RÈGLES IMPORTANTES :
-- Le candidat dispose de 30 MINUTES, SANS CALCULATRICE
-- La note est sur 10 points
-- Génère entre 2 et 4 exercices pour un total de 6 à 8 questions/items
-- Les 4 familles d'exercices possibles : opérations sur les décimaux (60% du sujet), pourcentages/proportionnalité, conversions d'unités, équations/problèmes
-- Le format est QUESTION-RÉPONSE (pas de QCM), le candidat écrit sa réponse
-- Chaque question doit avoir une réponse numérique ou textuelle courte
-- Les calculs doivent être faisables à la main (pas de nombres trop complexes)
-- Adapte la difficulté au niveau aide-soignant / auxiliaire de puériculture
+- Le candidat dispose de 30 MINUTES, SANS CALCULATRICE.
+- La note totale est sur 10 points.
+- Le format attendu est QUESTION-RÉPONSE (pas de QCM), le candidat devra écrire sa propre réponse.
+- Chaque question doit avoir une réponse numérique ou textuelle courte attendue.
 
-IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
+FORMAT DE SORTIE :
+Tu dois répondre UNIQUEMENT au format JSON strict, sans aucun texte avant ou après, en respectant scrupuleusement cette structure :
+
 {
-  "source": "annale" ou "original",
-  "titre": "Titre du sujet (précise ville et année si annale)",
-  "annee": "2024 (si annale, sinon null)",
-  "ville": "Marseille (si annale, sinon null)",
+  "source": "annale",
+  "titre": "Titre du sujet (ex: Annale Marseille 2024)",
+  "annee": "Année de l'annale",
+  "ville": "Ville d'origine",
   "duree": "30 minutes",
   "calculatrice": false,
   "noteMax": 10,
@@ -129,21 +125,68 @@ IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
     {
       "numero": 1,
       "titre": "Titre de l'exercice",
-      "enonce": "Énoncé général de l'exercice (contexte, données...)",
-      "categorie": "operations" ou "pourcentages" ou "conversions" ou "equations",
+      "enonce": "Énoncé global de l'exercice (si applicable)",
+      "categorie": "operations/pourcentages/conversions/equations",
       "points": 3,
       "questions": [
         {
           "id": "1a",
-          "question": "La question précise à résoudre",
+          "question": "Texte de la question",
           "points": 1.5,
-          "reponse": "La réponse attendue (nombre ou texte court)"
+          "reponse": "La réponse correcte attendue"
         }
       ]
     }
   ]
 }`
 
+      const promptOriginal = `Tu es un examinateur du concours IFSI FPC (Formation Professionnelle Continue) pour l'épreuve de mathématiques.
+
+Le document PDF ci-joint contient des annales réelles du concours IFSI FPC. Tu dois t'en servir comme modèle pour comprendre les thèmes, le format et le niveau de difficulté attendus.
+
+MISSION :
+Crée un sujet ORIGINAL INÉDIT en t'inspirant fidèlement des annales fournies. Le sujet doit être réaliste, cohérent avec ce qui est demandé au concours, et adapté au niveau d'un aide-soignant ou auxiliaire de puériculture.
+
+RÈGLES IMPORTANTES :
+- Le candidat dispose de 30 MINUTES, SANS CALCULATRICE.
+- La note totale est sur 10 points.
+- Génère entre 2 et 4 exercices pour un total de 6 à 8 questions/items.
+- RÉPARTITION : Génère 4 à 5 questions portant sur les opérations sur les décimaux. Répartis les 2 à 3 questions restantes sur les pourcentages/proportionnalité, conversions d'unités ou équations/problèmes simples.
+- Le format attendu est QUESTION-RÉPONSE (pas de QCM).
+- Chaque question doit avoir une réponse numérique ou textuelle courte.
+- Les calculs doivent être faisables à la main de tête (pas de nombres trop complexes).
+
+FORMAT DE SORTIE :
+Tu dois répondre UNIQUEMENT au format JSON strict, sans aucun texte avant ou après, en respectant scrupuleusement cette structure :
+
+{
+  "source": "original",
+  "titre": "Sujet Original Type Concours FPC",
+  "annee": null,
+  "ville": null,
+  "duree": "30 minutes",
+  "calculatrice": false,
+  "noteMax": 10,
+  "exercices": [
+    {
+      "numero": 1,
+      "titre": "Titre de l'exercice",
+      "enonce": "Énoncé global de l'exercice",
+      "categorie": "operations/pourcentages/conversions/equations",
+      "points": 3,
+      "questions": [
+        {
+          "id": "1a",
+          "question": "Texte de la question",
+          "points": 1.5,
+          "reponse": "La réponse correcte attendue et détaillée"
+        }
+      ]
+    }
+  ]
+}`
+
+      const prompt = useAnnale ? promptAnnale : promptOriginal
       const raw = await callGeminiWithPdf(prompt)
       const jsonMatch = raw.match(/\{[\s\S]*\}/)
       if (!jsonMatch) {
@@ -161,42 +204,45 @@ IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
 
       const reponsesFormatted = Object.entries(reponses).map(([id, val]) => `- Question ${id} : "${val}"`).join('\n')
 
-      const prompt = `Tu es un correcteur du concours IFSI FPC pour l'épreuve de mathématiques. Tu dois corriger les réponses d'un candidat de manière détaillée et bienveillante. Le candidat disposait de 30 minutes, sans calculatrice.
+      const prompt = `Tu es un correcteur du concours IFSI FPC pour l'épreuve de mathématiques.
+Tu dois corriger les réponses d'un candidat de manière détaillée, juste et bienveillante.
+Rappel du contexte : le candidat disposait de 30 minutes, sans calculatrice.
 
-EXERCICES :
+VOICI LE SUJET ET LE BARÈME (au format JSON) :
 ${JSON.stringify(exercices, null, 2)}
 
-RÉPONSES DU CANDIDAT :
+VOICI LES RÉPONSES DU CANDIDAT :
 ${reponsesFormatted}
 
+MISSION :
 Corrige chaque réponse en :
-1. Comparant avec la réponse attendue
-2. Expliquant la méthode de résolution étape par étape
-3. Indiquant si la réponse est correcte, partiellement correcte ou incorrecte
-4. Attribuant les points (points partiels possibles si la méthode est bonne mais le résultat faux)
+1. Comparant avec la réponse attendue.
+2. Expliquant la méthode de résolution étape par étape de manière pédagogique.
+3. Attribuant les points avec justesse. Valorise les méthodes correctes même si le résultat final est faux en accordant des points partiels.
+4. Rédigeant un bilan constructif (points forts, points à améliorer, conseil).
 
-Sois juste mais bienveillant. Valorise les méthodes correctes même si le résultat final est faux.
+FORMAT DE SORTIE :
+Tu dois répondre UNIQUEMENT au format JSON strict, sans aucun texte avant ou après, en respectant scrupuleusement cette structure :
 
-IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
 {
-  "note": 7,
+  "note": 7.5,
   "noteMax": 10,
-  "appreciation": "Appréciation générale en 2-3 phrases",
+  "appreciation": "Appréciation globale bienveillante sur le travail fourni",
   "corrections": [
     {
       "id": "1a",
-      "question": "La question",
-      "reponse_candidat": "Ce que le candidat a répondu",
-      "reponse_attendue": "La bonne réponse",
-      "correct": true ou false ou "partiel",
+      "question": "Rappel de la question",
+      "reponse_candidat": "Ce qu'a répondu le candidat",
+      "reponse_attendue": "La vraie réponse attendue",
+      "correct": "true, false, ou partiel",
       "points_obtenus": 1.5,
       "points_max": 1.5,
-      "explication": "Explication détaillée de la correction avec la méthode de résolution"
+      "explication": "Explication pédagogique de la correction et de l'attribution des points"
     }
   ],
-  "points_forts": ["point fort 1", "point fort 2"],
-  "points_ameliorer": ["point à améliorer 1", "point à améliorer 2"],
-  "conseil": "Un conseil personnalisé pour progresser"
+  "points_forts": ["Point fort 1", "Point fort 2"],
+  "points_ameliorer": ["Axe d'amélioration 1", "Axe d'amélioration 2"],
+  "conseil": "Un conseil pratique pour le concours"
 }`
 
       const raw = await callGemini(prompt)
