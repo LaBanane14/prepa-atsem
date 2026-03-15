@@ -3,6 +3,9 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 const menuItems = [
   { id: 'dashboard', label: 'Accueil', icon: Home },
@@ -466,32 +469,166 @@ function DashboardContent() {
           )}
 
           {/* ============ MES STATS ============ */}
-          {page === 'progression' && (
+          {page === 'progression' && (() => {
+            // Exercices par jour (14 derniers jours)
+            const dailyData = (() => {
+              const days = []
+              for (let i = 13; i >= 0; i--) {
+                const d = new Date()
+                d.setDate(d.getDate() - i)
+                d.setHours(0, 0, 0, 0)
+                const next = new Date(d)
+                next.setDate(next.getDate() + 1)
+                const count = historique.filter(h => { const hd = new Date(h.created_at); return hd >= d && hd < next }).length
+                days.push({ label: `${d.getDate()}/${d.getMonth() + 1}`, count })
+              }
+              return days
+            })()
+
+            // Répartition par type
+            const typeCount = {}
+            historique.forEach(h => { typeCount[h.type || 'Autre'] = (typeCount[h.type || 'Autre'] || 0) + 1 })
+            const typeLabels = Object.keys(typeCount)
+            const typeValues = Object.values(typeCount)
+            const typeColors = { Maths: '#ef4444', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Autre: '#94a3b8' }
+
+            // Évolution de la moyenne (par exercice noté, chronologique)
+            const notesChron = [...historique].filter(h => h.note != null && h.note_max).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            const moyenneEvolution = notesChron.map((h, i) => {
+              const slice = notesChron.slice(0, i + 1)
+              const moy = slice.reduce((sum, x) => sum + (x.note / x.note_max) * 20, 0) / slice.length
+              return { label: new Date(h.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }), moy: parseFloat(moy.toFixed(1)) }
+            })
+
+            // Stats rapides
+            const totalExos = historique.length
+            const notesForStats = historique.filter(h => h.note != null && h.note_max)
+            const meilleureNote = notesForStats.length > 0 ? parseFloat(Math.max(...notesForStats.map(h => (h.note / h.note_max) * 20)).toFixed(1)) : null
+            const pireNote = notesForStats.length > 0 ? parseFloat(Math.min(...notesForStats.map(h => (h.note / h.note_max) * 20)).toFixed(1)) : null
+            const totalMin = historique.reduce((sum, h) => sum + (h.duration_minutes || 0), 0)
+
+            return (
             <div>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Mes stats</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Suivez votre avancement dans chaque domaine.</p>
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                {categories.map((cat, i) => (
-                  <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-bold text-slate-900 text-sm">{cat.name}</h3>
-                      <span className="text-xs font-black text-slate-400">{cat.progress}%</span>
+
+              {historique.length === 0 ? (
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center">
+                  <div className="w-16 h-16 bg-slate-100 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+                  <h3 className="font-black text-slate-900 text-lg mb-2">Commencez à vous entraîner</h3>
+                  <p className="text-slate-500 font-medium text-sm mb-6">Vos statistiques apparaîtront ici dès votre premier entraînement.</p>
+                  <a href="/maths" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Lancer un exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+                </div>
+              ) : (
+                <>
+                  {/* Stats rapides */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
+                      <p className="text-2xl font-black text-slate-900">{totalExos}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase mt-1">Exercices</p>
                     </div>
-                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                      <div className={`h-full ${cat.color} rounded-full transition-all duration-500`} style={{width: `${cat.progress}%`}}></div>
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
+                      <p className="text-2xl font-black text-emerald-600">{meilleureNote || '—'}<span className="text-sm text-slate-400">/20</span></p>
+                      <p className="text-xs font-bold text-slate-400 uppercase mt-1">Meilleure note</p>
                     </div>
-                    <p className="text-xs text-slate-400 font-medium mt-2">0 exercice complété</p>
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
+                      <p className="text-2xl font-black text-red-500">{pireNote || '—'}<span className="text-sm text-slate-400">/20</span></p>
+                      <p className="text-xs font-bold text-slate-400 uppercase mt-1">Note la plus basse</p>
+                    </div>
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
+                      <p className="text-2xl font-black text-slate-900">{totalMin < 60 ? `${totalMin}m` : `${Math.floor(totalMin / 60)}h${totalMin % 60 > 0 ? String(totalMin % 60).padStart(2, '0') : ''}`}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase mt-1">Temps total</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center">
-                <div className="w-16 h-16 bg-slate-100 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
-                <h3 className="font-black text-slate-900 text-lg mb-2">Commencez à vous entraîner</h3>
-                <p className="text-slate-500 font-medium text-sm mb-6">Vos statistiques apparaîtront ici dès votre premier entraînement.</p>
-                <a href="/qcm" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Lancer un QCM <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
-              </div>
+
+                  {/* Graphiques */}
+                  <div className="grid lg:grid-cols-2 gap-6 mb-8">
+                    {/* Barres : exercices par jour */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                      <h3 className="font-black text-slate-900 text-sm mb-4">Exercices par jour (14 derniers jours)</h3>
+                      <Bar
+                        data={{
+                          labels: dailyData.map(d => d.label),
+                          datasets: [{
+                            label: 'Exercices',
+                            data: dailyData.map(d => d.count),
+                            backgroundColor: '#ef4444',
+                            borderRadius: 6,
+                            maxBarThickness: 28
+                          }]
+                        }}
+                        options={{
+                          responsive: true,
+                          plugins: { legend: { display: false } },
+                          scales: {
+                            y: { beginAtZero: true, ticks: { stepSize: 1, font: { weight: 'bold', size: 11 } }, grid: { color: '#f1f5f9' } },
+                            x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {/* Camembert : répartition par type */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                      <h3 className="font-black text-slate-900 text-sm mb-4">Répartition par type d'exercice</h3>
+                      <div className="max-w-[250px] mx-auto">
+                        <Doughnut
+                          data={{
+                            labels: typeLabels,
+                            datasets: [{
+                              data: typeValues,
+                              backgroundColor: typeLabels.map(l => typeColors[l] || '#94a3b8'),
+                              borderWidth: 0,
+                              spacing: 3
+                            }]
+                          }}
+                          options={{
+                            responsive: true,
+                            plugins: {
+                              legend: { position: 'bottom', labels: { font: { size: 12, weight: 'bold' }, padding: 16, usePointStyle: true, pointStyle: 'circle' } }
+                            },
+                            cutout: '65%'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Ligne : évolution de la moyenne */}
+                  {moyenneEvolution.length >= 2 && (
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
+                      <h3 className="font-black text-slate-900 text-sm mb-4">Évolution de la moyenne</h3>
+                      <Line
+                        data={{
+                          labels: moyenneEvolution.map(d => d.label),
+                          datasets: [{
+                            label: 'Moyenne /20',
+                            data: moyenneEvolution.map(d => d.moy),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#ef4444',
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            tension: 0.3,
+                            fill: true
+                          }]
+                        }}
+                        options={{
+                          responsive: true,
+                          plugins: { legend: { display: false } },
+                          scales: {
+                            y: { min: 0, max: 20, ticks: { stepSize: 5, font: { weight: 'bold', size: 11 } }, grid: { color: '#f1f5f9' } },
+                            x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-          )}
+          )})()}
 
           {/* ============ MON HISTORIQUE ============ */}
           {page === 'historique' && (() => {
