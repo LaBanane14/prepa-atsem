@@ -379,7 +379,7 @@ export default function ExamenPage() {
                 {/* Barre du haut */}
                 <div className="bg-slate-900 rounded-t-2xl px-6 py-5">
                   <div className="flex items-start justify-between mb-4">
-                    <h2 className="text-xl sm:text-2xl font-black text-white">{sujetMaths.titre}</h2>
+                    <h2 className="text-xl sm:text-2xl font-black text-white">{sujetMaths.titre?.includes(' - ') ? sujetMaths.titre.split(' - ').reverse().join(' - ') : sujetMaths.titre}</h2>
                     <div className="flex items-center gap-4 shrink-0 ml-4">
                       <div className={`flex items-center gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
                         <div className="w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
@@ -447,7 +447,7 @@ export default function ExamenPage() {
                           {ex.questions?.map((q, qIdx) => (
                             <div key={qIdx}>
                               <div className="flex items-start gap-3 mb-2">
-                                <span className="w-6 h-6 bg-yellow-500 text-slate-900 rounded-md flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">{q.id}</span>
+                                <span className="w-6 h-6 bg-slate-900 text-white rounded-md flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">{q.id}</span>
                                 <p className="text-sm text-slate-800 font-semibold leading-relaxed whitespace-pre-line flex-1">{q.question}</p>
                                 <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">{q.points} pt{q.points > 1 ? 's' : ''}</span>
                               </div>
