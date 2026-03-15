@@ -469,17 +469,18 @@ export default function MathsPage() {
           {step === 'resultat' && correction && (
             <div className="animate-fade-in max-w-4xl mx-auto">
 
-              {/* Note + Points forts/à améliorer */}
-              <div className="grid sm:grid-cols-3 gap-6 mb-6">
-                <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 text-center flex flex-col justify-center">
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Votre note</p>
-                  <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-6xl font-black text-red-600">{correction.note}</span>
-                    <span className="text-2xl font-black text-slate-300">/{correction.noteMax || 10}</span>
-                  </div>
-                  <p className="text-slate-600 font-medium text-sm mt-4">{correction.appreciation}</p>
+              {/* Note */}
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 text-center mb-6">
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Votre note</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-6xl font-black text-red-600">{correction.note}</span>
+                  <span className="text-2xl font-black text-slate-300">/{correction.noteMax || 10}</span>
                 </div>
+                <p className="text-slate-600 font-medium text-sm mt-4 max-w-lg mx-auto">{correction.appreciation}</p>
+              </div>
 
+              {/* Points forts + à améliorer */}
+              <div className="grid sm:grid-cols-2 gap-6 mb-6">
                 <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
                   <h3 className="font-black text-emerald-700 text-sm mb-4 flex items-center gap-2">
                     <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
@@ -519,20 +520,20 @@ export default function MathsPage() {
                 </h3>
                 <div className="space-y-4">
                   {correction.corrections?.map((c, i) => (
-                    <div key={i} className={`border rounded-xl p-4 ${c.correct === true ? 'bg-emerald-50 border-emerald-200' : c.correct === 'partiel' ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200'}`}>
+                    <div key={i} className={`border rounded-xl p-4 ${c.correct === true || c.correct === 'true' ? 'bg-emerald-50 border-emerald-200' : c.correct === 'partiel' ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200'}`}>
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center gap-2">
-                          <span className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-xs ${c.correct === true ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>{c.id}</span>
+                          <span className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-xs ${c.correct === true || c.correct === 'true' ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>{c.id}</span>
                           <p className="text-sm font-bold text-slate-800">{c.question}</p>
                         </div>
-                        <span className={`text-xs font-black px-2 py-1 rounded-full ${c.correct === true ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
+                        <span className={`text-xs font-black px-2 py-1 rounded-full ${c.correct === true || c.correct === 'true' ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
                           {c.points_obtenus}/{c.points_max} pt{c.points_max > 1 ? 's' : ''}
                         </span>
                       </div>
                       <div className="grid sm:grid-cols-2 gap-3 mb-3">
                         <div className="bg-white/60 rounded-lg p-3">
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Votre réponse</p>
-                          <p className={`text-sm font-bold ${c.correct === true ? 'text-emerald-700' : 'text-red-600'}`}>{c.reponse_candidat || '(vide)'}</p>
+                          <p className={`text-sm font-bold ${c.correct === true || c.correct === 'true' ? 'text-emerald-700' : 'text-red-600'}`}>{c.reponse_candidat || '(vide)'}</p>
                         </div>
                         <div className="bg-white/60 rounded-lg p-3">
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Réponse attendue</p>
