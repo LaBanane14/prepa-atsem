@@ -164,12 +164,13 @@ function DashboardContent() {
   const weekProgress = Math.min(100, (weekData.count / 5) * 100)
   const weekGoalReached = weekData.count >= 5
 
-  // Objectif mois : 20 exercices dans le mois
+  // Objectif mois : 20 exercices sur les 30 derniers jours (glissant)
   const getMonthData = () => {
     const today = new Date()
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
-    firstDay.setHours(0, 0, 0, 0)
-    const monthExercises = historique.filter(h => new Date(h.created_at) >= firstDay)
+    const thirtyDaysAgo = new Date(today)
+    thirtyDaysAgo.setDate(today.getDate() - 30)
+    thirtyDaysAgo.setHours(0, 0, 0, 0)
+    const monthExercises = historique.filter(h => new Date(h.created_at) >= thirtyDaysAgo)
     return { count: monthExercises.length }
   }
   const monthData = getMonthData()
@@ -357,7 +358,7 @@ function DashboardContent() {
                 <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
                   <p className="text-sm font-black text-slate-900 mb-1">Ma moyenne générale</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-2xl font-black text-slate-900">{moyenneGenerale || '—'}<span className="text-xs font-bold text-slate-400">/20</span></p>
+                    <p className="text-2xl font-black text-slate-900">{moyenneGenerale || '—'}<span className="text-2xl font-black text-slate-400">/20</span></p>
                     {moyenneTendance === 'up' && (
                       <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7"/></svg>
                     )}
@@ -371,7 +372,7 @@ function DashboardContent() {
                 {monthData.count >= 20 ? (
                   <div className="bg-slate-900 p-5 rounded-2xl shadow-sm flex flex-col items-center justify-center text-center">
                     <div className="w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center mb-3">
-                      <svg className="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                      <svg className="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
                     </div>
                     <p className="text-sm font-black text-white">Félicitations pour votre rigueur de travail !</p>
                     <p className="text-xs text-slate-400 font-bold mt-1">{monthData.count} exercices ce mois-ci</p>
