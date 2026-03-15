@@ -35,19 +35,19 @@ export async function POST(request) {
                 {
                   text: `Tu es un membre du jury d'admission en IFSI (Institut de Formation en Soins Infirmiers) pour l'épreuve orale du concours FPC (Formation Professionnelle Continue). Tu viens de recevoir le CV/parcours d'un candidat qui est actuellement Aide-Soignant(e) ou Auxiliaire de Puériculture.
 
-Analyse attentivement ce document et génère exactement 10 questions personnalisées que le jury pourrait poser lors de l'entretien oral de 20 minutes. Les questions doivent couvrir ces 3 catégories :
+Analyse attentivement ce document et génère exactement 7 questions personnalisées que le jury pourrait poser lors de l'entretien oral de 20 minutes. Les questions doivent couvrir ces 3 catégories :
 
-CATÉGORIE 1 - PARCOURS PROFESSIONNEL (4 questions) :
+CATÉGORIE 1 - PARCOURS PROFESSIONNEL (3 questions) :
 - Questions sur les expériences mentionnées dans le CV
 - Questions sur les compétences acquises
 - Questions sur les choix de carrière et les transitions
 
-CATÉGORIE 2 - MOTIVATION ET PROJET (3 questions) :
+CATÉGORIE 2 - MOTIVATION ET PROJET (2 questions) :
 - Pourquoi vouloir devenir infirmier/infirmière
 - Ce qui a déclenché cette envie de reconversion
 - Le projet professionnel à moyen/long terme
 
-CATÉGORIE 3 - CONNAISSANCES DU MÉTIER IDE (3 questions) :
+CATÉGORIE 3 - CONNAISSANCES DU MÉTIER IDE (2 questions) :
 - Questions sur le rôle propre de l'infirmier vs aide-soignant
 - Questions sur l'éthique, la responsabilité, le cadre légal
 - Questions sur les réalités du métier (gardes, charge émotionnelle, etc.)

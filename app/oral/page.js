@@ -36,6 +36,8 @@ export default function OralPage() {
   const [timeLeft, setTimeLeft] = useState(10 * 60)
   const [timerActive, setTimerActive] = useState(false)
   const timerRef = useRef(null)
+  const [isRecording, setIsRecording] = useState(false)
+  const recognitionRef = useRef(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -117,6 +119,37 @@ export default function OralPage() {
   }
 
   function handleAnswer(id, value) { setAnswers({ ...answers, [id]: value }) }
+
+  function toggleRecording() {
+    if (isRecording) {
+      recognitionRef.current?.stop()
+      setIsRecording(false)
+      return
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) { setError('La reconnaissance vocale n\'est pas supportée par votre navigateur.'); return }
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'fr-FR'
+    recognition.continuous = true
+    recognition.interimResults = true
+    recognitionRef.current = recognition
+    let finalTranscript = answers[q?.id] || ''
+    recognition.onresult = (event) => {
+      let interim = ''
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript
+        } else {
+          interim += event.results[i][0].transcript
+        }
+      }
+      setAnswers(prev => ({ ...prev, [q.id]: finalTranscript + (interim ? ' ' + interim : '') }))
+    }
+    recognition.onerror = () => { setIsRecording(false) }
+    recognition.onend = () => { setIsRecording(false) }
+    recognition.start()
+    setIsRecording(true)
+  }
 
   async function finishExercice() {
     setTimerActive(false)
@@ -370,14 +403,21 @@ export default function OralPage() {
                 <div className="flex-1 p-6 sm:p-8">
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-5 leading-relaxed">{q.question}</h2>
 
-                  <div className="mb-4">
+                  <div className="mb-4 relative">
                     <textarea
                       rows={5}
                       value={answers[q.id] || ''}
                       onChange={e => handleAnswer(q.id, e.target.value)}
-                      placeholder="Rédigez votre réponse ici comme si vous étiez face au jury..."
-                      className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:border-emerald-400 outline-none font-medium text-sm resize-y transition"
+                      placeholder="Rédigez votre réponse ou utilisez le micro pour dicter..."
+                      className="w-full px-4 py-3 pr-14 bg-slate-50 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:border-emerald-400 outline-none font-medium text-sm resize-y transition"
                     />
+                    <button onClick={toggleRecording} className={`absolute top-3 right-3 w-10 h-10 rounded-xl flex items-center justify-center transition cursor-pointer ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-200 text-slate-600 hover:bg-emerald-100 hover:text-emerald-600'}`} title={isRecording ? 'Arrêter le micro' : 'Dicter ma réponse'}>
+                      {isRecording ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                      )}
+                    </button>
                   </div>
 
                   <button onClick={() => setShowTip(!showTip)} className="flex items-center gap-2 text-sm font-bold bg-amber-400 hover:bg-amber-500 text-black px-4 py-2 rounded-xl transition cursor-pointer mb-2">
@@ -391,19 +431,19 @@ export default function OralPage() {
                   )}
 
                   {/* Actions */}
-                  <div className="flex gap-3 mt-6">
-                    {currentQ > 0 && (
+                  <div className="flex justify-between mt-6">
+                    {currentQ > 0 ? (
                       <button onClick={() => { setCurrentQ(currentQ - 1); setShowTip(false) }} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl hover:bg-slate-200 flex items-center gap-2 text-sm transition">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
                         <span className="hidden sm:inline">Précédent</span>
                       </button>
-                    )}
+                    ) : <div></div>}
                     {currentQ < questions.length - 1 ? (
-                      <button onClick={() => { setCurrentQ(currentQ + 1); setShowTip(false) }} className="flex-grow bg-slate-900 hover:bg-black text-white font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-md transition">
-                        Question suivante <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                      <button onClick={() => { setCurrentQ(currentQ + 1); setShowTip(false) }} className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-4 sm:px-5 rounded-xl text-sm flex items-center gap-2 shadow-md transition">
+                        <span className="hidden sm:inline">Question suivante</span> <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
                       </button>
                     ) : (
-                      <button onClick={finishExercice} className="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-md transition">
+                      <button onClick={finishExercice} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 sm:px-5 rounded-xl text-sm flex items-center gap-2 shadow-md transition">
                         Terminer l'exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                       </button>
                     )}
