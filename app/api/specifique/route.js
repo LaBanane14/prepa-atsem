@@ -27,7 +27,7 @@ async function callGeminiWithPdf(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts }],
-        generationConfig: { temperature: 0.8, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.8, maxOutputTokens: 16000 }
       })
     }
   )
@@ -70,10 +70,10 @@ async function callGemini(prompt) {
 }
 
 const familleDescriptions = {
-  operations: "Opérations décimales : additions, soustractions, multiplications et divisions de nombres décimaux. Opérations posées à effectuer sans calculatrice.",
-  pourcentages: "Pourcentages et proportionnalité : calculer un pourcentage, une augmentation/diminution, un taux d'intérêt, un prix après remise. Problèmes concrets.",
-  conversions: "Conversions d'unités : heures en minutes, kg en grammes, cm3 en mL, litres en hectolitres, m2 en cm2. Tableaux de conversion. Exercices de type 1h25 = ? min, 1735 kg = ? g.",
-  equations: "Équations et problèmes : mise en équation d'un problème concret. Problèmes de logique (âges, répartitions, provisions). Calculs appliqués."
+  operations: "Opérations décimales : additions, soustractions, multiplications et divisions de nombres décimaux. Opérations posées à effectuer sans calculatrice. Inclure des calculs avec des nombres à virgule, des multiplications par 10/100/1000, des divisions longues simples.",
+  pourcentages: "Pourcentages et proportionnalité : calculer un pourcentage d'un nombre, augmentations/diminutions en pourcentage, produits en croix, proportionnalité directe et inverse, problèmes de remise/TVA/taux. Contextes concrets (médical, commerce, vie courante).",
+  conversions: "Conversions d'unités : longueurs (km, m, cm, mm), masses (kg, g, mg, µg), volumes (L, dL, cL, mL), surfaces (m², cm²), durées (heures, minutes, secondes). Tableaux de conversion. Exercices variés de conversion dans les deux sens.",
+  equations: "Équations et problèmes : équations du 1er degré (ax + b = c), mise en équation de problèmes concrets (âges, répartitions, mélanges, vitesses), problèmes de logique. Contextes adaptés au milieu médical et à la vie courante."
 }
 
 export async function POST(request) {
@@ -96,28 +96,31 @@ Le document PDF ci-joint contient des annales réelles du concours. Inspire-toi 
 
 FAMILLE DEMANDÉE : ${familleDescriptions[famille]}
 
-Génère un entraînement ciblé sur cette famille uniquement :
-- 5 à 6 questions progressives (du plus facile au plus difficile)
-- Sans calculatrice
-- Chaque question doit avoir une réponse numérique ou textuelle courte
-- Les calculs doivent être faisables à la main
+Génère un QCM ciblé sur cette famille uniquement :
+- Entre 10 et 15 questions progressives (du plus facile au plus difficile)
+- Format QCM : chaque question a exactement 4 propositions (A, B, C, D) dont UNE SEULE est correcte
+- Sans calculatrice, les calculs doivent être faisables à la main
 - Adapte au niveau aide-soignant / auxiliaire de puériculture
-- Pour chaque question, prépare une explication détaillée étape par étape de la méthode de résolution
+- Les propositions incorrectes doivent être plausibles (erreurs de calcul courantes, confusion d'unités, etc.)
+- Varie les types de questions au sein de la famille
+- Pour chaque question, prépare une explication détaillée en HTML (utilise <br/>, <strong>, <em>) étape par étape
 
-IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
+IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
 {
   "famille": "${famille}",
-  "titre": "Titre de l'exercice",
+  "titre": "Titre de l'entraînement",
   "questions": [
     {
-      "id": "1",
-      "question": "La question précise",
-      "points": 2,
-      "reponse": "La réponse attendue",
-      "explication": "Explication détaillée étape par étape de la résolution"
+      "id": 1,
+      "question": "L'énoncé de la question",
+      "options": ["Proposition A", "Proposition B", "Proposition C", "Proposition D"],
+      "correct": 0,
+      "explanation": "Explication détaillée en HTML avec <br/>, <strong>, <em>"
     }
   ]
-}`
+}
+
+Le champ "correct" est l'INDEX (0, 1, 2 ou 3) de la bonne réponse dans le tableau "options".`
 
       const raw = await callGeminiWithPdf(prompt)
       const jsonMatch = raw.match(/\{[\s\S]*\}/)
@@ -126,57 +129,6 @@ IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
       }
       const sujetData = JSON.parse(jsonMatch[0])
       return NextResponse.json({ sujet: sujetData })
-    }
-
-    if (action === 'corriger') {
-      if (!exercices || !reponses) {
-        return NextResponse.json({ error: 'Exercices et réponses requis.' }, { status: 400 })
-      }
-
-      const reponsesFormatted = Object.entries(reponses).map(([id, val]) => `- Question ${id} : "${val}"`).join('\n')
-
-      const prompt = `Tu es un professeur de mathématiques bienveillant. Tu corriges les réponses d'un candidat au concours IFSI FPC.
-
-EXERCICES :
-${JSON.stringify(exercices, null, 2)}
-
-RÉPONSES DU CANDIDAT :
-${reponsesFormatted}
-
-Pour CHAQUE question :
-1. Indique si la réponse est correcte, partiellement correcte ou incorrecte
-2. Donne l'explication DÉTAILLÉE étape par étape de la méthode de résolution (c'est le plus important, le candidat doit comprendre comment faire)
-3. Attribue les points
-
-Sois pédagogue et bienveillant. L'objectif est que le candidat PROGRESSE.
-
-IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
-{
-  "note": 7,
-  "noteMax": 10,
-  "appreciation": "Appréciation générale en 2-3 phrases",
-  "corrections": [
-    {
-      "id": "1",
-      "question": "La question",
-      "reponse_candidat": "Ce que le candidat a répondu",
-      "reponse_attendue": "La bonne réponse",
-      "correct": true ou false ou "partiel",
-      "points_obtenus": 2,
-      "points_max": 2,
-      "explication": "Explication DÉTAILLÉE étape par étape de la méthode de résolution"
-    }
-  ],
-  "conseil": "Un conseil personnalisé pour progresser sur cette famille d'exercices"
-}`
-
-      const raw = await callGemini(prompt)
-      const jsonMatch = raw.match(/\{[\s\S]*\}/)
-      if (!jsonMatch) {
-        return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
-      }
-      const correction = JSON.parse(jsonMatch[0])
-      return NextResponse.json({ correction })
     }
 
     return NextResponse.json({ error: 'Action non reconnue.' }, { status: 400 })
