@@ -52,7 +52,7 @@ async function callGemini(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 8000 }
+        generationConfig: { temperature: 0.7, maxOutputTokens: 16000 }
       })
     }
   )
@@ -96,14 +96,12 @@ Le document PDF ci-joint contient des annales réelles du concours. Inspire-toi 
 
 FAMILLE DEMANDÉE : ${familleDescriptions[famille]}
 
-Génère un QCM ciblé sur cette famille uniquement :
+Génère un entraînement ciblé sur cette famille uniquement :
 - Entre 10 et 15 questions progressives (du plus facile au plus difficile)
-- Format QCM : chaque question a exactement 4 propositions (A, B, C, D) dont UNE SEULE est correcte
 - Sans calculatrice, les calculs doivent être faisables à la main
+- Chaque question doit avoir une réponse numérique ou textuelle courte (un nombre, une conversion, un résultat)
 - Adapte au niveau aide-soignant / auxiliaire de puériculture
-- Les propositions incorrectes doivent être plausibles (erreurs de calcul courantes, confusion d'unités, etc.)
 - Varie les types de questions au sein de la famille
-- Pour chaque question, prépare une explication détaillée en HTML (utilise <br/>, <strong>, <em>) étape par étape
 
 IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
 {
@@ -113,14 +111,10 @@ IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
     {
       "id": 1,
       "question": "L'énoncé de la question",
-      "options": ["Proposition A", "Proposition B", "Proposition C", "Proposition D"],
-      "correct": 0,
-      "explanation": "Explication détaillée en HTML avec <br/>, <strong>, <em>"
+      "reponse": "La réponse attendue (courte)"
     }
   ]
-}
-
-Le champ "correct" est l'INDEX (0, 1, 2 ou 3) de la bonne réponse dans le tableau "options".`
+}`
 
       const raw = await callGeminiWithPdf(prompt)
       const jsonMatch = raw.match(/\{[\s\S]*\}/)
@@ -129,6 +123,48 @@ Le champ "correct" est l'INDEX (0, 1, 2 ou 3) de la bonne réponse dans le table
       }
       const sujetData = JSON.parse(jsonMatch[0])
       return NextResponse.json({ sujet: sujetData })
+    }
+
+    if (action === 'corriger') {
+      if (!exercices || !reponses) {
+        return NextResponse.json({ error: 'Exercices et réponses requis.' }, { status: 400 })
+      }
+
+      const questionsFormatted = exercices.map((q, i) => `Question ${q.id} : "${q.question}" (Réponse attendue : ${q.reponse}) → Réponse du candidat : "${reponses[q.id] || '(vide)'}"`).join('\n')
+
+      const prompt = `Tu es un professeur de mathématiques bienveillant. Tu corriges les réponses d'un candidat au concours IFSI FPC.
+
+QUESTIONS ET RÉPONSES :
+${questionsFormatted}
+
+Pour CHAQUE question, indique si la réponse est correcte ou incorrecte, et donne une explication détaillée en HTML (utilise <br/>, <strong>, <em>) de la méthode de résolution étape par étape. Sois pédagogue.
+
+IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure :
+{
+  "note": 7,
+  "noteMax": ${exercices.length},
+  "appreciation": "Appréciation générale en 1-2 phrases",
+  "corrections": [
+    {
+      "id": 1,
+      "question": "La question",
+      "reponse_candidat": "Ce que le candidat a répondu",
+      "reponse_attendue": "La bonne réponse",
+      "correct": true,
+      "explication": "Explication détaillée en HTML avec <br/>, <strong>, <em>"
+    }
+  ]
+}
+
+Le champ "correct" est un booléen (true ou false). Accorde le point si la réponse est mathématiquement correcte même si la formulation diffère légèrement.`
+
+      const raw = await callGemini(prompt)
+      const jsonMatch = raw.match(/\{[\s\S]*\}/)
+      if (!jsonMatch) {
+        return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
+      }
+      const correction = JSON.parse(jsonMatch[0])
+      return NextResponse.json({ correction })
     }
 
     return NextResponse.json({ error: 'Action non reconnue.' }, { status: 400 })
