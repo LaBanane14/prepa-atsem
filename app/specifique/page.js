@@ -361,71 +361,70 @@ export default function SpecifiquePage() {
 
       {/* ===== RÉSULTATS ===== */}
       {step === 'resultat' && correction && selectedFamille && (
-        <div className="flex-grow flex items-center justify-center py-8 sm:py-12">
-          <div className="max-w-3xl w-full bg-white rounded-2xl sm:rounded-[2.5rem] shadow-2xl p-6 sm:p-10 border border-slate-100 relative overflow-hidden">
+        <div className="w-full max-w-3xl mx-auto py-6 sm:py-10">
 
-            <div className="absolute top-[-20%] left-[-10%] w-64 h-64 bg-slate-100 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
-            <div className="absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
-
-            <a href="/dashboard" className="absolute top-5 right-5 sm:top-6 sm:right-6 p-2 bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-full transition-colors z-20">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          {/* Score banner */}
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-5 sm:p-8 mb-6 relative overflow-hidden">
+            <a href="/dashboard" className="absolute top-4 right-4 p-2 bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-full transition-colors z-20">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </a>
-
-            <div className="relative z-10 text-center">
-              <div className="mb-2">
-                <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
+            <div className="text-center">
+              <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
+              <div className="flex justify-center items-center my-3">
+                <span className={`text-5xl sm:text-6xl font-black ${c.text} tracking-tighter`}>{correction.note}</span>
+                <span className="text-5xl sm:text-6xl font-black text-slate-900 tracking-tighter">/{correction.noteMax}</span>
               </div>
-
-              <div className="flex justify-center items-center mb-4 mt-4">
-                <span className={`text-6xl sm:text-7xl font-black ${c.text} tracking-tighter`}>{correction.note}</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{correction.noteMax}</span>
-              </div>
-
-              <p className="text-slate-600 mb-8 font-medium text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-                {correction.appreciation}
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-                <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3.5 px-6 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
+              <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-5">{correction.appreciation}</p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                   Recommencer
                 </button>
-                <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3.5 px-6 rounded-xl transition text-sm cursor-pointer">
-                  Changer de famille
-                </button>
-                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3.5 px-6 rounded-xl transition text-sm">
-                  Dashboard
-                </a>
-              </div>
-
-              {/* Corrections détaillées */}
-              <div className="text-left space-y-4">
-                {correction.corrections?.map((cr, i) => (
-                  <div key={i} className={`border rounded-xl p-4 ${cr.correct === true ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-xs ${cr.correct === true ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{cr.id}</div>
-                      <div className="flex-grow min-w-0">
-                        <p className="font-bold text-slate-800 text-sm">{cr.question}</p>
-                        <div className="flex items-center gap-3 mt-1 flex-wrap">
-                          <span className={`text-xs font-bold ${cr.correct === true ? 'text-green-700' : 'text-red-600'}`}>Votre réponse : {cr.reponse_candidat || '(vide)'}</span>
-                          {!cr.correct && <span className="text-xs font-bold text-green-700">Attendue : {cr.reponse_attendue}</span>}
-                        </div>
-                      </div>
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${cr.correct === true ? 'bg-green-500' : 'bg-red-500'}`}>
-                        {cr.correct === true ? (
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                        ) : (
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        )}
-                      </div>
-                    </div>
-                    <div className="bg-white/60 rounded-lg p-3 sm:p-4 border border-white/40 shadow-sm">
-                      <div className="text-sm text-slate-700 leading-relaxed font-medium" dangerouslySetInnerHTML={{__html: cr.explication}}></div>
-                    </div>
-                  </div>
-                ))}
+                <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
+                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm">Dashboard</a>
               </div>
             </div>
+          </div>
+
+          {/* Exercices avec correction inline */}
+          <div className="space-y-4">
+            {correction.corrections?.map((cr, i) => (
+              <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                {/* Question */}
+                <div className="p-4 sm:p-5 border-b border-slate-100">
+                  <div className="flex items-start gap-3">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-xs ${cr.correct === true ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{cr.id}</div>
+                    <div className="flex-grow min-w-0">
+                      <p className="font-bold text-slate-800 text-sm sm:text-base">{cr.question}</p>
+                    </div>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${cr.correct === true ? 'bg-green-500' : 'bg-red-500'}`}>
+                      {cr.correct === true ? (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                      ) : (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 mt-2 ml-11 flex-wrap">
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${cr.correct === true ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>Votre réponse : {cr.reponse_candidat || '(vide)'}</span>
+                    {!cr.correct && <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-green-50 text-green-700">Attendue : {cr.reponse_attendue}</span>}
+                  </div>
+                </div>
+                {/* Correction / Explication directement en dessous */}
+                <div className={`p-4 sm:p-5 ${cr.correct === true ? 'bg-green-50/50' : 'bg-red-50/40'}`}>
+                  <div className="text-sm text-slate-700 leading-relaxed font-medium" dangerouslySetInnerHTML={{__html: cr.explication}}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Actions en bas */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+            <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Recommencer
+            </button>
+            <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
           </div>
         </div>
       )}
