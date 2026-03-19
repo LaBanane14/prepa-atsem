@@ -107,6 +107,7 @@ export default function SpecifiquePage() {
   async function startExercice(famille) {
     setSelectedFamille(famille)
     setLoadingFamille(famille.id)
+    setStep('loading')
     setError('')
     setSujet({ questions: [] })
     setReponses({})
@@ -452,6 +453,17 @@ export default function SpecifiquePage() {
         )
       })()}
 
+      {/* ===== LOADING ===== */}
+      {step === 'loading' && selectedFamille && (
+        <div className="fixed inset-0 z-40 lg:pl-[90px] flex items-center justify-center bg-slate-100/90 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4">
+            <div className={`w-12 h-12 ${colorMap[selectedFamille.id]?.text || 'text-blue-600'} rounded-full animate-spin`} style={{borderWidth: '4px', borderStyle: 'solid', borderColor: 'currentColor', borderTopColor: 'transparent'}}></div>
+            <p className="text-slate-700 font-black text-base">Génération des exercices...</p>
+            <p className="text-slate-400 font-medium text-sm">Encore quelques secondes</p>
+          </div>
+        </div>
+      )}
+
       {/* ===== ÉPREUVE ===== */}
       {step === 'epreuve' && sujet && data && selectedFamille && (
         <div className={`fixed inset-0 z-40 lg:pl-[90px] ${c.wrapper} overflow-y-auto`}>
@@ -555,7 +567,7 @@ export default function SpecifiquePage() {
 
       {/* ===== RÉSULTATS ===== */}
       {step === 'resultat' && correction && selectedFamille && (
-        <div className="flex-grow flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-40 lg:pl-[90px] flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 sm:p-12 max-w-md w-full text-center">
             <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
             <div className="flex justify-center items-center my-5">
@@ -568,7 +580,6 @@ export default function SpecifiquePage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                 Recommencer
               </button>
-              <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
               <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm">Dashboard</a>
             </div>
           </div>
