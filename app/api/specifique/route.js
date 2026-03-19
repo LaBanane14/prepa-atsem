@@ -360,16 +360,18 @@ export async function POST(request) {
         async start(controller) {
           let fullText = ''
           let sentQuestions = 0
+          let sseBuffer = ''
 
           try {
             while (true) {
               const { done, value } = await reader.read()
               if (done) break
 
-              const chunk = decoder.decode(value, { stream: true })
-              const lines = chunk.split('\n')
+              sseBuffer += decoder.decode(value, { stream: true })
+              const sseLines = sseBuffer.split('\n')
+              sseBuffer = sseLines.pop() || ''
 
-              for (const line of lines) {
+              for (const line of sseLines) {
                 if (!line.startsWith('data: ')) continue
                 const jsonStr = line.slice(6).trim()
                 if (jsonStr === '[DONE]' || !jsonStr) continue
@@ -377,22 +379,23 @@ export async function POST(request) {
                 try {
                   const parsed = JSON.parse(jsonStr)
                   const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || ''
+                  if (!text) continue
                   fullText += text
 
-                  // Essayer d'extraire les questions complètes au fur et à mesure
-                  const cleaned = fullText.replace(/```json/g, '').replace(/```/g, '').trim()
-                  const questionRegex = /\{\s*"id"\s*:\s*(\d+)\s*,\s*"question"\s*:\s*"([^"]*(?:\\.[^"]*)*)"\s*,\s*"reponse"\s*:\s*"([^"]*(?:\\.[^"]*)*)"\s*\}/g
-                  let match
-                  let count = 0
-                  while ((match = questionRegex.exec(cleaned)) !== null) {
-                    count++
-                    if (count > sentQuestions) {
-                      const q = { id: parseInt(match[1]), question: match[2].replace(/\\"/g, '"'), reponse: match[3].replace(/\\"/g, '"') }
-                      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'question', question: q })}\n\n`))
-                      sentQuestions = count
-                    }
+                  // Extraire les questions complètes — regex souple sur l'ordre des champs
+                  const cleaned = fullText.replace(/```json/g, '').replace(/```/g, '')
+                  const blocks = cleaned.match(/\{[^{}]*"id"\s*:\s*\d+[^{}]*"question"\s*:[^{}]*"reponse"\s*:[^{}]*\}/g) || []
+
+                  for (let bi = sentQuestions; bi < blocks.length; bi++) {
+                    try {
+                      const q = JSON.parse(blocks[bi])
+                      if (q.id && q.question && q.reponse) {
+                        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'question', question: q })}\n\n`))
+                        sentQuestions = bi + 1
+                      }
+                    } catch (e) { /* JSON partiel */ }
                   }
-                } catch (e) { /* chunk JSON partiel, on continue */ }
+                } catch (e) { /* chunk SSE partiel */ }
               }
             }
 

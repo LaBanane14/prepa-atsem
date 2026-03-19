@@ -179,8 +179,8 @@ function DashboardContent() {
   const monthData = getMonthData()
   const monthProgress = Math.min(100, (monthData.count / 20) * 100)
 
-  // Moyenne générale (ramenée sur 10)
-  const notesAll = historique.filter(h => h.note != null && h.note_max)
+  // Moyenne générale (ramenée sur 10) — exclure Spécifique
+  const notesAll = historique.filter(h => h.note != null && h.note_max && h.type !== 'Spécifique')
   const moyenneGenerale = notesAll.length > 0 ? parseFloat((notesAll.reduce((sum, h) => sum + (h.note / h.note_max) * 20, 0) / notesAll.length).toFixed(1)) : null
   // Tendance : comparer moyenne avec et sans le dernier exercice
   const moyenneTendance = (() => {
@@ -492,8 +492,8 @@ function DashboardContent() {
             const typeValues = Object.values(typeCount)
             const typeColors = { Maths: '#ef4444', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Autre: '#94a3b8' }
 
-            // Évolution de la moyenne (par exercice noté, chronologique)
-            const notesChron = [...historique].filter(h => h.note != null && h.note_max).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            // Évolution de la moyenne (par exercice noté, chronologique) — exclure Spécifique
+            const notesChron = [...historique].filter(h => h.note != null && h.note_max && h.type !== 'Spécifique').sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
             const moyenneEvolution = notesChron.map((h, i) => {
               const slice = notesChron.slice(0, i + 1)
               const moy = slice.reduce((sum, x) => sum + (x.note / x.note_max) * 20, 0) / slice.length
@@ -760,7 +760,7 @@ function DashboardContent() {
 
             // Stats
             const totalExercices = historique.length
-            const notes = historique.filter(h => h.note != null && h.note_max)
+            const notes = historique.filter(h => h.note != null && h.note_max && h.type !== 'Spécifique')
             const moyenne = notes.length > 0 ? parseFloat((notes.reduce((sum, h) => sum + (h.note / h.note_max) * 20, 0) / notes.length).toFixed(1)) : null
             const meilleur = notes.length > 0 ? parseFloat(Math.max(...notes.map(h => (h.note / h.note_max) * 20)).toFixed(1)) : null
             const totalMinutes = historique.reduce((sum, h) => sum + (h.duration_minutes || 0), 0)

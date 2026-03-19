@@ -119,9 +119,11 @@ export default function SpecifiquePage() {
         body: JSON.stringify({ action: 'generer', famille: famille.id })
       })
 
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data.error || 'Erreur lors de la génération.')
+      const contentType = res.headers.get('content-type') || ''
+      if (!res.ok || !contentType.includes('text/event-stream')) {
+        let errMsg = 'Erreur lors de la génération.'
+        try { const data = await res.json(); errMsg = data.error || errMsg } catch (e) {}
+        setError(errMsg)
         setLoadingFamille(null)
         setSujet(null)
         return
@@ -137,13 +139,14 @@ export default function SpecifiquePage() {
         if (done) break
         buffer += decoder.decode(value, { stream: true })
 
-        const lines = buffer.split('\n\n')
-        buffer = lines.pop() || ''
+        const events = buffer.split('\n\n')
+        buffer = events.pop() || ''
 
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue
+        for (const eventStr of events) {
+          const dataLine = eventStr.split('\n').find(l => l.startsWith('data: '))
+          if (!dataLine) continue
           try {
-            const event = JSON.parse(line.slice(6))
+            const event = JSON.parse(dataLine.slice(6))
             if (event.type === 'question') {
               setSujet(prev => ({ ...prev, questions: [...(prev?.questions || []), event.question] }))
               if (firstQuestion) {
@@ -162,6 +165,7 @@ export default function SpecifiquePage() {
         }
       }
 
+      setStreamingDone(true)
       setLoadingFamille(null)
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
