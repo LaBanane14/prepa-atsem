@@ -193,32 +193,19 @@ export default function SpecifiquePage() {
   }
 
   async function handleSubmitAll() {
-    setError('')
-    setStep('correcting')
-
-    try {
-      const res = await fetch('/api/specifique', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'corriger', exercices: sujet.questions, reponses })
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la correction.'); setStep('epreuve'); return }
-      setCorrection(data.correction)
-      await supabase.from('historique').insert({
-        user_id: user.id,
-        type: 'Spécifique',
-        label: selectedFamille.titre,
-        note: data.correction.note,
-        note_max: data.correction.noteMax,
-        nb_questions: sujet.questions.length,
-        duration_minutes: null,
-      })
-      setStep('resultat')
-    } catch (err) {
-      setError('Erreur de connexion. Réessayez.')
-      setStep('epreuve')
-    }
+    const totalQuestions = sujet.questions.length
+    const correctCount = Object.values(validated).filter(v => v.correct).length
+    setCorrection({ note: correctCount, noteMax: totalQuestions })
+    await supabase.from('historique').insert({
+      user_id: user.id,
+      type: 'Spécifique',
+      label: selectedFamille.titre,
+      note: correctCount,
+      note_max: totalQuestions,
+      nb_questions: totalQuestions,
+      duration_minutes: null,
+    })
+    setStep('resultat')
   }
 
   function restart() {
@@ -428,7 +415,7 @@ export default function SpecifiquePage() {
                   <button
                     onClick={() => !loadingFamille && startExercice(cat)}
                     disabled={!!loadingFamille}
-                    className={`relative w-22 h-22 md:w-28 md:h-28 flex items-center justify-center border-2 transition-all duration-500 cursor-pointer ${cat.colorTheme} ${isHovered ? `scale-125 ${cat.glowTheme}` : 'scale-100 hover:scale-110 shadow-lg'} ${isDimmed ? 'opacity-30 grayscale' : 'opacity-100'} ${isLoading ? 'cursor-wait' : ''}`}
+                    className={`relative w-22 h-22 md:w-28 md:h-28 flex items-center justify-center border-2 transition-all duration-500 cursor-pointer ${cat.colorTheme} ${isHovered ? `scale-125 ${cat.glowTheme}` : 'scale-100 hover:scale-110 shadow-lg'} ${isDimmed ? 'opacity-30 grayscale' : 'opacity-100'} `}
                     style={{borderRadius: ['60% 40% 30% 70% / 60% 30% 70% 40%', '40% 60% 70% 30% / 50% 60% 40% 50%', '70% 30% 50% 50% / 30% 50% 50% 70%', '50% 50% 30% 70% / 40% 70% 30% 60%'][idx]}}
                   >
                     {isLoading ? (
@@ -491,26 +478,22 @@ export default function SpecifiquePage() {
 
                   {/* Résultat après validation */}
                   {validated[data.id] && (
-                    <div className={`mt-4 p-4 rounded-xl border ${validated[data.id].correct ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                      <div className="flex items-center gap-2 mb-2">
-                        {validated[data.id].correct ? (
-                          <><div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center"><svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div><span className="text-green-700 font-black text-sm">Bonne réponse !</span></>
-                        ) : (
-                          <><div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center"><svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></div><span className="text-red-700 font-black text-sm">Mauvaise réponse</span></>
-                        )}
-                      </div>
-                      {!validated[data.id].correct && (
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-bold text-red-600">Votre réponse : {reponses[data.id] || '(vide)'}</span>
+                    <div className={`mt-4 rounded-xl border overflow-hidden ${validated[data.id].correct ? 'border-green-200' : 'border-red-200'}`}>
+                      <div className={`flex items-center justify-between px-4 py-2.5 ${validated[data.id].correct ? 'bg-green-500' : 'bg-red-500'}`}>
+                        <div className="flex items-center gap-2">
+                          {validated[data.id].correct ? (
+                            <><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-black text-sm">Correct</span></>
+                          ) : (
+                            <><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span className="text-white font-black text-sm">Incorrect</span></>
+                          )}
                         </div>
-                      )}
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-green-100 text-green-700">Réponse attendue : {validated[data.id].reponse_attendue}</span>
+                        <span className="text-white/90 font-bold text-sm">Réponse : {validated[data.id].reponse_attendue}</span>
                       </div>
                       {validated[data.id].explication && (
-                        <div className="bg-white/70 rounded-lg p-3 border border-slate-200">
-                          <p className="text-xs font-black text-slate-500 uppercase tracking-wider mb-1.5">Détail du calcul</p>
-                          <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">{validated[data.id].explication.replace(/\s*\|\s*/g, '\n')}</p>
+                        <div className={`px-4 py-3 ${validated[data.id].correct ? 'bg-green-50' : 'bg-red-50'}`}>
+                          {validated[data.id].explication.split(/\s*\|\s*/).map((step, i) => (
+                            <p key={i} className="text-sm text-slate-700 font-medium py-0.5">{step}</p>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -560,82 +543,24 @@ export default function SpecifiquePage() {
         </div>
       )}
 
-      {/* ===== CORRECTING ===== */}
-      {step === 'correcting' && selectedFamille && (
-        <div className="flex-grow flex items-center justify-center px-4">
-          <div className="flex flex-col items-center gap-4">
-            <div className={`w-10 h-10 ${c.text} rounded-full animate-spin`} style={{borderWidth: '3px', borderStyle: 'solid', borderColor: 'currentColor', borderTopColor: 'transparent'}}></div>
-            <p className="text-slate-600 font-bold text-sm">Correction en cours...</p>
-          </div>
-        </div>
-      )}
-
       {/* ===== RÉSULTATS ===== */}
       {step === 'resultat' && correction && selectedFamille && (
-        <div className="w-full max-w-3xl mx-auto py-6 sm:py-10">
-
-          {/* Score banner */}
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-5 sm:p-8 mb-6 relative overflow-hidden">
-            <a href="/dashboard" className="absolute top-4 right-4 p-2 bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-full transition-colors z-20">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </a>
-            <div className="text-center">
-              <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
-              <div className="flex justify-center items-center my-3">
-                <span className={`text-5xl sm:text-6xl font-black ${c.text} tracking-tighter`}>{correction.note}</span>
-                <span className="text-5xl sm:text-6xl font-black text-slate-900 tracking-tighter">/{correction.noteMax}</span>
-              </div>
-              <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-5">{correction.appreciation}</p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                  Recommencer
-                </button>
-                <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
-                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm">Dashboard</a>
-              </div>
+        <div className="flex-grow flex items-center justify-center px-4">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 sm:p-12 max-w-md w-full text-center">
+            <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
+            <div className="flex justify-center items-center my-5">
+              <span className={`text-6xl sm:text-7xl font-black ${c.text} tracking-tighter`}>{correction.note}</span>
+              <span className="text-6xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{correction.noteMax}</span>
             </div>
-          </div>
-
-          {/* Exercices avec correction inline */}
-          <div className="space-y-4">
-            {correction.corrections?.map((cr, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                {/* Question */}
-                <div className="p-4 sm:p-5 border-b border-slate-100">
-                  <div className="flex items-start gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-xs ${cr.correct === true ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{cr.id}</div>
-                    <div className="flex-grow min-w-0">
-                      <p className="font-bold text-slate-800 text-sm sm:text-base">{cr.question}</p>
-                    </div>
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${cr.correct === true ? 'bg-green-500' : 'bg-red-500'}`}>
-                      {cr.correct === true ? (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                      ) : (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 mt-2 ml-11 flex-wrap">
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${cr.correct === true ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>Votre réponse : {cr.reponse_candidat || '(vide)'}</span>
-                    {!cr.correct && <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-green-50 text-green-700">Attendue : {cr.reponse_attendue}</span>}
-                  </div>
-                </div>
-                {/* Correction / Explication directement en dessous */}
-                <div className={`p-4 sm:p-5 ${cr.correct === true ? 'bg-green-50/50' : 'bg-red-50/40'}`}>
-                  <div className="text-sm text-slate-700 leading-relaxed font-medium" dangerouslySetInnerHTML={{__html: cr.explication}}></div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Actions en bas */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-            <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-              Recommencer
-            </button>
-            <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
+            <p className="text-slate-400 text-sm font-bold mb-8">Ne compte pas dans la moyenne</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                Recommencer
+              </button>
+              <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm cursor-pointer">Changer de famille</button>
+              <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm">Dashboard</a>
+            </div>
           </div>
         </div>
       )}
