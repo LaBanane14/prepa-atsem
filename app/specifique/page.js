@@ -121,59 +121,21 @@ export default function SpecifiquePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'generer', famille: famille.id })
       })
-
-      const contentType = res.headers.get('content-type') || ''
-      if (!res.ok || !contentType.includes('text/event-stream')) {
-        let errMsg = 'Erreur lors de la génération.'
-        try { const data = await res.json(); errMsg = data.error || errMsg } catch (e) {}
-        setError(errMsg)
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        setError(data.error || 'Erreur lors de la génération.')
         setLoadingFamille(null)
-        setSujet(null)
+        setStep('choix')
         return
       }
-
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let buffer = ''
-      let firstQuestion = true
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
-
-        const events = buffer.split('\n\n')
-        buffer = events.pop() || ''
-
-        for (const eventStr of events) {
-          const dataLine = eventStr.split('\n').find(l => l.startsWith('data: '))
-          if (!dataLine) continue
-          try {
-            const event = JSON.parse(dataLine.slice(6))
-            if (event.type === 'question') {
-              setSujet(prev => ({ ...prev, questions: [...(prev?.questions || []), event.question] }))
-              if (firstQuestion) {
-                setStep('epreuve')
-                setLoadingFamille(null)
-                firstQuestion = false
-              }
-            } else if (event.type === 'done') {
-              setStreamingDone(true)
-            } else if (event.type === 'error') {
-              setError(event.error)
-              setLoadingFamille(null)
-              if (firstQuestion) setSujet(null)
-            }
-          } catch (e) { /* parsing partiel */ }
-        }
-      }
-
+      setSujet(data.sujet)
       setStreamingDone(true)
       setLoadingFamille(null)
+      setStep('epreuve')
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
       setLoadingFamille(null)
-      setSujet(null)
+      setStep('choix')
     }
   }
 

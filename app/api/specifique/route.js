@@ -27,7 +27,7 @@ async function callGeminiWithPdf(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts }],
-        generationConfig: { temperature: 0.8, topP: 0.95, maxOutputTokens: 4096, responseMimeType: 'application/json' }
+        generationConfig: { temperature: 0.8, topP: 0.95, maxOutputTokens: 12000, responseMimeType: 'application/json' }
       })
     }
   )
@@ -52,7 +52,7 @@ async function callGemini(prompt) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 4096, responseMimeType: 'application/json' }
+        generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 12000, responseMimeType: 'application/json' }
       })
     }
   )
@@ -70,7 +70,8 @@ async function callGemini(prompt) {
 }
 
 const JSON_FORMAT = `
-IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
+IMPORTANT : Tu DOIS générer EXACTEMENT 10 questions (id de 1 à 10). Pas 6, pas 7, pas 8 : exactement 10.
+Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
 {
   "famille": "NOM_FAMILLE",
   "titre": "Titre de l'entraînement",
@@ -78,11 +79,12 @@ IMPORTANT : Réponds UNIQUEMENT en JSON valide avec cette structure exacte :
     {
       "id": 1,
       "question": "L'énoncé de la question",
-      "reponse": "La réponse attendue (courte, un nombre)",
-      "explication": "Explication DÉTAILLÉE étape par étape du calcul. Montre chaque opération intermédiaire. Ex: Étape 1 : On identifie... | Étape 2 : On calcule 200 × 0.15 = 30 | Étape 3 : 200 - 30 = 170 | Résultat : 170€"
+      "reponse": "La réponse attendue (un nombre, court)",
+      "explication": "Calcul étape par étape, concis. Ex: 200 × 0.15 = 30 | 200 - 30 = 170 | Résultat : 170€"
     }
   ]
-}`
+}
+Les explications doivent être COURTES (2-4 étapes max, pas de phrases longues). Privilégie les opérations posées.`
 
 const famillePrompts = {
   operations: `Tu es un générateur d'exercices de mathématiques pour le concours FPC (Formation Professionnelle Continue) d'entrée en IFSI. Tu génères exactement 10 questions sur le thème du PRODUIT EN CROIX, de la RÈGLE DE TROIS et de la PROPORTIONNALITÉ.
@@ -239,95 +241,13 @@ export async function POST(request) {
 
       const prompt = famillePrompts[famille]
 
-      // Streaming : envoyer les questions au fur et à mesure
-      const parts = []
-      if (annalesBase64) {
-        parts.push({ inlineData: { mimeType: 'application/pdf', data: annalesBase64 } })
+      const raw = await callGeminiWithPdf(prompt)
+      const jsonMatch = raw.match(/\{[\s\S]*\}/)
+      if (!jsonMatch) {
+        return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
       }
-      parts.push({ text: prompt })
-
-      const geminiRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts }],
-            generationConfig: { temperature: 0.8, topP: 0.95, maxOutputTokens: 4096 }
-          })
-        }
-      )
-
-      if (!geminiRes.ok) {
-        const errorText = await geminiRes.text()
-        console.error('Gemini API error:', geminiRes.status, errorText)
-        return NextResponse.json({ error: `Erreur API Gemini (${geminiRes.status})` }, { status: 500 })
-      }
-
-      // Lire le stream SSE et renvoyer en streaming
-      const encoder = new TextEncoder()
-      const reader = geminiRes.body.getReader()
-      const decoder = new TextDecoder()
-
-      const stream = new ReadableStream({
-        async start(controller) {
-          let fullText = ''
-          let sentQuestions = 0
-          let sseBuffer = ''
-
-          try {
-            while (true) {
-              const { done, value } = await reader.read()
-              if (done) break
-
-              sseBuffer += decoder.decode(value, { stream: true })
-              const sseLines = sseBuffer.split('\n')
-              sseBuffer = sseLines.pop() || ''
-
-              for (const line of sseLines) {
-                if (!line.startsWith('data: ')) continue
-                const jsonStr = line.slice(6).trim()
-                if (jsonStr === '[DONE]' || !jsonStr) continue
-
-                try {
-                  const parsed = JSON.parse(jsonStr)
-                  const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || ''
-                  if (!text) continue
-                  fullText += text
-
-                  // Extraire les questions complètes — regex souple sur l'ordre des champs
-                  const cleaned = fullText.replace(/```json/g, '').replace(/```/g, '')
-                  const blocks = cleaned.match(/\{[^{}]*"id"\s*:\s*\d+[^{}]*"question"\s*:[^{}]*"reponse"\s*:[^{}]*"explication"\s*:[^{}]*\}/g) || []
-
-                  for (let bi = sentQuestions; bi < blocks.length; bi++) {
-                    try {
-                      const q = JSON.parse(blocks[bi])
-                      if (q.id && q.question && q.reponse) {
-                        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'question', question: q })}\n\n`))
-                        sentQuestions = bi + 1
-                      }
-                    } catch (e) { /* JSON partiel */ }
-                  }
-                } catch (e) { /* chunk SSE partiel */ }
-              }
-            }
-
-            // Envoyer le signal de fin
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done' })}\n\n`))
-          } catch (err) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', error: err.message })}\n\n`))
-          }
-          controller.close()
-        }
-      })
-
-      return new Response(stream, {
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive'
-        }
-      })
+      const sujetData = JSON.parse(jsonMatch[0])
+      return NextResponse.json({ sujet: sujetData })
     }
 
     if (action === 'corriger') {
