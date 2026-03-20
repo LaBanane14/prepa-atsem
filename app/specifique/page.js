@@ -422,7 +422,7 @@ export default function SpecifiquePage() {
         return (
         <div className="fixed inset-0 z-40 lg:pl-[90px] flex items-center justify-center bg-slate-100/90 backdrop-blur-sm">
           <style>{`
-            @keyframes dropFill { 0% { y: 80; height: 0; } 100% { y: 2; height: 78; } }
+            @keyframes dropFill { 0% { transform: translateY(100%); } 100% { transform: translateY(0%); } }
             @keyframes dropPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
           `}</style>
           <div className="flex flex-col items-center gap-5">
@@ -436,7 +436,9 @@ export default function SpecifiquePage() {
                 {/* Contour de la goutte */}
                 <path d="M32 2 C32 2 8 36 8 52 C8 66 18 76 32 76 C46 76 56 66 56 52 C56 36 32 2 32 2Z" fill="none" stroke={fillColor} strokeWidth="2.5" strokeOpacity="0.3" />
                 {/* Remplissage animé */}
-                <rect clipPath="url(#dropClipLoad)" x="0" width="64" fill={fillColor} fillOpacity="0.7" style={{animation: 'dropFill 10s ease-in-out forwards'}} />
+                <g clipPath="url(#dropClipLoad)">
+                  <rect x="0" y="0" width="64" height="80" fill={fillColor} fillOpacity="0.7" style={{animation: 'dropFill 10s ease-in-out forwards'}} />
+                </g>
                 {/* Reflet */}
                 <ellipse cx="24" cy="42" rx="6" ry="10" fill="white" fillOpacity="0.25" transform="rotate(-15 24 42)" />
               </svg>
@@ -544,7 +546,7 @@ export default function SpecifiquePage() {
             {/* Navigation rapide */}
             <div className="flex flex-wrap justify-center gap-2 mt-5">
               {sujet.questions.map((q, i) => (
-                <button key={i} onClick={() => setCurrent(i)} className={`w-8 h-8 rounded-lg font-bold text-xs transition cursor-pointer ${i === current ? 'bg-slate-900 text-white' : validated[q.id] ? (validated[q.id].correct ? 'bg-green-500 text-white' : 'bg-red-500 text-white') : reponses[q.id]?.trim() ? `${c.iconBg} ${c.text}` : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}>
+                <button key={i} onClick={() => setCurrent(i)} className={`w-8 h-8 rounded-lg font-bold text-xs transition cursor-pointer ${i === current ? 'bg-slate-900 text-white' : reponses[q.id]?.trim() ? `${c.iconBg} text-slate-900` : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}>
                   {i + 1}
                 </button>
               ))}
