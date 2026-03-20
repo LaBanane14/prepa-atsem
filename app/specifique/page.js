@@ -551,7 +551,7 @@ export default function SpecifiquePage() {
             {/* Navigation rapide */}
             <div className="flex flex-wrap justify-center gap-2 mt-5">
               {sujet.questions.map((q, i) => (
-                <button key={i} onClick={() => setCurrent(i)} className={`w-8 h-8 rounded-lg font-bold text-xs transition cursor-pointer ${i === current ? 'bg-slate-900 text-white' : reponses[q.id]?.trim() ? `${c.iconBg} text-slate-900` : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}>
+                <button key={i} onClick={() => setCurrent(i)} className={`w-8 h-8 rounded-lg font-bold text-xs transition cursor-pointer bg-slate-900 text-white ${i === current ? 'ring-2 ring-offset-2 ring-slate-900' : reponses[q.id]?.trim() ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
                   {i + 1}
                 </button>
               ))}
@@ -563,7 +563,15 @@ export default function SpecifiquePage() {
 
       {/* ===== RÉSULTATS ===== */}
       {step === 'resultat' && correction && selectedFamille && (
-        <div className="fixed inset-0 z-40 lg:pl-[90px] flex items-center justify-center">
+        <div className={`fixed inset-0 z-40 lg:pl-[90px] flex flex-col ${c.wrapper}`}>
+          <div className="relative flex items-center justify-center p-4 pt-6 sm:pt-8 shrink-0">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={c.text}>— {selectedFamille.titre}</span></h1>
+            <a href="/dashboard" className="absolute right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shrink-0">
+              Quitter l&apos;exercice
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </a>
+          </div>
+          <div className="flex-1 flex items-center justify-center px-4">
           <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 sm:p-12 max-w-md w-full text-center">
             <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
             <div className="flex justify-center items-center my-5">
@@ -572,12 +580,16 @@ export default function SpecifiquePage() {
             </div>
             <p className="text-slate-400 text-sm font-bold mb-8">Ne compte pas dans la moyenne</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button onClick={retryFamille} className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2 cursor-pointer`}>
+              <a href="/dashboard" className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2`}>
+                Dashboard
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+              </a>
+              <button onClick={retryFamille} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm flex items-center gap-2 cursor-pointer">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                 Recommencer
               </button>
-              <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm">Dashboard</a>
             </div>
+          </div>
           </div>
         </div>
       )}
