@@ -443,7 +443,8 @@ export default function SpecifiquePage() {
               </svg>
             </div>
             <div className="text-center">
-              <p className="text-slate-700 font-black text-base">Génération des exercices...</p>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight mb-2" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={colorMap[selectedFamille.id]?.text || 'text-blue-500'}>— {selectedFamille.titre}</span></h2>
+              <p className="text-slate-500 font-bold text-sm">Génération des exercices...</p>
               <p className="text-slate-400 font-medium text-sm mt-1" style={{animation: 'fadeIn 0.5s ease-out 8s forwards', opacity: 0}}>Encore quelques secondes</p>
             </div>
           </div>
