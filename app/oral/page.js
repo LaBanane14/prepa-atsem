@@ -360,8 +360,8 @@ export default function OralPage() {
             const oralTimePercent = (timeLeft / (10 * 60)) * 100
             const oralUrgent = timeLeft < 2 * 60
             return (
-            <div className="animate-fade-in">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-[calc(100vh-2.5rem)] flex flex-col">
+            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col w-full max-w-4xl">
 
                 {/* Header sombre */}
                 <div className="bg-slate-900 rounded-t-2xl px-6 py-5">
@@ -400,12 +400,12 @@ export default function OralPage() {
                 </div>
 
                 {/* Contenu */}
-                <div className="flex-1 p-6 sm:p-8">
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-5 leading-relaxed">{q.question}</h2>
+                <div className="p-5 sm:p-6">
+                  <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 leading-relaxed">{q.question}</h2>
 
-                  <div className="mb-4 relative">
+                  <div className="mb-3 relative">
                     <textarea
-                      rows={5}
+                      rows={3}
                       value={answers[q.id] || ''}
                       onChange={e => handleAnswer(q.id, e.target.value)}
                       placeholder="Rédigez votre réponse ou utilisez le micro pour dicter..."
@@ -431,7 +431,7 @@ export default function OralPage() {
                   )}
 
                   {/* Actions */}
-                  <div className="flex justify-between mt-6">
+                  <div className="flex justify-between mt-4">
                     {currentQ > 0 ? (
                       <button onClick={() => { setCurrentQ(currentQ - 1); setShowTip(false) }} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl hover:bg-slate-200 flex items-center gap-2 text-sm transition">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
@@ -450,7 +450,7 @@ export default function OralPage() {
                   </div>
 
                   {/* Grille navigation */}
-                  <div className="mt-6 flex flex-wrap gap-2 justify-center">
+                  <div className="mt-4 flex flex-wrap gap-2 justify-center">
                     {questions.map((qq, i) => (
                       <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`w-9 h-9 rounded-lg text-xs font-bold transition cursor-pointer ${i === currentQ ? 'bg-emerald-600 text-white' : answers[qq.id] ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}>
                         {i + 1}
