@@ -461,7 +461,8 @@ function DashboardContent() {
                 <div>
                   <div className="flex items-center gap-2 mb-2"><span className="bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Plan gratuit</span></div>
                   <h3 className="text-lg font-black text-white mb-1">Passez au niveau supérieur</h3>
-                  <p className="text-slate-400 font-medium text-sm">QCM, calculs et examens blancs en illimité.</p>
+                  <p className="text-slate-400 font-medium text-sm">Donnez-vous toutes les chances pour réussir votre concours FPC.</p>
+                  <p className="text-slate-500 font-medium text-xs mt-1">QCM, calculs et examens blancs en illimité.</p>
                 </div>
                 <button onClick={() => setPage('abonnement')} className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-amber-200/50 shrink-0 text-sm cursor-pointer">Voir les offres</button>
               </div>
