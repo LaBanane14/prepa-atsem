@@ -301,7 +301,7 @@ function DashboardContent() {
                 </div>
                 {isPremium ? (
                   <div className="bg-gradient-to-r from-emerald-400 to-green-500 text-emerald-950 px-4 py-2 rounded-xl flex items-center gap-2 shadow-md shadow-emerald-200/50">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                     <span className="font-black text-sm">Premium {subscriptionPlan === 'monthly' ? 'Mensuel' : 'Annuel'}</span>
                   </div>
                 ) : (
@@ -497,15 +497,17 @@ function DashboardContent() {
               </div>
 
               {/* CTA Premium */}
-              <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2"><span className="bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Plan gratuit</span></div>
-                  <h3 className="text-lg font-black text-white mb-1">Passez au niveau supérieur</h3>
-                  <p className="text-slate-400 font-medium text-sm">Donnez-vous toutes les chances pour réussir votre concours FPC.</p>
-                  <p className="text-slate-500 font-medium text-xs mt-1">QCM, calculs et examens blancs en illimité.</p>
+              {!isPremium && (
+                <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2"><span className="bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Plan gratuit</span></div>
+                    <h3 className="text-lg font-black text-white mb-1">Passez au niveau supérieur</h3>
+                    <p className="text-slate-400 font-medium text-sm">Donnez-vous toutes les chances pour réussir votre concours FPC.</p>
+                    <p className="text-slate-500 font-medium text-xs mt-1">QCM, calculs et examens blancs en illimité.</p>
+                  </div>
+                  <button onClick={() => setPage('abonnement')} className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-amber-200/50 shrink-0 text-sm cursor-pointer">Voir les offres</button>
                 </div>
-                <button onClick={() => setPage('abonnement')} className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-amber-200/50 shrink-0 text-sm cursor-pointer">Voir les offres</button>
-              </div>
+              )}
             </div>
           )}
 
