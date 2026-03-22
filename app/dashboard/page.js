@@ -433,7 +433,7 @@ function DashboardContent() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900 text-sm">Méthodologie</p>
-                    <p className="text-[10px] text-slate-400 font-medium">Articles & fiches</p>
+                    <p className="text-[10px] text-slate-400 font-medium">Articles</p>
                   </div>
                 </a>
                 <a href="#" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-amber-200 transition group flex items-center gap-3">

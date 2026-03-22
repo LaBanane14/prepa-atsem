@@ -400,7 +400,7 @@ export default function RedactionPage() {
                     />
                     {error && <p className="text-red-600 font-bold text-sm mt-3">{error}</p>}
                     <div className="flex items-center justify-between mt-5">
-                      <button onClick={restart} className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner</button>
+                      <a href="/dashboard" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner</a>
                       <button onClick={handleSubmit} className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm flex items-center gap-2 cursor-pointer">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
                         Soumettre ma copie
