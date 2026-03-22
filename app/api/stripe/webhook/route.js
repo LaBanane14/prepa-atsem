@@ -20,10 +20,16 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
+  console.log('Webhook event type:', event.type)
+
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object
+        console.log('Session metadata:', JSON.stringify(session.metadata))
+        console.log('Session customer:', session.customer)
+        console.log('Session subscription:', session.subscription)
+
         const userId = session.metadata?.userId
         const plan = session.metadata?.plan
         const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id
@@ -47,15 +53,15 @@ export async function POST(req) {
           if (error) console.error('Supabase upsert error (yearly):', error)
         }
 
-        if (plan === 'monthly' && session.subscription) {
-          const subId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id
-          const subscription = await stripe.subscriptions.retrieve(subId)
-          console.log('Subscription object keys:', Object.keys(subscription))
-          console.log('current_period_end:', subscription.current_period_end, typeof subscription.current_period_end)
-          const periodEnd = subscription.current_period_end
-          const endDate = typeof periodEnd === 'number'
-            ? new Date(periodEnd > 1e12 ? periodEnd : periodEnd * 1000)
-            : new Date(periodEnd)
+        if (plan === 'monthly') {
+          // Calcul simple : +1 mois à partir de maintenant
+          const endDate = new Date()
+          endDate.setMonth(endDate.getMonth() + 1)
+
+          const subId = typeof session.subscription === 'string'
+            ? session.subscription
+            : session.subscription?.id || null
+
           const { error } = await supabaseAdmin.from('subscriptions').upsert({
             user_id: userId,
             stripe_customer_id: customerId,
@@ -65,6 +71,7 @@ export async function POST(req) {
             current_period_end: endDate.toISOString(),
           }, { onConflict: 'user_id' })
           if (error) console.error('Supabase upsert error (monthly):', error)
+          else console.log('Subscription created for user:', userId)
         }
         break
       }
@@ -73,11 +80,8 @@ export async function POST(req) {
         const invoice = event.data.object
         const subId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
         if (subId) {
-          const subscription = await stripe.subscriptions.retrieve(subId)
-          const periodEnd = subscription.current_period_end
-          const endDate = typeof periodEnd === 'number'
-            ? new Date(periodEnd > 1e12 ? periodEnd : periodEnd * 1000)
-            : new Date(periodEnd)
+          const endDate = new Date()
+          endDate.setMonth(endDate.getMonth() + 1)
           await supabaseAdmin.from('subscriptions').update({
             status: 'active',
             current_period_end: endDate.toISOString(),
@@ -88,10 +92,9 @@ export async function POST(req) {
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object
-        const subId = typeof subscription.id === 'string' ? subscription.id : subscription.id
         await supabaseAdmin.from('subscriptions').update({
           status: 'canceled',
-        }).eq('stripe_subscription_id', subId)
+        }).eq('stripe_subscription_id', subscription.id)
         break
       }
 
