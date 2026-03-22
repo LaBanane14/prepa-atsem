@@ -106,6 +106,21 @@ function DashboardContent() {
     }
   }
 
+  async function handleManageSubscription() {
+    try {
+      const res = await fetch('/api/stripe/portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id }),
+      })
+      const { url, error } = await res.json()
+      if (error) throw new Error(error)
+      window.location.href = url
+    } catch (err) {
+      console.error('Portal error:', err)
+    }
+  }
+
   const tips = [
     'Pour convertir des mL en L, divisez par 1000.',
     'Un produit en croix se vérifie toujours en multipliant en diagonale.',
@@ -1028,7 +1043,7 @@ function DashboardContent() {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         Modifier le mot de passe
                       </button>
-                      <button type="button" onClick={() => navigateTo('abonnement')} className="bg-amber-400 hover:bg-amber-500 text-black font-bold text-sm px-5 py-3 rounded-xl transition flex items-center gap-2 cursor-pointer">
+                      <button type="button" onClick={() => isPremium ? handleManageSubscription() : navigateTo('abonnement')} className="bg-amber-400 hover:bg-amber-500 text-black font-bold text-sm px-5 py-3 rounded-xl transition flex items-center gap-2 cursor-pointer">
                         <BadgeCheck size={16} strokeWidth={2} />
                         {isPremium ? 'Gérer mon abonnement' : 'Devenir Premium'}
                       </button>
