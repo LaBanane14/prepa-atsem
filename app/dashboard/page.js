@@ -3,6 +3,10 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler)
@@ -14,6 +18,44 @@ const menuItems = [
   { id: 'profil', label: 'Compte', icon: UserRound },
   { id: 'abonnement', label: 'Devenir Premium', icon: BadgeCheck, premium: true }
 ]
+
+function CheckoutForm({ onSuccess, onError }) {
+  const stripe = useStripe()
+  const elements = useElements()
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!stripe || !elements) return
+    setLoading(true)
+    onError('')
+
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams: { return_url: window.location.href },
+      redirect: 'if_required',
+    })
+
+    if (error) {
+      onError(error.message)
+      setLoading(false)
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      onSuccess()
+    } else {
+      onSuccess()
+    }
+    setLoading(false)
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <PaymentElement options={{ layout: 'tabs' }} />
+      <button type="submit" disabled={!stripe || loading} className="w-full mt-6 py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-center transition shadow-lg shadow-red-200 text-sm cursor-pointer disabled:opacity-50">
+        {loading ? 'Traitement en cours...' : 'Payer'}
+      </button>
+    </form>
+  )
+}
 
 export default function Dashboard() {
   return (
@@ -86,24 +128,31 @@ function DashboardContent() {
     return () => subscription.unsubscribe()
   }, [])
 
-  async function handleCheckout(plan) {
+  const [selectedPlan, setSelectedPlan] = useState(null)
+  const [clientSecret, setClientSecret] = useState(null)
+  const [paymentError, setPaymentError] = useState('')
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
+
+  async function handleSelectPlan(plan) {
+    setSelectedPlan(plan)
+    setClientSecret(null)
+    setPaymentError('')
+    setPaymentSuccess(false)
     setCheckoutLoading(true)
     try {
-      const priceId = plan === 'monthly'
-        ? process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY
-        : process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY
-      const res = await fetch('/api/stripe/checkout', {
+      const res = await fetch('/api/stripe/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, userId: user.id, userEmail: user.email }),
+        body: JSON.stringify({ plan, userId: user.id, userEmail: user.email }),
       })
-      const { url, error } = await res.json()
-      if (error) throw new Error(error)
-      window.location.href = url
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
+      setClientSecret(data.clientSecret)
     } catch (err) {
-      console.error('Checkout error:', err)
-      setCheckoutLoading(false)
+      console.error('Payment setup error:', err)
+      setPaymentError(err.message)
     }
+    setCheckoutLoading(false)
   }
 
   async function handleManageSubscription() {
@@ -1141,7 +1190,7 @@ function DashboardContent() {
                       ))}
                     </ul>
                   </div>
-                  <button onClick={() => handleCheckout('monthly')} disabled={checkoutLoading} className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-center transition shadow-lg shadow-red-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
+                  <button onClick={() => handleSelectPlan('monthly')} disabled={checkoutLoading} className={`w-full py-3.5 font-black rounded-xl text-center transition text-sm cursor-pointer disabled:opacity-50 ${selectedPlan === 'monthly' ? 'bg-slate-900 text-white' : 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200'}`}>{selectedPlan === 'monthly' ? 'Sélectionné' : "S'abonner maintenant"}</button>
                 </div>
 
                 {/* Pack Sérénité */}
@@ -1170,10 +1219,36 @@ function DashboardContent() {
                       ))}
                     </ul>
                   </div>
-                  <button onClick={() => handleCheckout('yearly')} disabled={checkoutLoading} className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-center transition shadow-lg shadow-red-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
+                  <button onClick={() => handleSelectPlan('yearly')} disabled={checkoutLoading} className={`w-full py-3.5 font-black rounded-xl text-center transition text-sm cursor-pointer disabled:opacity-50 ${selectedPlan === 'yearly' ? 'bg-slate-900 text-white' : 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200'}`}>{selectedPlan === 'yearly' ? 'Sélectionné' : "S'abonner maintenant"}</button>
                 </div>
 
               </div>
+
+              {/* Formulaire de paiement Stripe Elements */}
+              {clientSecret && !paymentSuccess && (
+                <div className="mt-8 max-w-lg">
+                  <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 className="text-lg font-black text-slate-900 mb-1">Paiement sécurisé</h3>
+                    <p className="text-slate-500 font-medium text-sm mb-6">{selectedPlan === 'monthly' ? 'Abonnement mensuel — 12,99€/mois' : 'Pack Sérénité — 89,99€ (paiement unique)'}</p>
+                    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#dc2626', borderRadius: '12px' } } }}>
+                      <CheckoutForm onSuccess={() => { setPaymentSuccess(true); setIsPremium(true); setSubscriptionPlan(selectedPlan) }} onError={setPaymentError} />
+                    </Elements>
+                    {paymentError && <p className="text-red-600 font-bold text-sm mt-4">{paymentError}</p>}
+                  </div>
+                </div>
+              )}
+
+              {paymentSuccess && (
+                <div className="mt-8 max-w-lg">
+                  <div className="bg-emerald-50 border border-emerald-200 p-6 sm:p-8 rounded-2xl">
+                    <div className="flex items-center gap-3 mb-2">
+                      <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                      <h3 className="text-lg font-black text-emerald-900">Paiement réussi !</h3>
+                    </div>
+                    <p className="text-emerald-700 font-medium text-sm">Votre accès Premium est maintenant actif. Profitez de toutes les fonctionnalités !</p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -24,80 +24,70 @@ export async function POST(req) {
 
   try {
     switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object
-        console.log('Session metadata:', JSON.stringify(session.metadata))
-        console.log('Session customer:', session.customer)
-        console.log('Session subscription:', session.subscription)
+      // Paiement unique réussi (pack annuel)
+      case 'payment_intent.succeeded': {
+        const paymentIntent = event.data.object
+        const userId = paymentIntent.metadata?.userId
+        const plan = paymentIntent.metadata?.plan
 
-        const userId = session.metadata?.userId
-        const plan = session.metadata?.plan
-        const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id
+        if (!userId || plan !== 'yearly') break
 
-        if (!userId || !plan) {
-          console.error('Missing metadata:', { userId, plan })
-          break
-        }
+        const expiresAt = new Date()
+        expiresAt.setFullYear(expiresAt.getFullYear() + 1)
 
-        if (plan === 'yearly') {
-          const expiresAt = new Date()
-          expiresAt.setFullYear(expiresAt.getFullYear() + 1)
-
-          const { error } = await supabaseAdmin.from('subscriptions').upsert({
-            user_id: userId,
-            stripe_customer_id: customerId,
-            plan: 'yearly',
-            status: 'active',
-            current_period_end: expiresAt.toISOString(),
-          }, { onConflict: 'user_id' })
-          if (error) console.error('Supabase upsert error (yearly):', error)
-        }
-
-        if (plan === 'monthly') {
-          // Calcul simple : +1 mois à partir de maintenant
-          const endDate = new Date()
-          endDate.setMonth(endDate.getMonth() + 1)
-
-          const subId = typeof session.subscription === 'string'
-            ? session.subscription
-            : session.subscription?.id || null
-
-          const { error } = await supabaseAdmin.from('subscriptions').upsert({
-            user_id: userId,
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subId,
-            plan: 'monthly',
-            status: 'active',
-            current_period_end: endDate.toISOString(),
-          }, { onConflict: 'user_id' })
-          if (error) console.error('Supabase upsert error (monthly):', error)
-          else console.log('Subscription created for user:', userId)
-        }
+        const { error } = await supabaseAdmin.from('subscriptions').upsert({
+          user_id: userId,
+          stripe_customer_id: paymentIntent.customer,
+          plan: 'yearly',
+          status: 'active',
+          current_period_end: expiresAt.toISOString(),
+        }, { onConflict: 'user_id' })
+        if (error) console.error('Supabase upsert error (yearly):', error)
+        else console.log('Yearly subscription created for user:', userId)
         break
       }
 
+      // Abonnement mensuel : premier paiement ou renouvellement
       case 'invoice.paid': {
         const invoice = event.data.object
         const subId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
-        if (subId) {
-          const endDate = new Date()
-          endDate.setMonth(endDate.getMonth() + 1)
-          await supabaseAdmin.from('subscriptions').update({
-            status: 'active',
-            current_period_end: endDate.toISOString(),
-          }).eq('stripe_subscription_id', subId)
+        if (!subId) break
+
+        const subscription = await stripe.subscriptions.retrieve(subId)
+        const userId = subscription.metadata?.userId
+
+        if (!userId) {
+          console.error('Missing userId in subscription metadata')
+          break
         }
+
+        const endDate = new Date()
+        endDate.setMonth(endDate.getMonth() + 1)
+
+        const { error } = await supabaseAdmin.from('subscriptions').upsert({
+          user_id: userId,
+          stripe_customer_id: invoice.customer,
+          stripe_subscription_id: subId,
+          plan: 'monthly',
+          status: 'active',
+          current_period_end: endDate.toISOString(),
+        }, { onConflict: 'user_id' })
+        if (error) console.error('Supabase upsert error (monthly):', error)
+        else console.log('Monthly subscription updated for user:', userId)
         break
       }
 
+      // Annulation abonnement
       case 'customer.subscription.deleted': {
         const subscription = event.data.object
         await supabaseAdmin.from('subscriptions').update({
           status: 'canceled',
         }).eq('stripe_subscription_id', subscription.id)
+        console.log('Subscription canceled:', subscription.id)
         break
       }
 
+      // Paiement échoué
       case 'invoice.payment_failed': {
         const invoice = event.data.object
         const subId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
