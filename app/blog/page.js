@@ -121,8 +121,6 @@ export default function BlogPage() {
       <header className="bg-white border-b border-slate-100 pt-16 pb-12 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E\")"}}></div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">Toutes les informations pour <span className="text-red-600">réussir le FPC</span></h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Actualités, conseils et astuces pour réussir au mieux votre sélection d'entrée en IFSI.</p>
         </div>
       </header>
 
