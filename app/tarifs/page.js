@@ -127,7 +127,7 @@ export default function TarifsPage() {
                 <ul className="space-y-4 mb-10">
                   {["Entrainement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Résiliable à tout moment"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-700 font-bold text-sm">
-                      <Check className="w-5 h-5 text-slate-300 flex-shrink-0" />
+                      <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
