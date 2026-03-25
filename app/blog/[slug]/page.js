@@ -36,7 +36,11 @@ export default function ArticlePage() {
       .eq('slug', params.slug)
       .eq('published', true)
       .single()
-    if (!error) setArticle(data)
+    if (!error && data) {
+      setArticle(data)
+      // Incrémenter le compteur de vues
+      supabase.from('articles').update({ views: (data.views || 0) + 1 }).eq('id', data.id).then(() => {})
+    }
     setLoading(false)
   }
 
@@ -131,6 +135,10 @@ export default function ArticlePage() {
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               {article.reading_time}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              {article.views || 0} vue{(article.views || 0) > 1 ? 's' : ''}
             </span>
           </div>
         </div>

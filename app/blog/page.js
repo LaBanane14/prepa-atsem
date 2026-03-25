@@ -152,7 +152,10 @@ export default function BlogPage() {
                     <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2">{article.title}</h3>
                     <p className="text-slate-600 text-sm mb-6 flex-grow line-clamp-3">{article.excerpt}</p>
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto text-sm text-slate-500 font-medium">
-                      <span>{new Date(article.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      <div className="flex items-center gap-3">
+                        <span>{new Date(article.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span className="flex items-center gap-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>{article.views || 0}</span>
+                      </div>
                       <span className="text-slate-900 font-bold hover:text-red-600 transition-colors flex items-center gap-1">Lire <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></span>
                     </div>
                   </div>
