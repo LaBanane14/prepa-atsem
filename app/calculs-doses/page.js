@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
 const Stethoscope = ({className}) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
@@ -18,20 +18,6 @@ export default function CalculsDosesPage() {
   const [exRemaining, setExRemaining] = useState(null)
   const [isCorrect, setIsCorrect] = useState(false)
   const [sessionScore, setSessionScore] = useState({ correct: 0, total: 0 })
-  const ficheRefs = useRef([])
-
-  async function downloadFiche(index, title) {
-    const el = ficheRefs.current[index]
-    if (!el) return
-    const html2pdf = (await import('html2pdf.js')).default
-    html2pdf().set({
-      margin: 10,
-      filename: `fiche-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(el).save()
-  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -173,11 +159,10 @@ export default function CalculsDosesPage() {
           <div className="max-w-[90rem] mx-auto px-4 grid md:grid-cols-2 gap-8">
 
             {/* Produit en croix */}
-            <div ref={el => ficheRefs.current[0] = el} className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-purple-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
+            <div className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-purple-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
               <div className="relative mb-5 text-center">
                 <span className="absolute left-0 -top-1 w-9 h-9 rounded-full border-2 border-slate-900 flex items-center justify-center font-black text-base text-slate-900">1</span>
                 <h3 className="text-xl font-black text-slate-900">Le Produit en croix</h3>
-                <button onClick={() => downloadFiche(0, 'produit-en-croix')} className="absolute right-0 top-0 text-slate-400 hover:text-red-600 transition cursor-pointer" title="Télécharger en PDF"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></button>
               </div>
 
                 {/* Principe */}
@@ -299,11 +284,10 @@ export default function CalculsDosesPage() {
             </div>
 
             {/* Débit en gouttes/min */}
-            <div ref={el => ficheRefs.current[1] = el} className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-blue-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
+            <div className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-blue-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
               <div className="relative mb-5 text-center">
                 <span className="absolute left-0 -top-1 w-9 h-9 rounded-full border-2 border-slate-900 flex items-center justify-center font-black text-base text-slate-900">2</span>
                 <h3 className="text-xl font-black text-slate-900">Débit en gouttes / min</h3>
-                <button onClick={() => downloadFiche(1, 'debit-gouttes-min')} className="absolute right-0 top-0 text-slate-400 hover:text-red-600 transition cursor-pointer" title="Télécharger en PDF"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></button>
               </div>
 
                 {/* Principe */}
@@ -418,11 +402,10 @@ export default function CalculsDosesPage() {
             </div>
 
             {/* Conversions */}
-            <div ref={el => ficheRefs.current[2] = el} className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-red-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
+            <div className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-red-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
               <div className="relative mb-5 text-center">
                 <span className="absolute left-0 -top-1 w-9 h-9 rounded-full border-2 border-slate-900 flex items-center justify-center font-black text-base text-slate-900">3</span>
                 <h3 className="text-xl font-black text-slate-900">Conversions de masse</h3>
-                <button onClick={() => downloadFiche(2, 'conversions-masse')} className="absolute right-0 top-0 text-slate-400 hover:text-red-600 transition cursor-pointer" title="Télécharger en PDF"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></button>
               </div>
 
                 {/* Principe */}
@@ -551,11 +534,10 @@ export default function CalculsDosesPage() {
             </div>
 
             {/* Concentrations */}
-            <div ref={el => ficheRefs.current[3] = el} className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-amber-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
+            <div className="bg-white rounded-3xl shadow-md p-7 hover:shadow-lg transition border-2 border-amber-300" style={{backgroundImage:'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)', backgroundSize:'16px 16px'}}>
               <div className="relative mb-5 text-center">
                 <span className="absolute left-0 -top-1 w-9 h-9 rounded-full border-2 border-slate-900 flex items-center justify-center font-black text-base text-slate-900">4</span>
                 <h3 className="text-xl font-black text-slate-900">Concentration en %</h3>
-                <button onClick={() => downloadFiche(3, 'concentration-pourcentage')} className="absolute right-0 top-0 text-slate-400 hover:text-red-600 transition cursor-pointer" title="Télécharger en PDF"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></button>
               </div>
 
                 {/* Principe */}
@@ -694,7 +676,8 @@ export default function CalculsDosesPage() {
         <section className="py-16 bg-slate-900">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-2xl font-black text-white mb-3">Prêt(e) à passer à la pratique ?</h2>
-            <p className="text-slate-400 font-medium text-sm mb-8">Inscrivez-vous et accédez à tous les entraînements pour le concours FPC. Essai gratuit de 7 jours, sans carte bancaire.</p>
+            <p className="text-slate-400 font-medium text-sm mb-2">Inscrivez-vous et accédez à tous les entraînements pour le concours FPC.</p>
+            <p className="text-slate-500 font-bold text-sm mb-8">Essai gratuit de 7 jours, sans carte bancaire.</p>
             <a href="/signup" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-8 py-4 rounded-2xl transition shadow-lg shadow-red-200/30 text-sm">
               Commencer à m'entraîner <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </a>
