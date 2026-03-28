@@ -208,7 +208,7 @@ export default function TarifsPage() {
               <Stethoscope className="w-5 h-5 text-red-500" />
               <h4 className="text-white font-bold text-lg">Prépa FPC</h4>
             </div>
-            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement de référence pour la réussite du concours infirmier.</p>
+            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats en reconversion professionnelle qui préparent le concours FPC d'entrée en IFSI. QCM, rédaction, simulation d'oral : entraînez-vous dans les conditions réelles du concours.</p>
           </div>
           <div>
             <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources IFSI</h4>
