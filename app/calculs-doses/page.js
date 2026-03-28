@@ -152,8 +152,8 @@ export default function CalculsDosesPage() {
       <header className="pt-16 pb-8 bg-slate-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E\")"}}></div>
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">Maîtrisez parfaitement les <span className="text-red-600">calculs de doses</span></h1>
-          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Révisez les formules avec les 4 fiches de révisions indispensables et entraînez-vous avec des exercices !</p>
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 whitespace-nowrap">Maîtrisez parfaitement les <span className="text-red-600">calculs pour le concours</span></h1>
+          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Révisez les formules avec les 4 fiches de révisions indispensables !</p>
         </div>
       </header>
 
@@ -691,30 +691,13 @@ export default function CalculsDosesPage() {
           </div>
         </section>
 
-        {/* Astuces calcul mental */}
-        <section className="py-16 bg-white">
-          <div className="max-w-5xl mx-auto px-4">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl font-black text-slate-900 mb-3">Astuces de calcul mental</h2>
-              <p className="text-slate-600 font-medium text-sm">Les raccourcis qui font gagner du temps le jour J.</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                <div className="bg-red-600 text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg mb-4">1</div>
-                <h4 className="font-bold text-slate-900 mb-2">Diviser par 0,5</h4>
-                <p className="text-slate-600 text-sm font-medium">Diviser par 0,5 revient à <strong className="text-slate-800">multiplier par 2</strong>. Exemple : 60 / 0,5 = 120.</p>
-              </div>
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                <div className="bg-red-600 text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg mb-4">2</div>
-                <h4 className="font-bold text-slate-900 mb-2">Diviser par 0,25</h4>
-                <p className="text-slate-600 text-sm font-medium">Diviser par 0,25 revient à <strong className="text-slate-800">multiplier par 4</strong>. Très courant dans les dilutions.</p>
-              </div>
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                <div className="bg-red-600 text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg mb-4">3</div>
-                <h4 className="font-bold text-slate-900 mb-2">Trouver 10% puis ajuster</h4>
-                <p className="text-slate-600 text-sm font-medium">Pour trouver 5%, calculez <strong className="text-slate-800">10% puis divisez par 2</strong>. Rapide et fiable.</p>
-              </div>
-            </div>
+        <section className="py-16 bg-slate-900">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl font-black text-white mb-3">Prêt(e) à passer à la pratique ?</h2>
+            <p className="text-slate-400 font-medium text-sm mb-8">Inscrivez-vous et accédez à tous les entraînements pour le concours FPC. Essai gratuit de 7 jours, sans carte bancaire.</p>
+            <a href="/signup" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-8 py-4 rounded-2xl transition shadow-lg shadow-red-200/30 text-sm">
+              Commencer à m'entraîner <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </a>
           </div>
         </section>
         </>
