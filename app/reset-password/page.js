@@ -47,7 +47,7 @@ export default function ResetPassword() {
           </div>
           <h2 className="text-2xl font-black text-slate-900 mb-2">Mot de passe modifié !</h2>
           <p className="text-slate-500 font-medium">Votre mot de passe a été mis à jour avec succès.</p>
-          <a href="/login" className="inline-block mt-6 bg-slate-900 hover:bg-black text-white font-bold px-6 py-3 rounded-xl transition">Se connecter</a>
+          <a href="/auth" className="inline-block mt-6 bg-slate-900 hover:bg-black text-white font-bold px-6 py-3 rounded-xl transition">Se connecter</a>
         </div>
       </div>
     )

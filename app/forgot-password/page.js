@@ -35,7 +35,7 @@ export default function ForgotPassword() {
           </div>
           <h2 className="text-2xl font-black text-slate-900 mb-2">Email envoyé !</h2>
           <p className="text-slate-500 font-medium">Un lien de réinitialisation a été envoyé à <strong className="text-slate-800">{email}</strong>. Vérifiez votre boîte mail et vos spams.</p>
-          <a href="/login" className="inline-block mt-6 bg-slate-900 hover:bg-black text-white font-bold px-6 py-3 rounded-xl transition">Retour à la connexion</a>
+          <a href="/auth" className="inline-block mt-6 bg-slate-900 hover:bg-black text-white font-bold px-6 py-3 rounded-xl transition">Retour à la connexion</a>
         </div>
       </div>
     )
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex items-center justify-center p-4">
       <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl relative z-10 p-8 sm:p-10 border border-slate-100">
-        <a href="/login" className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 transition bg-slate-50 hover:bg-slate-100 p-2 rounded-full">
+        <a href="/auth" className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 transition bg-slate-50 hover:bg-slate-100 p-2 rounded-full">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </a>
 
@@ -74,7 +74,7 @@ export default function ForgotPassword() {
         </form>
 
         <div className="mt-8 text-center border-t border-slate-100 pt-6">
-          <p className="text-slate-500 font-medium text-sm">Vous vous souvenez ? <a href="/login" className="text-red-600 font-bold hover:text-red-700 transition ml-1">Se connecter</a></p>
+          <p className="text-slate-500 font-medium text-sm">Vous vous souvenez ? <a href="/auth" className="text-red-600 font-bold hover:text-red-700 transition ml-1">Se connecter</a></p>
         </div>
       </div>
     </div>
