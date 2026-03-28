@@ -65,7 +65,7 @@ export const metadata = {
     canonical: siteUrl,
   },
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23dc2626'/><text x='50' y='70' font-size='42' font-weight='900' font-family='Arial,sans-serif' fill='white' text-anchor='middle'>FPC</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23dc2626'/><path d='M38 20a2 2 0 0 0-2 2v22a18 18 0 0 0 18 18 18 18 0 0 0 18-18V22a2 2 0 0 0-2-2h-4a1.5 1.5 0 1 0 0 3h1v19a14 14 0 0 1-14 14 14 14 0 0 1-14-14V23h1a1.5 1.5 0 1 0 0-3h-4z' fill='white'/><path d='M50 62v4a18 18 0 0 0 18 18 18 18 0 0 0 18-18v-8' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/><circle cx='86' cy='54' r='5' fill='none' stroke='white' stroke-width='4'/></svg>",
   },
 };
 
