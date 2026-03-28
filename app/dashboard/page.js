@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut } from 'lucide-react'
 
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
@@ -264,7 +264,7 @@ function DashboardContent() {
         <aside className="w-[72px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
           <a href="/" className="mb-4">
             <div className="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+              <svg viewBox="0 0 100 100" className="w-6 h-6"><path d="M38 20a2 2 0 0 0-2 2v22a18 18 0 0 0 18 18 18 18 0 0 0 18-18V22a2 2 0 0 0-2-2h-4a1.5 1.5 0 1 0 0 3h1v19a14 14 0 0 1-14 14 14 14 0 0 1-14-14V23h1a1.5 1.5 0 1 0 0-3h-4z" fill="currentColor"/><path d="M50 62v4a18 18 0 0 0 18 18 18 18 0 0 0 18-18v-8" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="86" cy="54" r="5" fill="none" stroke="currentColor" strokeWidth="4"/></svg>
             </div>
           </a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
@@ -299,7 +299,7 @@ function DashboardContent() {
           </button>
           <a href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-red-600 text-white rounded-lg flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+              <svg viewBox="0 0 100 100" className="w-5 h-5"><path d="M38 20a2 2 0 0 0-2 2v22a18 18 0 0 0 18 18 18 18 0 0 0 18-18V22a2 2 0 0 0-2-2h-4a1.5 1.5 0 1 0 0 3h1v19a14 14 0 0 1-14 14 14 14 0 0 1-14-14V23h1a1.5 1.5 0 1 0 0-3h-4z" fill="currentColor"/><path d="M50 62v4a18 18 0 0 0 18 18 18 18 0 0 0 18-18v-8" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="86" cy="54" r="5" fill="none" stroke="currentColor" strokeWidth="4"/></svg>
             </div>
             <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
           </a>

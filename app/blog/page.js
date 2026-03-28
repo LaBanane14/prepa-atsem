@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
-const Stethoscope = ({className}) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+const Stethoscope = ({className}) => <svg viewBox="0 0 100 100" className={className}><path d="M38 20a2 2 0 0 0-2 2v22a18 18 0 0 0 18 18 18 18 0 0 0 18-18V22a2 2 0 0 0-2-2h-4a1.5 1.5 0 1 0 0 3h1v19a14 14 0 0 1-14 14 14 14 0 0 1-14-14V23h1a1.5 1.5 0 1 0 0-3h-4z" fill="currentColor"/><path d="M50 62v4a18 18 0 0 0 18 18 18 18 0 0 0 18-18v-8" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="86" cy="54" r="5" fill="none" stroke="currentColor" strokeWidth="4"/></svg>
 
 const colorMap = {
   blue: { bg: 'from-blue-50 to-indigo-50', text: 'text-blue-600', icon: 'text-blue-200' },
