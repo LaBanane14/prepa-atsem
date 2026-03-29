@@ -82,8 +82,8 @@ export default function HomePage() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
             </div>
             <div>
-              <span className="font-black text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-red-600">FPC</span></span>
-              <span className="text-xs font-bold text-slate-500 tracking-widest uppercase">La passerelle IFSI</span>
+              <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-red-600">FPC</span></span>
+              <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">La passerelle IFSI</span>
             </div>
           </a>
           <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
@@ -134,7 +134,7 @@ export default function HomePage() {
       <section className="relative pt-8 pb-20 lg:pt-12 lg:pb-24 overflow-hidden bg-white">
         <div className="absolute inset-0 opacity-5" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E\")"}}></div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-red-700 text-sm font-bold mb-6">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Spécial Aides-Soignants &amp; AP
@@ -146,19 +146,19 @@ export default function HomePage() {
                 La première plateforme de révision conçue exclusivement pour les professionnels en reconversion. Maîtrisez parfaitement les <strong className="text-slate-800">calculs de doses</strong> <br/>et la <strong className="text-slate-800">culture sanitaire</strong>.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                <a href="/qcm" className="flex-1 bg-slate-900 hover:bg-black text-white px-6 py-4 rounded-2xl font-bold text-base shadow-xl transition-all flex items-center justify-center gap-2 group">
+                <a href="/qcm" className="flex-1 bg-slate-900 hover:bg-black text-white px-5 py-3.5 sm:px-6 sm:py-4 rounded-2xl font-bold text-sm sm:text-base shadow-xl transition-all flex items-center justify-center gap-2 group">
                   Commencer l'entraînement
                   <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
                 </a>
-                <a href="#composition-examen" className="flex-1 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-6 py-4 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2">
+                <a href="#composition-examen" className="flex-1 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 px-5 py-3.5 sm:px-6 sm:py-4 rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2">
                   Découvrir la composition de l'examen
                 </a>
               </div>
               <div className="flex items-center gap-4 text-sm font-semibold text-slate-500">
                 <div className="flex -space-x-2">
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-red-500 flex items-center justify-center text-xs text-white font-bold z-40">M</div>
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-700 flex items-center justify-center text-xs text-white font-bold z-30">S</div>
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-rose-400 flex items-center justify-center text-xs text-white font-bold z-20">L</div>
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-red-500 flex items-center justify-center text-[10px] sm:text-xs text-white font-bold z-40">M</div>
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-slate-700 flex items-center justify-center text-[10px] sm:text-xs text-white font-bold z-30">S</div>
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-rose-400 flex items-center justify-center text-[10px] sm:text-xs text-white font-bold z-20">L</div>
                </div>
                 <p>Rejoignez <span className="text-slate-800 font-bold">plus de 1 200</span> futurs IDE</p>
               </div>
@@ -264,8 +264,8 @@ export default function HomePage() {
               <div className="text-slate-900 block lg:hidden drop-shadow-sm animate-pulse"><svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7-7 7-7-7"/></svg></div>
             </div>
             <div className="w-full lg:w-1/3 relative group">
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-slate-400/50 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-slate-500/40 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
+              <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-20 h-20 sm:w-32 sm:h-32 bg-slate-400/50 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
+              <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-16 h-16 sm:w-24 sm:h-24 bg-slate-500/40 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
               <div className="bg-[#0f172a] rounded-3xl p-8 shadow-2xl relative z-10 border border-slate-800 flex flex-col items-center justify-center h-full min-h-[220px]">
                 <div className="w-14 h-14 bg-slate-800 text-emerald-400 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div>
                 <div className="bg-red-950/40 border border-red-900/40 text-white font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">Vous êtes éligibles !</div>
@@ -279,8 +279,8 @@ export default function HomePage() {
       {/* SECTION COMPOSITION DE L'EXAMEN */}
       <section id="composition-examen" className="py-20 bg-slate-900 border-b border-slate-800 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-red-500/10 rounded-full mix-blend-screen blur-3xl"></div>
-          <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full mix-blend-screen blur-3xl"></div>
+          <div className="absolute top-[-20%] right-[-10%] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-red-500/10 rounded-full mix-blend-screen blur-3xl"></div>
+          <div className="absolute bottom-[-20%] left-[-10%] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-blue-500/10 rounded-full mix-blend-screen blur-3xl"></div>
         </div>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -290,8 +290,8 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Déroulement de l'examen</h2>
             <p className="text-lg text-slate-400 font-medium">Vous devez impérativement obtenir un <strong className="text-white">total d'au-moins 20 sur 40</strong> aux épreuves pour être admis!</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-slate-800 p-8 rounded-3xl border border-slate-700 relative overflow-hidden text-white hover:scale-[1.02] transition-transform duration-300 shadow-xl shadow-slate-900/50">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            <div className="bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-700 relative overflow-hidden text-white hover:scale-[1.02] transition-transform duration-300 shadow-xl shadow-slate-900/50">
               <div className="absolute top-4 right-4 bg-white/20 text-white px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider backdrop-blur-sm">20 points</div>
               <div className="w-14 h-14 bg-red-500/30 rounded-2xl flex items-center justify-center mb-6 shadow-sm"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></div>
               <h3 className="text-2xl font-black text-white mb-6">Épreuve écrite — 1 heure</h3>
@@ -301,7 +301,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-3"><div className="bg-red-500/30 p-1.5 rounded-lg mt-0.5 shrink-0"><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><p><strong className="text-white">ATTENTION !</strong> Une note en dessous de <strong className="text-white">8/20</strong> à l'épreuve écrite est <strong className="text-white">ELIMINATOIRE</strong></p></div>
               </div>
             </div>
-            <div className="bg-slate-800 p-8 rounded-3xl border border-slate-700 relative overflow-hidden text-white hover:scale-[1.02] transition-transform duration-300 shadow-xl shadow-slate-900/50">
+            <div className="bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-700 relative overflow-hidden text-white hover:scale-[1.02] transition-transform duration-300 shadow-xl shadow-slate-900/50">
               <div className="absolute top-4 right-4 bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider">20 points</div>
               <div className="w-14 h-14 bg-slate-700 text-blue-400 rounded-2xl flex items-center justify-center mb-6 border border-slate-600"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div>
               <h3 className="text-2xl font-black text-white mb-6">Épreuve orale - 20 min</h3>
@@ -322,18 +322,18 @@ export default function HomePage() {
             <h2 className="text-3xl font-black text-slate-900 mb-4">La méthode pour réussir votre concours</h2>
             <p className="text-lg text-slate-600 font-medium">Grâce à notre outil d'entraînement développé sur mesure pour maîtriser l'épreuve écrite et orale !</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
               <div className="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Entrainement hebdomadaire</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Notre algorithme génère des <strong className="text-slate-800">calculs de doses</strong> à l'infini ainsi que des <strong className="text-slate-800">calculs de pourcentages</strong> avec des corrections détaillées.</p>
             </div>
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
+            <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
               <div className="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Culture Sanitaire</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Des entrainements de rédaction ciblées sur <strong className="text-slate-800">l'actualité de la santé</strong> (ARS, éthique, loi) pour cartonner à l'épreuve de rédaction écrite.</p>
             </div>
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
+            <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
               <div className="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Sujets d'Annales</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Entraînez-vous dans les <strong className="text-slate-800">conditions réelles avec les vrais sujets</strong> tombés aux concours IFSI de 2024 à 2026 avec un temps imparti de 1H.</p>
