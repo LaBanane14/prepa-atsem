@@ -57,7 +57,7 @@ export default function BlogPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-100 text-slate-900 selection:bg-red-200 flex flex-col">
+    <div className="min-h-screen bg-[#eceef1] text-slate-900 selection:bg-red-200 flex flex-col">
       <style>{`
         .article-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .article-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); }
