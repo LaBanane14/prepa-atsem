@@ -12,6 +12,7 @@ export default function ContactPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [files, setFiles] = useState([])
   const [honeypot, setHoneypot] = useState('')
 
   const categories = [
@@ -44,17 +45,26 @@ export default function ContactPage() {
     if (!category) { setError('Veuillez sélectionner une catégorie.'); return }
     if (!name.trim() || !email.trim() || !message.trim()) { setError('Veuillez remplir tous les champs.'); return }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Veuillez entrer une adresse email valide.'); return }
+    if (files.length > 3) { setError('Maximum 3 fichiers autorisés.'); return }
+    const maxSize = 5 * 1024 * 1024
+    if (files.some(f => f.size > maxSize)) { setError('Chaque fichier doit faire moins de 5 Mo.'); return }
     setLoading(true)
     try {
+      const formData = new FormData()
+      formData.append('name', name.trim())
+      formData.append('email', email.trim())
+      formData.append('message', message.trim())
+      formData.append('category', category)
+      formData.append('honeypot', honeypot)
+      files.forEach(f => formData.append('files', f))
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message.trim(), category, honeypot })
+        body: formData
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Une erreur est survenue.'); setLoading(false); return }
       setSuccess(true)
-      setName(''); setEmail(''); setMessage(''); setCategory('')
+      setName(''); setEmail(''); setMessage(''); setCategory(''); setFiles([])
     } catch { setError('Une erreur est survenue. Veuillez réessayer.') }
     setLoading(false)
   }
@@ -174,6 +184,32 @@ export default function ContactPage() {
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Message</label>
                 <textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Votre message..." rows={5} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none font-medium transition resize-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">Pièces jointes <span className="text-slate-400 font-medium">(optionnel, max 3 fichiers, 5 Mo chacun)</span></label>
+                <label className="flex flex-col items-center justify-center gap-2 py-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl cursor-pointer hover:border-red-300 hover:bg-red-50/30 transition">
+                  <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"/></svg>
+                  <span className="text-sm font-medium text-slate-500">Cliquez ou glissez vos fichiers ici</span>
+                  <span className="text-xs text-slate-400">Images, PDF, captures d'écran</span>
+                  <input type="file" multiple accept="image/*,.pdf,.doc,.docx" className="hidden" onChange={e => { const newFiles = [...files, ...Array.from(e.target.files)].slice(0, 3); setFiles(newFiles); e.target.value = '' }} />
+                </label>
+                {files.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    {files.map((f, i) => (
+                      <div key={i} className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                          <span className="text-sm font-medium text-slate-700 truncate">{f.name}</span>
+                          <span className="text-xs text-slate-400 shrink-0">({(f.size / 1024 / 1024).toFixed(1)} Mo)</span>
+                        </div>
+                        <button type="button" onClick={() => setFiles(files.filter((_, j) => j !== i))} className="text-slate-400 hover:text-red-500 transition shrink-0 ml-2 cursor-pointer">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <button type="submit" disabled={loading} className="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
