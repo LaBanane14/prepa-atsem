@@ -237,7 +237,7 @@ export default function SpecifiquePage() {
       </div>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px]">
+      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-30">
           <button onClick={() => setSidebarOpen(true)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
           <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
@@ -301,7 +301,7 @@ export default function SpecifiquePage() {
           { source: 2, target: 3 }
         ]
         return (
-        <div className="animate-fade-in min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] flex flex-col md:items-center md:justify-center relative md:overflow-hidden" style={{fontFamily: "'Nunito', sans-serif"}}>
+        <div className="animate-fade-in min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] flex flex-col md:items-center md:justify-center relative overflow-x-hidden md:overflow-hidden w-full" style={{fontFamily: "'Nunito', sans-serif"}}>
 
           <a href="/dashboard" className="absolute top-4 right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm p-2.5 sm:px-5 sm:py-2.5 rounded-xl transition flex items-center gap-2 z-30 shadow-lg">
             <span className="hidden sm:inline">Quitter l&apos;exercice</span>
