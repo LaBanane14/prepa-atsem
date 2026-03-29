@@ -172,7 +172,7 @@ export default function TarifsPage() {
       </section>
 
       {/* SECTION RÉASSURANCE */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-[#eceef1]">
         <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="flex flex-col items-center text-center">
             <svg className="w-8 h-8 text-red-500 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
