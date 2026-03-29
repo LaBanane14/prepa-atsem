@@ -264,8 +264,8 @@ export default function HomePage() {
               <div className="text-slate-900 block lg:hidden drop-shadow-sm animate-pulse"><svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7-7 7-7-7"/></svg></div>
             </div>
             <div className="w-full lg:w-1/3 relative group">
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-slate-200/60 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-slate-300/50 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-slate-400/50 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-slate-500/40 rounded-full z-0 transition-transform duration-500 group-hover:scale-110"></div>
               <div className="bg-[#0f172a] rounded-3xl p-8 shadow-2xl relative z-10 border border-slate-800 flex flex-col items-center justify-center h-full min-h-[220px]">
                 <div className="w-14 h-14 bg-slate-800 text-emerald-400 rounded-2xl flex items-center justify-center mb-4 border border-slate-700 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div>
                 <div className="bg-red-950/40 border border-red-900/40 text-white font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">Vous êtes éligibles !</div>
