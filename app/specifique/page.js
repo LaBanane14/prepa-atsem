@@ -241,7 +241,7 @@ export default function SpecifiquePage() {
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(true)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
           <span className="font-black text-lg text-slate-900">Prépa <span className={selectedFamille ? c.text : 'text-red-600'}>FPC</span></span>
-          <a href="/dashboard" className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
+          <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
         </header>
@@ -453,10 +453,10 @@ export default function SpecifiquePage() {
             @keyframes dropFill { 0% { transform: translateY(100%); } 100% { transform: translateY(0%); } }
             @keyframes dropPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
           `}</style>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 pt-6 sm:pt-8 shrink-0">
-            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={colorMap[selectedFamille.id]?.text || 'text-blue-500'}>— {selectedFamille.titre}</span></h1>
-            <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shrink-0">
-              <span className="hidden sm:inline">Quitter l&apos;exercice</span>
+          <div className="flex items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
+            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left flex-1" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={colorMap[selectedFamille.id]?.text || 'text-blue-500'}>— {selectedFamille.titre}</span></h1>
+            <a href="/dashboard" className="hidden sm:flex bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 shadow-lg shrink-0">
+              Quitter l&apos;exercice
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </a>
           </div>
@@ -489,10 +489,10 @@ export default function SpecifiquePage() {
       {/* ===== ÉPREUVE ===== */}
       {step === 'epreuve' && sujet && data && selectedFamille && (
         <div className={`fixed inset-0 z-40 lg:pl-[90px] ${c.wrapper} overflow-y-auto flex flex-col pt-14 lg:pt-0`}>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
-            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={c.text}>— {selectedFamille.titre}</span></h1>
-            <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shrink-0">
-              <span className="hidden sm:inline">Quitter l&apos;exercice</span>
+          <div className="flex items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
+            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left flex-1" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={c.text}>— {selectedFamille.titre}</span></h1>
+            <a href="/dashboard" className="hidden sm:flex bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 shadow-lg shrink-0">
+              Quitter l&apos;exercice
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </a>
           </div>
