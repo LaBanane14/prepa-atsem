@@ -298,10 +298,10 @@ export default function MathsPage() {
           {/* ===== LOADING ===== */}
           {step === 'loading' && (
             <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
-                <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-rose-500 shadow-xl shadow-red-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
-                <h2 className="text-xl font-black text-slate-900 mb-2">Génération des exercices en cours...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous préparons votre épreuve de mathématiques.</p>
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
+                <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-red-500 to-rose-500 shadow-xl shadow-red-200 mb-6 sm:mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
+                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Génération des exercices en cours...</h2>
+                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous préparons votre épreuve de mathématiques.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
                     { label: 'Récupération des annales' },
