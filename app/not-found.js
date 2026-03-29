@@ -15,14 +15,6 @@ export default function NotFound() {
           <div className="relative inline-block">
             <svg className="w-[110px] h-[140px] sm:w-[150px] sm:h-[190px]" viewBox="0 0 150 190">
 
-              {/* Oreille gauche */}
-              <ellipse cx="20" cy="85" rx="12" ry="18" fill="#0f172a"/>
-              <ellipse cx="22" cy="85" rx="6" ry="12" fill="#1e293b"/>
-
-              {/* Oreille droite */}
-              <ellipse cx="130" cy="85" rx="12" ry="18" fill="#0f172a"/>
-              <ellipse cx="128" cy="85" rx="6" ry="12" fill="#1e293b"/>
-
               {/* Corps du 0 */}
               <ellipse cx="75" cy="95" rx="52" ry="70" fill="none" stroke="#0f172a" strokeWidth="16" strokeLinecap="round"/>
 
@@ -36,8 +28,8 @@ export default function NotFound() {
               <ellipse cx="95" cy="80" rx="5" ry="6" fill="#0f172a"/>
               <ellipse cx="96" cy="78" rx="2" ry="2.5" fill="white"/>
 
-              {/* Bouche (O surpris) */}
-              <ellipse cx="75" cy="112" rx="9" ry="7" fill="#1e293b"/>
+              {/* Sourire */}
+              <path d="M60 108 Q75 122 90 108" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"/>
             </svg>
           </div>
 
