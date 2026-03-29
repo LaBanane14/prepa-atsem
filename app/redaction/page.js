@@ -198,11 +198,11 @@ export default function RedactionPage() {
         @keyframes dot-blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
       `}</style>
 
-      {sidebarOpen && <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
+      {sidebarOpen && <div className="fixed top-14 lg:top-0 inset-x-0 bottom-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
 
       {/* SIDEBAR */}
-      <div className={`fixed inset-y-0 left-0 z-50 flex items-center pl-3 py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <aside className="w-[72px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
+      <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-center pl-3 py-3 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <aside className="w-[72px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
           <a href="/" className="mb-4"><div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><Stethoscope size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
@@ -280,7 +280,7 @@ export default function RedactionPage() {
 
           {/* ===== LOADING ===== */}
           {step === 'loading' && (
-            <div className="animate-fade-in min-h-[calc(100vh-2.5rem)] flex items-center justify-center">
+            <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-4 sm:px-8">
                 <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-500 shadow-xl shadow-purple-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Génération du sujet en cours...</h2>
@@ -307,7 +307,7 @@ export default function RedactionPage() {
           {/* ===== ÉPREUVE ===== */}
           {step === 'epreuve' && sujet && (
             <div className="animate-fade-in">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-[calc(100vh-2.5rem)] flex flex-col">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-full lg:h-[calc(100vh-2.5rem)] flex flex-col">
 
                 {/* Barre du haut : chrono */}
                 <div className="bg-slate-900 rounded-t-2xl px-4 sm:px-6 py-4 sm:py-5">
@@ -414,7 +414,7 @@ export default function RedactionPage() {
 
           {/* ===== CORRECTING ===== */}
           {step === 'correcting' && (
-            <div className="animate-fade-in min-h-[calc(100vh-2.5rem)] flex items-center justify-center">
+            <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-4 sm:px-8">
                 <svg style={{width:0,height:0,position:'absolute'}}>
                   <defs>
