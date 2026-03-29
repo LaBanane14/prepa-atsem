@@ -96,10 +96,9 @@ export default function TarifsPage() {
 
       {/* HEADER TARIFS */}
       <header className="pt-16 pb-12 bg-[#eceef1] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E\")"}}></div>
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 tracking-tight">Aborder le concours FPC <span className="text-red-600">sereinement</span>.</h1>
-          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Accédez à tous les outils spécifiques pour réussir votre épreuve de sélection FPC. Choisissez la formule qui s'adapte le plus à votre besoin.</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 tracking-tight">Aborder le concours FPC <span className="text-red-600">sereinement</span></h1>
+          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Accédez à tous les outils spécifiques pour réussir votre épreuve de sélection FPC.</p>
         </div>
       </header>
 
