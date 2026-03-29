@@ -136,7 +136,7 @@ export default function CalculsDosesPage() {
                 {/* Tableau en croix visuel */}
                 <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-3">Le tableau en croix</p>
                 <div className="flex flex-col items-center gap-3 mb-7">
-                  <div className="grid grid-cols-2 rounded-2xl overflow-hidden border-2 border-slate-200 w-72">
+                  <div className="grid grid-cols-2 rounded-2xl overflow-hidden border-2 border-slate-200 w-full max-w-72">
                     <div className="bg-slate-50 p-2.5 text-center text-[10px] font-extrabold uppercase tracking-wider text-slate-400 border border-slate-200">Quantité</div>
                     <div className="bg-slate-50 p-2.5 text-center text-[10px] font-extrabold uppercase tracking-wider text-slate-400 border border-slate-200">Volume</div>
                     <div className="p-4 text-center font-bold text-slate-900 border border-slate-200">500 mg</div>
@@ -152,7 +152,7 @@ export default function CalculsDosesPage() {
                 <div className="bg-red-50 border border-slate-200 rounded-2xl p-5 mb-4">
                   <p className="text-sm font-bold text-slate-900 mb-4 pb-3 border-b border-dashed border-slate-200">Prescription : <span className="text-red-700 font-extrabold">750 mg</span> d'amoxicilline. Disponible : flacon de <span className="text-red-700 font-extrabold">500 mg / 5 ml</span>.</p>
                   <p className="text-[10px] font-extrabold uppercase tracking-wider text-red-500 mb-2">Étape 1 — Je pose mon tableau</p>
-                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-fit mx-auto mb-4 bg-white">
+                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-full max-w-fit mx-auto mb-4 bg-white">
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200"></div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Quantité</div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Volume</div>
@@ -174,7 +174,7 @@ export default function CalculsDosesPage() {
                 <div className="bg-red-50 border border-slate-200 rounded-2xl p-5 mb-7">
                   <p className="text-sm font-bold text-slate-900 mb-4 pb-3 border-b border-dashed border-slate-200">Prescription : <span className="text-red-700 font-extrabold">200 mg</span> de paracétamol. Disponible : sirop <span className="text-red-700 font-extrabold">120 mg / 5 ml</span>.</p>
                   <p className="text-[10px] font-extrabold uppercase tracking-wider text-red-500 mb-2">Étape 1 — Je pose mon tableau</p>
-                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-fit mx-auto mb-4 bg-white">
+                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-full max-w-fit mx-auto mb-4 bg-white">
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200"></div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Quantité</div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Volume</div>
@@ -200,7 +200,7 @@ export default function CalculsDosesPage() {
                     <p><span className="text-slate-400 mr-1">.</span> 0,5 g = 0,5 x 1 000 = <strong>500 mg</strong></p>
                   </div>
                   <p className="text-[10px] font-extrabold uppercase tracking-wider text-red-500 mb-2">Étape 2 — Je pose mon tableau</p>
-                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-fit mx-auto mb-4 bg-white">
+                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-full max-w-fit mx-auto mb-4 bg-white">
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200"></div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Quantité</div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Volume</div>
@@ -275,20 +275,20 @@ export default function CalculsDosesPage() {
 
                 {/* Formule décomposée */}
                 <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-3">La formule décomposée</p>
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-7 flex items-center justify-center gap-3 flex-wrap">
-                  <div className="text-center"><div className="bg-slate-200 text-slate-900 font-black text-lg px-4 py-2 rounded-xl">?</div><p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">Débit</p></div>
-                  <span className="text-2xl font-black text-slate-300">=</span>
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-7 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+                  <div className="text-center"><div className="bg-slate-200 text-slate-900 font-black text-base sm:text-lg px-3 sm:px-4 py-2 rounded-xl">?</div><p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">Débit</p></div>
+                  <span className="text-xl sm:text-2xl font-black text-slate-300">=</span>
                   <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-2 pb-2">
-                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-lg px-4 py-2 rounded-xl">Vol</div><p className="text-[10px] font-bold text-slate-400 mt-1">en ml</p></div>
-                      <span className="text-xl font-black text-slate-300">x</span>
-                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-lg px-4 py-2 rounded-xl">20</div><p className="text-[10px] font-bold text-slate-400 mt-1">gttes/ml</p></div>
+                    <div className="flex items-center gap-1.5 sm:gap-2 pb-2">
+                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-base sm:text-lg px-2.5 sm:px-4 py-2 rounded-xl">Vol</div><p className="text-[10px] font-bold text-slate-400 mt-1">en ml</p></div>
+                      <span className="text-lg sm:text-xl font-black text-slate-300">x</span>
+                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-base sm:text-lg px-2.5 sm:px-4 py-2 rounded-xl">20</div><p className="text-[10px] font-bold text-slate-400 mt-1">gttes/ml</p></div>
                     </div>
                     <div className="w-full h-[3px] bg-slate-400 rounded"></div>
-                    <div className="flex items-center gap-2 pt-2">
-                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-lg px-4 py-2 rounded-xl">Heures</div><p className="text-[10px] font-bold text-slate-400 mt-1">durée</p></div>
-                      <span className="text-xl font-black text-slate-300">x</span>
-                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-lg px-4 py-2 rounded-xl">60</div><p className="text-[10px] font-bold text-slate-400 mt-1">min/h</p></div>
+                    <div className="flex items-center gap-1.5 sm:gap-2 pt-2">
+                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-sm sm:text-lg px-2 sm:px-4 py-2 rounded-xl">Heures</div><p className="text-[10px] font-bold text-slate-400 mt-1">durée</p></div>
+                      <span className="text-lg sm:text-xl font-black text-slate-300">x</span>
+                      <div className="text-center"><div className="bg-slate-100 text-slate-800 font-black text-base sm:text-lg px-2.5 sm:px-4 py-2 rounded-xl">60</div><p className="text-[10px] font-bold text-slate-400 mt-1">min/h</p></div>
                     </div>
                   </div>
                 </div>
@@ -361,24 +361,26 @@ export default function CalculsDosesPage() {
 
                 {/* Échelle des unités */}
                 <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-3">L'échelle des unités</p>
-                <div className="flex items-center justify-center gap-0 mb-7 flex-wrap">
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-36">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-0 mb-7 flex-wrap">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-full sm:w-36">
                     <p className="text-[10px] font-extrabold uppercase tracking-wider text-yellow-600 mb-1">Gramme</p>
                     <p className="text-2xl font-black text-yellow-700">1 g</p>
                   </div>
-                  <div className="flex flex-col items-center px-2">
-                    <p className="text-[10px] font-extrabold text-yellow-600">x 1 000 →</p>
-                    <p className="text-[10px] font-extrabold text-yellow-500">← / 1 000</p>
+                  <div className="flex flex-col items-center px-2 py-1 sm:py-0">
+                    <p className="text-[10px] font-extrabold text-yellow-600 hidden sm:block">x 1 000 →</p>
+                    <p className="text-[10px] font-extrabold text-yellow-500 hidden sm:block">← / 1 000</p>
+                    <p className="text-[10px] font-extrabold text-yellow-600 sm:hidden">↕ x 1 000</p>
                   </div>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-36">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-full sm:w-36">
                     <p className="text-[10px] font-extrabold uppercase tracking-wider text-yellow-600 mb-1">Milligramme</p>
                     <p className="text-2xl font-black text-yellow-700">1 000 mg</p>
                   </div>
-                  <div className="flex flex-col items-center px-2">
-                    <p className="text-[10px] font-extrabold text-yellow-600">x 1 000 →</p>
-                    <p className="text-[10px] font-extrabold text-yellow-500">← / 1 000</p>
+                  <div className="flex flex-col items-center px-2 py-1 sm:py-0">
+                    <p className="text-[10px] font-extrabold text-yellow-600 hidden sm:block">x 1 000 →</p>
+                    <p className="text-[10px] font-extrabold text-yellow-500 hidden sm:block">← / 1 000</p>
+                    <p className="text-[10px] font-extrabold text-yellow-600 sm:hidden">↕ x 1 000</p>
                   </div>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-36">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center w-full sm:w-36">
                     <p className="text-[10px] font-extrabold uppercase tracking-wider text-yellow-600 mb-1">Microgramme</p>
                     <p className="text-xl font-black text-yellow-700">1 000 000 µg</p>
                   </div>
@@ -544,7 +546,7 @@ export default function CalculsDosesPage() {
                     <p><span className="text-slate-400 mr-1">.</span> G5% = 5 g de glucose pour 100 ml</p>
                   </div>
                   <p className="text-[10px] font-extrabold uppercase tracking-wider text-violet-500 mb-2">Étape 2 — Je pose mon tableau</p>
-                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-fit mx-auto mb-3 bg-white">
+                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-full max-w-fit mx-auto mb-3 bg-white">
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200"></div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Masse</div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Volume</div>
@@ -587,7 +589,7 @@ export default function CalculsDosesPage() {
                     <p><span className="text-slate-400 mr-1">.</span> 1 L = <strong>1 000 ml</strong></p>
                   </div>
                   <p className="text-[10px] font-extrabold uppercase tracking-wider text-violet-500 mb-2">Étape 3 — Produit en croix</p>
-                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-fit mx-auto mb-3 bg-white">
+                  <div className="grid grid-cols-3 rounded-xl overflow-hidden border border-slate-200 w-full max-w-fit mx-auto mb-3 bg-white">
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200"></div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Masse</div>
                     <div className="bg-slate-50 p-2 text-center text-[9px] font-extrabold uppercase text-slate-400 border border-slate-200">Volume</div>
