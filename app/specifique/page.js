@@ -301,7 +301,7 @@ export default function SpecifiquePage() {
           { source: 2, target: 3 }
         ]
         return (
-        <div className="animate-fade-in h-[calc(100vh-4rem)] flex items-center justify-center relative overflow-hidden" style={{fontFamily: "'Nunito', sans-serif"}}>
+        <div className="animate-fade-in min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] flex flex-col md:items-center md:justify-center relative md:overflow-hidden" style={{fontFamily: "'Nunito', sans-serif"}}>
 
           <a href="/dashboard" className="absolute top-4 right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm p-2.5 sm:px-5 sm:py-2.5 rounded-xl transition flex items-center gap-2 z-30 shadow-lg">
             <span className="hidden sm:inline">Quitter l&apos;exercice</span>
@@ -309,19 +309,19 @@ export default function SpecifiquePage() {
           </a>
 
           {error && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-5 py-3 rounded-xl flex items-center gap-2 z-30">
+            <div className="absolute top-4 left-4 right-16 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2 z-30">
               <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
               {error}
             </div>
           )}
 
           {/* Titre */}
-          <div className="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 text-center z-20 pointer-events-none">
+          <div className="pt-5 pb-4 px-4 text-center z-20 md:absolute md:top-5 md:left-1/2 md:-translate-x-1/2 md:p-0 pointer-events-none">
             <h1 className="text-xl sm:text-3xl md:text-4xl font-black text-slate-800 tracking-tight">Choisissez votre entraînement</h1>
           </div>
 
           {/* Version mobile : liste de cartes */}
-          <div className="flex flex-col gap-3 w-full px-4 mt-14 md:hidden">
+          <div className="flex flex-col gap-3 w-full px-4 pb-6 md:hidden">
             {familles.map((f, idx) => {
               const Icon = f.icon
               const isLoading = loadingFamille === f.id
