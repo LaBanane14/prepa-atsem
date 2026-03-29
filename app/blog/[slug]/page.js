@@ -243,7 +243,7 @@ export default function ArticlePage() {
             <ul className="space-y-3">
               <li><a href="#" className="hover:text-white transition">Mentions légales</a></li>
               <li><a href="#" className="hover:text-white transition">CGV &amp; CGU</a></li>
-              <li><a href="mailto:contact@prepa-fpc.fr" className="hover:text-white transition">Contact</a></li>
+              <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
             </ul>
           </div>
         </div>
