@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Target, BookOpen, Sparkles, ClipboardCheck, Sigma, Percent, ArrowLeftRight, Equal, ArrowRight } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope, Target, BookOpen, Sparkles, ClipboardCheck, Sigma, Percent, ArrowLeftRight, Equal, ArrowRight } from 'lucide-react'
 
 const sidebarItems = [
   { id: 'dashboard', label: 'Accueil', href: '/dashboard', icon: Home },
@@ -216,7 +216,7 @@ export default function SpecifiquePage() {
       {/* SIDEBAR */}
       <div className={`fixed inset-y-0 left-0 z-50 flex items-center pl-3 py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 flex flex-col items-center py-5 h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
-          <a href="/" className="mb-4"><div className={`w-10 h-10 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-all bg-gradient-to-br ${selectedFamille ? c.gradient : 'from-blue-500 to-blue-600'}`}><svg viewBox="0 0 100 100" className="w-6 h-6"><path d="M38 20a2 2 0 0 0-2 2v22a18 18 0 0 0 18 18 18 18 0 0 0 18-18V22a2 2 0 0 0-2-2h-4a1.5 1.5 0 1 0 0 3h1v19a14 14 0 0 1-14 14 14 14 0 0 1-14-14V23h1a1.5 1.5 0 1 0 0-3h-4z" fill="currentColor"/><path d="M50 62v4a18 18 0 0 0 18 18 18 18 0 0 0 18-18v-8" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="86" cy="54" r="5" fill="none" stroke="currentColor" strokeWidth="4"/></svg></div></a>
+          <a href="/" className="mb-4"><div className={`w-10 h-10 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-all bg-gradient-to-br ${selectedFamille ? c.gradient : 'from-blue-500 to-blue-600'}`}><Stethoscope size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
