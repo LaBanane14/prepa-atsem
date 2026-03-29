@@ -303,6 +303,7 @@ function DashboardContent() {
             </div>
             <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
           </a>
+          <div className="w-9"></div>
         </header>
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
