@@ -29,7 +29,7 @@ export default function NotFound() {
               <ellipse cx="96" cy="78" rx="2" ry="2.5" fill="white"/>
 
               {/* Sourire */}
-              <path d="M60 108 Q75 122 90 108" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M60 108 Q75 122 90 108" fill="none" stroke="#1e293b" strokeWidth="3.5" strokeLinecap="round"/>
             </svg>
           </div>
 
