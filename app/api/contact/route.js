@@ -8,7 +8,10 @@ const supabase = createClient(
 
 export async function POST(request) {
   try {
-    const { name, email, message, honeypot } = await request.json()
+    const { name, email, message, category, honeypot } = await request.json()
+
+    const validCategories = ['bug', 'question', 'suggestion', 'abonnement', 'autre']
+    const categoryLabels = { bug: 'Bug', question: 'Question', suggestion: 'Suggestion', abonnement: 'Abonnement', autre: 'Autre' }
 
     // Anti-spam : honeypot
     if (honeypot) {
@@ -16,6 +19,9 @@ export async function POST(request) {
     }
 
     // Validation
+    if (!category || !validCategories.includes(category)) {
+      return NextResponse.json({ error: 'Veuillez sélectionner une catégorie.' }, { status: 400 })
+    }
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Veuillez remplir tous les champs.' }, { status: 400 })
     }
@@ -43,7 +49,7 @@ export async function POST(request) {
     // Insert en base
     const { error } = await supabase
       .from('contacts')
-      .insert({ name, email, message, ip })
+      .insert({ name, email, message, category, subject: `${categoryLabels[category]}-${Date.now().toString(36).toUpperCase()}`, ip })
 
     if (error) {
       console.error('Supabase insert error:', error)

@@ -8,10 +8,19 @@ export default function ContactPage() {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [category, setCategory] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [honeypot, setHoneypot] = useState('')
+
+  const categories = [
+    { id: 'bug', label: 'Signaler un bug', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M8 2l1.88 1.88M14.12 3.88 16 2M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg> },
+    { id: 'question', label: 'Question', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg> },
+    { id: 'suggestion', label: 'Suggestion', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> },
+    { id: 'abonnement', label: 'Abonnement', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> },
+    { id: 'autre', label: 'Autre', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> }
+  ]
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -32,6 +41,7 @@ export default function ContactPage() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
+    if (!category) { setError('Veuillez sélectionner une catégorie.'); return }
     if (!name.trim() || !email.trim() || !message.trim()) { setError('Veuillez remplir tous les champs.'); return }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Veuillez entrer une adresse email valide.'); return }
     setLoading(true)
@@ -39,12 +49,12 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message.trim(), honeypot })
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message.trim(), category, honeypot })
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Une erreur est survenue.'); setLoading(false); return }
       setSuccess(true)
-      setName(''); setEmail(''); setMessage('')
+      setName(''); setEmail(''); setMessage(''); setCategory('')
     } catch { setError('Une erreur est survenue. Veuillez réessayer.') }
     setLoading(false)
   }
@@ -131,6 +141,18 @@ export default function ContactPage() {
               {/* Honeypot anti-spam */}
               <div className="absolute opacity-0 -z-10" aria-hidden="true">
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" value={honeypot} onChange={e => setHoneypot(e.target.value)} />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Catégorie</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {categories.map(cat => (
+                    <button key={cat.id} type="button" onClick={() => setCategory(cat.id)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-bold transition cursor-pointer border ${category === cat.id ? 'bg-red-50 border-red-300 text-red-700' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'}`}>
+                      {cat.icon}
+                      <span className="truncate">{cat.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
