@@ -303,9 +303,10 @@ export default function SpecifiquePage() {
         return (
         <div className="animate-fade-in min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] flex flex-col md:items-center md:justify-center relative overflow-x-hidden md:overflow-hidden w-full" style={{fontFamily: "'Nunito', sans-serif"}}>
 
-          <a href="/dashboard" className="absolute top-4 right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm p-2.5 sm:px-5 sm:py-2.5 rounded-xl transition flex items-center gap-2 z-30 shadow-lg">
-            <span className="hidden sm:inline">Quitter l&apos;exercice</span>
-            <svg className="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          {/* Bouton quitter — desktop */}
+          <a href="/dashboard" className="hidden md:flex absolute top-4 right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 z-30 shadow-lg">
+            Quitter l&apos;exercice
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
 
           {error && (
@@ -339,6 +340,11 @@ export default function SpecifiquePage() {
                 </button>
               )
             })}
+            {/* Bouton retour — mobile */}
+            <a href="/dashboard" className="mt-4 bg-slate-900 hover:bg-black text-white font-bold text-sm py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
+              Retour au dashboard
+            </a>
           </div>
 
           {/* Constellation desktop */}
