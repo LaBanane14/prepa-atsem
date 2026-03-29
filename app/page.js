@@ -238,10 +238,10 @@ export default function HomePage() {
             <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">La voie de la Formation Professionnelle Continue (FPC) est une passerelle spécifique qui permet d'intégrer un IFSI<br/>Voici les deux conditions requises pour y accéder :</p>
           </div>
           <div className="flex flex-col lg:flex-row items-stretch justify-center gap-6 lg:gap-8 max-w-5xl mx-auto relative z-10">
-            <div className="w-full lg:w-1/3 bg-red-600 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] overflow-hidden relative border border-red-500 z-10 hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center">
-              <div className="absolute top-0 left-0 w-full h-[6px] bg-red-400"></div>
+            <div className="w-full lg:w-1/3 bg-red-500 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] overflow-hidden relative border border-red-400 z-10 hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center">
+              <div className="absolute top-0 left-0 w-full h-[6px] bg-red-300"></div>
               <div className="p-8 text-center flex flex-col items-center">
-                <div className="w-14 h-14 bg-white text-red-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div className="w-14 h-14 bg-white text-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                 <h3 className="text-lg font-black text-white mb-2 uppercase tracking-wide">Être âgé de 17 ans ou plus</h3>
                 <p className="text-red-100 font-medium leading-relaxed">Avec ou sans diplôme<br/>en reconversion</p>
               </div>
@@ -251,10 +251,10 @@ export default function HomePage() {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14"/></svg>
               </div>
             </div>
-            <div className="w-full lg:w-1/3 bg-red-600 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] overflow-hidden relative border border-red-500 z-10 hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center">
-              <div className="absolute top-0 left-0 w-full h-[6px] bg-red-400"></div>
+            <div className="w-full lg:w-1/3 bg-red-500 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] overflow-hidden relative border border-red-400 z-10 hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center">
+              <div className="absolute top-0 left-0 w-full h-[6px] bg-red-300"></div>
               <div className="p-8 text-center flex flex-col items-center">
-                <div className="w-14 h-14 bg-white text-red-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></svg></div>
+                <div className="w-14 h-14 bg-white text-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-sm"><svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></svg></div>
                 <h3 className="text-lg font-black text-white mb-2 uppercase tracking-wide">Avoir cotisé</h3>
                 <p className="text-red-100 font-medium leading-relaxed"><strong className="text-white">3 ans</strong> de cotisation<br/>(Temps plein) à un régime de protection sociale</p>
               </div>
