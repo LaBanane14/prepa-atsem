@@ -85,7 +85,7 @@ export default function Auth() {
 
   if (signupSuccess) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
         <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-100 text-center">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -99,7 +99,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex items-center justify-center p-4 selection:bg-red-200">
+    <div className="min-h-screen bg-[#eceef1] text-slate-900 flex items-center justify-center p-4 selection:bg-red-200">
       <style>{`
         @keyframes slideLeft { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(-80px) scale(.96) } }
         @keyframes slideRight { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(80px) scale(.96) } }
@@ -112,7 +112,7 @@ export default function Auth() {
       `}</style>
 
       <div className={`bg-white max-w-md w-full rounded-3xl shadow-2xl relative z-10 p-8 sm:p-10 border border-slate-100 ${sliding}`}>
-        <a href="/" className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 transition bg-slate-50 hover:bg-slate-100 p-2 rounded-full">
+        <a href="/" className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 transition bg-slate-50 hover:bg-[#eceef1] p-2 rounded-full">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </a>
 
