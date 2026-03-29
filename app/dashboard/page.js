@@ -303,7 +303,7 @@ function DashboardContent() {
             </div>
             <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
           </a>
-          <button onClick={() => navigateTo('profil')} className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs">{firstName.charAt(0).toUpperCase()}</button>
+          <button onClick={() => navigateTo('profil')} className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs">{firstName.charAt(0).toUpperCase()}</button>
         </header>
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
