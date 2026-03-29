@@ -15,38 +15,13 @@ export default function NotFound() {
           <div className="relative inline-block">
             <svg className="w-[110px] h-[140px] sm:w-[150px] sm:h-[190px]" viewBox="0 0 150 190">
 
-              {/* Stéthoscope : tube des oreilles vers le bas */}
-              <path d="M30 45 L30 30 C30 15 48 15 48 30" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-              <path d="M102 30 C102 15 120 15 120 30 L120 45" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-              {/* Earpiece dots */}
-              <circle cx="30" cy="26" r="3" fill="#dc2626"/>
-              <circle cx="48" cy="26" r="3" fill="#dc2626"/>
-              <circle cx="102" cy="26" r="3" fill="#dc2626"/>
-              <circle cx="120" cy="26" r="3" fill="#dc2626"/>
-              {/* Tube central qui descend du U gauche */}
-              <path d="M39 30 L39 8 C39 2 75 -5 75 8 L75 170" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-              {/* Tube du U droit qui rejoint le centre */}
-              <path d="M111 30 L111 8 C111 2 75 -5 75 8" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-              {/* Chest piece (pavillon) en bas */}
-              <circle cx="75" cy="175" r="8" fill="none" stroke="#dc2626" strokeWidth="4"/>
-              <circle cx="75" cy="175" r="2.5" fill="#dc2626"/>
-
               {/* Oreille gauche */}
               <ellipse cx="20" cy="85" rx="12" ry="18" fill="#0f172a"/>
               <ellipse cx="22" cy="85" rx="6" ry="12" fill="#1e293b"/>
-              {/* Écouteur dans l'oreille gauche */}
-              <circle cx="22" cy="82" r="4" fill="#dc2626"/>
 
               {/* Oreille droite */}
               <ellipse cx="130" cy="85" rx="12" ry="18" fill="#0f172a"/>
               <ellipse cx="128" cy="85" rx="6" ry="12" fill="#1e293b"/>
-              {/* Écouteur dans l'oreille droite */}
-              <circle cx="128" cy="82" r="4" fill="#dc2626"/>
-
-              {/* Tube stétho vers oreille gauche */}
-              <path d="M30 45 C25 55 22 65 22 78" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round"/>
-              {/* Tube stétho vers oreille droite */}
-              <path d="M120 45 C125 55 128 65 128 78" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round"/>
 
               {/* Corps du 0 */}
               <ellipse cx="75" cy="95" rx="52" ry="70" fill="none" stroke="#0f172a" strokeWidth="16" strokeLinecap="round"/>
