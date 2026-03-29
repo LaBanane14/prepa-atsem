@@ -200,7 +200,7 @@ export default function SpecifiquePage() {
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -244,7 +244,7 @@ export default function SpecifiquePage() {
           <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs">{firstName.charAt(0).toUpperCase()}</div>
         </header>
 
-        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5">
+        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 overflow-x-hidden">
 
       {/* ===== POPUP INFO ===== */}
       {showInfoPopup && (
