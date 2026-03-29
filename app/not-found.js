@@ -11,34 +11,58 @@ export default function NotFound() {
           {/* 4 */}
           <span className="text-[120px] sm:text-[180px] font-black text-slate-900 leading-none select-none">4</span>
 
-          {/* 0 avec visage et stéthoscope */}
+          {/* 0 avec visage, oreilles et stéthoscope */}
           <div className="relative inline-block">
-            <svg className="w-[100px] h-[130px] sm:w-[140px] sm:h-[180px]" viewBox="0 0 140 180">
+            <svg className="w-[110px] h-[140px] sm:w-[150px] sm:h-[190px]" viewBox="0 0 150 190">
+
+              {/* Stéthoscope : tube des oreilles vers le bas */}
+              <path d="M30 45 L30 30 C30 15 48 15 48 30" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M102 30 C102 15 120 15 120 30 L120 45" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
+              {/* Earpiece dots */}
+              <circle cx="30" cy="26" r="3" fill="#dc2626"/>
+              <circle cx="48" cy="26" r="3" fill="#dc2626"/>
+              <circle cx="102" cy="26" r="3" fill="#dc2626"/>
+              <circle cx="120" cy="26" r="3" fill="#dc2626"/>
+              {/* Tube central qui descend du U gauche */}
+              <path d="M39 30 L39 8 C39 2 75 -5 75 8 L75 170" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
+              {/* Tube du U droit qui rejoint le centre */}
+              <path d="M111 30 L111 8 C111 2 75 -5 75 8" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
+              {/* Chest piece (pavillon) en bas */}
+              <circle cx="75" cy="175" r="8" fill="none" stroke="#dc2626" strokeWidth="4"/>
+              <circle cx="75" cy="175" r="2.5" fill="#dc2626"/>
+
+              {/* Oreille gauche */}
+              <ellipse cx="20" cy="85" rx="12" ry="18" fill="#0f172a"/>
+              <ellipse cx="22" cy="85" rx="6" ry="12" fill="#1e293b"/>
+              {/* Écouteur dans l'oreille gauche */}
+              <circle cx="22" cy="82" r="4" fill="#dc2626"/>
+
+              {/* Oreille droite */}
+              <ellipse cx="130" cy="85" rx="12" ry="18" fill="#0f172a"/>
+              <ellipse cx="128" cy="85" rx="6" ry="12" fill="#1e293b"/>
+              {/* Écouteur dans l'oreille droite */}
+              <circle cx="128" cy="82" r="4" fill="#dc2626"/>
+
+              {/* Tube stétho vers oreille gauche */}
+              <path d="M30 45 C25 55 22 65 22 78" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round"/>
+              {/* Tube stétho vers oreille droite */}
+              <path d="M120 45 C125 55 128 65 128 78" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round"/>
+
               {/* Corps du 0 */}
-              <ellipse cx="70" cy="90" rx="52" ry="70" fill="none" stroke="#0f172a" strokeWidth="16" strokeLinecap="round"/>
+              <ellipse cx="75" cy="95" rx="52" ry="70" fill="none" stroke="#0f172a" strokeWidth="16" strokeLinecap="round"/>
 
               {/* Oeil gauche */}
-              <ellipse cx="52" cy="75" rx="7" ry="8" fill="#0f172a"/>
-              <ellipse cx="54" cy="73" rx="2.5" ry="3" fill="white"/>
+              <ellipse cx="57" cy="80" rx="7" ry="8" fill="white"/>
+              <ellipse cx="59" cy="80" rx="5" ry="6" fill="#0f172a"/>
+              <ellipse cx="60" cy="78" rx="2" ry="2.5" fill="white"/>
 
               {/* Oeil droit */}
-              <ellipse cx="88" cy="75" rx="7" ry="8" fill="#0f172a"/>
-              <ellipse cx="90" cy="73" rx="2.5" ry="3" fill="white"/>
+              <ellipse cx="93" cy="80" rx="7" ry="8" fill="white"/>
+              <ellipse cx="95" cy="80" rx="5" ry="6" fill="#0f172a"/>
+              <ellipse cx="96" cy="78" rx="2" ry="2.5" fill="white"/>
 
-              {/* Bouche (surprise/triste) */}
-              <ellipse cx="70" cy="108" rx="10" ry="8" fill="#0f172a"/>
-
-              {/* Bras gauche qui tient le stéthoscope */}
-              <path d="M22 95 C5 85 -2 65 8 50" fill="none" stroke="#0f172a" strokeWidth="6" strokeLinecap="round"/>
-
-              {/* Stéthoscope tenu par le bras */}
-              <g transform="translate(-8, 18) scale(0.9)">
-                <path d="M16 35 L16 22 C16 12 28 12 28 22 L28 35" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-                <circle cx="16" cy="18" r="2.5" fill="#dc2626"/>
-                <circle cx="28" cy="18" r="2.5" fill="#dc2626"/>
-                <path d="M22 35 L22 42 C22 48 28 50 32 47" fill="none" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round"/>
-                <circle cx="34" cy="45" r="3.5" fill="none" stroke="#dc2626" strokeWidth="3"/>
-              </g>
+              {/* Bouche (O surpris) */}
+              <ellipse cx="75" cy="112" rx="9" ry="7" fill="#1e293b"/>
             </svg>
           </div>
 
