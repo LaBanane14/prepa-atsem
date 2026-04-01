@@ -65,12 +65,13 @@ export default function CGUPage() {
     },
     {
       title: "Article 8 — Abonnements et paiements (CGV)",
-      html: `<p>La Plateforme propose des abonnements payants dont les tarifs sont indiqués sur la page <strong><a href="/tarifs" class="text-red-600 hover:underline">Tarifs</a></strong>. Les paiements sont sécurisés par <strong>Stripe</strong>.</p>
+      html: `<p>La Plateforme propose deux formules payantes dont les tarifs sont indiqués sur la page <strong><a href="/tarifs" class="text-red-600 hover:underline">Tarifs</a></strong>. Les paiements sont sécurisés par <strong>Stripe</strong>.</p>
 <ul>
-<li><strong>Abonnement mensuel</strong> : sans engagement, résiliable à tout moment</li>
-<li><strong>Abonnement annuel</strong> : paiement unique pour 12 mois d'accès</li>
+<li><strong>Abonnement mensuel — 12,99 €/mois</strong> : renouvellement automatique chaque mois, résiliable à tout moment depuis votre espace personnel</li>
+<li><strong>Pack annuel — 89,99 € (paiement unique)</strong> : accès pour 12 mois, sans renouvellement automatique</li>
 </ul>
-<p>La résiliation prend effet à la <strong>fin de la période en cours</strong>. Aucun remboursement au prorata ne sera effectué.</p>
+<p>Pour l'abonnement mensuel, la résiliation prend effet à la <strong>fin de la période en cours</strong>. Aucun remboursement au prorata ne sera effectué pour la période restante.</p>
+<p>Le pack annuel n'est <strong>pas renouvelé automatiquement</strong>. À l'issue des 12 mois, l'accès premium est désactivé sauf nouvelle souscription.</p>
 <p>Conformément à l'article <strong>L221-28 du Code de la consommation</strong>, le droit de rétractation ne s'applique pas aux contenus numériques fournis immédiatement après l'achat.</p>`
     },
     {
