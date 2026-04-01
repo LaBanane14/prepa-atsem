@@ -70,6 +70,7 @@ export default function CGUPage() {
 <li><strong>Abonnement mensuel — 12,99 €/mois</strong> : renouvellement automatique chaque mois, résiliable à tout moment depuis votre espace personnel</li>
 <li><strong>Pack annuel — 89,99 € (paiement unique)</strong> : accès pour 12 mois, sans renouvellement automatique</li>
 </ul>
+<br/>
 <p>Pour l'abonnement mensuel, la résiliation prend effet à la <strong>fin de la période en cours</strong>. Aucun remboursement au prorata ne sera effectué pour la période restante.</p>
 <p>Le pack annuel n'est <strong>pas renouvelé automatiquement</strong>. À l'issue des 12 mois, l'accès premium est désactivé sauf nouvelle souscription.</p>
 <p>Conformément à l'article <strong>L221-28 du Code de la consommation</strong>, le droit de rétractation ne s'applique pas aux contenus numériques fournis immédiatement après l'achat.</p>`
