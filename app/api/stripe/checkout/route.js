@@ -13,12 +13,26 @@ export async function POST(req) {
 
     const isRecurring = priceId === process.env.STRIPE_PRICE_MONTHLY
 
+    // Créer ou récupérer un customer Stripe avec pays France pour la TVA
+    const existingCustomers = await stripe.customers.list({ email: userEmail, limit: 1 })
+    let customer
+    if (existingCustomers.data.length > 0) {
+      customer = existingCustomers.data[0]
+    } else {
+      customer = await stripe.customers.create({
+        email: userEmail,
+        metadata: { userId },
+        address: { country: 'FR' },
+        tax: { ip_address: 'auto' }
+      })
+    }
+
     const sessionParams = {
-      customer_email: userEmail,
+      customer: customer.id,
       mode: isRecurring ? 'subscription' : 'payment',
-      line_items: [{ price: priceId, quantity: 1, tax_rates: [process.env.STRIPE_TAX_RATE_ID] }],
+      line_items: [{ price: priceId, quantity: 1 }],
       metadata: { userId, plan: isRecurring ? 'monthly' : 'yearly' },
-      automatic_tax: { enabled: false },
+      automatic_tax: { enabled: true },
       success_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&success=true`,
       cancel_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&canceled=true`,
     }
