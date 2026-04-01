@@ -24,7 +24,48 @@ export async function POST(req) {
 
   try {
     switch (event.type) {
-      // Paiement unique réussi (pack annuel)
+      // Session checkout terminée (marche pour mensuel ET annuel)
+      case 'checkout.session.completed': {
+        const session = event.data.object
+        const userId = session.metadata?.userId
+        const plan = session.metadata?.plan
+
+        console.log('checkout.session.completed - userId:', userId, 'plan:', plan, 'subscription:', session.subscription, 'payment_intent:', session.payment_intent)
+
+        if (!userId) { console.error('checkout.session.completed - no userId'); break }
+
+        if (plan === 'monthly' && session.subscription) {
+          const endDate = new Date()
+          endDate.setMonth(endDate.getMonth() + 1)
+          const { error } = await supabaseAdmin.from('subscriptions').upsert({
+            user_id: userId,
+            stripe_customer_id: session.customer,
+            stripe_subscription_id: typeof session.subscription === 'string' ? session.subscription : session.subscription.id,
+            plan: 'monthly',
+            status: 'active',
+            current_period_end: endDate.toISOString(),
+          }, { onConflict: 'user_id' })
+          if (error) console.error('Supabase upsert error (monthly checkout):', error)
+          else console.log('Monthly subscription created for user:', userId)
+        }
+
+        if (plan === 'yearly') {
+          const expiresAt = new Date()
+          expiresAt.setFullYear(expiresAt.getFullYear() + 1)
+          const { error } = await supabaseAdmin.from('subscriptions').upsert({
+            user_id: userId,
+            stripe_customer_id: session.customer,
+            plan: 'yearly',
+            status: 'active',
+            current_period_end: expiresAt.toISOString(),
+          }, { onConflict: 'user_id' })
+          if (error) console.error('Supabase upsert error (yearly checkout):', error)
+          else console.log('Yearly subscription created for user:', userId)
+        }
+        break
+      }
+
+      // Paiement unique réussi (pack annuel) - backup
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object
         const userId = paymentIntent.metadata?.userId
