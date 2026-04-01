@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#dc2626"/>
+
+  <!-- Stethoscope icon -->
+  <g transform="translate(520, 160) scale(4)" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+    <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/>
+    <circle cx="20" cy="10" r="2"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="72" fill="white">Prépa <tspan fill="#dc2626">FPC</tspan></text>
+
+  <!-- Subtitle -->
+  <text x="600" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" fill="#94a3b8" letter-spacing="4">LA PASSERELLE IFSI</text>
+
+  <!-- Description -->
+  <text x="600" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="28" fill="#cbd5e1">Préparation au concours infirmier FPC</text>
+  <text x="600" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="28" fill="#cbd5e1">pour les aides-soignants et auxiliaires de puériculture</text>
+
+  <!-- URL -->
+  <text x="600" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#64748b">www.prepa-fpc.fr</text>
+</svg>

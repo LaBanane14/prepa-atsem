@@ -7,7 +7,7 @@ const categoryLabels = { bug: 'Bug', question: 'Question', suggestion: 'Suggesti
 const allowedOrigins = [
   'https://prepa-fpc.fr',
   'https://www.prepa-fpc.fr',
-  'http://localhost:3000'
+  ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
 ]
 
 // Rate limit store (en mémoire, reset au redémarrage)
