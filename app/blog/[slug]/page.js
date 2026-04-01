@@ -204,11 +204,9 @@ export default function ArticlePage() {
         <div className="mt-12 flex items-start gap-3">
           <button onClick={() => handleVote('like')} disabled={!!vote} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'like' ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-            {article.likes || 0}
           </button>
           <button onClick={() => handleVote('dislike')} disabled={!!vote} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'dislike' ? 'bg-red-100 text-red-700 border-2 border-red-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
-            {article.dislikes || 0}
           </button>
         </div>
 
