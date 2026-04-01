@@ -16,11 +16,9 @@ export async function POST(req) {
     const sessionParams = {
       customer_email: userEmail,
       mode: isRecurring ? 'subscription' : 'payment',
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId, quantity: 1, tax_rates: [process.env.STRIPE_TAX_RATE_ID] }],
       metadata: { userId, plan: isRecurring ? 'monthly' : 'yearly' },
-      automatic_tax: { enabled: true },
-      tax_id_collection: { enabled: true },
-      billing_address_collection: 'required',
+      automatic_tax: { enabled: false },
       success_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&success=true`,
       cancel_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&canceled=true`,
     }
