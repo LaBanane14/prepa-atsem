@@ -200,8 +200,8 @@ export default function BlogPage() {
           <div>
             <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Légal</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="hover:text-white transition">Mentions légales</a></li>
-              <li><a href="#" className="hover:text-white transition">CGV &amp; CGU</a></li>
+              <li><a href="/cgu" className="hover:text-white transition">Mentions légales</a></li>
+              <li><a href="/cgu" className="hover:text-white transition">CGV &amp; CGU</a></li>
               <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
             </ul>
           </div>

@@ -8,5 +8,11 @@ Disallow: /login
 Disallow: /signup
 Disallow: /forgot-password
 Disallow: /reset-password
+Disallow: /qcm
+Disallow: /specifique
+Disallow: /maths
+Disallow: /redaction
+Disallow: /examen
+Disallow: /oral
 
-Sitemap: https://prepa-fpc.vercel.app/sitemap.xml
+Sitemap: https://www.prepa-fpc.fr/sitemap.xml
