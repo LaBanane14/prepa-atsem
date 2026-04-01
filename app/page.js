@@ -54,8 +54,8 @@ export default function HomePage() {
     { q: "Comment se déroule l'épreuve orale ?", a: "L'épreuve orale dure 20 minutes et est notée sur 20 points. Vous présentez votre parcours professionnel et votre projet de reconversion devant un jury composé de formateurs IFSI et de professionnels de santé. Notre outil de préparation à l'oral analyse votre CV et génère des questions personnalisées pour vous entraîner." },
     { q: "Y a-t-il une période d'essai gratuite ?", a: "Oui, vous bénéficiez de 7 jours d'essai gratuit dès votre inscription. Pendant cette période, vous avez accès à toutes les fonctionnalités de la plateforme : entraînements de mathématiques, sujets de rédaction, examens blancs et préparation à l'oral." },
     { q: "Combien de temps dois-je consacrer aux révisions ?", a: "Nous conseillons de démarrer vos révisions 3 à 6 mois avant le concours, à raison de 2 à 4 heures par semaine. Notre plateforme vous permet de réviser à votre rythme, sur mobile, tablette ou ordinateur, que vous ayez 15 minutes dans les transports ou une heure de libre le week-end." },
-    { q: "Quelles sont les dates du concours FPC ?", a: "Les dates varient selon les IFSI et les régions. Généralement, les inscriptions ouvrent entre janvier et mars, les épreuves écrites se déroulent entre mars et mai, et les oraux entre mai et juin. Consultez notre article de blog dédié aux dates du concours FPC pour le calendrier complet et à jour." },
-    { q: "Comment puis-je financer ma formation en IFSI ?", a: "Plusieurs solutions existent selon votre situation : promotion professionnelle prise en charge par votre employeur, projet de transition professionnelle (Transitions Pro), financements France Travail pour les demandeurs d'emploi, ou autofinancement. Nous détaillons chaque dispositif dans notre espace Blog." }
+    { q: "Quelles sont les dates du concours FPC ?", a: "Les dates varient selon les IFSI et les régions. Généralement, les inscriptions ouvrent entre janvier et mars, les épreuves écrites se déroulent entre mars et mai, et les oraux entre mai et juin. Consultez <a href='/blog/dates-concours-fpc-infirmier-2026'>notre article dédié aux dates du concours FPC</a> pour le calendrier complet et à jour." },
+    { q: "Comment puis-je financer ma formation en IFSI ?", a: "Plusieurs solutions existent selon votre situation : promotion professionnelle prise en charge par votre employeur, projet de transition professionnelle (Transitions Pro), financements France Travail pour les demandeurs d'emploi, ou autofinancement. Retrouvez tous les détails dans <a href='/blog'>notre espace Blog</a>." }
   ]
 
   const navLinks = [
@@ -371,7 +371,7 @@ export default function HomePage() {
                   </div>
                 </button>
                 <div className="px-6 overflow-hidden transition-all duration-300" style={{ maxHeight: activeFaq === index ? '500px' : '0', opacity: activeFaq === index ? 1 : 0 }}>
-                  <p className="pb-6 text-slate-600 font-medium leading-relaxed">{faq.a}</p>
+                  <p className="pb-6 text-slate-600 font-medium leading-relaxed [&_a]:text-red-600 [&_a]:font-bold [&_a]:underline" dangerouslySetInnerHTML={{__html: faq.a}} />
                 </div>
               </div>
             ))}
