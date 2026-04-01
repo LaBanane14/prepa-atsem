@@ -69,9 +69,20 @@ export const metadata = {
   },
 };
 
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
+      <head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-W24Z96D93P" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-W24Z96D93P');
+        `}</Script>
+      </head>
       <body>{children}</body>
     </html>
   );
