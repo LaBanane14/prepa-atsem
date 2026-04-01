@@ -321,7 +321,7 @@ function DashboardContent() {
           {showSuccessPopup && (
             <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowSuccessPopup(false)}>
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in" onClick={e => e.stopPropagation()}>
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5">
+                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                 </div>
                 <h2 className="text-2xl font-black text-slate-900 mb-2">Abonnement activé !</h2>
