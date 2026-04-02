@@ -41,6 +41,7 @@ export async function POST(request) {
       if (!alreadySent) {
         const html = buildEmailHtml({
           title: `Plus que 2 jours d'essai, ${firstName} !`,
+          emoji: '⏳',
           greeting: 'Votre période d\'essai gratuite touche à sa fin.',
           sections: [
             'Il vous reste <strong>2 jours</strong> pour profiter de l\'accès complet à la plateforme Prépa FPC.',
@@ -65,7 +66,8 @@ export async function POST(request) {
       if (!alreadySent) {
         const html = buildEmailHtml({
           title: `Votre essai gratuit est terminé, ${firstName}`,
-          greeting: 'Merci d\'avoir testé Prépa FPC pendant 7 jours !',
+          emoji: '😢',
+          greeting: 'Merci d\'avoir testé <strong style="color:#0f172a;">Prépa FPC</strong> pendant 7 jours !',
           sections: [
             'Votre période d\'essai gratuite est maintenant terminée.',
             'Pour continuer à vous entraîner avec nos <strong>QCM de mathématiques</strong>, nos <strong>sujets de rédaction</strong>, nos <strong>examens blancs</strong> et la <strong>préparation à l\'oral</strong>, souscrivez à un abonnement.',
@@ -100,6 +102,7 @@ export async function POST(request) {
         if (!recentlySent) {
           const html = buildEmailHtml({
             title: `On vous attend, ${firstName} !`,
+            emoji: '💪',
             greeting: `Cela fait ${daysSinceActivity} jours que vous n'avez pas révisé.`,
             sections: [
               'La régularité est la clé de la réussite au concours FPC. Même <strong>15 minutes par jour</strong> font la différence.',
