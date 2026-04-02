@@ -18,8 +18,8 @@ export default function ContactPage() {
   const [error, setError] = useState('')
 
   const categories = [
-    { id: 'bug', label: 'Bug', desc: 'Signaler un problème', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v1H6a2 2 0 0 0-2 2v1h16V8a2 2 0 0 0-2-2h-3V5a3 3 0 0 0-3-3Z"/><path d="M6 12H2"/><path d="M22 12h-4"/><path d="M6 16H2"/><path d="M22 16h-4"/><rect x="6" y="8" width="12" height="12" rx="2"/></svg>, color: 'red' },
-    { id: 'question', label: 'Question', desc: 'Besoin d\'aide', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>, color: 'blue' },
+    { id: 'bug', label: 'Bug', desc: 'Signaler un problème', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>, color: 'red' },
+    { id: 'question', label: 'Question', desc: 'Besoin d\'aide', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M18 15h-2v4l-4-4H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>, color: 'blue' },
     { id: 'suggestion', label: 'Suggestion', desc: 'Proposer une idée', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>, color: 'amber' },
     { id: 'autre', label: 'Autre', desc: 'Autre demande', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, color: 'slate' }
   ]
@@ -167,7 +167,7 @@ export default function ContactPage() {
                     const selected = category === cat.id
                     const c = catColors[cat.color]
                     return (
-                      <button key={cat.id} type="button" onClick={() => setCategory(cat.id)} className={`flex flex-col items-center gap-1.5 p-4 rounded-2xl text-center transition-all cursor-pointer border-2 ${selected ? `${c.bg} ${c.border} ${c.text} shadow-sm` : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}>
+                      <button key={cat.id} type="button" onClick={() => setCategory(cat.id)} className={`flex flex-col items-center gap-1.5 p-4 rounded-2xl text-center transition-all cursor-pointer border-2 ${selected ? `${c.bg} ${c.border} ${c.text} shadow-sm` : 'bg-white border-slate-200 text-slate-500 hover:border-red-200 hover:bg-red-50/50 hover:text-red-600'}`}>
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${selected ? c.iconBg : 'bg-slate-100'}`}>{cat.icon}</div>
                         <span className="font-black text-sm">{cat.label}</span>
                         <span className={`text-[11px] font-medium ${selected ? 'opacity-80' : 'text-slate-400'}`}>{cat.desc}</span>
