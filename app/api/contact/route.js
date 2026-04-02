@@ -72,7 +72,8 @@ export async function POST(request) {
     const safeCategory = categoryLabels[category]
 
     // Envoi email via Resend
-    const { error: sendError } = await resend.emails.send({
+    console.log('RESEND_API_KEY present:', !!process.env.RESEND_API_KEY)
+    const { data: sendData, error: sendError } = await resend.emails.send({
       from: 'Prépa FPC - Contact <noreply@prepa-fpc.fr>',
       to: 'support@prepa-fpc.fr',
       replyTo: email,
@@ -95,6 +96,7 @@ export async function POST(request) {
       `
     })
 
+    console.log('Resend response - data:', JSON.stringify(sendData), 'error:', JSON.stringify(sendError))
     if (sendError) {
       console.error('Resend error:', sendError)
       return NextResponse.json({ error: 'Erreur lors de l\'envoi. Veuillez réessayer.' }, { status: 500 })
