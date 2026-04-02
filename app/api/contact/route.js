@@ -95,6 +95,11 @@ export async function POST(request) {
       `
     })
 
+    if (sendError) {
+      console.error('Resend error:', sendError)
+      return NextResponse.json({ error: 'Erreur lors de l\'envoi. Veuillez réessayer.' }, { status: 500 })
+    }
+
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('Contact API error:', err)

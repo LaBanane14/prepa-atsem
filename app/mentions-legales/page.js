@@ -30,7 +30,7 @@ export default function MentionsLegalesPage() {
 <li>Raison sociale : <strong>LP Labs</strong>, SAS au capital de 50 €</li>
 <li>Siège social : <strong>20 route de la Rousserie, 50200 Monthuchon, France</strong></li>
 <li>SIRET : <strong>102 976 990 00014</strong></li>
-<li>Directeur de la publication : <strong>Paul Debruinier</strong></li>
+
 <li>Contact : <strong><a href="mailto:support@prepa-fpc.fr" class="text-red-600 hover:underline">support@prepa-fpc.fr</a></strong></li>
 </ul>`
     },
