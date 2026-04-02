@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const validCategories = ['bug', 'question', 'suggestion', 'autre']
 const categoryLabels = { bug: 'Bug', question: 'Question', suggestion: 'Suggestion', autre: 'Autre' }
@@ -69,20 +71,10 @@ export async function POST(request) {
     const safeMessage = escapeHtml(message)
     const safeCategory = categoryLabels[category]
 
-    // Envoi email via SMTP
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD
-      }
-    })
-
-    await transporter.sendMail({
-      from: `"Prépa FPC - Contact" <${process.env.SMTP_USER}>`,
-      to: process.env.SMTP_USER,
+    // Envoi email via Resend
+    const { error: sendError } = await resend.emails.send({
+      from: 'Prépa FPC - Contact <noreply@prepa-fpc.fr>',
+      to: 'support@prepa-fpc.fr',
       replyTo: email,
       subject: `[${safeCategory}] ${safeSubject}`,
       html: `
