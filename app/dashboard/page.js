@@ -31,6 +31,8 @@ function DashboardContent() {
   const [page, setPage] = useState(searchParams.get('tab') || 'dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [trialDays, setTrialDays] = useState(7)
+  const [trialHours, setTrialHours] = useState(0)
+  const [trialMinutes, setTrialMinutes] = useState(0)
   const [isPremium, setIsPremium] = useState(false)
   const [subscriptionPlan, setSubscriptionPlan] = useState(null)
   const [subscriptionEnd, setSubscriptionEnd] = useState(null)
@@ -76,9 +78,13 @@ function DashboardContent() {
       // Calcul trial
       const created = new Date(session.user.created_at)
       const now = new Date()
-      const diffMs = now - created
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-      setTrialDays(Math.max(0, 7 - diffDays))
+      const totalMs = 7 * 24 * 60 * 60 * 1000 - (now - created)
+      if (totalMs <= 0) { setTrialDays(0); setTrialHours(0); setTrialMinutes(0) }
+      else {
+        setTrialDays(Math.floor(totalMs / (1000 * 60 * 60 * 24)))
+        setTrialHours(Math.floor((totalMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+        setTrialMinutes(Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60)))
+      }
       setLoading(false)
       // Afficher la pop-up de succès après paiement
       if (searchParams.get('success') === 'true') {
@@ -356,7 +362,7 @@ function DashboardContent() {
                       <div className="flex items-center gap-3">
                         <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 px-4 py-2 rounded-xl flex items-center gap-2 shadow-md shadow-amber-200/50">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                          <span className="font-black text-sm">{trialDays}j restant{trialDays > 1 ? 's' : ''}</span>
+                          <span className="font-black text-sm">{trialDays}j {String(trialHours).padStart(2,'0')}h{String(trialMinutes).padStart(2,'0')}</span>
                         </div>
                         <button onClick={() => setPage('abonnement')} className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-4 py-2 rounded-xl transition shadow-md cursor-pointer">Devenir premium</button>
                       </div>
@@ -1146,7 +1152,7 @@ function DashboardContent() {
                       ))}
                     </ul>
                   </div>
-                  <div className="w-full py-3.5 bg-slate-50 border border-slate-200 text-slate-700 font-black rounded-xl text-center text-sm">{trialDays === 0 ? 'Expiré' : `Expire dans ${trialDays} jour${trialDays > 1 ? 's' : ''}`}</div>
+                  <div className="w-full py-3.5 bg-slate-50 border border-slate-200 text-slate-700 font-black rounded-xl text-center text-sm">{trialDays === 0 && trialHours === 0 && trialMinutes === 0 ? 'Expiré' : `Expire dans ${trialDays}j ${String(trialHours).padStart(2,'0')}h${String(trialMinutes).padStart(2,'0')}`}</div>
                 </div>
 
                 {/* Formule Mensuelle */}
