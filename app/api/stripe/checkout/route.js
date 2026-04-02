@@ -22,8 +22,7 @@ export async function POST(req) {
       customer = await stripe.customers.create({
         email: userEmail,
         metadata: { userId },
-        address: { country: 'FR' },
-        tax: { ip_address: 'auto' }
+        address: { country: 'FR' }
       })
     }
 
