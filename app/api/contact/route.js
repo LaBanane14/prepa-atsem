@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const validCategories = ['bug', 'question', 'suggestion', 'autre']
 const categoryLabels = { bug: 'Bug', question: 'Question', suggestion: 'Suggestion', autre: 'Autre' }
 
@@ -72,7 +70,13 @@ export async function POST(request) {
     const safeCategory = categoryLabels[category]
 
     // Envoi email via Resend
-    console.log('RESEND_API_KEY present:', !!process.env.RESEND_API_KEY)
+    const apiKey = process.env.RESEND_API_KEY
+    console.log('RESEND_API_KEY present:', !!apiKey, 'length:', apiKey?.length)
+    if (!apiKey) {
+      console.error('RESEND_API_KEY is missing!')
+      return NextResponse.json({ error: 'Configuration email manquante.' }, { status: 500 })
+    }
+    const resend = new Resend(apiKey)
     const { data: sendData, error: sendError } = await resend.emails.send({
       from: 'Prépa FPC - Contact <noreply@prepa-fpc.fr>',
       to: 'support@prepa-fpc.fr',
