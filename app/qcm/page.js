@@ -25,6 +25,10 @@ const quizData = [
   { category: "Calcul de dose", question: "Prescription : Morphine 0,1 mg/kg en IV pour un patient de 70 kg. Ampoule de 10 mg/ml. Combien de ml injectez-vous ?", options: ["0,7 ml", "1 ml", "3,5 ml", "7 ml"], correct: 0, explanation: "Dose : 0,1 × 70 = 7 mg<br/><br/>Ampoule : 10 mg dans 1 ml<br/>Pour 7 mg : 7 / 10 = <strong>0,7 ml</strong>." }
 ]
 
+// Réordonne les questions pour commencer par la question du jour
+const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % reorderedQuizData.length
+const reorderedQuizData = [...quizData.slice(dayIndex), ...quizData.slice(0, dayIndex)]
+
 const letters = ['A', 'B', 'C', 'D']
 
 const catColors = {
@@ -51,7 +55,7 @@ function QuizContent() {
   const [current, setCurrent] = useState(startFrom)
   const [selected, setSelected] = useState(null)
   const [answers, setAnswers] = useState(() => {
-    const initial = new Array(quizData.length).fill(null)
+    const initial = new Array(reorderedQuizData.length).fill(null)
     if (startFrom > 0 && homeAnswer !== null) {
       initial[0] = homeAnswer
     }
@@ -59,9 +63,9 @@ function QuizContent() {
   })
   const [state, setState] = useState('questioning')
   const [showResults, setShowResults] = useState(false)
-  const data = quizData[current]
+  const data = reorderedQuizData[current]
   const hasAnswered = answers[current] !== null
-  const progress = ((current + 1) / quizData.length) * 100
+  const progress = ((current + 1) / reorderedQuizData.length) * 100
   const colors = catColors[data.category] || catColors["Calcul de dose"]
 
   function selectOption(index) {
@@ -78,7 +82,7 @@ function QuizContent() {
   }
 
   function goNext() {
-    if (current < quizData.length - 1) {
+    if (current < reorderedQuizData.length - 1) {
       setCurrent(current + 1)
       setSelected(null)
       setState(answers[current + 1] !== null ? 'answered' : 'questioning')
@@ -105,13 +109,13 @@ function QuizContent() {
   if (showResults) {
     // Calcul du score final
     const finalScore = answers.reduce((acc, answer, index) => {
-      return acc + (answer === quizData[index].correct ? 1 : 0);
+      return acc + (answer === reorderedQuizData[index].correct ? 1 : 0);
     }, 0);
-    const percentage = (finalScore / quizData.length) * 100;
+    const percentage = (finalScore / reorderedQuizData.length) * 100;
     
     // Statistiques par catégorie
     const categoryStats = {};
-    quizData.forEach((q, index) => {
+    reorderedQuizData.forEach((q, index) => {
       if (!categoryStats[q.category]) {
         categoryStats[q.category] = { total: 0, correct: 0 };
       }
@@ -164,7 +168,7 @@ function QuizContent() {
               {/* Note globale (Toujours en rouge text-red-600) */}
               <div className="flex justify-center items-center mb-4">
                 <span className="text-6xl sm:text-7xl font-black text-red-600 tracking-tighter">{finalScore}</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{quizData.length}</span>
+                <span className="text-6xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{reorderedQuizData.length}</span>
               </div>
               
               <p className="text-slate-600 mb-8 font-medium text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
@@ -251,7 +255,7 @@ function QuizContent() {
             <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
               {/* Header */}
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
-                <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{quizData.length}</span>
+                <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{reorderedQuizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
                   <div className="h-full bg-slate-900 transition-all duration-500" style={{width: `${progress}%`}}></div>
@@ -315,7 +319,7 @@ function QuizContent() {
                 <button onClick={handleAction} className={`flex-grow bg-slate-900 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-black flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${state === 'questioning' && selected === null ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}>
                   {state === 'questioning' ? (
                     <>Valider ma réponse <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></>
-                  ) : current === quizData.length - 1 ? (
+                  ) : current === reorderedQuizData.length - 1 ? (
                     <>Voir mes résultats <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></>
                   ) : (
                     <>Question suivante <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></>
