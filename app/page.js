@@ -25,8 +25,34 @@ export default function HomePage() {
   // QCM state
   const [selectedIndex, setSelectedIndex] = useState(null)
   const [answered, setAnswered] = useState(false)
-  const options = ["5 ml", "10 ml", "15 ml", "20 ml"]
-  const correctIndex = 2
+
+  const allQuestions = [
+    { q: "Vous devez préparer 1,5g de Clamoxyl. Vous disposez de flacons de 500mg à diluer dans 5ml. Combien de ml prélevez-vous ?", options: ["5 ml", "10 ml", "15 ml", "20 ml"], correct: 2, category: "Calcul de dose", explanation: "1,5g ÷ 500mg × 5ml = 15ml" },
+    { q: "Un patient doit recevoir 750mg d'amoxicilline. Le flacon contient 1g/5ml. Quel volume administrez-vous ?", options: ["2,5 ml", "3,75 ml", "5 ml", "7,5 ml"], correct: 1, category: "Calcul de dose", explanation: "750mg ÷ 1000mg × 5ml = 3,75ml" },
+    { q: "Convertissez 0,25g en milligrammes.", options: ["25 mg", "250 mg", "2 500 mg", "0,025 mg"], correct: 1, category: "Conversion", explanation: "0,25 × 1000 = 250mg" },
+    { q: "Un perfusion de 500ml doit passer en 4 heures. Quel est le débit en gouttes/min ?", options: ["21 gttes/min", "42 gttes/min", "63 gttes/min", "84 gttes/min"], correct: 1, category: "Débit", explanation: "500 × 20 ÷ (4 × 60) = 41,6 ≈ 42 gttes/min" },
+    { q: "25% de 340, combien cela fait-il ?", options: ["68", "85", "75", "90"], correct: 1, category: "Pourcentage", explanation: "340 × 25 ÷ 100 = 85" },
+    { q: "Un flacon de 250ml de G5% contient combien de grammes de glucose ?", options: ["5 g", "12,5 g", "25 g", "50 g"], correct: 1, category: "Concentration", explanation: "250 × 5 ÷ 100 = 12,5g" },
+    { q: "Convertissez 2 500 µg en mg.", options: ["0,25 mg", "2,5 mg", "25 mg", "250 mg"], correct: 1, category: "Conversion", explanation: "2500 ÷ 1000 = 2,5mg" },
+    { q: "Un patient pèse 70kg. La posologie est de 3mg/kg/jour. Quelle dose journalière ?", options: ["21 mg", "70 mg", "210 mg", "2 100 mg"], correct: 2, category: "Calcul de dose", explanation: "70 × 3 = 210mg" },
+    { q: "15% de 800, combien cela fait-il ?", options: ["80", "120", "150", "160"], correct: 1, category: "Pourcentage", explanation: "800 × 15 ÷ 100 = 120" },
+    { q: "Une perfusion de 1000ml doit passer en 8h. Quel débit en ml/h ?", options: ["100 ml/h", "125 ml/h", "150 ml/h", "200 ml/h"], correct: 1, category: "Débit", explanation: "1000 ÷ 8 = 125 ml/h" },
+    { q: "Combien font 3,5kg en grammes ?", options: ["350 g", "3 500 g", "35 000 g", "35 g"], correct: 1, category: "Conversion", explanation: "3,5 × 1000 = 3500g" },
+    { q: "Un sirop est dosé à 100mg/5ml. Quelle dose pour 2,5ml ?", options: ["25 mg", "50 mg", "75 mg", "100 mg"], correct: 1, category: "Calcul de dose", explanation: "100 × 2,5 ÷ 5 = 50mg" },
+    { q: "40% de 250, combien cela fait-il ?", options: ["80", "100", "125", "150"], correct: 1, category: "Pourcentage", explanation: "250 × 40 ÷ 100 = 100" },
+    { q: "Convertissez 1,75L en millilitres.", options: ["175 ml", "1 750 ml", "17 500 ml", "17,5 ml"], correct: 1, category: "Conversion", explanation: "1,75 × 1000 = 1750ml" },
+    { q: "Prescription : 80mg de Lasilix. Comprimés de 40mg. Combien de comprimés ?", options: ["1", "2", "3", "4"], correct: 1, category: "Calcul de dose", explanation: "80 ÷ 40 = 2 comprimés" },
+    { q: "Un NaCl 0,9% de 500ml contient combien de grammes de sel ?", options: ["0,45 g", "4,5 g", "9 g", "45 g"], correct: 1, category: "Concentration", explanation: "500 × 0,9 ÷ 100 = 4,5g" },
+    { q: "Quel est 12,5% de 480 ?", options: ["48", "60", "72", "96"], correct: 1, category: "Pourcentage", explanation: "480 × 12,5 ÷ 100 = 60" },
+    { q: "Perfusion de 250ml en 2h. Débit en gouttes/min ?", options: ["21 gttes/min", "42 gttes/min", "63 gttes/min", "84 gttes/min"], correct: 1, category: "Débit", explanation: "250 × 20 ÷ (2 × 60) = 41,6 ≈ 42 gttes/min" },
+    { q: "Convertissez 0,5mg en microgrammes.", options: ["5 µg", "50 µg", "500 µg", "5 000 µg"], correct: 2, category: "Conversion", explanation: "0,5 × 1000 = 500µg" },
+    { q: "Un enfant de 25kg doit recevoir 15mg/kg/jour en 3 prises. Dose par prise ?", options: ["75 mg", "100 mg", "125 mg", "150 mg"], correct: 2, category: "Calcul de dose", explanation: "25 × 15 = 375mg/jour ÷ 3 = 125mg/prise" }
+  ]
+
+  const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % allQuestions.length
+  const todayQuestion = allQuestions[dayIndex]
+  const options = todayQuestion.options
+  const correctIndex = todayQuestion.correct
 
   // FAQ state
   const [activeFaq, setActiveFaq] = useState(null)
@@ -173,10 +199,10 @@ export default function HomePage() {
               <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden relative">
                 <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
                   <span className="font-bold text-slate-700 text-sm">Question du jour</span>
-                  <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Calcul de dose</span>
+                  <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">{todayQuestion.category}</span>
                 </div>
                 <div className="p-6">
-                  <p className="font-bold text-slate-900 text-lg mb-6 leading-snug">Vous devez préparer 1,5g de Clamoxyl. Vous disposez de flacons de 500mg à diluer dans 5ml. Combien de ml prélevez-vous ?</p>
+                  <p className="font-bold text-slate-900 text-lg mb-6 leading-snug">{todayQuestion.q}</p>
                   <div className="space-y-3">
                     {options.map((opt, index) => {
                       let classes = 'p-4 rounded-xl border-2 transition flex items-center justify-between group '
@@ -210,9 +236,9 @@ export default function HomePage() {
                 {answered && (
                   <div className={`${selectedIndex === correctIndex ? 'bg-green-600' : 'bg-red-600'} px-4 py-3 flex items-center justify-center gap-2`}>
                     {selectedIndex === correctIndex ? (
-                      <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-bold text-sm">Bonne réponse ! 1,5g ÷ 500mg × 5ml = 15ml</span></>
+                      <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-bold text-sm">Bonne réponse ! {todayQuestion.explanation}</span></>
                     ) : (
-                      <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span className="text-white font-bold text-sm">Raté ! La réponse était 15 ml</span></>
+                      <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span className="text-white font-bold text-sm">Raté ! La réponse était {todayQuestion.options[todayQuestion.correct]}</span></>
                     )}
                   </div>
                 )}
