@@ -1,8 +1,10 @@
 'use client'
 import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { getReorderedQuiz } from '../../lib/quizData'
 
-const quizData = [
+/* Questions importées depuis lib/quizData.js */
+const _unused = [
   { category: "Calcul de dose", question: "Vous devez préparer 1,5g de Clamoxyl. Vous disposez de flacons de 500mg à diluer dans 5ml. Combien de ml prélevez-vous ?", options: ["5 ml", "10 ml", "15 ml", "20 ml"], correct: 2, explanation: "Conversion : 1,5 g = 1500 mg<br/><br/>Si 500 mg → 5 ml<br/>Alors 1500 mg → <strong>x</strong> ml<br/><br/>Calcul : <strong>(1500 × 5) / 500 = 15 ml</strong><br/><br/><em>Astuce : 1500 est le triple de 500, donc 3 × 5 ml = 15 ml</em>" },
   { category: "Calcul de dose", question: "Vous devez passer 1 litre de soluté physiologique en 8 heures. Quel est le débit en gouttes/minute ? (1 ml = 20 gouttes)", options: ["35 gouttes/min", "42 gouttes/min", "50 gouttes/min", "60 gouttes/min"], correct: 1, explanation: "Volume : 1 L = 1000 ml<br/>En gouttes : 1000 × 20 = 20 000 gouttes<br/>Temps : 8h × 60 = 480 minutes<br/><br/>Débit = Volume / Temps<br/>Débit = <strong>20 000 / 480 ≈ 41,66</strong><br/><br/><em>On arrondit par excès à 42 gouttes/min.</em>" },
   { category: "Produit en croix", question: "Pour réaliser un pansement complexe, 3 infirmières mettent 45 minutes. Combien de temps mettrait 1 seule infirmière travaillant au même rythme ?", options: ["15 minutes", "90 minutes", "135 minutes", "105 minutes"], correct: 2, explanation: "<strong>Proportionnalité inverse</strong> : moins il y a d'infirmières, plus c'est long.<br/><br/>Si 3 infirmières mettent 45 minutes, 1 seule infirmière mettra 3 fois plus de temps.<br/><br/>Calcul : <strong>45 × 3 = 135 minutes</strong>." },
@@ -27,10 +29,7 @@ const quizData = [
 
 const letters = ['A', 'B', 'C', 'D']
 
-function getReorderedQuiz() {
-  const dayIndex = Math.floor((Date.now() + 2 * 60 * 60 * 1000) / (1000 * 60 * 60 * 24)) % quizData.length
-  return [...quizData.slice(dayIndex), ...quizData.slice(0, dayIndex)]
-}
+/* getReorderedQuiz importé depuis lib/quizData.js */
 
 const catColors = {
   "Calcul de dose": { badge: "bg-red-50 text-red-600", wrapper: "bg-red-100/60", card: "bg-red-50 border-red-200", iconText: "text-red-600", progressBar: "bg-red-600" },
