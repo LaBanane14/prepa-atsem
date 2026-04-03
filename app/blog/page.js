@@ -37,7 +37,7 @@ export default function BlogPage() {
   async function fetchArticles() {
     const { data, error } = await supabase
       .from('articles')
-      .select('*')
+      .select('id, title, slug, excerpt, category, category_color, date, reading_time, image_url')
       .eq('published', true)
       .order('date', { ascending: false })
     if (!error) setArticles(data)
