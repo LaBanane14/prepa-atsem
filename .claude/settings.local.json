@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(npm run:*)",
+      "Bash(cd \"C:/Users/Paul/Desktop/prepa-fpc\" && node update_article.js)",
+      "Bash(curl -s \"https://ahhvphoslyknbkppufob.supabase.co/rest/v1/articles?slug=eq.temoignages-concours-fpc-infirmier&select=content\" \\\\\n  -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoaHZwaG9zbHlrbmJrcHB1Zm9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2Mjk3ODIsImV4cCI6MjA4ODIwNTc4Mn0.zA6sLQNdGvwzyP-A8v4rnp4Usjz3LdXt0WMHP831wWw\" | python3 -c \"import sys,json; print\\(json.loads\\(sys.stdin.read\\(\\)\\)[0]['content']\\)\" | grep -A 30 \"erreurs que j'ai\")",
+      "Bash(git log:*)",
+      "Bash(npm install:*)",
+      "Bash(xargs grep:*)",
+      "Bash(npx next:*)"
+    ]
+  }
+}
