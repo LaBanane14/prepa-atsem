@@ -20,6 +20,15 @@ export default function HomePage() {
     return () => subscription.unsubscribe()
   }, [])
 
+  // Fade-in au scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible') })
+    }, { threshold: 0.1 })
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
 
   // QCM state
@@ -101,6 +110,11 @@ export default function HomePage() {
         @keyframes spin-smooth { to { transform: rotate(360deg); } }
         .faq-content { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
         ::selection { background: rgba(220, 38, 38, 0.2); color: inherit; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+        .qcm-float { animation: float 4s ease-in-out infinite; }
       `}</style>
 
       {/* NAVIGATION */}
@@ -194,7 +208,7 @@ export default function HomePage() {
             </div>
 
             {/* QCM Interactif */}
-            <div className="relative lg:ml-auto w-full max-w-md mx-auto mt-8 lg:mt-0">
+            <div className="relative lg:ml-auto w-full max-w-md mx-auto mt-8 lg:mt-0 qcm-float">
               <div className="absolute -inset-4 bg-gradient-to-tr from-red-100 to-rose-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
               <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden relative">
                 <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
@@ -261,7 +275,7 @@ export default function HomePage() {
 
       {/* SECTION ÉLIGIBILITÉ */}
       <section className="py-24 bg-[#eceef1] border-b border-slate-200 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 fade-in-up">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 tracking-tight">Êtes-vous éligible au concours FPC ?</h2>
             <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">La voie de la Formation Professionnelle Continue (FPC) est une passerelle spécifique qui permet d'intégrer un IFSI<br/>Voici les deux conditions requises pour y accéder :</p>
@@ -311,7 +325,7 @@ export default function HomePage() {
           <div className="absolute top-[-20%] right-[-10%] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-red-500/10 rounded-full mix-blend-screen blur-3xl"></div>
           <div className="absolute bottom-[-20%] left-[-10%] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-blue-500/10 rounded-full mix-blend-screen blur-3xl"></div>
         </div>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 fade-in-up">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 text-slate-300 text-sm font-bold mb-6 border border-slate-700">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg> Composition de l'épreuve
@@ -346,7 +360,7 @@ export default function HomePage() {
 
       {/* SECTION BÉNÉFICES */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl font-black text-slate-900 mb-4">La méthode pour réussir votre concours</h2>
             <p className="text-lg text-slate-600 font-medium">Grâce à notre outil d'entraînement développé sur mesure pour maîtriser l'épreuve écrite et orale !</p>
@@ -384,7 +398,7 @@ export default function HomePage() {
 
       {/* SECTION FAQ */}
       <section className="py-20 bg-[#eceef1] border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black text-slate-900 mb-4">Questions fréquentes</h2>
           </div>
@@ -408,7 +422,7 @@ export default function HomePage() {
 
       {/* SECTION TARIFS */}
       <section className="py-24 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
           <h2 className="text-3xl font-black mb-8">Découvrez nos formules d'accompagnement</h2>
           <p className="text-lg text-slate-400 font-medium mb-10 max-w-2xl mx-auto">Sans engagement ou jusqu'au concours, trouvez le rythme qui correspond à votre projet de reconversion.</p>
           <a href="/tarifs" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-red-900/50">
