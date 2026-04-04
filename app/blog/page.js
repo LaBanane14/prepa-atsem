@@ -141,7 +141,7 @@ export default function BlogPage() {
                 <a key={article.id} href={`/blog/${article.slug}`} className="article-card bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
                   <div className={`h-48 relative flex items-center justify-center bg-gradient-to-br ${colors.bg} overflow-hidden`}>
                     {article.image_url ? (
-                     <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+                     <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" loading="lazy" width={400} height={200} />
                     ) : (
                     <svg className={`w-16 h-16 ${colors.icon}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     )}
