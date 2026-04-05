@@ -361,14 +361,31 @@ function DashboardContent() {
                     </div>
                     <div className="p-6">
                       <p className="text-sm font-bold text-slate-700 mb-3">Quelle note donnez-vous au site ?</p>
-                      <div className="flex items-center gap-2 mb-6 justify-center">
-                        {[1, 2, 3, 4, 5].map(star => (
-                          <button key={star} onClick={() => setReviewRating(star)} className="cursor-pointer transition-transform hover:scale-125 focus:outline-none">
-                            <svg className={`w-10 h-10 transition-colors ${star <= reviewRating ? 'text-red-500' : 'text-slate-200'}`} fill={star <= reviewRating ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                            </svg>
-                          </button>
-                        ))}
+                      <div className="flex items-center gap-1 mb-6 justify-center">
+                        {[1, 2, 3, 4, 5].map(star => {
+                          const full = reviewRating >= star
+                          const half = !full && reviewRating >= star - 0.5
+                          return (
+                            <div key={star} className="relative w-10 h-10 cursor-pointer transition-transform hover:scale-125" style={{WebkitTapHighlightColor: 'transparent'}}>
+                              {/* Moitié gauche = demi-étoile */}
+                              <div className="absolute inset-0 w-1/2 overflow-hidden z-10" onClick={() => setReviewRating(star - 0.5)}>
+                                <svg className={`w-10 h-10 transition-colors ${full || half ? 'text-red-500' : 'text-slate-200'}`} fill={full || half ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                              </div>
+                              {/* Moitié droite = étoile pleine */}
+                              <div className="absolute inset-0 z-10" style={{clipPath: 'inset(0 0 0 50%)'}} onClick={() => setReviewRating(star)}>
+                                <svg className={`w-10 h-10 transition-colors ${full ? 'text-red-500' : 'text-slate-200'}`} fill={full ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                              </div>
+                              {/* Fond (contour) */}
+                              <svg className="w-10 h-10 text-slate-200" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                              </svg>
+                            </div>
+                          )
+                        })}
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Un commentaire ? <span className="font-normal text-slate-400">(optionnel)</span></p>
                       <textarea

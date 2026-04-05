@@ -22,8 +22,8 @@ export async function POST(request) {
 
     const { rating, comment, email } = await request.json()
 
-    if (!rating || !Number.isInteger(rating) || rating < 1 || rating > 5) {
-      return NextResponse.json({ error: 'Note invalide (1 à 5).' }, { status: 400 })
+    if (!rating || typeof rating !== 'number' || rating < 0.5 || rating > 5 || (rating * 2) % 1 !== 0) {
+      return NextResponse.json({ error: 'Note invalide (0.5 à 5).' }, { status: 400 })
     }
     if (comment && comment.length > 2000) {
       return NextResponse.json({ error: 'Le commentaire ne doit pas dépasser 2000 caractères.' }, { status: 400 })
@@ -39,7 +39,10 @@ export async function POST(request) {
     }
     rateLimitMap.set(ip, now)
 
-    const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating)
+    const fullStars = Math.floor(rating)
+    const hasHalf = rating % 1 !== 0
+    const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0)
+    const stars = '★'.repeat(fullStars) + (hasHalf ? '⯨' : '') + '☆'.repeat(emptyStars)
     const safeComment = comment ? escapeHtml(comment) : ''
     const safeEmail = email ? escapeHtml(email) : 'Non connecté'
 
