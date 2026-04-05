@@ -396,11 +396,16 @@ export default function RedactionPage() {
                     )}
 
                     <div className="bg-purple-50 border border-purple-200 rounded-xl p-5">
-                      <h3 className="font-black text-purple-900 text-sm mb-2 flex items-center gap-2">
+                      <h3 className="font-black text-purple-900 text-sm mb-3 flex items-center gap-2">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                         Consigne
                       </h3>
-                      <p className="text-sm text-purple-800 leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{__html: sujet.consigne?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}}></p>
+                      <div className="space-y-3">
+                        {sujet.consigne?.split('\n\n').map((line, i) => {
+                          const html = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-purple-900">$1</strong>')
+                          return <p key={i} className="text-sm text-purple-800 leading-relaxed" dangerouslySetInnerHTML={{__html: html}} />
+                        })}
+                      </div>
                     </div>
                   </div>
 
