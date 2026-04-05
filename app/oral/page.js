@@ -22,6 +22,7 @@ export default function OralPage() {
   const [authLoading, setAuthLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
 
   const [step, setStep] = useState(null)
   const [questions, setQuestions] = useState([])
@@ -46,6 +47,7 @@ export default function OralPage() {
       setUser(session.user)
       const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
       const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      if (hasSub) setIsPremium(true)
       const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
@@ -170,7 +172,6 @@ export default function OralPage() {
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
-  const isPremium = false // TODO: brancher sur le statut premium réel
   const q = questions[currentQ]
   const colors = q ? (catColors[q.category] || catColors['Parcours professionnel']) : {}
   const progress = questions.length > 0 ? ((currentQ + 1) / questions.length) * 100 : 0

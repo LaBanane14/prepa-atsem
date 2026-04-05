@@ -18,6 +18,7 @@ export default function MathsPage() {
 
   const [showInfoPopup, setShowInfoPopup] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [step, setStep] = useState('loading') // loading, epreuve, correcting, resultat
   const [sujet, setSujet] = useState(null)
@@ -39,6 +40,7 @@ export default function MathsPage() {
       // Vérifier accès (premium ou essai)
       const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
       const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      if (hasSub) setIsPremium(true)
       const created = new Date(session.user.created_at)
       const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - created)
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
@@ -186,7 +188,6 @@ export default function MathsPage() {
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
-  const isPremium = false
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
   const timePercent = (timeLeft / (30 * 60)) * 100

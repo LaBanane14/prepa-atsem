@@ -19,6 +19,7 @@ export default function ExamenPage() {
   const [showInfoPopup, setShowInfoPopup] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
   // Steps: null (popup), loading, epreuve-maths, transition, epreuve-redaction, correcting, resultat
   const [step, setStep] = useState('loading')
   const [error, setError] = useState('')
@@ -52,6 +53,7 @@ export default function ExamenPage() {
       setUser(session.user)
       const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
       const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      if (hasSub) setIsPremium(true)
       const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
@@ -234,7 +236,6 @@ export default function ExamenPage() {
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
-  const isPremium = false
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
   const timePercent = (timeLeft / (30 * 60)) * 100
@@ -298,7 +299,7 @@ export default function ExamenPage() {
       </div>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
+      <div className="flex-1 flex flex-col lg:h-screen lg:max-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
           <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
@@ -307,7 +308,7 @@ export default function ExamenPage() {
           </a>
         </header>
 
-        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 lg:flex lg:flex-col lg:h-[calc(100vh)] lg:overflow-hidden">
+        <main className="flex-1 min-h-0 w-full mx-auto px-4 py-4 sm:py-5 lg:flex lg:flex-col lg:overflow-hidden">
 
           {/* ===== POPUP INFO ===== */}
           {showInfoPopup && (

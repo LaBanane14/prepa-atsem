@@ -75,6 +75,7 @@ export default function SpecifiquePage() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [showInfoPopup, setShowInfoPopup] = useState(false)
@@ -98,6 +99,7 @@ export default function SpecifiquePage() {
       setUser(session.user)
       const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
       const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      if (hasSub) setIsPremium(true)
       const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
@@ -196,7 +198,6 @@ export default function SpecifiquePage() {
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
-  const isPremium = false
   const c = selectedFamille ? colorMap[selectedFamille.id] : colorMap.operations
   const data = sujet?.questions?.[current]
   const progress = sujet ? ((current + 1) / sujet.questions.length) * 100 : 0
