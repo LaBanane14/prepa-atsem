@@ -343,7 +343,7 @@ function DashboardContent() {
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
                 {reviewSent ? (
                   <div className="p-8 text-center">
-                    <div className="w-16 h-16 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
                       <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
                     <h2 className="text-2xl font-black text-slate-900 mb-2">Merci pour votre avis !</h2>
@@ -364,7 +364,7 @@ function DashboardContent() {
                       <div className="flex items-center gap-2 mb-6 justify-center">
                         {[1, 2, 3, 4, 5].map(star => (
                           <button key={star} onClick={() => setReviewRating(star)} className="cursor-pointer transition-transform hover:scale-125 focus:outline-none">
-                            <svg className={`w-10 h-10 transition-colors ${star <= reviewRating ? 'text-amber-400' : 'text-slate-200'}`} fill={star <= reviewRating ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <svg className={`w-10 h-10 transition-colors ${star <= reviewRating ? 'text-red-500' : 'text-slate-200'}`} fill={star <= reviewRating ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                             </svg>
                           </button>
@@ -372,7 +372,7 @@ function DashboardContent() {
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Un commentaire ? <span className="font-normal text-slate-400">(optionnel)</span></p>
                       <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 transition h-28"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-400 transition h-28"
                         placeholder="Ce que vous aimez, ce qu'on pourrait améliorer..."
                         value={reviewComment}
                         onChange={e => setReviewComment(e.target.value)}
@@ -393,7 +393,7 @@ function DashboardContent() {
                           setReviewSending(false)
                         }}
                         disabled={!reviewRating || reviewSending}
-                        className={`w-full mt-4 font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${reviewRating ? 'bg-amber-400 hover:bg-amber-500 text-black' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                        className={`w-full mt-4 font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${reviewRating ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                       >
                         {reviewSending ? (
                           <div className="animate-spin w-5 h-5 border-2 border-black/30 border-t-black rounded-full"></div>
