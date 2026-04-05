@@ -85,7 +85,7 @@ export default function Auth() {
 
   if (signupSuccess) {
     return (
-      <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #f3f0ff 0%, #ede9fe 50%, #fdf4ff 100%)' }}>
         <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-100 text-center">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -99,7 +99,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eceef1] text-slate-900 flex items-center justify-center p-4 selection:bg-red-200">
+    <div className="min-h-screen text-slate-900 flex items-center justify-center p-4 selection:bg-purple-200" style={{ background: 'linear-gradient(180deg, #f3f0ff 0%, #ede9fe 50%, #fdf4ff 100%)' }}>
       <style>{`
         @keyframes slideLeft { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(-80px) scale(.96) } }
         @keyframes slideRight { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(80px) scale(.96) } }
@@ -124,7 +124,7 @@ export default function Auth() {
             {mode === 'login' ? 'Connectez-vous' : 'Débutez votre essai de 7 jours'}
           </h1>
           <p className="text-slate-500 font-medium text-center">
-            {mode === 'login' ? "pour accéder à votre espace d'entraînement." : 'Commencez votre entraînement pour le concours FPC.'}
+            {mode === 'login' ? "pour accéder à votre espace d'entraînement." : 'Commencez votre entraînement pour le concours ATSEM.'}
           </p>
         </div>
 
@@ -146,17 +146,17 @@ export default function Auth() {
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Adresse email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{MailIcon}</div>
-                  <input type="email" required placeholder="marie.as@hopital.fr" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type="email" required placeholder="marie@email.fr" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="block text-sm font-bold text-slate-700">Mot de passe</label>
-                  <a href="/forgot-password" className="text-xs font-bold text-red-600 hover:text-red-700 transition">Oublié ?</a>
+                  <a href="/forgot-password" className="text-xs font-bold text-purple-800 hover:text-purple-900 transition">Oublié ?</a>
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{LockIcon}</div>
-                  <input type={showLoginPass?"text":"password"} required placeholder="••••••••" value={loginPassword} onChange={e=>setLoginPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type={showLoginPass?"text":"password"} required placeholder="••••••••" value={loginPassword} onChange={e=>setLoginPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                   <button type="button" onClick={()=>setShowLoginPass(!showLoginPass)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition">{showLoginPass?EyeClosed:EyeOpen}</button>
                 </div>
               </div>
@@ -166,7 +166,7 @@ export default function Auth() {
               </button>
             </form>
             <div className="mt-8 text-center border-t border-slate-100 pt-6">
-              <p className="text-slate-500 font-medium text-sm">Pas encore de compte ? <button onClick={()=>switchTo('signup')} className="text-red-600 font-bold hover:text-red-700 transition ml-1 cursor-pointer">S'inscrire gratuitement</button></p>
+              <p className="text-slate-500 font-medium text-sm">Pas encore de compte ? <button onClick={()=>switchTo('signup')} className="text-purple-800 font-bold hover:text-purple-900 transition ml-1 cursor-pointer">S'inscrire gratuitement</button></p>
             </div>
           </>
         ) : (
@@ -177,45 +177,45 @@ export default function Auth() {
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Prénom</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{UserIcon}</div>
-                  <input type="text" required placeholder="Marie" value={firstname} onChange={e=>setFirstname(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type="text" required placeholder="Marie" value={firstname} onChange={e=>setFirstname(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Adresse email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{MailIcon}</div>
-                  <input type="email" required placeholder="marie.as@hopital.fr" value={signupEmail} onChange={e=>setSignupEmail(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type="email" required placeholder="marie@email.fr" value={signupEmail} onChange={e=>setSignupEmail(e.target.value)} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Mot de passe</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{LockIcon}</div>
-                  <input type={showSignupPass?"text":"password"} required placeholder="••••••••" value={signupPassword} onChange={e=>setSignupPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type={showSignupPass?"text":"password"} required placeholder="••••••••" value={signupPassword} onChange={e=>setSignupPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                   <button type="button" onClick={()=>setShowSignupPass(!showSignupPass)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition">{showSignupPass?EyeClosed:EyeOpen}</button>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-y-1.5 text-xs font-bold">
-                  <div className={`flex items-center gap-1.5 transition-colors ${checks.len?'text-red-600':'text-slate-400'}`}>{CheckCircle} 8+ caractères</div>
-                  <div className={`flex items-center gap-1.5 transition-colors ${checks.upper?'text-red-600':'text-slate-400'}`}>{CheckCircle} 1 Majuscule</div>
-                  <div className={`flex items-center gap-1.5 transition-colors ${checks.num?'text-red-600':'text-slate-400'}`}>{CheckCircle} 1 Chiffre</div>
-                  <div className={`flex items-center gap-1.5 transition-colors ${checks.spec?'text-red-600':'text-slate-400'}`}>{CheckCircle} 1 Caractère spécial</div>
+                  <div className={`flex items-center gap-1.5 transition-colors ${checks.len?'text-purple-800':'text-slate-400'}`}>{CheckCircle} 8+ caractères</div>
+                  <div className={`flex items-center gap-1.5 transition-colors ${checks.upper?'text-purple-800':'text-slate-400'}`}>{CheckCircle} 1 Majuscule</div>
+                  <div className={`flex items-center gap-1.5 transition-colors ${checks.num?'text-purple-800':'text-slate-400'}`}>{CheckCircle} 1 Chiffre</div>
+                  <div className={`flex items-center gap-1.5 transition-colors ${checks.spec?'text-purple-800':'text-slate-400'}`}>{CheckCircle} 1 Caractère spécial</div>
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">Confirmer le mot de passe</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">{LockIcon}</div>
-                  <input type={showConfirm?"text":"password"} required placeholder="••••••••" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
+                  <input type={showConfirm?"text":"password"} required placeholder="••••••••" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} className="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none transition font-medium"/>
                   <button type="button" onClick={()=>setShowConfirm(!showConfirm)} className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition">{showConfirm?EyeClosed:EyeOpen}</button>
                 </div>
-                {confirmPassword && !matches && <p className="text-xs text-red-600 font-bold mt-1.5">Les mots de passe ne correspondent pas.</p>}
+                {confirmPassword && !matches && <p className="text-xs text-purple-800 font-bold mt-1.5">Les mots de passe ne correspondent pas.</p>}
               </div>
               <button type="submit" disabled={!canSubmit||signupLoading} className={`w-full font-bold text-lg py-4 rounded-xl mt-2 transition-all shadow-lg flex items-center justify-center gap-2 ${canSubmit&&!signupLoading?'bg-slate-900 hover:bg-black text-white shadow-slate-200':'bg-slate-200 text-slate-400 cursor-not-allowed shadow-slate-100'}`}>
                 {signupLoading?'Création en cours...':'Créer mon compte'}
               </button>
             </form>
             <div className="mt-8 text-center border-t border-slate-100 pt-6">
-              <p className="text-slate-500 font-medium text-sm">Déjà un compte ? <button onClick={()=>switchTo('login')} className="text-red-600 font-bold hover:text-red-700 transition ml-1 cursor-pointer">Se connecter</button></p>
+              <p className="text-slate-500 font-medium text-sm">Déjà un compte ? <button onClick={()=>switchTo('login')} className="text-purple-800 font-bold hover:text-purple-900 transition ml-1 cursor-pointer">Se connecter</button></p>
             </div>
           </>
         )}
