@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Stethoscope, Bug, CreditCard, Lightbulb, MessageCircle } from 'lucide-react'
 
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js'
@@ -477,13 +477,13 @@ function DashboardContent() {
                       <p className="text-sm font-bold text-slate-700 mb-3">Catégorie</p>
                       <div className="grid grid-cols-2 gap-2 mb-5">
                         {[
-                          { id: 'bug', label: 'Bug', icon: '🐛' },
-                          { id: 'abonnement', label: 'Abonnement', icon: '💳' },
-                          { id: 'suggestion', label: 'Suggestion', icon: '💡' },
-                          { id: 'autre', label: 'Autre', icon: '💬' },
+                          { id: 'bug', label: 'Bug', icon: <Bug size={16} strokeWidth={2} /> },
+                          { id: 'abonnement', label: 'Abonnement', icon: <CreditCard size={16} strokeWidth={2} /> },
+                          { id: 'suggestion', label: 'Suggestion', icon: <Lightbulb size={16} strokeWidth={2} /> },
+                          { id: 'autre', label: 'Autre', icon: <MessageCircle size={16} strokeWidth={2} /> },
                         ].map(cat => (
                           <button key={cat.id} onClick={() => setSupportCategory(cat.id)} className={`p-3 rounded-xl border-2 text-sm font-bold transition cursor-pointer flex items-center gap-2 ${supportCategory === cat.id ? 'border-red-500 bg-red-50 text-red-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
-                            <span>{cat.icon}</span> {cat.label}
+                            {cat.icon} {cat.label}
                           </button>
                         ))}
                       </div>
