@@ -70,20 +70,19 @@ function DashboardContent() {
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { window.location.href = '/auth'; return }
       setUser(session.user)
       setNewFirstName(session.user?.user_metadata?.first_name || '')
       setNewLastName(session.user?.user_metadata?.last_name || '')
       fetchHistorique(session.user.id)
-      // Fetch subscription
-      supabase.from('subscriptions').select('*').eq('user_id', session.user.id).eq('status', 'active').single().then(({ data: sub }) => {
-        if (sub && new Date(sub.current_period_end) > new Date()) {
-          setIsPremium(true)
-          setSubscriptionPlan(sub.plan)
-          setSubscriptionEnd(sub.current_period_end)
-        }
-      })
+      // Fetch subscription puis calcul trial
+      const { data: sub } = await supabase.from('subscriptions').select('*').eq('user_id', session.user.id).eq('status', 'active').single()
+      if (sub && new Date(sub.current_period_end) > new Date()) {
+        setIsPremium(true)
+        setSubscriptionPlan(sub.plan)
+        setSubscriptionEnd(sub.current_period_end)
+      }
       // Calcul trial
       const created = new Date(session.user.created_at)
       const now = new Date()
