@@ -10,7 +10,7 @@
 }
 
 .font-serif-display {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Young Serif', serif;
 }
 
 /* Animations */
@@ -38,3 +38,90 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Pluie du nuage */
+@keyframes rainDrop {
+  0%, 70% { opacity: 0; transform: translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(18px); }
+}
+.rain-1 { animation: rainDrop 4s ease-in infinite 0s; }
+.rain-2 { animation: rainDrop 4s ease-in infinite 0.5s; }
+.rain-3 { animation: rainDrop 4s ease-in infinite 1s; }
+.rain-4 { animation: rainDrop 4s ease-in infinite 0.3s; }
+.rain-5 { animation: rainDrop 4s ease-in infinite 0.8s; }
+
+/* Soleil → Lune */
+@keyframes sunToMoon {
+  0%, 40% { opacity: 1; }
+  50% { opacity: 0; }
+  60%, 100% { opacity: 0; }
+}
+@keyframes moonAppear {
+  0%, 40% { opacity: 0; }
+  50% { opacity: 0; }
+  60%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.sun-phase { animation: sunToMoon 12s ease-in-out infinite; }
+.moon-phase { animation: moonAppear 12s ease-in-out infinite; }
+
+/* Fumée cheminée */
+@keyframes smoke {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  30% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-20px) scale(1.5) translateX(5px); }
+}
+.smoke-1 { animation: smoke 3s ease-out infinite 0s; }
+.smoke-2 { animation: smoke 3s ease-out infinite 1s; }
+.smoke-3 { animation: smoke 3s ease-out infinite 2s; }
+
+/* Arbre feuilles qui tombent */
+@keyframes leavesChange {
+  0%, 60% { opacity: 1; }
+  80% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+@keyframes branchesChange {
+  0%, 60% { opacity: 0; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.tree-leaves { animation: leavesChange 15s ease-in-out infinite; }
+.tree-branches { animation: branchesChange 15s ease-in-out infinite; }
+
+@keyframes leafFall {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  10% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(30px) rotate(120deg) translateX(10px); }
+}
+.falling-leaf-1 { animation: leafFall 15s ease-in-out infinite 9s; }
+.falling-leaf-2 { animation: leafFall 15s ease-in-out infinite 9.5s; }
+.falling-leaf-3 { animation: leafFall 15s ease-in-out infinite 10s; }
+
+/* Papillon qui s'envole */
+@keyframes butterflyFly {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  15% { transform: translate(-15px, -20px) rotate(-10deg); }
+  30% { transform: translate(10px, -45px) rotate(5deg); }
+  45% { transform: translate(-5px, -65px) rotate(-8deg); }
+  60% { transform: translate(20px, -80px) rotate(3deg); }
+  75% { transform: translate(5px, -50px) rotate(-5deg); }
+  90% { transform: translate(-10px, -20px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes wingFlap {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.3); }
+}
+.butterfly-fly { animation: butterflyFly 10s ease-in-out infinite; }
+.wing-left { animation: wingFlap 0.4s ease-in-out infinite; transform-origin: right center; }
+.wing-right { animation: wingFlap 0.4s ease-in-out infinite; transform-origin: left center; }
+
+/* Étoile qui se remplit de jaune */
+@keyframes starFill {
+  0%, 70% { fill: transparent; }
+  85% { fill: #facc15; }
+  100% { fill: transparent; }
+}
+.star-fill { animation: starFill 8s ease-in-out infinite; }
