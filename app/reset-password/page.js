@@ -32,7 +32,10 @@ export default function ResetPassword() {
     setLoading(false)
 
     if (updateError) {
-      setError(updateError.message)
+      const msg = updateError.message
+      if (msg.includes('different from the old')) setError('Le nouveau mot de passe doit être différent de l\'ancien.')
+      else if (msg.includes('at least')) setError('Le mot de passe doit contenir au moins 6 caractères.')
+      else setError(msg)
     } else {
       setSuccess(true)
     }
