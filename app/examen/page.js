@@ -438,16 +438,16 @@ export default function ExamenPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
 
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                     <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
                     <p className="text-sm text-amber-800 font-medium">Cette épreuve doit être réalisée <strong>sans calculatrice</strong>, conformément aux conditions du concours FPC. Munissez-vous d'un brouillon pour poser vos calculs.</p>
                   </div>
 
-                  <div className="space-y-4 sm:space-y-8">
+                  <div className="space-y-8">
                     {sujetMaths.exercices?.map((ex, exIdx) => (
-                      <div key={exIdx} className="bg-slate-200/60 border border-slate-300 rounded-2xl shadow-sm p-6">
+                      <div key={exIdx} className="bg-slate-200/60 border border-slate-300 rounded-2xl shadow-sm p-4 sm:p-6">
                         <div className="flex items-center gap-3 mb-5">
                           <span className="w-9 h-9 bg-yellow-500 text-slate-900 rounded-xl flex items-center justify-center font-black text-sm shadow-sm">{ex.numero}</span>
                           <h3 className="font-black text-slate-900 text-base sm:text-lg flex-1">{ex.titre}</h3>
@@ -465,10 +465,10 @@ export default function ExamenPage() {
                             <div key={qIdx}>
                               <div className="flex items-start gap-3 mb-2">
                                 <span className="w-6 h-6 bg-slate-900 text-white rounded-md flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">{q.id}</span>
-                                <p className="text-sm text-slate-800 font-semibold leading-relaxed whitespace-pre-line flex-1">{q.question}</p>
+                                <p className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed whitespace-pre-line flex-1 min-w-0" dangerouslySetInnerHTML={{__html: q.question.replace(/\s*:\s*(?=\d)/g, ' :<br class="sm:hidden"/> ')}} />
                                 <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">{q.points} pt{q.points > 1 ? 's' : ''}</span>
                               </div>
-                              <div className="ml-9 w-full sm:max-w-sm">
+                              <div className="ml-0 sm:ml-9 w-full sm:max-w-sm">
                                 <input
                                   type="text"
                                   className="w-full bg-white border-2 border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-slate-400 transition placeholder:text-slate-400 placeholder:font-normal"
