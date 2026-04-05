@@ -17,6 +17,7 @@ export default function MathsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const [showInfoPopup, setShowInfoPopup] = useState(false)
+  const [showAccessBlock, setShowAccessBlock] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [step, setStep] = useState('loading') // loading, epreuve, correcting, resultat
   const [sujet, setSujet] = useState(null)
@@ -32,9 +33,15 @@ export default function MathsPage() {
   const timerRef = useRef(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { window.location.href = '/auth'; return }
       setUser(session.user)
+      // Vérifier accès (premium ou essai)
+      const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
+      const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      const created = new Date(session.user.created_at)
+      const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - created)
+      if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
       const skipPopup = localStorage.getItem('maths_skip_info') === 'true'
       if (skipPopup) {
@@ -186,6 +193,22 @@ export default function MathsPage() {
   const isUrgent = timeLeft < 5 * 60
 
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>
+
+  if (showAccessBlock) return (
+    <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+        <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2>
+        <p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p>
+        <div className="flex flex-col gap-3">
+          <a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a>
+          <a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#ef4444 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
