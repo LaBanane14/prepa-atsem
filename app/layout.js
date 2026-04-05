@@ -1,29 +1,29 @@
 import "./globals.css";
 
-const siteUrl = "https://www.prepa-fpc.fr";
-const siteName = "Prépa FPC";
-const description = "Préparez le concours FPC infirmier (passerelle IFSI) avec des QCM de maths, calculs de doses, simulations d'oral et cours de culture sanitaire et sociale. La plateforme de référence pour les aides-soignants et auxiliaires de puériculture.";
+const siteUrl = "https://www.prepa-atsem.fr";
+const siteName = "Prépa ATSEM";
+const description = "Préparez le concours ATSEM avec des QCM, annales corrigées, simulations d'oral et fiches de révision. La plateforme de référence pour réussir le concours d'Agent Territorial Spécialisé des Écoles Maternelles.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Prépa FPC — Préparation au concours infirmier passerelle IFSI",
-    template: "%s | Prépa FPC",
+    default: "Prépa ATSEM — Préparation au concours ATSEM 2026",
+    template: "%s | Prépa ATSEM",
   },
   description,
   keywords: [
-    "concours FPC infirmier",
-    "passerelle IFSI",
-    "préparation concours infirmier",
-    "concours aide-soignant infirmier",
-    "concours auxiliaire puériculture infirmier",
-    "QCM concours infirmier",
-    "calculs de doses IFSI",
-    "oral concours FPC",
-    "formation professionnelle continue infirmier",
-    "reconversion infirmier",
-    "annales concours FPC",
-    "exercices maths concours infirmier",
+    "concours ATSEM",
+    "concours ATSEM 2026",
+    "préparation concours ATSEM",
+    "QCM ATSEM",
+    "annales ATSEM corrigées",
+    "oral concours ATSEM",
+    "agent territorial école maternelle",
+    "révision concours ATSEM",
+    "fiches ATSEM",
+    "reconversion ATSEM",
+    "CAP AEPE",
+    "concours fonction publique territoriale",
   ],
   authors: [{ name: siteName }],
   creator: siteName,
@@ -33,32 +33,29 @@ export const metadata = {
     locale: "fr_FR",
     url: siteUrl,
     siteName,
-    title: "Prépa FPC — Préparation au concours infirmier passerelle IFSI",
+    title: "Prépa ATSEM — Préparation au concours ATSEM 2026",
     description,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Prépa FPC - Préparation concours infirmier FPC",
+        alt: "Prépa ATSEM - Préparation concours ATSEM",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prépa FPC — Préparation au concours infirmier passerelle IFSI",
+    title: "Prépa ATSEM — Préparation au concours ATSEM 2026",
     description,
     images: ["/og-image.png"],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      index: false,
+      follow: false,
     },
   },
   alternates: {
@@ -85,12 +82,12 @@ export default function RootLayout({ children }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "Prépa FPC",
-          "alternateName": "Prépa FPC - La passerelle IFSI",
-          "url": "https://www.prepa-fpc.fr",
+          "name": "Prépa ATSEM",
+          "alternateName": "Prépa ATSEM - Concours ATSEM",
+          "url": "https://www.prepa-atsem.fr",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.prepa-fpc.fr/blog?q={search_term_string}",
+            "target": "https://www.prepa-atsem.fr/blog?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         })}} />
@@ -99,11 +96,11 @@ export default function RootLayout({ children }) {
           "@type": "Organization",
           "name": "LP Labs",
           "legalName": "LP Labs SAS",
-          "url": "https://www.prepa-fpc.fr",
-          "logo": "https://www.prepa-fpc.fr/favicon.svg",
+          "url": "https://www.prepa-atsem.fr",
+          "logo": "https://www.prepa-atsem.fr/favicon.svg",
           "contactPoint": {
             "@type": "ContactPoint",
-            "email": "support@prepa-fpc.fr",
+            "email": "support@prepa-atsem.fr",
             "contactType": "customer service",
             "availableLanguage": "French"
           },

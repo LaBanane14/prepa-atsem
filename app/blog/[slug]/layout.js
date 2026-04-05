@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+  return createClient(url, key)
+}
 
 export async function generateMetadata({ params }) {
+  const supabase = getSupabase()
+  if (!supabase) return { title: 'Prépa ATSEM — Blog' }
+
   const { slug } = await params
 
   const { data: article } = await supabase
@@ -19,19 +24,19 @@ export async function generateMetadata({ params }) {
     return { title: 'Article introuvable' }
   }
 
-  const url = `https://www.prepa-fpc.fr/blog/${slug}`
+  const url = `https://www.prepa-atsem.fr/blog/${slug}`
 
   return {
     title: article.title,
     description: article.excerpt,
-    keywords: [article.category, "concours FPC", "concours infirmier", "IFSI", "passerelle infirmier"],
+    keywords: [article.category, "concours ATSEM", "ATSEM 2026", "préparation concours ATSEM"],
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: 'article',
       publishedTime: article.date,
       url,
-      siteName: 'Prépa FPC',
+      siteName: 'Prépa ATSEM',
       ...(article.image_url && {
         images: [{ url: article.image_url, width: 1200, height: 630, alt: article.title }],
       }),

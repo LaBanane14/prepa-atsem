@@ -1,7 +1,9 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY)
+}
 
 export async function POST(req) {
   try {
@@ -14,12 +16,12 @@ export async function POST(req) {
     const isRecurring = priceId === process.env.STRIPE_PRICE_MONTHLY
 
     // Créer ou récupérer un customer Stripe avec pays France pour la TVA
-    const existingCustomers = await stripe.customers.list({ email: userEmail, limit: 1 })
+    const existingCustomers = await getStripe().customers.list({ email: userEmail, limit: 1 })
     let customer
     if (existingCustomers.data.length > 0) {
       customer = existingCustomers.data[0]
     } else {
-      customer = await stripe.customers.create({
+      customer = await getStripe().customers.create({
         email: userEmail,
         metadata: { userId },
         address: { country: 'FR' }
@@ -43,7 +45,7 @@ export async function POST(req) {
       sessionParams.payment_intent_data = { metadata: { userId, plan: 'yearly' } }
     }
 
-    const session = await stripe.checkout.sessions.create(sessionParams)
+    const session = await getStripe().checkout.sessions.create(sessionParams)
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
