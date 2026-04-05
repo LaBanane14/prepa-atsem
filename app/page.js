@@ -98,7 +98,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-2 rounded-xl shadow-sm">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7"><circle cx="12" cy="4" r="2.5"/><path d="M12 6.5v3"/><path d="M8 19c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M9.5 12.5l-2 3.5"/><path d="M14.5 12.5l2 3.5"/><polygon points="19,2 19.9,4.8 22.8,4.8 20.5,6.5 21.3,9.3 19,7.6 16.7,9.3 17.5,6.5 15.2,4.8 18.1,4.8" fill="currentColor" stroke="none"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7"><rect x="2" y="6" width="13" height="13" rx="2.5" stroke="currentColor" strokeWidth="1.5"/><text x="8.5" y="16" fill="currentColor" fontSize="10" fontWeight="bold" fontFamily="Arial,sans-serif" textAnchor="middle">A</text><rect x="13" y="2" width="9" height="9" rx="2" fill="currentColor"/><text x="17.5" y="9" fill="#6b21a8" fontSize="8" fontWeight="bold" fontFamily="Arial,sans-serif" textAnchor="middle">✦</text></svg>
             </div>
             <div>
               <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
@@ -412,7 +412,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="4" r="2.5"/><path d="M12 6.5v3"/><path d="M8 19c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M9.5 12.5l-2 3.5"/><path d="M14.5 12.5l2 3.5"/><polygon points="19,2 19.9,4.8 22.8,4.8 20.5,6.5 21.3,9.3 19,7.6 16.7,9.3 17.5,6.5 15.2,4.8 18.1,4.8" fill="currentColor" stroke="none"/></svg>
+              <svg className="w-5 h-5 text-purple-500" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="13" height="13" rx="2.5" stroke="currentColor" strokeWidth="1.5"/><text x="8.5" y="16" fill="currentColor" fontSize="10" fontWeight="bold" fontFamily="Arial,sans-serif" textAnchor="middle">A</text><rect x="13" y="2" width="9" height="9" rx="2" fill="currentColor"/><text x="17.5" y="9" fill="#1e1b4b" fontSize="8" fontWeight="bold" fontFamily="Arial,sans-serif" textAnchor="middle">✦</text></svg>
               <h4 className="text-white font-bold text-lg">Prépa ATSEM</h4>
             </div>
             <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidates qui préparent le concours ATSEM. QCM, annales corrigées et simulations d'oral.</p>
