@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { checkRateLimit } from '@/lib/rate-limit'
-import { BASE_REDACTION, FORMAT_SORTIE_REDACTION } from '@/lib/prompts/base-redaction'
+import { BASE_REDACTION, FORMAT_SORTIE_REDACTION, buildHistoryContextRedaction } from '@/lib/prompts/base-redaction'
 import { SYSTEM_CLASSIQUE, PROMPT_CLASSIQUE } from '@/lib/prompts/format-classique'
 import { SYSTEM_MINI_TEXTE, PROMPT_MINI_TEXTE } from '@/lib/prompts/format-mini-texte'
 import { SYSTEM_DISSERTATIF, PROMPT_DISSERTATIF } from '@/lib/prompts/format-dissertatif'
@@ -56,14 +56,15 @@ export async function POST(request) {
     }
 
     const body = await request.json()
-    const { action, sujet, redaction } = body
+    const { action, sujet, redaction, history } = body
 
     // === GÉNÉRER UN SUJET ===
     if (action === 'generer') {
       const formatKey = pickRandomFormat()
       const config = FORMATS[formatKey]
 
-      const systemInstruction = BASE_REDACTION + '\n\n' + config.system
+      const historyContext = buildHistoryContextRedaction(history)
+      const systemInstruction = BASE_REDACTION + '\n\n' + config.system + (historyContext ? '\n\n' + historyContext : '')
       const userPrompt = config.prompt + '\n\n' + FORMAT_SORTIE_REDACTION
 
       const geminiResponse = await fetch(

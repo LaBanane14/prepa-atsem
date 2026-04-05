@@ -105,10 +105,14 @@ export default function RedactionPage() {
 
     try {
       const startTime = Date.now()
+      // Récupérer les thèmes déjà travaillés pour varier
+      const { data: pastSessions } = await supabase.from('historique').select('label').eq('user_id', user.id).eq('type', 'Rédaction').order('created_at', { ascending: false }).limit(20)
+      const history = pastSessions?.map(s => ({ theme: s.label })) || []
+
       const res = await fetch('/api/redaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generer' })
+        body: JSON.stringify({ action: 'generer', history })
       })
       const data = await res.json()
       if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la génération du sujet.'); window.location.href = '/dashboard'; return }

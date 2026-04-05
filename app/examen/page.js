@@ -122,6 +122,8 @@ export default function ExamenPage() {
 
     try {
       const startTime = Date.now()
+      const { data: pastSessions } = await supabase.from('historique').select('label').eq('user_id', user.id).eq('type', 'Rédaction').order('created_at', { ascending: false }).limit(20)
+      const history = pastSessions?.map(s => ({ theme: s.label })) || []
       const [resMaths, resRedaction] = await Promise.all([
         fetch('/api/maths', {
           method: 'POST',
@@ -131,7 +133,7 @@ export default function ExamenPage() {
         fetch('/api/redaction', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generer' })
+          body: JSON.stringify({ action: 'generer', history })
         })
       ])
       const [dataMaths, dataRedaction] = await Promise.all([resMaths.json(), resRedaction.json()])
