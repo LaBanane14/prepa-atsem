@@ -82,10 +82,10 @@ export default function HomePage() {
       <style>{`
         html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
         .spin-border { position: relative; }
-        .spin-border::before { content: ''; position: absolute; inset: -3px; border-radius: 9999px; border: 3px solid transparent; border-top-color: #7e22ce; animation: spin-smooth 1.5s linear infinite; }
+        .spin-border::before { content: ''; position: absolute; inset: -3px; border-radius: 9999px; border: 3px solid transparent; border-top-color: #6b21a8; animation: spin-smooth 1.5s linear infinite; }
         @keyframes spin-smooth { to { transform: rotate(360deg); } }
         .faq-content { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
-        ::selection { background: rgba(126, 34, 206, 0.2); color: inherit; }
+        ::selection { background: rgba(107, 33, 168, 0.2); color: inherit; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .fade-in-up.visible { opacity: 1; transform: translateY(0); }
@@ -97,17 +97,17 @@ export default function HomePage() {
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <div className="bg-purple-600 text-white p-2 rounded-xl shadow-sm">
+            <div className="bg-purple-800 text-white p-2 rounded-xl shadow-sm">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7"><circle cx="12" cy="4" r="2.5"/><path d="M12 6.5v3"/><path d="M8 19c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M9.5 12.5l-2 3.5"/><path d="M14.5 12.5l2 3.5"/><polygon points="19,2 19.9,4.8 22.8,4.8 20.5,6.5 21.3,9.3 19,7.6 16.7,9.3 17.5,6.5 15.2,4.8 18.1,4.8" fill="currentColor" stroke="none"/></svg>
             </div>
             <div>
-              <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-600">ATSEM</span></span>
+              <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM 2026</span>
             </div>
           </a>
           <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
             {navLinks.map(link => (
-              <a key={link.label} href={link.href} className={link.active ? 'text-purple-600' : 'hover:text-purple-600 transition'}>{link.label}</a>
+              <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -130,7 +130,7 @@ export default function HomePage() {
           <div className="md:hidden border-t border-slate-100 bg-white pb-4 shadow-lg absolute w-full z-40">
             <div className="max-w-6xl mx-auto px-4 pt-4 space-y-2">
               {navLinks.map(link => (
-                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-600 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
+                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-800 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
               ))}
               <div className="pt-2 border-t border-slate-100 mt-2 flex flex-col gap-2">
                 {user ? (
@@ -155,11 +155,11 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-sm font-bold mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 border border-purple-100 text-purple-800 text-sm font-bold mb-6">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Concours ATSEM 2026
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] mb-6">
-                Réussissez le concours <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-600">ATSEM</span> sans stress.
+                Réussissez le concours <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-fuchsia-600">ATSEM</span> sans stress.
               </h1>
               <p className="text-lg sm:text-xl text-slate-600 mb-8 font-medium leading-relaxed">
                 La première plateforme de révision conçue pour préparer le concours d'Agent Territorial Spécialisé des Écoles Maternelles. QCM, annales corrigées et <strong className="text-slate-800">simulations d'oral</strong>.
@@ -189,7 +189,7 @@ export default function HomePage() {
               <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden relative">
                 <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
                   <span className="font-bold text-slate-700 text-sm">Question du jour</span>
-                  <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-bold">{todayQuestion.category}</span>
+                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-bold">{todayQuestion.category}</span>
                 </div>
                 <div className="p-6">
                   <p className="font-bold text-slate-900 text-lg mb-6 leading-snug">{todayQuestion.question}</p>
@@ -206,7 +206,7 @@ export default function HomePage() {
                       }
                       return (
                         <div key={index} className={classes} onClick={() => { if (!answered) setSelectedIndex(index) }}>
-                          <span className={`font-bold ${answered ? (index === correctIndex ? 'text-green-700' : (selectedIndex === index ? 'text-purple-700 line-through' : 'text-slate-400')) : (selectedIndex === index ? 'text-purple-700' : 'text-slate-700')}`}>{opt}</span>
+                          <span className={`font-bold ${answered ? (index === correctIndex ? 'text-green-700' : (selectedIndex === index ? 'text-purple-800 line-through' : 'text-slate-400')) : (selectedIndex === index ? 'text-purple-800' : 'text-slate-700')}`}>{opt}</span>
                           {answered && index === correctIndex && (
                             <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center"><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           )}
@@ -224,7 +224,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 {answered && (
-                  <div className={`${selectedIndex === correctIndex ? 'bg-green-600' : 'bg-purple-600'} px-4 py-3 flex items-center justify-center gap-2`}>
+                  <div className={`${selectedIndex === correctIndex ? 'bg-green-600' : 'bg-purple-800'} px-4 py-3 flex items-center justify-center gap-2`}>
                     {selectedIndex === correctIndex ? (
                       <><svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-bold text-sm">Bonne réponse ! {todayQuestion.explanation.replace(/<[^>]*>/g, '').split('\n')[0].substring(0, 80)}</span></>
                     ) : (
@@ -343,17 +343,17 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></div>
+              <div className="w-14 h-14 bg-purple-100 text-purple-800 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">QCM illimités</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Entraînez-vous sur les <strong className="text-slate-800">6 familles thématiques</strong> du concours : hygiène, sécurité, développement de l'enfant, cadre institutionnel et plus.</p>
             </div>
             <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+              <div className="w-14 h-14 bg-purple-100 text-purple-800 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Simulation d'oral</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Notre IA génère des <strong className="text-slate-800">questions personnalisées</strong> de jury : mises en situation, motivations, connaissances du métier d'ATSEM.</p>
             </div>
             <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              <div className="w-14 h-14 bg-purple-100 text-purple-800 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Annales corrigées</h3>
               <p className="text-slate-600 font-medium leading-relaxed">Entraînez-vous avec les <strong className="text-slate-800">vrais sujets des CDG</strong> de 2015 à 2025 en conditions réelles avec timer et correction détaillée.</p>
             </div>
@@ -388,7 +388,7 @@ export default function HomePage() {
                   </div>
                 </button>
                 <div className="px-6 overflow-hidden transition-all duration-300" style={{ maxHeight: activeFaq === index ? '500px' : '0', opacity: activeFaq === index ? 1 : 0 }}>
-                  <p className="pb-6 text-slate-600 font-medium leading-relaxed [&_a]:text-purple-600 [&_a]:font-bold [&_a]:underline" dangerouslySetInnerHTML={{__html: faq.a}} />
+                  <p className="pb-6 text-slate-600 font-medium leading-relaxed [&_a]:text-purple-800 [&_a]:font-bold [&_a]:underline" dangerouslySetInnerHTML={{__html: faq.a}} />
                 </div>
               </div>
             ))}
@@ -401,7 +401,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
           <h2 className="text-3xl font-black mb-8">Découvrez nos formules d'accompagnement</h2>
           <p className="text-lg text-slate-400 font-medium mb-10 max-w-2xl mx-auto">Sans engagement ou jusqu'au concours, trouvez le rythme qui correspond à votre projet de reconversion.</p>
-          <a href="/tarifs" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-purple-900/50">
+          <a href="/tarifs" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-purple-900/50">
             Voir les tarifs en détail <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
           </a>
         </div>
