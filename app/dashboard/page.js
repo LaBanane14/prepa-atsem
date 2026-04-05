@@ -76,9 +76,6 @@ function DashboardContent() {
       // Calcul trial
       const created = new Date(session.user.created_at)
       const now = new Date()
-      const totalMs = 7 * 24 * 60 * 60 * 1000 - (now - created)
-      const created = new Date(session.user.created_at)
-      const now = new Date()
       const diffDays = Math.floor((now - created) / (1000 * 60 * 60 * 24))
       setTrialDays(Math.max(0, 7 - diffDays))
       setLoading(false)
