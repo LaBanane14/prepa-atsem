@@ -10,6 +10,7 @@ export default function HomePage() {
   const [authLoading, setAuthLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) { setAuthLoading(false); return }
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) { window.location.href = '/dashboard'; return }
       setUser(null)
@@ -97,8 +98,8 @@ export default function HomePage() {
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <div className="bg-purple-800 text-white p-2 rounded-xl shadow-sm">
-              <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7">{/* Dé du bas - posé droit */}<rect x="2" y="13" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.3"/><circle cx="5" cy="16" r="1" fill="currentColor"/><circle cx="9" cy="20" r="1" fill="currentColor"/><circle cx="7" cy="18" r="1" fill="currentColor"/>{/* Dé du haut - penché, en train de tomber */}<g transform="rotate(-15 16 8)"><rect x="10" y="2" width="9" height="9" rx="1.8" stroke="currentColor" strokeWidth="1.3"/><circle cx="13" cy="5" r="0.9" fill="currentColor"/><circle cx="16.5" cy="8.5" r="0.9" fill="currentColor"/></g></svg>
+            <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
+              <svg viewBox="2 -2 36 26" fill="currentColor" className="w-10 h-10">{/* Enfant garçon (gauche) */}<circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/>{/* Enfant fille (droite) */}<circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/>{/* Étoiles autour */}<polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5" fill="currentColor"/>{/* Trait de crayon */}<path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
             </div>
             <div>
               <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
@@ -412,7 +413,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-purple-500" viewBox="0 0 24 24" fill="none"><rect x="2" y="13" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.3"/><circle cx="5" cy="16" r="1" fill="currentColor"/><circle cx="9" cy="20" r="1" fill="currentColor"/><circle cx="7" cy="18" r="1" fill="currentColor"/><g transform="rotate(-15 16 8)"><rect x="10" y="2" width="9" height="9" rx="1.8" stroke="currentColor" strokeWidth="1.3"/><circle cx="13" cy="5" r="0.9" fill="currentColor"/><circle cx="16.5" cy="8.5" r="0.9" fill="currentColor"/></g></svg>
+              <svg className="w-5 h-5 text-purple-500" viewBox="0 0 32 32" fill="none"><path d="M4 18l8-4.5 8 4.5v8l-8 4.5L4 26V18z" fill="rgba(168,85,247,0.1)" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/><path d="M4 18l8 4.5 8-4.5" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/><path d="M12 22.5V31" stroke="currentColor" strokeWidth="1.2"/><circle cx="8" cy="20" r="0.9" fill="currentColor"/><circle cx="12" cy="18" r="0.9" fill="currentColor"/><circle cx="16" cy="20" r="0.9" fill="currentColor"/><g transform="rotate(-20 22 8)"><path d="M17 5l6-3.5 6 3.5v6l-6 3.5-6-3.5V5z" fill="rgba(168,85,247,0.15)" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round"/><path d="M17 5l6 3.5 6-3.5" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round"/><path d="M23 8.5V15" stroke="currentColor" strokeWidth="1.1"/><circle cx="21" cy="6.5" r="0.7" fill="currentColor"/><circle cx="25" cy="6.5" r="0.7" fill="currentColor"/></g></svg>
               <h4 className="text-white font-bold text-lg">Prépa ATSEM</h4>
             </div>
             <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidates qui préparent le concours ATSEM. QCM, annales corrigées et simulations d'oral.</p>
