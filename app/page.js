@@ -57,6 +57,7 @@ export default function HomePage() {
 
   const navLinks = [
     { href: '/', label: 'Accueil', active: true },
+    { href: '/calendrier', label: 'Calendrier', active: false },
     { href: '/blog', label: 'Blog', active: false },
     { href: '/tarifs', label: 'Tarifs', active: false }
   ]
@@ -306,7 +307,7 @@ export default function HomePage() {
               Le concours en détail
             </div>
             <h2 className="text-3xl font-extrabold text-white mb-3">Déroulement du concours ATSEM</h2>
-            <p className="text-slate-400 max-w-xl mx-auto">Le concours externe comprend une épreuve écrite d'admissibilité et un entretien oral d'admission.</p>
+            <p className="text-slate-400 max-w-xl mx-auto">Le concours externe comprend 2 épreuves : une épreuve écrite d'admissibilité et un entretien oral d'admission.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-slate-800/80 backdrop-blur p-8 rounded-3xl border border-slate-700 hover:border-purple-500/30 transition-colors">
@@ -314,13 +315,14 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                 </div>
-                <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-bold uppercase">Admissibilité</span>
+                <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs font-bold uppercase">Étape 1 — Admissibilité</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-4">Épreuve écrite — 45 min <span className="text-purple-300 text-sm font-semibold">(coeff. 1)</span></h3>
               <ul className="space-y-3 text-slate-300 text-sm">
                 <li className="flex items-start gap-2"><svg className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>QCM de 20 questions sur les 6 familles thématiques</li>
                 <li className="flex items-start gap-2"><svg className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span><strong className="text-white">Réponses multiples</strong> : il faut cocher TOUTES les bonnes réponses sans aucune erreur</span></li>
-                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21.73 18-8-14a2 2 0 00-3.48 0l-8 14A2 2 0 004 21h16a2 2 0 001.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Il faut viser <strong className="text-white">18-19/20</strong> pour être admissible</span></li>
+                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span>Le jury fixe un <strong className="text-white">seuil d'admissibilité</strong> (ex : 13/20). Au-dessus = convoqué à l'oral</span></li>
+                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21.73 18-8-14a2 2 0 00-3.48 0l-8 14A2 2 0 004 21h16a2 2 0 001.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>En dessous du seuil, <strong className="text-white">c'est terminé</strong></span></li>
               </ul>
             </div>
             <div className="bg-slate-800/80 backdrop-blur p-8 rounded-3xl border border-slate-700 hover:border-blue-500/30 transition-colors">
@@ -328,12 +330,13 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3Z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
                 </div>
-                <span className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase">Admission</span>
+                <span className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-bold uppercase">Étape 2 — Admission</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-4">Épreuve orale — 15 min <span className="text-blue-300 text-sm font-semibold">(coeff. 2 — compte DOUBLE)</span></h3>
               <ul className="space-y-3 text-slate-300 text-sm">
-                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Jury de 3 personnes : parcours + motivations + mises en situation</li>
-                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Relation ATSEM/enseignant, gestion enfants, hygiène, sécurité</li>
+                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Jury de 3 personnes : parcours, motivations et mises en situation</li>
+                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span><strong className="text-white">Note finale</strong> = note écrit + (note oral × 2). L'oral fait la différence !</span></li>
+                <li className="flex items-start gap-2"><svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Classement par total : seuls les meilleurs sont lauréats</li>
                 <li className="flex items-start gap-2"><svg className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m21.73 18-8-14a2 2 0 00-3.48 0l-8 14A2 2 0 004 21h16a2 2 0 001.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span><strong className="text-white">Note éliminatoire</strong> : en dessous de 7/20</span></li>
               </ul>
             </div>
