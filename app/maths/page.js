@@ -106,10 +106,13 @@ export default function MathsPage() {
 
     try {
       const startTime = Date.now()
+      // Récupérer l'historique pour adapter la difficulté et varier
+      const { data: pastSessions } = await supabase.from('historique').select('label, note, note_max').eq('user_id', user.id).eq('type', 'Maths').order('created_at', { ascending: false }).limit(20)
+      const history = pastSessions?.map(s => ({ famille: s.label, score: s.note })) || []
       const res = await fetch('/api/maths', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generer' })
+        body: JSON.stringify({ action: 'generer', history })
       })
       const data = await res.json()
       if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la génération du sujet.'); window.location.href = '/dashboard'; return }

@@ -122,18 +122,22 @@ export default function ExamenPage() {
 
     try {
       const startTime = Date.now()
-      const { data: pastSessions } = await supabase.from('historique').select('label').eq('user_id', user.id).eq('type', 'Rédaction').order('created_at', { ascending: false }).limit(20)
-      const history = pastSessions?.map(s => ({ theme: s.label })) || []
+      const [{ data: pastRedac }, { data: pastMaths }] = await Promise.all([
+        supabase.from('historique').select('label').eq('user_id', user.id).eq('type', 'Rédaction').order('created_at', { ascending: false }).limit(20),
+        supabase.from('historique').select('label, note, note_max').eq('user_id', user.id).eq('type', 'Maths').order('created_at', { ascending: false }).limit(20)
+      ])
+      const historyRedac = pastRedac?.map(s => ({ theme: s.label })) || []
+      const historyMaths = pastMaths?.map(s => ({ famille: s.label, score: s.note })) || []
       const [resMaths, resRedaction] = await Promise.all([
         fetch('/api/maths', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generer' })
+          body: JSON.stringify({ action: 'generer', history: historyMaths })
         }),
         fetch('/api/redaction', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generer', history })
+          body: JSON.stringify({ action: 'generer', history: historyRedac })
         })
       ])
       const [dataMaths, dataRedaction] = await Promise.all([resMaths.json(), resRedaction.json()])

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { BASE_SYSTEM } from '@/lib/prompts/base-maths'
+import { BASE_SYSTEM, buildHistoryContext } from '@/lib/prompts/base-maths'
 import { SYSTEM_EXAMEN_MATHS, PROMPT_EXAMEN_MATHS } from '@/lib/prompts/examen-maths'
 import { checkRateLimit } from '@/lib/rate-limit'
 
@@ -52,11 +52,12 @@ export async function POST(request) {
     }
 
     const body = await request.json()
-    const { action, exercices, reponses } = body
+    const { action, exercices, reponses, history } = body
 
     // === GÉNÉRER UN SUJET ===
     if (action === 'generer') {
-      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_MATHS
+      const historyContext = buildHistoryContext(history)
+      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_MATHS + (historyContext ? '\n\n' + historyContext : '')
 
       // Construire les parts (PDF annales + prompt)
       const parts = []
