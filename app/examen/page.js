@@ -307,7 +307,7 @@ export default function ExamenPage() {
           </a>
         </header>
 
-        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5">
+        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 lg:flex lg:flex-col lg:h-[calc(100vh)] lg:overflow-hidden">
 
           {/* ===== POPUP INFO ===== */}
           {showInfoPopup && (
@@ -524,8 +524,8 @@ export default function ExamenPage() {
 
           {/* ===== ÉPREUVE RÉDACTION ===== */}
           {step === 'epreuve-redaction' && sujetRedaction && (
-            <div className="animate-fade-in overflow-x-hidden">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm lg:max-h-[calc(100vh-3.5rem)] flex flex-col overflow-hidden">
+            <div className="animate-fade-in overflow-x-hidden flex-1 min-h-0 flex flex-col">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm flex-1 min-h-0 flex flex-col overflow-hidden">
 
                 {/* Barre du haut */}
                 <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden">
