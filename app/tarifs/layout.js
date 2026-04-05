@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "Tarifs",
-  description: "Découvrez nos formules de préparation au concours FPC infirmier : QCM de maths, calculs de doses, simulations d'oral, cours de culture sanitaire et sociale. Tarifs accessibles pour réussir votre entrée en IFSI.",
+  title: "Tarifs — Préparation concours ATSEM",
+  description: "Découvrez nos formules de préparation au concours ATSEM : QCM, annales corrigées, simulation d'oral par IA, fiches de révision. Tarifs accessibles pour réussir votre concours ATSEM.",
   openGraph: {
-    title: "Tarifs | Prépa FPC",
-    description: "Formules de préparation au concours FPC infirmier accessibles. QCM, oral, calculs de doses.",
+    title: "Tarifs | Prépa ATSEM",
+    description: "Formules de préparation au concours ATSEM accessibles. QCM, annales, oral, fiches de révision.",
     type: "website",
   },
   alternates: {
-    canonical: "https://www.prepa-fpc.fr/tarifs",
+    canonical: "https://www.prepa-atsem.fr/tarifs",
   },
 }
 

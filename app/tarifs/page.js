@@ -2,7 +2,22 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
-const Stethoscope = ({className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
+const LogoSvg = ({ className }) => (
+  <svg viewBox="2 -2 36 26" fill="currentColor" className={className}>
+    <circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/>
+    <path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/>
+    <circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/>
+    <path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+    <path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/>
+    <path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/>
+    <polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/>
+    <path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+  </svg>
+)
 const Check = ({className}) => <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
 
 export default function TarifsPage() {
@@ -11,6 +26,7 @@ export default function TarifsPage() {
   const [authLoading, setAuthLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) { setAuthLoading(false); return }
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user || null)
       setAuthLoading(false)
@@ -28,41 +44,39 @@ export default function TarifsPage() {
 
   const navLinks = [
     { href: '/', label: 'Accueil', active: false },
-    { href: '/calculs-doses', label: 'Calculs de doses', active: false },
+    { href: '/calendrier', label: 'Calendrier', active: false },
     { href: '/blog', label: 'Blog', active: false },
     { href: '/tarifs', label: 'Tarifs', active: true }
   ]
 
   return (
-    <div className="min-h-screen bg-[#eceef1] text-slate-900 selection:bg-red-200">
+    <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
       <style>{`html { scroll-behavior: smooth; scroll-padding-top: 7rem; }`}</style>
 
-      {/* NAVIGATION */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      {/* ─── NAVBAR ─── */}
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <div className="bg-red-600 text-white p-2 rounded-xl shadow-sm">
-              <Stethoscope className="w-7 h-7" />
+            <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
+              <LogoSvg className="w-10 h-10" />
             </div>
-            <div>
-              <span className="font-black text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-red-600">FPC</span></span>
-              <span className="text-xs font-bold text-slate-500 tracking-widest uppercase">La passerelle IFSI</span>
+            <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+              <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
+              <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
             </div>
           </a>
-          <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
+          <div className="hidden md:flex items-center gap-8 font-semibold text-slate-500">
             {navLinks.map(link => (
-              <a key={link.label} href={link.href} className={link.active ? 'text-red-600' : 'hover:text-red-600 transition'}>{link.label}</a>
+              <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {!authLoading && (user ? (
-              <>
-                <a href="/dashboard" className="hidden md:inline-flex bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-full font-bold shadow-lg shadow-slate-200 transition transform hover:-translate-y-0.5 text-sm">Mon tableau de bord</a>
-              </>
+              <a href="/dashboard" className="hidden md:inline-flex bg-purple-800 hover:bg-purple-900 text-white px-5 py-2.5 rounded-full font-bold shadow-lg transition text-sm">Mon tableau de bord</a>
             ) : (
               <>
-                <a href="/login" className="hidden md:block text-slate-600 font-semibold hover:text-slate-900 transition">Connexion</a>
-                <a href="/signup" className="hidden md:inline-flex bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-full font-semibold shadow-lg shadow-slate-200 transition transform hover:-translate-y-0.5">Inscription</a>
+                <a href="/login" className="hidden md:block text-slate-500 font-semibold hover:text-slate-900 transition">Connexion</a>
+                <a href="/signup" className="hidden md:inline-flex bg-purple-800 hover:bg-purple-900 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition">Inscription</a>
               </>
             ))}
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
@@ -74,18 +88,18 @@ export default function TarifsPage() {
           <div className="md:hidden border-t border-slate-100 bg-white pb-4 shadow-lg absolute w-full z-40">
             <div className="max-w-6xl mx-auto px-4 pt-4 space-y-2">
               {navLinks.map(link => (
-                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-red-600 bg-red-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
+                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-800 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
               ))}
               <div className="pt-2 border-t border-slate-100 mt-2 flex flex-col gap-2">
                 {user ? (
                   <>
                     <a href="/dashboard" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Mon espace</a>
-                    <button onClick={handleLogout} className="block py-3 px-4 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 transition text-center w-full">Déconnexion</button>
+                    <button onClick={handleLogout} className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 hover:bg-purple-900 transition text-center w-full">Déconnexion</button>
                   </>
                 ) : (
                   <>
                     <a href="/login" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Connexion</a>
-                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-slate-900 hover:bg-black transition text-center">Inscription</a>
+                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 transition text-center">Inscription</a>
                   </>
                 )}
               </div>
@@ -94,17 +108,17 @@ export default function TarifsPage() {
         )}
       </nav>
 
-      {/* HEADER TARIFS */}
-      <header className="pt-16 pb-12 bg-[#eceef1] relative overflow-hidden">
+      {/* ─── HEADER TARIFS ─── */}
+      <header className="pt-16 pb-12 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 tracking-tight">Aborder le concours FPC <span className="text-red-600">sereinement</span></h1>
-          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Accédez à tous les outils spécifiques pour réussir votre épreuve de sélection FPC.</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 tracking-tight">Préparez le concours ATSEM <span className="text-purple-800">sereinement</span></h1>
+          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Accédez à tous les outils pour réussir le concours ATSEM : QCM, annales, oral et fiches de révision.</p>
         </div>
       </header>
 
-      {/* SECTION CARTES DE PRIX */}
+      {/* ─── SECTION CARTES DE PRIX ─── */}
       <section className="py-12 md:py-16 relative">
-        <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'radial-gradient(circle, #dc2626 1px, transparent 1px)', backgroundSize: '24px 24px'}}></div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'radial-gradient(circle, #581c87 1px, transparent 1px)', backgroundSize: '24px 24px'}}></div>
         <div className="max-w-5xl mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
@@ -116,14 +130,14 @@ export default function TarifsPage() {
               </div>
               <div className="mb-10">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900 tracking-tight">12,99€</span>
+                  <span className="text-4xl font-black text-slate-900 tracking-tight">9,99€</span>
                   <span className="text-slate-500 font-bold">/mois</span>
                 </div>
                 <p className="text-slate-400 text-xs font-bold mt-2 uppercase">- Renouvellement automatique</p>
               </div>
               <div className="flex-1">
                 <ul className="space-y-4 mb-10">
-                  {["Entraînement rédaction et mathématique illimités", "Entraînement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Résiliable à tout moment"].map((item, i) => (
+                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-700 font-bold text-sm">
                       <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
                       {item}
@@ -134,59 +148,59 @@ export default function TarifsPage() {
               <a href="/signup" className="w-full py-4 px-6 bg-slate-900 hover:bg-black text-white font-black rounded-2xl text-center transition shadow-lg block">S'abonner maintenant</a>
             </div>
 
-            {/* Pack Sérénité */}
-            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border-2 border-red-600 shadow-[0_20px_50px_rgba(220,38,38,0.1)] relative flex flex-col transform md:scale-105 z-10 overflow-hidden">
-              <div className="absolute -right-10 -top-10 text-red-50 opacity-10 transform rotate-12">
-                <Stethoscope className="w-48 h-48" />
+            {/* Pack Concours 6 mois */}
+            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border-2 border-purple-800 shadow-[0_20px_50px_rgba(88,28,135,0.1)] relative flex flex-col transform md:scale-105 z-10 overflow-hidden">
+              <div className="absolute -right-10 -top-10 text-purple-100 opacity-10 transform rotate-12">
+                <LogoSvg className="w-48 h-48" />
               </div>
               <div className="absolute top-6 right-8">
-                <div className="bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">40% d'Économie</div>
+                <div className="bg-purple-50 text-purple-800 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">Économie</div>
               </div>
               <div className="mb-8 relative">
-                <h3 className="text-xl font-black text-slate-900 mb-2 uppercase tracking-tight">Pack Sérénité</h3>
-                <p className="text-slate-500 font-bold text-sm">Accès complet au site pendant 1 an.</p>
+                <h3 className="text-xl font-black text-slate-900 mb-2 uppercase tracking-tight">Pack Concours 6 mois</h3>
+                <p className="text-slate-500 font-bold text-sm">Accès complet au site pendant 6 mois.</p>
               </div>
               <div className="mb-10 relative">
-                <div className="flex items-baseline gap-1 text-red-600">
-                  <span className="text-4xl font-black tracking-tight">89,99€</span>
-                  <span className="text-slate-500 font-bold">pour 1 an</span>
+                <div className="flex items-baseline gap-1 text-purple-800">
+                  <span className="text-4xl font-black tracking-tight">49,99€</span>
+                  <span className="text-slate-500 font-bold">pour 6 mois</span>
                 </div>
-                <p className="text-red-500 text-xs font-black mt-2 uppercase tracking-wide">- 1 seul paiement<br/>- Pas de renouvellement automatique</p>
+                <p className="text-purple-600 text-xs font-black mt-2 uppercase tracking-wide">- 1 seul paiement<br/>- Pas de renouvellement automatique</p>
               </div>
               <div className="flex-1 relative">
                 <ul className="space-y-4 mb-10">
-                  {["Entraînement rédaction et mathématique illimités", "Entraînement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Méthodologie Dossier & Oral"].map((item, i) => (
+                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
-                      <div className="bg-red-100 p-1 rounded-md flex-shrink-0"><Check className="w-4 h-4 text-red-600" /></div>
+                      <div className="bg-purple-100 p-1 rounded-md flex-shrink-0"><Check className="w-4 h-4 text-purple-800" /></div>
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
-              <a href="/signup" className="w-full py-5 px-6 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl text-center transition shadow-lg shadow-red-600/30 text-lg relative block">S'abonner maintenant</a>
+              <a href="/signup" className="w-full py-5 px-6 bg-purple-800 hover:bg-purple-900 text-white font-black rounded-2xl text-center transition shadow-lg shadow-purple-800/30 text-lg relative block">S'abonner maintenant</a>
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* SECTION RÉASSURANCE */}
-      <section className="py-12 bg-[#eceef1]">
+      {/* ─── SECTION RÉASSURANCE ─── */}
+      <section className="py-12">
         <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8">
           <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-red-500 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Paiement 100% sécurisé</span>
           </div>
           <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-red-500 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Cartes bancaires</span>
           </div>
           <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-red-500 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Activation immédiate</span>
           </div>
           <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-red-500 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Sans engagement (Mensuel)</span>
           </div>
           <div className="flex flex-col items-center text-center">
@@ -198,22 +212,22 @@ export default function TarifsPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ─── FOOTER ─── */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <Stethoscope className="w-5 h-5 text-red-500" />
-              <h4 className="text-white font-bold text-lg">Prépa FPC</h4>
+              <LogoSvg className="w-5 h-5 text-purple-400" />
+              <h4 className="text-white font-bold text-lg">Prépa ATSEM</h4>
             </div>
-            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats en reconversion professionnelle qui préparent le concours FPC. Entraînez-vous dans les conditions réelles du concours.</p>
+            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats qui préparent le concours ATSEM. Entraînez-vous dans les conditions réelles du concours.</p>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources IFSI</h4>
+            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources ATSEM</h4>
             <ul className="space-y-3">
-              <li><a href="/blog/dates-concours-fpc-infirmier-2026" className="hover:text-white transition">Dates concours FPC</a></li>
-              <li><a href="/blog/dossier-inscription-concours-fpc-infirmier-guide-complet-2026" className="hover:text-white transition">Préparer son dossier FPC</a></li>
-              <li><a href="/calculs-doses" className="hover:text-white transition">Formules calculs de doses</a></li>
+              <li><a href="/calendrier" className="hover:text-white transition">Calendrier du concours</a></li>
+              <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
+              <li><a href="/tarifs" className="hover:text-white transition">Tarifs</a></li>
             </ul>
           </div>
           <div>
@@ -221,12 +235,12 @@ export default function TarifsPage() {
             <ul className="space-y-3">
               <li><a href="/mentions-legales" className="hover:text-white transition">Mentions légales</a></li>
               <li><a href="/cgu" className="hover:text-white transition">CGV &amp; CGU</a></li>
-              <li><span className="text-white text-sm font-medium">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#112;&#114;&#101;&#112;&#97;&#45;&#102;&#112;&#99;&#46;&#102;&#114;</span></li>
+              <li><span className="text-white text-sm font-medium">support@prepa-atsem.fr</span></li>
             </ul>
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center">
-          <p>&copy; 2026 Prépa FPC (prepa-fpc.fr). Tous droits réservés.</p>
+          <p>&copy; 2026 Prépa ATSEM — LP Labs SAS. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
