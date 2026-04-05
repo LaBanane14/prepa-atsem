@@ -127,13 +127,16 @@ export default function OralPage() {
       return
     }
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    if (!SpeechRecognition) { setError('La reconnaissance vocale n\'est pas supportée par votre navigateur.'); return }
+    if (!SpeechRecognition) { setError('La reconnaissance vocale n\'est pas supportée par votre navigateur. Utilisez Chrome ou Edge.'); return }
     const recognition = new SpeechRecognition()
     recognition.lang = 'fr-FR'
-    recognition.continuous = true
+    // Sur mobile, continuous ne marche pas toujours → on relance automatiquement
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    recognition.continuous = !isMobile
     recognition.interimResults = true
     recognitionRef.current = recognition
     let finalTranscript = answers[q?.id] || ''
+    let shouldRestart = true
     recognition.onresult = (event) => {
       let interim = ''
       for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -145,10 +148,25 @@ export default function OralPage() {
       }
       setAnswers(prev => ({ ...prev, [q.id]: finalTranscript + (interim ? ' ' + interim : '') }))
     }
-    recognition.onerror = () => { setIsRecording(false) }
-    recognition.onend = () => { setIsRecording(false) }
-    recognition.start()
-    setIsRecording(true)
+    recognition.onerror = (e) => {
+      if (e.error === 'not-allowed') setError('Veuillez autoriser l\'accès au microphone.')
+      shouldRestart = false
+      setIsRecording(false)
+    }
+    recognition.onend = () => {
+      // Sur mobile, relancer automatiquement si l'utilisateur n'a pas arrêté
+      if (isMobile && shouldRestart && isRecording) {
+        try { recognition.start() } catch { setIsRecording(false) }
+      } else {
+        setIsRecording(false)
+      }
+    }
+    try {
+      recognition.start()
+      setIsRecording(true)
+    } catch {
+      setError('Impossible de démarrer le micro. Vérifiez les permissions.')
+    }
   }
 
   async function finishExercice() {
@@ -435,9 +453,9 @@ export default function OralPage() {
                   </div>
 
                   {/* Grille navigation */}
-                  <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                  <div className="mt-4 grid grid-cols-5 sm:grid-cols-10 gap-2 max-w-md mx-auto">
                     {questions.map((qq, i) => (
-                      <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`w-9 h-9 rounded-lg text-xs font-bold transition cursor-pointer bg-slate-900 text-white ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900' : answers[qq.id] ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
+                      <button key={qq.id} onClick={() => { setCurrentQ(i); setShowTip(false) }} className={`aspect-square rounded-lg text-xs font-bold transition cursor-pointer bg-slate-900 text-white ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900' : answers[qq.id] ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
                         {i + 1}
                       </button>
                     ))}
