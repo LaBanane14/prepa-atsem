@@ -583,12 +583,16 @@ export default function ExamenPage() {
                         Barème de notation
                       </button>
                       {showBareme && (
-                        <div className="absolute top-full right-0 mt-2 bg-yellow-50 border border-yellow-300 rounded-xl shadow-xl p-4 z-50 w-full max-w-xs sm:w-80 animate-fade-in">
-                          <button onClick={() => setShowBareme(false)} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-md hover:bg-yellow-200 text-yellow-500 transition cursor-pointer">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                          </button>
-                          <p className="text-xs text-yellow-800 leading-relaxed whitespace-pre-line pr-6">{sujetRedaction.bareme}</p>
-                        </div>
+                        <>
+                          <div className="fixed inset-0 z-[60]" onClick={() => setShowBareme(false)}></div>
+                          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-yellow-50 border border-yellow-300 rounded-xl shadow-2xl p-5 z-[70] w-[90vw] max-w-sm animate-fade-in">
+                            <button onClick={() => setShowBareme(false)} className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-md hover:bg-yellow-200 text-yellow-600 transition cursor-pointer">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                            <h3 className="font-black text-yellow-900 text-sm mb-2">Barème de notation</h3>
+                            <p className="text-xs text-yellow-800 leading-relaxed whitespace-pre-line pr-4">{sujetRedaction.bareme}</p>
+                          </div>
+                        </>
                       )}
                       <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Durée : 30 minutes</p>
                     </div>
