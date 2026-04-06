@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import FranceMap from '@svg-maps/france.regions'
+import FranceMap from '../../data/france-map'
 import { REGIONS, DATES_NATIONALES } from '../../data/calendrier-atsem-2026'
 
 export default function CalendrierPage() {
