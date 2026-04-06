@@ -10,6 +10,9 @@ export default function CalendrierPage() {
   const [authLoading, setAuthLoading] = useState(true)
   const [selectedRegion, setSelectedRegion] = useState(null)
   const [hoveredRegion, setHoveredRegion] = useState(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     if (!supabase) { setAuthLoading(false); return }
@@ -123,7 +126,7 @@ export default function CalendrierPage() {
 
             {/* Carte de France — 3 colonnes */}
             <div className="lg:col-span-3 bg-white/70 backdrop-blur rounded-3xl border border-slate-200 p-6 sm:p-8">
-              <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
+              {mounted && <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
                 {FranceMap.locations.map(location => {
                   const region = getRegionData(location.id)
                   const is2026 = region?.concours_2026
@@ -153,7 +156,7 @@ export default function CalendrierPage() {
                     </path>
                   )
                 })}
-              </svg>
+              </svg>}
               {/* Nom région au hover */}
               <div className="text-center h-8 mt-2">
                 {hoveredData && (
