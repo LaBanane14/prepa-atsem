@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import FranceMap from '@svg-maps/france.regions'
-import { REGIONS, DATES_NATIONALES, OUTRE_MER } from '../../data/calendrier-atsem-2026'
+import { REGIONS, DATES_NATIONALES } from '../../data/calendrier-atsem-2026'
 
 export default function CalendrierPage() {
   const [user, setUser] = useState(null)
@@ -105,16 +105,12 @@ export default function CalendrierPage() {
       {/* ─── HERO ─── */}
       <section className="pt-16 pb-8">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 border border-purple-100 text-purple-800 text-sm font-semibold mb-6">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Concours 2026
-          </div>
-          <h1 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-slate-900 leading-tight mb-4 font-bold">Calendrier du concours ATSEM 2026</h1>
-          <p className="text-lg text-slate-500 max-w-xl mx-auto">Clique sur ta région pour voir les dates et les CDG organisateurs.</p>
+          <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl text-slate-900 leading-tight mb-3 font-bold whitespace-nowrap">Calendrier du concours ATSEM 2026</h1>
+          <p className="text-base text-slate-500">Cliquez sur votre région pour voir les dates et les CDG organisateurs.</p>
           {/* Légende */}
           <div className="flex items-center justify-center gap-6 mt-6 text-sm">
             <span className="flex items-center gap-2"><span className="w-4 h-4 rounded bg-purple-500"></span> Concours 2026</span>
-            <span className="flex items-center gap-2"><span className="w-4 h-4 rounded bg-slate-300"></span> Pas en 2026</span>
+            <span className="flex items-center gap-2"><span className="w-4 h-4 rounded bg-slate-300"></span> Non organisé en 2026</span>
           </div>
         </div>
       </section>
@@ -126,6 +122,16 @@ export default function CalendrierPage() {
 
             {/* Carte de France — 3 colonnes */}
             <div className="lg:col-span-3 bg-white/70 backdrop-blur rounded-3xl border border-slate-200 p-6 sm:p-8">
+              {/* Nom région au hover */}
+              <div className="text-center h-10 mb-3 flex items-center justify-center">
+                {hoveredData ? (
+                  <span className={`text-base font-bold px-4 py-1.5 rounded-full ${hoveredData.concours_2026 ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-600'}`}>
+                    {hoveredData.nom} {!hoveredData.concours_2026 && '— 2027'}
+                  </span>
+                ) : (
+                  <span className="text-sm text-slate-400">Survolez une région</span>
+                )}
+              </div>
               {mounted && <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
                 {FranceMap.locations.map(location => {
                   const region = getRegionData(location.id)
@@ -157,14 +163,6 @@ export default function CalendrierPage() {
                   )
                 })}
               </svg>}
-              {/* Nom région au hover */}
-              <div className="text-center h-8 mt-2">
-                {hoveredData && (
-                  <span className={`text-sm font-semibold ${hoveredData.concours_2026 ? 'text-purple-800' : 'text-slate-500'}`}>
-                    {hoveredData.nom} {!hoveredData.concours_2026 && '— Prochain concours : 2027'}
-                  </span>
-                )}
-              </div>
             </div>
 
             {/* Panneau détail — 2 colonnes */}
@@ -197,7 +195,7 @@ export default function CalendrierPage() {
                         </h3>
                         <div className="space-y-2 mb-6">
                           {[
-                            { label: 'Inscriptions', value: `${DATES_NATIONALES.inscription_debut} → ${DATES_NATIONALES.inscription_fin}` },
+                            { label: 'Inscriptions', value: `Du ${DATES_NATIONALES.inscription_debut} au ${DATES_NATIONALES.inscription_fin}` },
                             { label: 'Dépôt dossier', value: DATES_NATIONALES.depot_dossier },
                             { label: 'Épreuves écrites', value: DATES_NATIONALES.epreuves_ecrites },
                             { label: 'Résultats', value: DATES_NATIONALES.resultats_admissibilite },
@@ -265,10 +263,26 @@ export default function CalendrierPage() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-white/50 backdrop-blur rounded-3xl border border-dashed border-purple-200 p-12 text-center">
-                  <svg className="w-16 h-16 text-purple-300 mx-auto mb-4" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">Sélectionne une région</h3>
-                  <p className="text-slate-500 text-sm">Clique sur une région de la carte pour voir les dates et les CDG organisateurs.</p>
+                <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
+                  <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Dates nationales 2026
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { label: 'Inscriptions', value: `Du ${DATES_NATIONALES.inscription_debut} au ${DATES_NATIONALES.inscription_fin}` },
+                      { label: 'Dépôt dossier', value: `${DATES_NATIONALES.depot_dossier} (dernier délai)` },
+                      { label: 'Épreuves écrites', value: `À partir du ${DATES_NATIONALES.epreuves_ecrites}` },
+                      { label: 'Résultats', value: DATES_NATIONALES.resultats_admissibilite },
+                      { label: 'Oraux', value: DATES_NATIONALES.epreuves_orales },
+                    ].map((d, i) => (
+                      <div key={i} className="flex justify-between text-sm py-2 border-b border-slate-100 last:border-0">
+                        <span className="text-slate-500">{d.label}</span>
+                        <span className="font-semibold text-slate-900 text-right">{d.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-4">Cliquez sur une région pour voir les CDG organisateurs.</p>
                 </div>
               )}
             </div>
@@ -282,21 +296,12 @@ export default function CalendrierPage() {
           <div className="bg-white rounded-3xl border border-slate-200 p-8">
             <h2 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
               <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Dates nationales du concours ATSEM 2026
+              Le concours ATSEM 2026
             </h2>
-            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-              {[
-                { label: 'Inscriptions', value: `${DATES_NATIONALES.inscription_debut} → ${DATES_NATIONALES.inscription_fin}` },
-                { label: 'Dépôt dossier', value: `${DATES_NATIONALES.depot_dossier} (dernier délai)` },
-                { label: 'Épreuves écrites', value: `À partir du ${DATES_NATIONALES.epreuves_ecrites}` },
-                { label: 'Résultats admissibilité', value: DATES_NATIONALES.resultats_admissibilite },
-                { label: 'Épreuves orales', value: DATES_NATIONALES.epreuves_orales },
-              ].map((d, i) => (
-                <div key={i} className="flex items-start gap-3 py-2 border-b border-slate-100 last:border-0">
-                  <span className="text-sm text-slate-500 min-w-[130px]">{d.label}</span>
-                  <span className="text-sm font-semibold text-slate-900">{d.value}</span>
-                </div>
-              ))}
+            <div className="space-y-3 text-sm text-slate-500">
+              <p>Le concours ATSEM est organisé par les <strong className="text-slate-900">Centres de Gestion (CDG)</strong> de la Fonction Publique Territoriale. Les CDG se regroupent par région pour organiser le concours.</p>
+              <p>Tous les CDG n'organisent pas le concours chaque année. Certaines régions comme la Normandie, la Bretagne et les Pays de la Loire ont organisé le concours en 2025 et ne le feront qu'en 2027. <strong className="text-slate-900">Vous pouvez passer le concours dans une autre région</strong> — la réussite est valable sur tout le territoire national.</p>
+              <p>Les candidats doivent s'inscrire auprès d'un seul CDG organisateur via le portail <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="text-purple-800 font-semibold underline">concours-territorial.fr</a>. Il n'est pas possible de s'inscrire à plusieurs CDG simultanément.</p>
             </div>
             <div className="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-3">
               <p className="text-xs text-amber-800 font-medium">Les inscriptions se clôturent à minuit le dernier jour. Un dossier incomplet = candidature refusée.</p>
@@ -305,27 +310,6 @@ export default function CalendrierPage() {
         </div>
       </section>
 
-      {/* ─── OUTRE-MER ─── */}
-      <section className="pb-12">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="bg-white/70 backdrop-blur rounded-2xl border border-slate-200 p-6">
-            <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <span className="text-lg">🌴</span> Outre-mer
-            </h3>
-            <div className="space-y-3">
-              {OUTRE_MER.map((om, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>
-                  <div>
-                    <p className="font-semibold text-slate-900 text-sm">{om.nom} — Concours 2026</p>
-                    <p className="text-xs text-slate-500">Inscriptions : {om.inscription_debut} → {om.inscription_fin} (dates spécifiques) — {om.cdg}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ─── CTA ─── */}
       <section className="pb-16">
@@ -333,7 +317,7 @@ export default function CalendrierPage() {
           <div className="bg-gradient-to-br from-purple-900 to-purple-800 rounded-3xl p-10 text-white relative overflow-hidden">
             <div className="relative z-10">
               <h2 className="text-2xl font-extrabold mb-3">Le concours ATSEM, c'est 3% de taux d'admission.</h2>
-              <p className="text-purple-200 mb-6">Prépare-toi sérieusement avec l'IA.</p>
+              <p className="text-purple-200 mb-6">Plus de 80 000 candidats pour environ 2 500 postes.<br/>Préparez-vous sérieusement dès maintenant.</p>
               <a href="/auth" className="inline-block bg-white text-purple-900 px-8 py-3.5 rounded-2xl font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
                 Commencer ma préparation gratuitement →
               </a>
@@ -342,16 +326,6 @@ export default function CalendrierPage() {
         </div>
       </section>
 
-      {/* ─── SEO TEXT ─── */}
-      <section className="pb-16">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="prose prose-slate prose-sm max-w-none text-slate-500">
-            <p>Le concours ATSEM (Agent Territorial Spécialisé des Écoles Maternelles) est organisé par les Centres de Gestion (CDG) de la Fonction Publique Territoriale. En 2026, les inscriptions sont ouvertes du 24 mars au 29 avril, avec des épreuves écrites à partir du 14 octobre 2026.</p>
-            <p>Attention : tous les CDG n'organisent pas le concours chaque année. Certaines régions comme la Normandie, la Bretagne et les Pays de la Loire ont organisé le concours en 2025 et ne le feront probablement qu'en 2027. Bonne nouvelle : vous pouvez passer le concours dans une autre région — la réussite est valable sur tout le territoire national.</p>
-            <p>Les candidats doivent s'inscrire auprès d'un seul CDG organisateur via le portail <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="text-purple-800 font-semibold underline">concours-territorial.fr</a>. Il n'est pas possible de s'inscrire à plusieurs CDG simultanément pour le même concours.</p>
-          </div>
-        </div>
-      </section>
 
       {/* ─── FOOTER ─── */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">
