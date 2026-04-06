@@ -220,14 +220,14 @@ export default function TarifsPage() {
               <LogoSvg className="w-5 h-5 text-purple-400" />
               <h4 className="text-white font-bold text-lg">Prépa ATSEM</h4>
             </div>
-            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats qui préparent le concours ATSEM. Entraînez-vous dans les conditions réelles du concours.</p>
+            <p className="max-w-xs leading-relaxed">La seule plateforme d'entraînement pour préparer le concours ATSEM. QCM, annales corrigées et simulations d'oral, avec un suivi en temps réel de votre progression !</p>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources ATSEM</h4>
+            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources</h4>
             <ul className="space-y-3">
-              <li><a href="/calendrier" className="hover:text-white transition">Calendrier du concours</a></li>
+              <li><a href="/calendrier" className="hover:text-white transition">Calendrier 2026</a></li>
               <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
-              <li><a href="/tarifs" className="hover:text-white transition">Tarifs</a></li>
+              <li><a href="/tarifs" className="hover:text-white transition">Nos formules</a></li>
             </ul>
           </div>
           <div>
@@ -240,7 +240,7 @@ export default function TarifsPage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center">
-          <p>&copy; 2026 Prépa ATSEM — LP Labs SAS. Tous droits réservés.</p>
+          <p>&copy; 2026 Prépa ATSEM. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
