@@ -1,10 +1,10 @@
 export const metadata = {
-  title: "Calendrier du concours ATSEM 2026 — Dates et inscriptions",
-  description: "Toutes les dates du concours ATSEM 2026 : inscriptions, épreuves écrites, oraux et résultats. Calendrier par CDG et par région.",
-  keywords: ["dates concours ATSEM 2026", "calendrier concours ATSEM", "inscription concours ATSEM", "CDG ATSEM 2026"],
+  title: "Dates concours ATSEM 2026 par région — Calendrier et CDG organisateurs",
+  description: "Retrouve toutes les dates du concours ATSEM 2026 par région : inscriptions, épreuves écrites, oraux. Carte interactive des CDG organisateurs par département.",
+  keywords: ["dates concours ATSEM 2026", "calendrier concours ATSEM", "inscription concours ATSEM 2026", "CDG concours ATSEM 2026", "concours ATSEM par région"],
   openGraph: {
     title: "Calendrier du concours ATSEM 2026 | Prépa ATSEM",
-    description: "Toutes les dates du concours ATSEM 2026 : inscriptions, épreuves écrites, oraux et résultats.",
+    description: "Carte interactive des dates du concours ATSEM 2026 par région. Inscriptions, épreuves et CDG organisateurs.",
     type: "website",
   },
   alternates: {

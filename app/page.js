@@ -245,7 +245,7 @@ export default function HomePage() {
             { num: '6', label: 'Familles thématiques', icon: 'M4 6h16M4 10h16M4 14h16M4 18h16' },
             { num: 'x2', label: "L'oral compte double", icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
             { num: '3%', label: "Taux d'admission", icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
-            { num: '+ de 4 300', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
+            { num: '4 300', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center gap-1">
               <svg className="w-5 h-5 text-purple-400 mb-1" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
@@ -394,9 +394,9 @@ export default function HomePage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-gradient-to-br from-purple-900 via-purple-800 to-slate-900">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
-          <h2 className="text-3xl font-extrabold text-slate-900 text-center mb-12">Questions fréquentes</h2>
+          <h2 className="text-3xl font-extrabold text-white text-center mb-12">Questions fréquentes</h2>
           <div className="space-y-3">
             {faqData.map((faq, index) => (
               <div key={index} className={`bg-white border rounded-2xl transition-all ${activeFaq === index ? 'border-purple-200 shadow-sm' : 'border-slate-200'}`}>
@@ -419,23 +419,6 @@ export default function HomePage() {
         "mainEntity": faqData.map(faq => ({ "@type": "Question", "name": faq.q, "acceptedAnswer": { "@type": "Answer", "text": faq.a } }))
       })}} />
 
-      {/* ─── CTA PRICING ─── */}
-      <section className="py-20 bg-gradient-to-br from-purple-900 to-purple-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221%22%20fill%3D%22white%22%20fill-opacity%3D%220.05%22%2F%3E%3C%2Fsvg%3E')] opacity-60"></div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">Prête à décrocher le concours ?</h2>
-          <p className="text-purple-200 text-lg mb-2 max-w-xl mx-auto">Commencez votre préparation dès aujourd'hui.</p>
-          <p className="text-white/80 text-sm mb-8">À partir de <strong className="text-white text-lg">9,99€/mois</strong> — 7 jours d'essai gratuit, sans engagement.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/signup" className="bg-white text-purple-900 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
-              Commencer l'entraînement
-            </a>
-            <a href="/tarifs" className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all">
-              Voir les tarifs
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* ─── FOOTER ─── */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">

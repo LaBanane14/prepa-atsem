@@ -1,11 +1,15 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import FranceMap from '@svg-maps/france.regions'
+import { REGIONS, DATES_NATIONALES, OUTRE_MER } from '../../data/calendrier-atsem-2026'
 
 export default function CalendrierPage() {
   const [user, setUser] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
+  const [selectedRegion, setSelectedRegion] = useState(null)
+  const [hoveredRegion, setHoveredRegion] = useState(null)
 
   useEffect(() => {
     if (!supabase) { setAuthLoading(false); return }
@@ -43,22 +47,12 @@ export default function CalendrierPage() {
     </svg>
   )
 
-  const now = new Date()
-
-  const etapes = [
-    { date: '24 mars — 29 avril 2026', titre: 'Inscriptions en ligne', desc: 'Inscription sur le site du CDG organisateur de votre département. Créez votre dossier et téléchargez les pièces justificatives.', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', deadline: new Date('2026-04-29') },
-    { date: '7 mai 2026', titre: 'Date limite du dossier', desc: 'Dernier jour pour envoyer votre dossier complet (diplômes, pièce d\'identité, photo). Envoi en recommandé conseillé.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', deadline: new Date('2026-05-07') },
-    { date: 'À partir du 14 octobre 2026', titre: 'Épreuve écrite (admissibilité)', desc: 'QCM de 20 questions en 45 minutes. Coefficient 1. Réponses multiples possibles — il faut toutes les cocher sans erreur.', icon: 'M17 3a2.85 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5Z', deadline: new Date('2026-10-14') },
-    { date: 'Novembre 2026', titre: 'Résultats d\'admissibilité', desc: 'Publication des résultats par le CDG. Les candidats au-dessus du seuil fixé par le jury sont convoqués à l\'oral.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', deadline: new Date('2026-11-15') },
-    { date: 'Décembre 2026 — Janvier 2027', titre: 'Épreuve orale (admission)', desc: 'Entretien de 15 minutes devant un jury de 3 personnes. Coefficient 2 — l\'oral compte double ! Note éliminatoire : 7/20.', icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z', deadline: new Date('2027-01-15') },
-    { date: 'Janvier — Février 2027', titre: 'Résultats définitifs', desc: 'Publication de la liste des lauréats. Inscription sur la liste d\'aptitude valable 2 ans pour postuler auprès des communes.', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z', deadline: new Date('2027-02-15') },
-  ]
-
-  function getStatus(etape, index) {
-    if (now > etape.deadline) return 'passed'
-    if (index === 0 || now > etapes[index - 1].deadline) return 'current'
-    return 'upcoming'
+  function getRegionData(id) {
+    return REGIONS.find(r => r.id === id)
   }
+
+  const selected = selectedRegion ? getRegionData(selectedRegion) : null
+  const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
 
   return (
     <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
@@ -100,128 +94,258 @@ export default function CalendrierPage() {
               {navLinks.map(link => (
                 <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-800 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
               ))}
-              <div className="pt-2 border-t border-slate-100 mt-2 flex flex-col gap-2">
-                {user ? (
-                  <a href="/dashboard" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 text-center">Mon espace</a>
-                ) : (
-                  <>
-                    <a href="/login" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Connexion</a>
-                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 transition text-center">Inscription</a>
-                  </>
-                )}
-              </div>
             </div>
           </div>
         )}
       </nav>
 
       {/* ─── HERO ─── */}
-      <section className="pt-16 pb-12">
+      <section className="pt-16 pb-8">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 border border-purple-100 text-purple-800 text-sm font-semibold mb-6">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Concours 2026
           </div>
           <h1 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-slate-900 leading-tight mb-4 font-bold">Calendrier du concours ATSEM 2026</h1>
-          <p className="text-lg text-slate-500 max-w-xl mx-auto">Toutes les dates clés du concours externe. Ne manquez aucune échéance.</p>
+          <p className="text-lg text-slate-500 max-w-xl mx-auto">Clique sur ta région pour voir les dates et les CDG organisateurs.</p>
+          {/* Légende */}
+          <div className="flex items-center justify-center gap-6 mt-6 text-sm">
+            <span className="flex items-center gap-2"><span className="w-4 h-4 rounded bg-purple-500"></span> Concours 2026</span>
+            <span className="flex items-center gap-2"><span className="w-4 h-4 rounded bg-slate-300"></span> Pas en 2026</span>
+          </div>
         </div>
       </section>
 
-      {/* ─── TIMELINE ─── */}
-      <section className="pb-20">
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="relative">
-            {/* Ligne verticale */}
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-purple-200"></div>
+      {/* ─── CARTE + PANNEAU ─── */}
+      <section className="pb-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid lg:grid-cols-5 gap-8 items-start">
 
-            <div className="space-y-8">
-              {etapes.map((etape, i) => {
-                const status = getStatus(etape, i)
-                return (
-                  <div key={i} className="relative flex gap-6">
-                    {/* Point sur la timeline */}
-                    <div className={`relative z-10 w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
-                      status === 'current' ? 'bg-purple-800 text-white ring-4 ring-purple-200' :
-                      status === 'passed' ? 'bg-slate-300 text-white' :
-                      'bg-white text-purple-800 border-2 border-purple-200'
-                    }`}>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={etape.icon}/></svg>
-                    </div>
+            {/* Carte de France — 3 colonnes */}
+            <div className="lg:col-span-3 bg-white/70 backdrop-blur rounded-3xl border border-slate-200 p-6 sm:p-8">
+              <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
+                {FranceMap.locations.map(location => {
+                  const region = getRegionData(location.id)
+                  const is2026 = region?.concours_2026
+                  const isSelected = selectedRegion === location.id
+                  const isHovered = hoveredRegion === location.id
 
-                    {/* Carte */}
-                    <div className={`flex-1 rounded-2xl p-6 transition-all ${
-                      status === 'current' ? 'bg-white shadow-lg border-2 border-purple-200' :
-                      status === 'passed' ? 'bg-white/50 border border-slate-200 opacity-60' :
-                      'bg-white/70 border border-slate-200'
-                    }`}>
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
-                          status === 'current' ? 'bg-emerald-100 text-emerald-800' :
-                          status === 'passed' ? 'bg-slate-100 text-slate-500' :
-                          'bg-purple-100 text-purple-800'
-                        }`}>
-                          {status === 'current' ? '● En cours' : status === 'passed' ? 'Terminé' : 'À venir'}
-                        </span>
-                        <span className="text-sm font-semibold text-slate-500">{etape.date}</span>
+                  return (
+                    <path
+                      key={location.id}
+                      d={location.path}
+                      aria-label={region?.nom || location.name}
+                      tabIndex={0}
+                      role="button"
+                      className={`transition-all duration-200 cursor-pointer outline-none focus:outline-2 focus:outline-purple-500 ${
+                        isSelected
+                          ? 'fill-purple-600 stroke-purple-400 stroke-[2.5]'
+                          : isHovered
+                          ? is2026 ? 'fill-purple-500 stroke-white stroke-[1.5]' : 'fill-slate-400 stroke-white stroke-[1.5]'
+                          : is2026 ? 'fill-purple-300 stroke-white stroke-[1.5]' : 'fill-slate-200 stroke-white stroke-[1.5]'
+                      }`}
+                      onClick={() => setSelectedRegion(location.id)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') setSelectedRegion(location.id) }}
+                      onMouseEnter={() => setHoveredRegion(location.id)}
+                      onMouseLeave={() => setHoveredRegion(null)}
+                    >
+                      <title>{region?.nom || location.name}{!is2026 ? ' — Prochain concours : 2027' : ''}</title>
+                    </path>
+                  )
+                })}
+              </svg>
+              {/* Nom région au hover */}
+              <div className="text-center h-8 mt-2">
+                {hoveredData && (
+                  <span className={`text-sm font-semibold ${hoveredData.concours_2026 ? 'text-purple-800' : 'text-slate-500'}`}>
+                    {hoveredData.nom} {!hoveredData.concours_2026 && '— Prochain concours : 2027'}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Panneau détail — 2 colonnes */}
+            <div className="lg:col-span-2" role="region" aria-live="polite">
+              {selected ? (
+                <div className="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden animate-fade-in-up" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
+                  {/* Header */}
+                  <div className={`p-6 ${selected.concours_2026 ? 'bg-purple-800' : 'bg-slate-700'} text-white`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className={`w-3 h-3 rounded-full ${selected.concours_2026 ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
+                        <div>
+                          <h2 className="text-lg font-bold">{selected.nom}</h2>
+                          <p className="text-sm opacity-75">{selected.concours_2026 ? 'Concours organisé en 2026' : 'Pas de concours ATSEM en 2026'}</p>
+                        </div>
                       </div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">{etape.titre}</h3>
-                      <p className="text-sm text-slate-500 leading-relaxed">{etape.desc}</p>
+                      <button onClick={() => setSelectedRegion(null)} className="opacity-60 hover:opacity-100 transition p-1">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      </button>
                     </div>
                   </div>
-                )
-              })}
+
+                  <div className="p-6">
+                    {selected.concours_2026 ? (
+                      <>
+                        {/* Dates */}
+                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                          Dates
+                        </h3>
+                        <div className="space-y-2 mb-6">
+                          {[
+                            { label: 'Inscriptions', value: `${DATES_NATIONALES.inscription_debut} → ${DATES_NATIONALES.inscription_fin}` },
+                            { label: 'Dépôt dossier', value: DATES_NATIONALES.depot_dossier },
+                            { label: 'Épreuves écrites', value: DATES_NATIONALES.epreuves_ecrites },
+                            { label: 'Résultats', value: DATES_NATIONALES.resultats_admissibilite },
+                            { label: 'Oraux', value: DATES_NATIONALES.epreuves_orales },
+                          ].map((d, i) => (
+                            <div key={i} className="flex justify-between text-sm">
+                              <span className="text-slate-500">{d.label}</span>
+                              <span className="font-semibold text-slate-900 text-right">{d.value}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* CDG */}
+                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+                          CDG organisateurs
+                        </h3>
+                        <div className="space-y-3 mb-6">
+                          {selected.cdg_organisateurs.map((cdg, i) => (
+                            <div key={i} className="bg-slate-50 rounded-xl p-3">
+                              <div className="flex items-center justify-between">
+                                <p className="font-bold text-slate-900 text-sm">{cdg.nom}</p>
+                                <a href={cdg.site} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 transition text-xs font-semibold">
+                                  Site →
+                                </a>
+                              </div>
+                              <p className="text-xs text-slate-500 mt-1">{cdg.departements.join(', ')}</p>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Note */}
+                        {selected.note && (
+                          <div className="bg-purple-50 border border-purple-100 rounded-xl p-3 mb-4">
+                            <p className="text-xs text-purple-800"><strong>Note :</strong> {selected.note}</p>
+                          </div>
+                        )}
+
+                        <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="block w-full bg-purple-800 hover:bg-purple-900 text-white text-center font-bold py-3 rounded-xl transition text-sm">
+                          S'inscrire sur concours-territorial.fr →
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+                          <p className="text-sm text-amber-800 font-medium">{selected.note}</p>
+                        </div>
+
+                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">CDG de référence</h3>
+                        <div className="space-y-3 mb-6">
+                          {selected.cdg_organisateurs.map((cdg, i) => (
+                            <div key={i} className="bg-slate-50 rounded-xl p-3">
+                              <p className="font-bold text-slate-900 text-sm">{cdg.nom}</p>
+                              <p className="text-xs text-slate-500 mt-1">{cdg.departements.join(', ')}</p>
+                              <a href={cdg.site} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 transition text-xs font-semibold">Voir le site →</a>
+                            </div>
+                          ))}
+                        </div>
+
+                        <button onClick={() => setSelectedRegion(null)} className="block w-full bg-slate-200 hover:bg-slate-300 text-slate-700 text-center font-bold py-3 rounded-xl transition text-sm">
+                          Voir les régions qui organisent en 2026
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-white/50 backdrop-blur rounded-3xl border border-dashed border-purple-200 p-12 text-center">
+                  <svg className="w-16 h-16 text-purple-300 mx-auto mb-4" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">Sélectionne une région</h3>
+                  <p className="text-slate-500 text-sm">Clique sur une région de la carte pour voir les dates et les CDG organisateurs.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── INFO CDG ─── */}
-      <section className="pb-20">
+      {/* ─── DATES NATIONALES ─── */}
+      <section className="pb-12">
         <div className="max-w-3xl mx-auto px-4">
-          <div className="bg-white/80 backdrop-blur rounded-3xl border border-slate-200 p-8">
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Où s'inscrire ?</h2>
-            <p className="text-slate-500 mb-6">Le concours est organisé par les Centres de Gestion (CDG) de la Fonction Publique Territoriale. Chaque CDG gère un ou plusieurs départements.</p>
-
-            <div className="grid sm:grid-cols-2 gap-3">
+          <div className="bg-white rounded-3xl border border-slate-200 p-8">
+            <h2 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Dates nationales du concours ATSEM 2026
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
               {[
-                { nom: 'CDG 13 (Bouches-du-Rhône)', region: 'PACA' },
-                { nom: 'CDG 31 (Haute-Garonne)', region: 'Occitanie' },
-                { nom: 'CDG 33 (Gironde)', region: 'Nouvelle-Aquitaine' },
-                { nom: 'CDG 44 (Loire-Atlantique)', region: 'Pays de la Loire' },
-                { nom: 'CDG 59 (Nord)', region: 'Hauts-de-France' },
-                { nom: 'CDG 69 (Rhône)', region: 'Auvergne-Rhône-Alpes' },
-                { nom: 'CDG 75 (Paris)', region: 'Île-de-France' },
-                { nom: 'CDG 77 (Seine-et-Marne)', region: 'Île-de-France' },
-              ].map((cdg, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <div className="w-8 h-8 bg-purple-100 text-purple-800 rounded-lg flex items-center justify-center shrink-0">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                  </div>
+                { label: 'Inscriptions', value: `${DATES_NATIONALES.inscription_debut} → ${DATES_NATIONALES.inscription_fin}` },
+                { label: 'Dépôt dossier', value: `${DATES_NATIONALES.depot_dossier} (dernier délai)` },
+                { label: 'Épreuves écrites', value: `À partir du ${DATES_NATIONALES.epreuves_ecrites}` },
+                { label: 'Résultats admissibilité', value: DATES_NATIONALES.resultats_admissibilite },
+                { label: 'Épreuves orales', value: DATES_NATIONALES.epreuves_orales },
+              ].map((d, i) => (
+                <div key={i} className="flex items-start gap-3 py-2 border-b border-slate-100 last:border-0">
+                  <span className="text-sm text-slate-500 min-w-[130px]">{d.label}</span>
+                  <span className="text-sm font-semibold text-slate-900">{d.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-3">
+              <p className="text-xs text-amber-800 font-medium">Les inscriptions se clôturent à minuit le dernier jour. Un dossier incomplet = candidature refusée.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── OUTRE-MER ─── */}
+      <section className="pb-12">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-white/70 backdrop-blur rounded-2xl border border-slate-200 p-6">
+            <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span className="text-lg">🌴</span> Outre-mer
+            </h3>
+            <div className="space-y-3">
+              {OUTRE_MER.map((om, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>
                   <div>
-                    <p className="font-semibold text-slate-900 text-sm">{cdg.nom}</p>
-                    <p className="text-xs text-slate-400">{cdg.region}</p>
+                    <p className="font-semibold text-slate-900 text-sm">{om.nom} — Concours 2026</p>
+                    <p className="text-xs text-slate-500">Inscriptions : {om.inscription_debut} → {om.inscription_fin} (dates spécifiques) — {om.cdg}</p>
                   </div>
                 </div>
               ))}
             </div>
-
-            <p className="text-sm text-slate-400 mt-6 text-center">Le concours n'a pas lieu chaque année dans tous les CDG. Renseignez-vous auprès du CDG de votre département.</p>
           </div>
         </div>
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="pb-20">
+      <section className="pb-16">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-br from-purple-900 to-purple-800 rounded-3xl p-10 text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221%22%20fill%3D%22white%22%20fill-opacity%3D%220.05%22%2F%3E%3C%2Fsvg%3E')] opacity-60"></div>
             <div className="relative z-10">
-              <h2 className="text-2xl font-extrabold mb-3">Les inscriptions sont ouvertes !</h2>
-              <p className="text-purple-200 mb-6">Commencez à réviser dès maintenant pour être prêt le 14 octobre.</p>
-              <a href="/signup" className="inline-block bg-white text-purple-900 px-8 py-3.5 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
-                Commencer l'entraînement
+              <h2 className="text-2xl font-extrabold mb-3">Le concours ATSEM, c'est 3% de taux d'admission.</h2>
+              <p className="text-purple-200 mb-6">Prépare-toi sérieusement avec l'IA.</p>
+              <a href="/auth" className="inline-block bg-white text-purple-900 px-8 py-3.5 rounded-2xl font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all">
+                Commencer ma préparation gratuitement →
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SEO TEXT ─── */}
+      <section className="pb-16">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="prose prose-slate prose-sm max-w-none text-slate-500">
+            <p>Le concours ATSEM (Agent Territorial Spécialisé des Écoles Maternelles) est organisé par les Centres de Gestion (CDG) de la Fonction Publique Territoriale. En 2026, les inscriptions sont ouvertes du 24 mars au 29 avril, avec des épreuves écrites à partir du 14 octobre 2026.</p>
+            <p>Attention : tous les CDG n'organisent pas le concours chaque année. Certaines régions comme la Normandie, la Bretagne et les Pays de la Loire ont organisé le concours en 2025 et ne le feront probablement qu'en 2027. Bonne nouvelle : vous pouvez passer le concours dans une autre région — la réussite est valable sur tout le territoire national.</p>
+            <p>Les candidats doivent s'inscrire auprès d'un seul CDG organisateur via le portail <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="text-purple-800 font-semibold underline">concours-territorial.fr</a>. Il n'est pas possible de s'inscrire à plusieurs CDG simultanément pour le même concours.</p>
           </div>
         </div>
       </section>
