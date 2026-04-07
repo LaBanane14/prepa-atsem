@@ -1380,7 +1380,7 @@ function DashboardContent() {
                   </div>
                   <div className="mb-8">
                     <div className="flex items-baseline gap-1 text-purple-800">
-                      <span className="text-3xl font-black tracking-tight">12,99€</span>
+                      <span className="text-3xl font-black tracking-tight">9,99€</span>
                       <span className="text-slate-500 font-bold">/mois</span>
                     </div>
                     <p className="text-purple-500 text-xs font-bold mt-1 uppercase">Renouvellement automatique</p>
@@ -1398,21 +1398,22 @@ function DashboardContent() {
                   <button onClick={() => handleCheckout('monthly')} disabled={checkoutLoading} className="w-full py-3.5 bg-purple-800 hover:bg-purple-900 text-white font-black rounded-xl text-center transition shadow-lg shadow-purple-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
                 </div>
 
-                {/* Pack Sérénité */}
+                {/* Pack Concours 6 mois */}
                 <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-purple-800 shadow-lg shadow-purple-100 relative flex flex-col overflow-hidden">
                   <div className="absolute top-4 right-4">
-                    <div className="bg-purple-50 text-purple-800 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">40% d'Économie</div>
+                    <div className="bg-purple-50 text-purple-800 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">17% d'Économie</div>
                   </div>
                   <div className="mb-6">
-                    <h3 className="text-lg font-black text-slate-900 mb-1 uppercase tracking-tight">Pack Sérénité</h3>
-                    <p className="text-slate-500 font-bold text-sm">Accès complet pendant 1 an.</p>
+                    <h3 className="text-lg font-black text-slate-900 mb-1 uppercase tracking-tight">Pack Concours</h3>
+                    <p className="text-slate-500 font-bold text-sm">Accès complet pendant 6 mois.</p>
                   </div>
                   <div className="mb-8">
                     <div className="flex items-baseline gap-1 text-purple-800">
-                      <span className="text-3xl font-black tracking-tight">89,99€</span>
-                      <span className="text-slate-500 font-bold">pour 1 an</span>
+                      <span className="text-3xl font-black tracking-tight">49,99€</span>
+                      <span className="text-slate-500 font-bold">pour 6 mois</span>
                     </div>
                     <p className="text-purple-500 text-xs font-black mt-1 uppercase">1 seul paiement · Pas de renouvellement</p>
+                    <p className="text-slate-400 text-xs mt-1">soit 8,33€/mois au lieu de 9,99€</p>
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
