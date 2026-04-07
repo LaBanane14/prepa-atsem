@@ -20,7 +20,7 @@ const menuItems = [
 
 export default function Dashboard() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>}>
       <DashboardContent />
     </Suspense>
   )
@@ -200,7 +200,7 @@ function DashboardContent() {
   }
 
   if (loading) {
-    return <div className="min-h-screen bg-slate-100 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>
+    return <div className="min-h-screen bg-slate-100 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>
   }
 
   const firstName = user?.user_metadata?.first_name || user?.user_metadata?.full_name?.split(' ')[0] || user?.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || 'Utilisateur'
@@ -279,7 +279,7 @@ function DashboardContent() {
     return moyenneGenerale > moyennePrecedente ? 'up' : moyenneGenerale < moyennePrecedente ? 'down' : null
   })()
   const categories = [
-    { name: 'Calculs de dose', color: 'bg-red-500', progress: 0 },
+    { name: 'Calculs de dose', color: 'bg-purple-500', progress: 0 },
     { name: 'Pourcentages', color: 'bg-purple-500', progress: 0 },
     { name: 'Produit en croix', color: 'bg-amber-500', progress: 0 },
     { name: 'Calcul mental', color: 'bg-blue-500', progress: 0 },
@@ -304,7 +304,7 @@ function DashboardContent() {
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
           <a href="/" className="mb-4">
-            <div className="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
+            <div className="w-10 h-10 bg-purple-800 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
               <LogoIcon size={20} strokeWidth={2.5} />
             </div>
           </a>
@@ -312,7 +312,7 @@ function DashboardContent() {
 
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {menuItems.filter(item => !item.premium || !isPremium).map(item => (
-              <button key={item.id} onClick={() => navigateTo(item.id)} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all cursor-pointer text-center group ${item.premium ? (page === item.id ? 'bg-amber-50 text-amber-600' : 'text-amber-500 hover:bg-amber-50 hover:text-amber-600') : (page === item.id ? 'bg-red-50 text-red-600' : 'text-slate-900 hover:bg-red-50 hover:text-red-600')}`}>
+              <button key={item.id} onClick={() => navigateTo(item.id)} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all cursor-pointer text-center group ${item.premium ? (page === item.id ? 'bg-amber-50 text-amber-600' : 'text-amber-500 hover:bg-amber-50 hover:text-amber-600') : (page === item.id ? 'bg-purple-50 text-purple-800' : 'text-slate-900 hover:bg-purple-50 hover:text-purple-800')}`}>
                 <item.icon size={21} strokeWidth={1.6} className={`transition-transform duration-200 group-hover:scale-125 ${item.premium ? 'premium-scan' : ''}`} />
                 <span>{item.label}</span>
               </button>
@@ -321,10 +321,10 @@ function DashboardContent() {
 
           <div className="flex flex-col items-center gap-2 mt-auto pt-3">
             <div className="w-7 h-px bg-slate-200 mb-1"></div>
-            <button onClick={() => navigateTo('profil')} className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${page === 'profil' ? 'bg-red-600 text-white ring-2 ring-red-100' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
+            <button onClick={() => navigateTo('profil')} className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${page === 'profil' ? 'bg-purple-800 text-white ring-2 ring-purple-100' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
               {firstName.charAt(0).toUpperCase()}
             </button>
-            <button onClick={handleLogout} className="text-slate-900 hover:text-red-500 transition cursor-pointer p-1">
+            <button onClick={handleLogout} className="text-slate-900 hover:text-purple-500 transition cursor-pointer p-1">
               <LogOut size={16} strokeWidth={1.8} />
             </button>
           </div>
@@ -339,7 +339,7 @@ function DashboardContent() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
           <a href="/" className="flex items-center">
-            <span className="font-black text-lg text-slate-900">Prépa <span className="text-red-600">FPC</span></span>
+            <span className="font-black text-lg text-slate-900" style={{ fontFamily: "'Nunito', sans-serif" }}>Prépa <span className="text-purple-800">ATSEM</span></span>
           </a>
           <div className="w-9"></div>
         </header>
@@ -350,7 +350,7 @@ function DashboardContent() {
           {showSuccessPopup && (
             <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowSuccessPopup(false)}>
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in" onClick={e => e.stopPropagation()}>
-                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
+                <div className="w-16 h-16 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center mx-auto mb-5">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                 </div>
                 <h2 className="text-2xl font-black text-slate-900 mb-2">Abonnement activé !</h2>
@@ -368,7 +368,7 @@ function DashboardContent() {
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
                 {reviewSent ? (
                   <div className="p-8 text-center">
-                    <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <div className="w-16 h-16 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center mx-auto mb-5">
                       <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
                     <h2 className="text-2xl font-black text-slate-900 mb-2">Merci pour votre avis !</h2>
@@ -381,7 +381,7 @@ function DashboardContent() {
                       <button onClick={() => setShowReviewPopup(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                       </button>
-                      <h2 className="text-lg font-black text-white pr-8">Évaluez Prépa FPC</h2>
+                      <h2 className="text-lg font-black text-white pr-8">Évaluez Prépa ATSEM</h2>
                       <p className="text-slate-400 text-sm font-medium mt-1">Votre avis compte pour nous !</p>
                     </div>
                     <div className="p-6">
@@ -394,13 +394,13 @@ function DashboardContent() {
                             <div key={star} className="relative w-10 h-10 cursor-pointer transition-transform hover:scale-125" style={{WebkitTapHighlightColor: 'transparent'}}>
                               {/* Moitié gauche = demi-étoile */}
                               <div className="absolute inset-0 w-1/2 overflow-hidden z-10" onClick={() => setReviewRating(star - 0.5)}>
-                                <svg className={`w-10 h-10 transition-colors ${full || half ? 'text-red-500' : 'text-slate-200'}`} fill={full || half ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                <svg className={`w-10 h-10 transition-colors ${full || half ? 'text-purple-500' : 'text-slate-200'}`} fill={full || half ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                                 </svg>
                               </div>
                               {/* Moitié droite = étoile pleine */}
                               <div className="absolute inset-0 z-10" style={{clipPath: 'inset(0 0 0 50%)'}} onClick={() => setReviewRating(star)}>
-                                <svg className={`w-10 h-10 transition-colors ${full ? 'text-red-500' : 'text-slate-200'}`} fill={full ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                                <svg className={`w-10 h-10 transition-colors ${full ? 'text-purple-500' : 'text-slate-200'}`} fill={full ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                                 </svg>
                               </div>
@@ -414,7 +414,7 @@ function DashboardContent() {
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Un commentaire ? <span className="font-normal text-slate-400">(optionnel)</span></p>
                       <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-400 transition h-28"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400 transition h-28"
                         placeholder="Ce que vous aimez, ce qu'on pourrait améliorer..."
                         value={reviewComment}
                         onChange={e => setReviewComment(e.target.value)}
@@ -435,7 +435,7 @@ function DashboardContent() {
                           setReviewSending(false)
                         }}
                         disabled={!reviewRating || reviewSending}
-                        className={`w-full mt-4 font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${reviewRating ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                        className={`w-full mt-4 font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${reviewRating ? 'bg-purple-800 hover:bg-purple-900 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                       >
                         {reviewSending ? (
                           <div className="animate-spin w-5 h-5 border-2 border-black/30 border-t-black rounded-full"></div>
@@ -468,7 +468,7 @@ function DashboardContent() {
                 <div className="p-6 text-center">
                   <p className="text-slate-500 font-medium text-sm mb-6">Pour accéder à tous les exercices, QCM, examens blancs et à la préparation orale, souscrivez à un abonnement.</p>
                   <div className="flex flex-col gap-3">
-                    <button onClick={() => { setShowBlockPopup(false); setPage('abonnement') }} className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm cursor-pointer">Voir les tarifs</button>
+                    <button onClick={() => { setShowBlockPopup(false); setPage('abonnement') }} className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm cursor-pointer">Voir les tarifs</button>
                     <button onClick={() => setShowBlockPopup(false)} className="text-slate-500 font-medium text-sm hover:text-slate-700 transition cursor-pointer">Fermer</button>
                   </div>
                 </div>
@@ -482,7 +482,7 @@ function DashboardContent() {
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
                 {supportSent ? (
                   <div className="p-8 text-center">
-                    <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <div className="w-16 h-16 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center mx-auto mb-5">
                       <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
                     <h2 className="text-2xl font-black text-slate-900 mb-2">Message envoyé !</h2>
@@ -499,7 +499,7 @@ function DashboardContent() {
                       <p className="text-slate-400 text-sm font-medium mt-1">On vous répond rapidement !</p>
                     </div>
                     <div className="p-6">
-                      <p className="text-sm font-bold text-slate-700 mb-3">Catégorie <span className="text-red-500">*</span></p>
+                      <p className="text-sm font-bold text-slate-700 mb-3">Catégorie <span className="text-purple-500">*</span></p>
                       <div className="grid grid-cols-2 gap-2 mb-5">
                         {[
                           { id: 'bug', label: 'Bug', icon: <CircleX size={16} strokeWidth={2} /> },
@@ -507,14 +507,14 @@ function DashboardContent() {
                           { id: 'suggestion', label: 'Suggestion', icon: <Lightbulb size={16} strokeWidth={2} /> },
                           { id: 'autre', label: 'Autre', icon: <MessageCircle size={16} strokeWidth={2} /> },
                         ].map(cat => (
-                          <button key={cat.id} onClick={() => setSupportCategory(cat.id)} className={`p-3 rounded-xl border-2 text-sm font-bold transition cursor-pointer flex items-center gap-2 ${supportCategory === cat.id ? 'border-red-500 bg-red-50 text-red-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
+                          <button key={cat.id} onClick={() => setSupportCategory(cat.id)} className={`p-3 rounded-xl border-2 text-sm font-bold transition cursor-pointer flex items-center gap-2 ${supportCategory === cat.id ? 'border-purple-500 bg-purple-50 text-purple-900' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
                             {cat.icon} {cat.label}
                           </button>
                         ))}
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Votre message</p>
                       <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-400 transition h-28 mb-4"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400 transition h-28 mb-4"
                         placeholder="Décrivez votre problème ou votre suggestion..."
                         value={supportMessage}
                         onChange={e => setSupportMessage(e.target.value)}
@@ -522,14 +522,14 @@ function DashboardContent() {
                       />
                       <div className="mb-4">
                         <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-500 hover:text-slate-700 transition">
-                          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed ${supportFile ? 'border-red-400 bg-red-50 text-red-700' : 'border-slate-300 hover:border-slate-400'} transition`}>
+                          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed ${supportFile ? 'border-purple-400 bg-purple-50 text-purple-900' : 'border-slate-300 hover:border-slate-400'} transition`}>
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
                             {supportFile ? supportFile.name : 'Ajouter une pièce jointe'}
                           </div>
                           <input type="file" className="hidden" accept="image/*,.pdf,.txt,.doc,.docx" onChange={e => setSupportFile(e.target.files?.[0] || null)} />
                         </label>
                         {supportFile && (
-                          <button onClick={() => setSupportFile(null)} className="text-xs text-red-500 hover:text-red-700 font-bold mt-1 cursor-pointer">Retirer</button>
+                          <button onClick={() => setSupportFile(null)} className="text-xs text-purple-500 hover:text-purple-900 font-bold mt-1 cursor-pointer">Retirer</button>
                         )}
                       </div>
                       <button
@@ -548,7 +548,7 @@ function DashboardContent() {
                           setSupportSending(false)
                         }}
                         disabled={!supportCategory || !supportMessage.trim() || supportSending}
-                        className={`w-full font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${supportCategory && supportMessage.trim() ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                        className={`w-full font-bold text-sm px-6 py-3 rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2 ${supportCategory && supportMessage.trim() ? 'bg-purple-800 hover:bg-purple-900 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
                       >
                         {supportSending ? (
                           <div className="animate-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>
@@ -586,7 +586,7 @@ function DashboardContent() {
                 ) : (
                   <>
                     <div className="flex items-center gap-3">
-                        <div onClick={trialDays === 0 ? () => setPage('abonnement') : undefined} className={`${trialDays === 0 ? 'bg-red-500 text-white cursor-pointer hover:bg-red-600 transition' : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950'} px-4 py-2 rounded-xl flex items-center gap-2 shadow-md`}>
+                        <div onClick={trialDays === 0 ? () => setPage('abonnement') : undefined} className={`${trialDays === 0 ? 'bg-purple-500 text-white cursor-pointer hover:bg-purple-800 transition' : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950'} px-4 py-2 rounded-xl flex items-center gap-2 shadow-md`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                           <span className="font-black text-sm">{trialDays === 0 ? 'Essai expiré' : `${trialDays}j restant${trialDays > 1 ? 's' : ''}`}</span>
                         </div>
@@ -613,14 +613,14 @@ function DashboardContent() {
                   <p className="text-xs text-slate-500 flex-1">Tous les types d'exercices de maths avec des explications pour réellement progresser</p>
                   <span className="text-[10px] mt-2 text-blue-600 font-bold">Ne compte pas dans la moyenne</span>
                 </a>
-                <a href="/maths" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-red-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-red-600 bg-red-50 px-1.5 py-0.5 rounded-md">30 min</span>
-                  <div className="w-11 h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <a href="/maths" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-800 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-purple-800 bg-purple-50 px-1.5 py-0.5 rounded-md">30 min</span>
+                  <div className="w-11 h-11 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Entraînement mathématiques</h3>
                   <p className="text-xs text-slate-500 flex-1">Conditions similaires à l'examen pour évaluer son niveau basé en partie sur les annales</p>
-                  <span className="text-[10px] font-black text-red-600 mt-2">Note /10</span>
+                  <span className="text-[10px] font-black text-purple-800 mt-2">Note /10</span>
                 </a>
                 <a href="/redaction" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">30 min</span>
@@ -661,8 +661,8 @@ function DashboardContent() {
                           <path d="M16 2 C16 2 4 18 4 26 C4 33.5 9.5 38 16 38 C22.5 38 28 33.5 28 26 C28 18 16 2 16 2Z"/>
                         </clipPath>
                       </defs>
-                      <path d="M16 2 C16 2 4 18 4 26 C4 33.5 9.5 38 16 38 C22.5 38 28 33.5 28 26 C28 18 16 2 16 2Z" fill={streak >= 7 ? '#fef9c3' : '#fee2e2'} stroke={streak >= 7 ? '#facc15' : '#fca5a5'} strokeWidth="1.2"/>
-                      <rect clipPath="url(#dropClip)" x="0" y={38 - Math.min(36, Math.max(0, streak * 5))} width="32" height={Math.min(36, Math.max(0, streak * 5))} fill={streak === 0 ? '#fecaca' : streak < 3 ? '#f87171' : streak < 7 ? '#ef4444' : '#dc2626'}/>
+                      <path d="M16 2 C16 2 4 18 4 26 C4 33.5 9.5 38 16 38 C22.5 38 28 33.5 28 26 C28 18 16 2 16 2Z" fill={streak >= 7 ? '#fef9c3' : '#f3e8ff'} stroke={streak >= 7 ? '#facc15' : '#c084fc'} strokeWidth="1.2"/>
+                      <rect clipPath="url(#dropClip)" x="0" y={38 - Math.min(36, Math.max(0, streak * 5))} width="32" height={Math.min(36, Math.max(0, streak * 5))} fill={streak === 0 ? '#e9d5ff' : streak < 3 ? '#a855f7' : streak < 7 ? '#7e22ce' : '#6b21a8'}/>
                       <ellipse cx="11" cy="24" rx="2.5" ry="3" fill="white" opacity="0.25"/>
                     </svg>
                     {streak >= 7 && (
@@ -683,7 +683,7 @@ function DashboardContent() {
                       <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7"/></svg>
                     )}
                     {moyenneTendance === 'down' && (
-                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                      <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     )}
                   </div>
                 </div>
@@ -704,12 +704,12 @@ function DashboardContent() {
                       <span className="text-xs font-black text-slate-400">{weekData.count}/5 exercices</span>
                     </div>
                     <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
-                      <div className="h-full bg-red-500 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
+                      <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
                     </div>
                     <div className="flex justify-between">
                       {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
                         <div key={i} className="flex flex-col items-center gap-1">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-400'}`}>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-400'}`}>
                             {weekData.daysWithExercise.has(i) ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
                           </div>
                         </div>
@@ -735,8 +735,8 @@ function DashboardContent() {
               {/* RACCOURCIS UTILES */}
               <h2 className="text-lg font-black text-slate-900 mb-4">Raccourcis utiles</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                <a href="/calculs-doses" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-red-200 transition group flex items-center gap-3">
-                  <div className="w-10 h-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <a href="/calculs-doses" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2Z"/><path d="M9 7h6"/><path d="M12 7v6"/><path d="M9 17h6"/></svg>
                   </div>
                   <div>
@@ -779,7 +779,7 @@ function DashboardContent() {
                   <div>
                     <div className="flex items-center gap-2 mb-2"><span className="bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Plan gratuit</span></div>
                     <h3 className="text-lg font-black text-white mb-1">Passez au niveau supérieur</h3>
-                    <p className="text-slate-400 font-medium text-sm">Donnez-vous toutes les chances pour réussir votre concours FPC.</p>
+                    <p className="text-slate-400 font-medium text-sm">Donnez-vous toutes les chances pour réussir votre concours ATSEM.</p>
                     <p className="text-slate-500 font-medium text-xs mt-1">QCM, calculs et examens blancs en illimité.</p>
                   </div>
                   <button onClick={() => setPage('abonnement')} className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-amber-950 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-amber-200/50 shrink-0 text-sm cursor-pointer">Voir les offres</button>
@@ -810,7 +810,7 @@ function DashboardContent() {
             historique.forEach(h => { typeCount[h.type || 'Autre'] = (typeCount[h.type || 'Autre'] || 0) + 1 })
             const typeLabels = Object.keys(typeCount)
             const typeValues = Object.values(typeCount)
-            const typeColors = { Maths: '#ef4444', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Autre: '#94a3b8' }
+            const typeColors = { Maths: '#7e22ce', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Autre: '#94a3b8' }
 
             // Évolution de la moyenne (par exercice noté, chronologique) — exclure Spécifique
             const notesChron = [...historique].filter(h => h.note != null && h.note_max && h.type !== 'Spécifique').sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
@@ -855,14 +855,14 @@ function DashboardContent() {
                   <div className="w-16 h-16 bg-slate-100 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
                   <h3 className="font-black text-slate-900 text-lg mb-2">Commencez à vous entraîner</h3>
                   <p className="text-slate-500 font-medium text-sm mb-6">Vos statistiques apparaîtront ici dès votre premier entraînement.</p>
-                  <a href="/maths" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Lancer un exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+                  <a href="/maths" className="inline-flex items-center gap-2 bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Lancer un exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
                 </div>
               ) : (
                 <>
                   {/* Stats rapides - 4 cartes */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
-                      <div className="w-11 h-11 bg-red-50 text-red-500 rounded-xl flex items-center justify-center shrink-0">
+                      <div className="w-11 h-11 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                       </div>
                       <div>
@@ -913,7 +913,7 @@ function DashboardContent() {
                           datasets: [{
                             label: 'Exercices',
                             data: dailyData.map(d => d.count),
-                            backgroundColor: dailyData.map(d => d.count > 0 ? '#ef4444' : '#f1f5f9'),
+                            backgroundColor: dailyData.map(d => d.count > 0 ? '#7e22ce' : '#f1f5f9'),
                             borderRadius: 8,
                             maxBarThickness: 24,
                             borderSkipped: false
@@ -981,17 +981,17 @@ function DashboardContent() {
                           datasets: [{
                             label: 'Moyenne /20',
                             data: moyenneEvolution.map(d => d.moy),
-                            borderColor: '#ef4444',
+                            borderColor: '#7e22ce',
                             backgroundColor: (ctx) => {
-                              if (!ctx.chart.chartArea) return 'rgba(239, 68, 68, 0.05)'
+                              if (!ctx.chart.chartArea) return 'rgba(126, 34, 206, 0.05)'
                               const gradient = ctx.chart.ctx.createLinearGradient(0, ctx.chart.chartArea.top, 0, ctx.chart.chartArea.bottom)
-                              gradient.addColorStop(0, 'rgba(239, 68, 68, 0.12)')
-                              gradient.addColorStop(1, 'rgba(239, 68, 68, 0)')
+                              gradient.addColorStop(0, 'rgba(126, 34, 206, 0.12)')
+                              gradient.addColorStop(1, 'rgba(126, 34, 206, 0)')
                               return gradient
                             },
                             borderWidth: 2.5,
                             pointBackgroundColor: '#fff',
-                            pointBorderColor: '#ef4444',
+                            pointBorderColor: '#7e22ce',
                             pointBorderWidth: 2,
                             pointRadius: 4,
                             pointHoverRadius: 6,
@@ -1112,7 +1112,7 @@ function DashboardContent() {
                   <p className="text-xs font-bold text-slate-400 uppercase mt-1">Exercices</p>
                 </div>
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl font-black text-red-600">{moyenne || '—'}<span className="text-sm">/20</span></p>
+                  <p className="text-2xl font-black text-purple-800">{moyenne || '—'}<span className="text-sm">/20</span></p>
                   <p className="text-xs font-bold text-slate-400 uppercase mt-1">Moyenne</p>
                 </div>
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
@@ -1168,13 +1168,13 @@ function DashboardContent() {
                           key={day}
                           onClick={() => setSelectedDay(isSelected ? null : day)}
                           className={`aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-sm font-bold transition cursor-pointer relative
-                            ${isSelected ? 'bg-red-600 text-white' : isSignupDay ? 'bg-yellow-50 text-yellow-600 border border-yellow-300' : isToday ? 'bg-red-50 text-red-600 border border-red-200' : hasExercises ? 'bg-slate-50 hover:bg-slate-100 text-slate-900' : isWeekend ? 'bg-slate-100 text-slate-500 hover:bg-slate-200' : 'text-slate-400 hover:bg-slate-50'}`}
+                            ${isSelected ? 'bg-purple-800 text-white' : isSignupDay ? 'bg-yellow-50 text-yellow-600 border border-yellow-300' : isToday ? 'bg-purple-50 text-purple-800 border border-purple-200' : hasExercises ? 'bg-slate-50 hover:bg-slate-100 text-slate-900' : isWeekend ? 'bg-slate-100 text-slate-500 hover:bg-slate-200' : 'text-slate-400 hover:bg-slate-50'}`}
                         >
                           <span>{day}</span>
                           {hasExercises && !isSelected && (
                             <div className="flex gap-0.5">
                               {types.map(t => (
-                                <div key={t} className={`w-1.5 h-1.5 rounded-full ${t === 'Maths' ? 'bg-red-500' : t === 'Rédaction' ? 'bg-purple-500' : t === 'Examen' ? 'bg-yellow-500' : t === 'Oral' ? 'bg-emerald-500' : 'bg-blue-500'}`}></div>
+                                <div key={t} className={`w-1.5 h-1.5 rounded-full ${t === 'Maths' ? 'bg-purple-500' : t === 'Rédaction' ? 'bg-purple-500' : t === 'Examen' ? 'bg-yellow-500' : t === 'Oral' ? 'bg-emerald-500' : 'bg-blue-500'}`}></div>
                               ))}
                             </div>
                           )}
@@ -1192,7 +1192,7 @@ function DashboardContent() {
 
                   {/* Légende */}
                   <div className="flex items-center gap-3 flex-wrap mt-5 pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500"></div><span className="text-[10px] font-bold text-slate-400">Maths</span></div>
+                    <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-purple-500"></div><span className="text-[10px] font-bold text-slate-400">Maths</span></div>
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-purple-500"></div><span className="text-[10px] font-bold text-slate-400">Rédaction</span></div>
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-blue-500"></div><span className="text-[10px] font-bold text-slate-400">Spécifique</span></div>
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-yellow-500"></div><span className="text-[10px] font-bold text-slate-400">Examen</span></div>
@@ -1215,7 +1215,7 @@ function DashboardContent() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="font-bold text-sm text-slate-900">Inscription</p>
-                              <p className="text-xs text-slate-400 font-medium">Bienvenue sur Prépa FPC !</p>
+                              <p className="text-xs text-slate-400 font-medium">Bienvenue sur Prépa ATSEM !</p>
                             </div>
                             <span className="text-sm font-black text-yellow-500">Jour 1</span>
                           </div>
@@ -1228,7 +1228,7 @@ function DashboardContent() {
                             const scoreNorm = item.note != null && item.note_max ? (item.note / item.note_max) * 20 : null
                             return (
                               <div key={item.id} className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color === 'red' ? 'bg-red-100 text-red-600' : color === 'purple' ? 'bg-purple-100 text-purple-600' : color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : color === 'emerald' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color === 'red' ? 'bg-purple-100 text-purple-800' : color === 'purple' ? 'bg-purple-100 text-purple-600' : color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : color === 'emerald' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
                                   {item.type === 'Maths' && <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>}
                                   {item.type === 'Rédaction' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>}
                                   {item.type === 'Spécifique' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>}
@@ -1241,7 +1241,7 @@ function DashboardContent() {
                                 </div>
                                 <div className="text-right shrink-0">
                                   {item.note != null ? (
-                                    <span className={`text-sm font-black ${scoreNorm >= 15 ? 'text-emerald-600' : scoreNorm >= 10 ? 'text-amber-600' : 'text-red-600'}`}>{item.note}/{item.note_max}</span>
+                                    <span className={`text-sm font-black ${scoreNorm >= 15 ? 'text-emerald-600' : scoreNorm >= 10 ? 'text-amber-600' : 'text-purple-800'}`}>{item.note}/{item.note_max}</span>
                                   ) : (
                                     <span className="text-sm font-black text-emerald-600">Terminé</span>
                                   )}
@@ -1280,7 +1280,7 @@ function DashboardContent() {
             <div>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Mon compte</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Gérez vos informations personnelles.</p>
-              {profileMsg && <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${profileMsg.startsWith('Erreur') ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-red-50 text-red-600 border border-red-200'}`}>{profileMsg}</div>}
+              {profileMsg && <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${profileMsg.startsWith('Erreur') ? 'bg-purple-50 text-purple-900 border border-purple-200' : 'bg-purple-50 text-purple-800 border border-purple-200'}`}>{profileMsg}</div>}
               <div className="flex flex-col lg:flex-row lg:items-stretch gap-6">
                 <form onSubmit={updateProfile} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-5 flex-1">
                   <div>
@@ -1291,11 +1291,11 @@ function DashboardContent() {
                   <div className="flex gap-4">
                     <div className="flex-1">
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">Prénom</label>
-                      <input type="text" value={newFirstName} onChange={e => setNewFirstName(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium"/>
+                      <input type="text" value={newFirstName} onChange={e => setNewFirstName(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none font-medium"/>
                     </div>
                     <div className="flex-1">
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">Nom</label>
-                      <input type="text" value={newLastName} onChange={e => setNewLastName(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium"/>
+                      <input type="text" value={newLastName} onChange={e => setNewLastName(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-transparent outline-none font-medium"/>
                     </div>
                   </div>
                   <div>
@@ -1312,7 +1312,7 @@ function DashboardContent() {
                     </div>
                   </div>
                   <div className="pt-2">
-                    <button type="submit" disabled={profileSaving} className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-red-600/20 text-sm">{profileSaving ? 'Enregistrement...' : 'Sauvegarder'}</button>
+                    <button type="submit" disabled={profileSaving} className="bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-800/20 text-sm">{profileSaving ? 'Enregistrement...' : 'Sauvegarder'}</button>
                   </div>
                 </form>
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 lg:w-[380px]">
@@ -1325,7 +1325,7 @@ function DashboardContent() {
                     <div className="flex justify-between items-center py-2 border-b border-slate-100">
                       <span className="text-slate-500 font-medium">Email vérifié</span>
                       {user?.email_confirmed_at ? (
-                        <span className="flex items-center gap-1.5 text-red-600 font-bold"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Vérifié</span>
+                        <span className="flex items-center gap-1.5 text-purple-800 font-bold"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Vérifié</span>
                       ) : (
                         <button onClick={async () => { await supabase.auth.resend({ type: 'signup', email }); setProfileMsg('Email de vérification envoyé !') }} className="bg-amber-400 hover:bg-amber-500 text-black font-bold text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer">
                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1336,7 +1336,7 @@ function DashboardContent() {
                     <div className="flex justify-between py-2 border-b border-slate-100">
                       <span className="text-slate-500 font-medium">Premium</span>
                       {isPremium ? (
-                        <span className="text-red-600 font-bold">Oui</span>
+                        <span className="text-purple-800 font-bold">Oui</span>
                       ) : (
                         <span className="text-slate-400 font-bold">Non</span>
                       )}
@@ -1387,52 +1387,52 @@ function DashboardContent() {
                     <p className="text-slate-500 font-bold text-sm">Flexibilité totale, sans engagement.</p>
                   </div>
                   <div className="mb-8">
-                    <div className="flex items-baseline gap-1 text-red-600">
+                    <div className="flex items-baseline gap-1 text-purple-800">
                       <span className="text-3xl font-black tracking-tight">12,99€</span>
                       <span className="text-slate-500 font-bold">/mois</span>
                     </div>
-                    <p className="text-red-500 text-xs font-bold mt-1 uppercase">Renouvellement automatique</p>
+                    <p className="text-purple-500 text-xs font-bold mt-1 uppercase">Renouvellement automatique</p>
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
                       {["Entraînement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Résiliable à tout moment"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
-                          <div className="bg-red-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                          <div className="bg-purple-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <button onClick={() => handleCheckout('monthly')} disabled={checkoutLoading} className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-center transition shadow-lg shadow-red-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
+                  <button onClick={() => handleCheckout('monthly')} disabled={checkoutLoading} className="w-full py-3.5 bg-purple-800 hover:bg-purple-900 text-white font-black rounded-xl text-center transition shadow-lg shadow-purple-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
                 </div>
 
                 {/* Pack Sérénité */}
-                <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-red-600 shadow-lg shadow-red-100 relative flex flex-col overflow-hidden">
+                <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-purple-800 shadow-lg shadow-purple-100 relative flex flex-col overflow-hidden">
                   <div className="absolute top-4 right-4">
-                    <div className="bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">40% d'Économie</div>
+                    <div className="bg-purple-50 text-purple-800 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">40% d'Économie</div>
                   </div>
                   <div className="mb-6">
                     <h3 className="text-lg font-black text-slate-900 mb-1 uppercase tracking-tight">Pack Sérénité</h3>
                     <p className="text-slate-500 font-bold text-sm">Accès complet pendant 1 an.</p>
                   </div>
                   <div className="mb-8">
-                    <div className="flex items-baseline gap-1 text-red-600">
+                    <div className="flex items-baseline gap-1 text-purple-800">
                       <span className="text-3xl font-black tracking-tight">89,99€</span>
                       <span className="text-slate-500 font-bold">pour 1 an</span>
                     </div>
-                    <p className="text-red-500 text-xs font-black mt-1 uppercase">1 seul paiement · Pas de renouvellement</p>
+                    <p className="text-purple-500 text-xs font-black mt-1 uppercase">1 seul paiement · Pas de renouvellement</p>
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
                       {["Entraînement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Méthodologie Dossier & Oral"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
-                          <div className="bg-red-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-red-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                          <div className="bg-purple-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <button onClick={() => handleCheckout('yearly')} disabled={checkoutLoading} className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-center transition shadow-lg shadow-red-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
+                  <button onClick={() => handleCheckout('yearly')} disabled={checkoutLoading} className="w-full py-3.5 bg-purple-800 hover:bg-purple-900 text-white font-black rounded-xl text-center transition shadow-lg shadow-purple-200 text-sm cursor-pointer disabled:opacity-50">{checkoutLoading ? 'Redirection...' : "S'abonner maintenant"}</button>
                 </div>
 
               </div>
