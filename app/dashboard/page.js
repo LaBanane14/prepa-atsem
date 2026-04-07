@@ -605,47 +605,48 @@ function DashboardContent() {
               {/* ENTRAÎNEMENTS */}
               <h2 className="text-lg font-black text-slate-900 mb-4">Commencer à m'entraîner</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
-                <a href="/specifique" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-blue-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
+                <a href="/qcm" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-blue-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
                   <div className="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><path d="M9 5a2 2 0 002 2h2a2 2 0 002-2"/><path d="M9 14l2 2 4-4"/></svg>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">Entraînement spécifique</h3>
-                  <p className="text-xs text-slate-500 flex-1">Tous les types d'exercices de maths avec des explications pour réellement progresser</p>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">QCM thématiques</h3>
+                  <p className="text-xs text-slate-500 flex-1">Choisissez une famille (hygiène, institutionnel, santé, pédagogie, relations pro, calculs)</p>
                   <span className="text-[10px] mt-2 text-blue-600 font-bold">Ne compte pas dans la moyenne</span>
                 </a>
-                <a href="/maths" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-800 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                <a href="/qcm?mode=complet" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-800 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-purple-800 bg-purple-50 px-1.5 py-0.5 rounded-md">30 min</span>
                   <div className="w-11 h-11 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">Entraînement mathématiques</h3>
-                  <p className="text-xs text-slate-500 flex-1">Conditions similaires à l'examen pour évaluer son niveau basé en partie sur les annales</p>
-                  <span className="text-[10px] font-black text-purple-800 mt-2">Note /10</span>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">QCM complet</h3>
+                  <p className="text-xs text-slate-500 flex-1">20 questions mélangées sur les 6 familles, comme au vrai concours. Réponses multiples possibles</p>
+                  <span className="text-[10px] font-black text-purple-800 mt-2">Note /20</span>
                 </a>
-                <a href="/redaction" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded-md">30 min</span>
-                  <div className="w-11 h-11 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                <a href="/annales" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-amber-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-md">45 min</span>
+                  <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">Entraînement rédactionnel</h3>
-                  <p className="text-xs text-slate-500 flex-1">Analyse de texte, dissertations, culture sanitaire basée en partie sur les annales</p>
-                  <span className="text-[10px] font-black text-purple-600 mt-2">Note /10</span>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">Annales corrigées</h3>
+                  <p className="text-xs text-slate-500 flex-1">Vrais sujets des CDG avec timer 45 min et correction détaillée question par question</p>
+                  <span className="text-[10px] font-black text-amber-500 mt-2">Note /20</span>
                 </a>
                 <a href="/examen" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-yellow-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-yellow-500 bg-yellow-50 px-1.5 py-0.5 rounded-md">1H</span>
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-yellow-500 bg-yellow-50 px-1.5 py-0.5 rounded-md">45 min</span>
                   <div className="w-11 h-11 bg-yellow-50 text-yellow-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Examen blanc</h3>
-                  <p className="text-xs text-slate-500 flex-1">Conditions réelles, sans calculatrice, vous disposez d'un temps imparti d'1H</p>
+                  <p className="text-xs text-slate-500 flex-1">Conditions réelles : 20 questions, 45 min, sans aide. Classement percentile</p>
                   <span className="text-[10px] font-black text-yellow-500 mt-2">Note /20</span>
                 </a>
-                <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-emerald-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
+                <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-emerald-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md">15 min</span>
                   <div className="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">Questions sur votre parcours</h3>
-                  <p className="text-xs text-slate-500 flex-1">Simulations de questions possibles sur votre parcours afin de passer l'examen oral dans les meilleures conditions</p>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">Simulation d'oral</h3>
+                  <p className="text-xs text-slate-500 flex-1">L'IA génère des questions de jury : mises en situation, motivations, relation ATSEM/enseignant</p>
                   <span className="text-[10px] mt-2 text-emerald-600 font-bold">Pas de note</span>
                 </a>
               </div>
@@ -1369,7 +1370,7 @@ function DashboardContent() {
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
-                      {["Entraînement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Méthodologie Dossier & Oral"].map((item, i) => (
+                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                           <div className="bg-slate-200 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-slate-900" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
@@ -1395,7 +1396,7 @@ function DashboardContent() {
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
-                      {["Entraînement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Résiliable à tout moment"].map((item, i) => (
+                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Résiliable à tout moment"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                           <div className="bg-purple-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
@@ -1424,7 +1425,7 @@ function DashboardContent() {
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
-                      {["Entraînement rédaction et mathématique illimités", "Entrainement à partir d'annales", "Examen blanc écrit", "Dashboard personnalisable", "Méthodologie Dossier & Oral"].map((item, i) => (
+                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                           <div className="bg-purple-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
