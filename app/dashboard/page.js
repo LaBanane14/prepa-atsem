@@ -604,41 +604,32 @@ function DashboardContent() {
 
               {/* ENTRAÎNEMENTS */}
               <h2 className="text-lg font-black text-slate-900 mb-4">Commencer à m'entraîner</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
-                <a href="/qcm" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-blue-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
-                  <div className="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <a href="/qcm" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
+                  <div className="w-11 h-11 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><path d="M9 5a2 2 0 002 2h2a2 2 0 002-2"/><path d="M9 14l2 2 4-4"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">QCM thématiques</h3>
-                  <p className="text-xs text-slate-500 flex-1">Choisissez une famille (hygiène, institutionnel, santé, pédagogie, relations pro, calculs)</p>
-                  <span className="text-[10px] mt-2 text-blue-600 font-bold">Ne compte pas dans la moyenne</span>
+                  <p className="text-xs text-slate-500 flex-1">Choisissez une famille : hygiène, institutionnel, santé, pédagogie, relations pro, calculs</p>
+                  <span className="text-[10px] mt-2 text-purple-600 font-bold">Ne compte pas dans la moyenne</span>
                 </a>
-                <a href="/qcm?mode=complet" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-800 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-purple-800 bg-purple-50 px-1.5 py-0.5 rounded-md">30 min</span>
-                  <div className="w-11 h-11 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">QCM complet</h3>
-                  <p className="text-xs text-slate-500 flex-1">20 questions mélangées sur les 6 familles, comme au vrai concours. Réponses multiples possibles</p>
-                  <span className="text-[10px] font-black text-purple-800 mt-2">Note /20</span>
-                </a>
-                <a href="/annales" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-amber-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-md">45 min</span>
-                  <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <a href="/annales" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-blue-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md">45 min</span>
+                  <div className="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Annales corrigées</h3>
                   <p className="text-xs text-slate-500 flex-1">Vrais sujets des CDG avec timer 45 min et correction détaillée question par question</p>
-                  <span className="text-[10px] font-black text-amber-500 mt-2">Note /20</span>
+                  <span className="text-[10px] font-black text-blue-600 mt-2">Note /20</span>
                 </a>
-                <a href="/examen" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-yellow-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-yellow-500 bg-yellow-50 px-1.5 py-0.5 rounded-md">45 min</span>
-                  <div className="w-11 h-11 bg-yellow-50 text-yellow-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <a href="/examen" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-amber-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-md">45 min</span>
+                  <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Examen blanc</h3>
-                  <p className="text-xs text-slate-500 flex-1">Conditions réelles : 20 questions, 45 min, sans aide. Classement percentile</p>
-                  <span className="text-[10px] font-black text-yellow-500 mt-2">Note /20</span>
+                  <p className="text-xs text-slate-500 flex-1">Conditions réelles : 20 questions générées par IA, 45 min, sans aide. Classement percentile</p>
+                  <span className="text-[10px] font-black text-amber-500 mt-2">Note /20</span>
                 </a>
                 <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-emerald-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md">15 min</span>
