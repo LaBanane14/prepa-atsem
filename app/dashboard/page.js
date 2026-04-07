@@ -646,16 +646,15 @@ function DashboardContent() {
               <div className="grid sm:grid-cols-3 gap-4 mb-10">
                 {/* Streak */}
                 <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-                  <div className="w-9 h-9 relative shrink-0">
-                    <svg viewBox="0 0 32 40" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <div className="w-10 h-10 relative shrink-0">
+                    <svg viewBox="0 0 36 36" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                       <defs>
-                        <clipPath id="dropClip">
-                          <path d="M16 2 C16 2 4 18 4 26 C4 33.5 9.5 38 16 38 C22.5 38 28 33.5 28 26 C28 18 16 2 16 2Z"/>
+                        <clipPath id="starClip">
+                          <polygon points="18,2 22.5,12.5 34,14 25.5,22 28,34 18,28.5 8,34 10.5,22 2,14 13.5,12.5"/>
                         </clipPath>
                       </defs>
-                      <path d="M16 2 C16 2 4 18 4 26 C4 33.5 9.5 38 16 38 C22.5 38 28 33.5 28 26 C28 18 16 2 16 2Z" fill={streak >= 7 ? '#fef9c3' : '#f3e8ff'} stroke={streak >= 7 ? '#facc15' : '#c084fc'} strokeWidth="1.2"/>
-                      <rect clipPath="url(#dropClip)" x="0" y={38 - Math.min(36, Math.max(0, streak * 5))} width="32" height={Math.min(36, Math.max(0, streak * 5))} fill={streak === 0 ? '#e9d5ff' : streak < 3 ? '#a855f7' : streak < 7 ? '#7e22ce' : '#6b21a8'}/>
-                      <ellipse cx="11" cy="24" rx="2.5" ry="3" fill="white" opacity="0.25"/>
+                      <polygon points="18,2 22.5,12.5 34,14 25.5,22 28,34 18,28.5 8,34 10.5,22 2,14 13.5,12.5" fill={streak >= 7 ? '#fef9c3' : '#f3e8ff'} stroke={streak >= 7 ? '#facc15' : '#c084fc'} strokeWidth="1.5" strokeLinejoin="round"/>
+                      <rect clipPath="url(#starClip)" x="0" y={34 - Math.min(32, Math.max(0, streak * 4.5))} width="36" height={Math.min(32, Math.max(0, streak * 4.5))} fill={streak === 0 ? '#e9d5ff' : streak < 3 ? '#a855f7' : streak < 7 ? '#7e22ce' : '#facc15'}/>
                     </svg>
                     {streak >= 7 && (
                       <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center font-black text-[9px] shadow-sm border-2 border-white">{streak}</div>
