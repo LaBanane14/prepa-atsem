@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { BASE_SYSTEM, buildHistoryContext } from '@/lib/prompts/base-maths'
-import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM } from '@/lib/prompts/examen-atsem'
+import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM } from '@/lib/prompts/examen'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 const apiKey = process.env.GEMINI_API_KEY
