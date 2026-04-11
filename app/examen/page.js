@@ -375,7 +375,6 @@ export default function ExamenPage() {
                     { label: 'Analyse des sujets CDG' },
                     { label: 'Génération des 20 questions QCM' },
                     { label: 'Répartition des 7 thématiques' },
-                    { label: 'Calibrage de la difficulté' },
                     { label: 'Mise en forme de l\'épreuve' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= loadingStep ? 'bg-yellow-50 border border-yellow-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
