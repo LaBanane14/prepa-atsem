@@ -5,8 +5,9 @@ const categoryLabels = { bug: 'Bug 🐛', abonnement: 'Abonnement 💳', suggest
 const validCategories = Object.keys(categoryLabels)
 
 const allowedOrigins = [
-  'https://prepa-fpc.fr',
-  'https://www.prepa-fpc.fr',
+  'https://prepa-atsem.fr',
+  'https://www.prepa-atsem.fr',
+  'https://prepa-atsem.vercel.app',
   ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
 ]
 
@@ -75,8 +76,8 @@ export async function POST(request) {
 
     const resend = new Resend(apiKey)
     const { error: sendError } = await resend.emails.send({
-      from: 'Prépa FPC - Support <noreply@prepa-fpc.fr>',
-      to: 'support@prepa-fpc.fr',
+      from: 'Prépa ATSEM - Support <noreply@prepa-atsem.fr>',
+      to: 'support@prepa-atsem.fr',
       replyTo: email || undefined,
       subject: `[${label}] Nouveau ticket support`,
       attachments,

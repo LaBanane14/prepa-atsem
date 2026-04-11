@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 const allowedOrigins = [
-  'https://prepa-fpc.fr',
-  'https://www.prepa-fpc.fr',
+  'https://prepa-atsem.fr',
+  'https://www.prepa-atsem.fr',
+  'https://prepa-atsem.vercel.app',
   ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
 ]
 
@@ -53,8 +54,8 @@ export async function POST(request) {
 
     const resend = new Resend(apiKey)
     const { error: sendError } = await resend.emails.send({
-      from: 'Prépa FPC - Avis <noreply@prepa-fpc.fr>',
-      to: 'support@prepa-fpc.fr',
+      from: 'Prépa ATSEM - Avis <noreply@prepa-atsem.fr>',
+      to: 'support@prepa-atsem.fr',
       subject: `${stars} Nouvel avis (${rating}/5)`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -71,7 +72,7 @@ export async function POST(request) {
               <div style="white-space: pre-wrap; color: #334155; line-height: 1.6; background: white; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">${safeComment}</div>
             ` : '<p style="margin: 0; color: #94a3b8; font-style: italic;">Aucun commentaire</p>'}
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
-            <p style="font-size: 12px; color: #94a3b8; margin: 0;">IP : ${ip} — Envoyé depuis le tableau de bord Prépa FPC</p>
+            <p style="font-size: 12px; color: #94a3b8; margin: 0;">IP : ${ip} — Envoyé depuis le tableau de bord Prépa ATSEM</p>
           </div>
         </div>
       `

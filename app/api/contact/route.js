@@ -5,8 +5,9 @@ const validCategories = ['bug', 'question', 'suggestion', 'autre']
 const categoryLabels = { bug: 'Bug', question: 'Question', suggestion: 'Suggestion', autre: 'Autre' }
 
 const allowedOrigins = [
-  'https://prepa-fpc.fr',
-  'https://www.prepa-fpc.fr',
+  'https://prepa-atsem.fr',
+  'https://www.prepa-atsem.fr',
+  'https://prepa-atsem.vercel.app',
   ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
 ]
 
@@ -76,8 +77,8 @@ export async function POST(request) {
     }
     const resend = new Resend(apiKey)
     const { data: sendData, error: sendError } = await resend.emails.send({
-      from: 'Prépa FPC - Contact <noreply@prepa-fpc.fr>',
-      to: 'support@prepa-fpc.fr',
+      from: 'Prépa ATSEM - Contact <noreply@prepa-atsem.fr>',
+      to: 'support@prepa-atsem.fr',
       replyTo: email,
       subject: `[${safeCategory}] ${safeSubject}`,
       html: `
