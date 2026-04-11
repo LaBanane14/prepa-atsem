@@ -1,9 +1,19 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Ban, Sparkles, ClipboardCheck, PenLine, GraduationCap } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
+
+const THEME_LABELS = {
+  missions_statut: 'Missions & Statut',
+  hygiene_produits: 'Hygi\u00e8ne & Produits',
+  sante_secours: 'Sant\u00e9 & Secours',
+  maladies_evictions: 'Maladies & \u00c9victions',
+  vie_scolaire: 'Vie scolaire',
+  developpement_enfant: 'D\u00e9veloppement enfant',
+  protection_enfance: 'Protection enfance',
+}
 
 const sidebarItems = [
   { id: 'dashboard', label: 'Accueil', href: '/dashboard', icon: Home },
@@ -22,32 +32,27 @@ export default function ExamenPage() {
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
-  // Steps: null (popup), loading, epreuve-maths, transition, epreuve-redaction, correcting, resultat
+  // Steps: null (popup), loading, epreuve, correcting, resultat
   const [step, setStep] = useState('loading')
   const [error, setError] = useState('')
-  const [showBareme, setShowBareme] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
 
-  // Maths state
-  const [sujetMaths, setSujetMaths] = useState(null)
-  const [reponses, setReponses] = useState({})
-  const [correctionMaths, setCorrectionMaths] = useState(null)
+  // QCM state
+  const [questions, setQuestions] = useState([])
+  const [correction, setCorrection] = useState([])
+  const [reponses, setReponses] = useState({}) // { [numero]: ['A', 'C'] }
+  const [score, setScore] = useState(null)
 
-  // Redaction state
-  const [sujetRedaction, setSujetRedaction] = useState(null)
-  const [redaction, setRedaction] = useState('')
-  const [correctionRedaction, setCorrectionRedaction] = useState(null)
-
-  // Chrono
-  const [timeLeft, setTimeLeft] = useState(30 * 60)
+  // Chrono — 45 minutes
+  const EXAM_DURATION = 45 * 60
+  const [timeLeft, setTimeLeft] = useState(EXAM_DURATION)
   const [timerActive, setTimerActive] = useState(false)
   const timerRef = useRef(null)
-  const [currentPart, setCurrentPart] = useState('maths') // maths or redaction
 
-  // Track time spent on each part
-  const [mathsTimeUsed, setMathsTimeUsed] = useState(0)
-  const [redactionTimeUsed, setRedactionTimeUsed] = useState(0)
+  // Scroll-to-top
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const mainRef = useRef(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -83,7 +88,7 @@ export default function ExamenPage() {
     if (step !== 'correcting') return
     setCorrectingStep(0)
     const interval = setInterval(() => {
-      setCorrectingStep(prev => prev < 5 ? prev + 1 : prev)
+      setCorrectingStep(prev => prev < 4 ? prev + 1 : prev)
     }, 3000)
     return () => clearInterval(interval)
   }, [step])
@@ -96,18 +101,23 @@ export default function ExamenPage() {
         if (prev <= 1) {
           clearInterval(timerRef.current)
           setTimerActive(false)
-          if (currentPart === 'maths') {
-            handleSubmitMaths(true)
-          } else {
-            handleSubmitRedaction(true)
-          }
+          handleSubmit(true)
           return 0
         }
         return prev - 1
       })
     }, 1000)
     return () => clearInterval(timerRef.current)
-  }, [timerActive, currentPart])
+  }, [timerActive])
+
+  // Scroll-to-top visibility
+  useEffect(() => {
+    const container = mainRef.current
+    if (!container) return
+    const handleScroll = () => setShowScrollTop(container.scrollTop > 400)
+    container.addEventListener('scroll', handleScroll)
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [step])
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
@@ -124,36 +134,58 @@ export default function ExamenPage() {
 
     try {
       const startTime = Date.now()
-      const [{ data: pastRedac }, { data: pastMaths }] = await Promise.all([
-        supabase.from('historique').select('label').eq('user_id', user.id).eq('type', 'Rédaction').order('created_at', { ascending: false }).limit(20),
-        supabase.from('historique').select('label, note, note_max').eq('user_id', user.id).eq('type', 'Maths').order('created_at', { ascending: false }).limit(20)
-      ])
-      const historyRedac = pastRedac?.map(s => ({ theme: s.label })) || []
-      const historyMaths = pastMaths?.map(s => ({ famille: s.label, score: s.note })) || []
-      const [resMaths, resRedaction] = await Promise.all([
-        fetch('/api/maths', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generer', history: historyMaths })
-        }),
-        fetch('/api/redaction', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generer', history: historyRedac })
-        })
-      ])
-      const [dataMaths, dataRedaction] = await Promise.all([resMaths.json(), resRedaction.json()])
-      if (!resMaths.ok || dataMaths.error) { setError(dataMaths.error || 'Erreur lors de la génération du sujet maths.'); window.location.href = '/dashboard'; return }
-      if (!resRedaction.ok || dataRedaction.error) { setError(dataRedaction.error || 'Erreur lors de la génération du sujet rédaction.'); window.location.href = '/dashboard'; return }
+      const res = await fetch('/api/maths', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'generer' })
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la g\u00e9n\u00e9ration du QCM.'); window.location.href = '/dashboard'; return }
+
+      // Parse — handle both direct QCM format and exercices wrapper format
+      let parsedQuestions = []
+      let parsedCorrection = []
+
+      if (data.questions && Array.isArray(data.questions)) {
+        // Direct format from the prompt
+        parsedQuestions = data.questions
+        parsedCorrection = data.correction || []
+      } else if (data.sujet) {
+        const sujet = data.sujet
+        if (sujet.questions && Array.isArray(sujet.questions)) {
+          parsedQuestions = sujet.questions
+          parsedCorrection = sujet.correction || []
+        } else if (sujet.exercices && Array.isArray(sujet.exercices)) {
+          // Exercices wrapper — flatten questions from exercices
+          let numero = 1
+          sujet.exercices.forEach(ex => {
+            (ex.questions || []).forEach(q => {
+              parsedQuestions.push({
+                numero: numero,
+                theme: ex.categorie || 'missions_statut',
+                enonce: q.question || q.enonce || '',
+                propositions: q.propositions || []
+              })
+              numero++
+            })
+          })
+        }
+      }
+
+      if (parsedQuestions.length === 0) {
+        setError('Format de QCM inattendu. Veuillez r\u00e9essayer.')
+        window.location.href = '/dashboard'
+        return
+      }
+
       const elapsed = Date.now() - startTime
-      if (elapsed < 25000) await new Promise(r => setTimeout(r, 25000 - elapsed))
-      setSujetMaths(dataMaths.sujet)
-      setSujetRedaction(dataRedaction.sujet)
+      if (elapsed < 20000) await new Promise(r => setTimeout(r, 20000 - elapsed))
+
+      setQuestions(parsedQuestions)
+      setCorrection(parsedCorrection)
       setReponses({})
-      setRedaction('')
-      setTimeLeft(30 * 60)
-      setCurrentPart('maths')
-      setStep('epreuve-maths')
+      setTimeLeft(EXAM_DURATION)
+      setStep('epreuve')
       setTimerActive(true)
     } catch (err) {
       setError('Erreur de connexion.')
@@ -161,97 +193,124 @@ export default function ExamenPage() {
     }
   }
 
-  function handleSubmitMaths(autoSubmit = false) {
+  function toggleProposition(questionNumero, lettre) {
+    setReponses(prev => {
+      const current = prev[questionNumero] || []
+      if (current.includes(lettre)) {
+        return { ...prev, [questionNumero]: current.filter(l => l !== lettre) }
+      } else {
+        return { ...prev, [questionNumero]: [...current, lettre] }
+      }
+    })
+  }
+
+  async function handleSubmit(autoSubmit = false) {
     setTimerActive(false)
     if (timerRef.current) clearInterval(timerRef.current)
     if (!autoSubmit) {
-      const hasAnswers = Object.values(reponses).some(v => v.trim())
-      if (!hasAnswers) { setError('Veuillez répondre à au moins une question avant de soumettre.'); return }
+      const hasAnswers = Object.values(reponses).some(arr => arr.length > 0)
+      if (!hasAnswers) { setError('Veuillez r\u00e9pondre \u00e0 au moins une question avant de soumettre.'); return }
     }
     setError('')
-    setMathsTimeUsed(Math.round((30 * 60 - timeLeft) / 60))
-    setStep('transition')
-  }
-
-  function startRedaction() {
-    setTimeLeft(30 * 60)
-    setCurrentPart('redaction')
-    setStep('epreuve-redaction')
-    setTimerActive(true)
-  }
-
-  async function handleSubmitRedaction(autoSubmit = false) {
-    setTimerActive(false)
-    if (timerRef.current) clearInterval(timerRef.current)
-    if (!autoSubmit && !redaction.trim()) { setError('Veuillez rédiger votre réponse avant de soumettre.'); return }
-    setError('')
-    setRedactionTimeUsed(Math.round((30 * 60 - timeLeft) / 60))
     setCorrectingStep(0)
     setStep('correcting')
 
+    // If we already have the correction from the generation, score locally
+    if (correction.length > 0) {
+      const startTime = Date.now()
+      let total = 0
+      correction.forEach(c => {
+        const userAnswers = (reponses[c.numero] || []).sort()
+        const correctAnswers = (c.reponses_correctes || []).sort()
+        if (userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
+          total++
+        }
+      })
+      const elapsed = Date.now() - startTime
+      if (elapsed < 12000) await new Promise(r => setTimeout(r, 12000 - elapsed))
+      setScore(total)
+
+      // Sauvegarder dans l'historique
+      const timeUsed = Math.round((EXAM_DURATION - timeLeft) / 60)
+      try {
+        await supabase.from('historique').insert({
+          user_id: user.id,
+          type: 'Examen',
+          label: 'Examen blanc QCM ATSEM',
+          note: total,
+          note_max: 20,
+          nb_questions: questions.length,
+          duration_minutes: timeUsed || 1,
+        })
+      } catch (e) { /* silent */ }
+
+      setStep('resultat')
+      return
+    }
+
+    // Fallback: send to API for correction
     try {
       const startTime = Date.now()
-      const [resCorrMaths, resCorrRedaction] = await Promise.all([
-        fetch('/api/maths', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'corriger', exercices: sujetMaths.exercices, reponses })
-        }),
-        fetch('/api/redaction', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'corriger', sujet: sujetRedaction, redaction })
-        })
-      ])
-      const [dataMaths, dataRedaction] = await Promise.all([resCorrMaths.json(), resCorrRedaction.json()])
-      if (!resCorrMaths.ok || dataMaths.error) { setError(dataMaths.error || 'Erreur lors de la correction des maths.'); setStep('epreuve-redaction'); return }
-      if (!resCorrRedaction.ok || dataRedaction.error) { setError(dataRedaction.error || 'Erreur lors de la correction de la rédaction.'); setStep('epreuve-redaction'); return }
-      const elapsed = Date.now() - startTime
-      if (elapsed < 20000) await new Promise(r => setTimeout(r, 20000 - elapsed))
-      setCorrectionMaths(dataMaths.correction)
-      setCorrectionRedaction(dataRedaction.correction)
-      // Sauvegarder dans l'historique
-      const totalQuestions = sujetMaths.exercices.reduce((sum, ex) => sum + (ex.questions?.length || 0), 0)
-      const totalDuration = (mathsTimeUsed || 1) + (Math.round((30 * 60 - timeLeft) / 60) || 1)
-      const noteMaths = dataMaths.correction.note
-      const noteRedaction = dataRedaction.correction.note
-      await supabase.from('historique').insert({
-        user_id: user.id,
-        type: 'Examen',
-        label: 'Examen blanc — ' + (sujetMaths.titre || 'Maths') + ' + ' + (sujetRedaction.titre || 'Rédaction'),
-        note: noteMaths + noteRedaction,
-        note_max: 20,
-        nb_questions: totalQuestions + 1,
-        duration_minutes: totalDuration,
+      const res = await fetch('/api/maths', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'corriger', exercices: questions, reponses })
       })
+      const data = await res.json()
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la correction.'); setStep('epreuve'); return }
+      const elapsed = Date.now() - startTime
+      if (elapsed < 12000) await new Promise(r => setTimeout(r, 12000 - elapsed))
+
+      if (data.correction) {
+        setScore(data.correction.note || 0)
+        setCorrection(data.correction.corrections || [])
+      }
+
+      const timeUsed = Math.round((EXAM_DURATION - timeLeft) / 60)
+      try {
+        await supabase.from('historique').insert({
+          user_id: user.id,
+          type: 'Examen',
+          label: 'Examen blanc QCM ATSEM',
+          note: data.correction?.note || 0,
+          note_max: 20,
+          nb_questions: questions.length,
+          duration_minutes: timeUsed || 1,
+        })
+      } catch (e) { /* silent */ }
+
       setStep('resultat')
     } catch (err) {
-      setError('Erreur de connexion. Réessayez.')
-      setStep('epreuve-redaction')
+      setError('Erreur de connexion. R\u00e9essayez.')
+      setStep('epreuve')
     }
   }
 
   function restart() {
-    setSujetMaths(null); setSujetRedaction(null); setReponses({}); setRedaction('')
-    setCorrectionMaths(null); setCorrectionRedaction(null); setError('')
-    setLoadingStep(0); setTimeLeft(30 * 60); setTimerActive(false)
-    setMathsTimeUsed(0); setRedactionTimeUsed(0)
+    setQuestions([]); setCorrection([]); setReponses({}); setScore(null)
+    setError(''); setLoadingStep(0); setTimeLeft(EXAM_DURATION); setTimerActive(false)
     genererSujets()
   }
 
-  function updateReponse(id, value) {
-    setReponses(prev => ({ ...prev, [id]: value }))
+  function getQuestionResult(numero) {
+    const c = correction.find(c => c.numero === numero)
+    if (!c) return null
+    const userAnswers = (reponses[numero] || []).sort()
+    const correctAnswers = (c.reponses_correctes || []).sort()
+    const isCorrect = userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])
+    return { ...c, isCorrect, userAnswers }
   }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
-  const timePercent = (timeLeft / (30 * 60)) * 100
+  const timePercent = (timeLeft / EXAM_DURATION) * 100
   const isUrgent = timeLeft < 5 * 60
+  const answeredCount = Object.values(reponses).filter(arr => arr.length > 0).length
 
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full"></div></div>
 
-  if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">😢</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2><p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
+  if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">{'\ud83d\ude22'}</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est termin\u00e9</h2><p className="text-slate-500 font-medium mb-6">Pour continuer \u00e0 vous entra\u00eener et acc\u00e9der \u00e0 tous les exercices, souscrivez \u00e0 un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#eab308 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
@@ -263,7 +322,6 @@ export default function ExamenPage() {
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes pulse-urgent { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .pulse-urgent { animation: pulse-urgent 1s ease-in-out infinite; }
-        @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
         @keyframes heartbeat-line { 0% { stroke-dashoffset: 200; } 100% { stroke-dashoffset: 0; } }
         .heartbeat-anim { animation: heartbeat-line 1.5s linear infinite; }
         .gooey-loader { width: 180px; height: 180px; position: relative; filter: url('#goo'); animation: goo-spin 4s ease-in-out infinite alternate; margin: 0 auto; }
@@ -310,7 +368,7 @@ export default function ExamenPage() {
       <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-          <span className="font-black text-lg text-slate-900">Prépa <span className="text-yellow-500">FPC</span></span>
+          <span className="font-black text-lg text-slate-900">Pr\u00e9pa <span className="text-yellow-500">ATSEM</span></span>
           <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
@@ -328,16 +386,16 @@ export default function ExamenPage() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                   <h2 className="text-lg font-black text-white pr-8">Examen blanc ATSEM</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions réelles</p>
+                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions r\u00e9elles</p>
                 </div>
 
                 <div className="p-6">
                   <div className="space-y-4 mb-6">
                     {[
-                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'QCM de 20 questions (45 min)', text: 'Comme au vrai concours ATSEM : 20 questions à choix multiples sur les situations concrètes du métier.' },
-                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronomètre de 45 minutes', text: 'Le compte à rebours démarre dès le début. À la fin du temps, vos réponses sont envoyées automatiquement.' },
-                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Réponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes réponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
-                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Note sur 20 + classement', text: '1 point par question. Correction détaillée avec explications et classement percentile.' }
+                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'QCM de 20 questions (45 min)', text: 'Comme au vrai concours ATSEM : 20 questions \u00e0 choix multiples sur les situations concr\u00e8tes du m\u00e9tier.' },
+                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronom\u00e8tre de 45 minutes', text: 'Le compte \u00e0 rebours d\u00e9marre d\u00e8s le d\u00e9but. \u00c0 la fin du temps, vos r\u00e9ponses sont envoy\u00e9es automatiquement.' },
+                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'R\u00e9ponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes r\u00e9ponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
+                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Note sur 20 + correction', text: '1 point par question uniquement si toutes les bonnes r\u00e9ponses sont coch\u00e9es et aucune mauvaise. Correction d\u00e9taill\u00e9e avec explications.' }
                     ].map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-9 h-9 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
@@ -369,55 +427,47 @@ export default function ExamenPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
                 <div className="mb-6 sm:mb-8">
                   <svg viewBox="0 0 120 200" className="w-24 h-40 sm:w-28 sm:h-48" xmlns="http://www.w3.org/2000/svg">
-                    {/* Fond gris asphalte */}
                     <rect width="120" height="200" rx="12" fill="#64748b"/>
-                    {/* Case 1 - bas */}
                     <rect x="35" y="160" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="60" y="180" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">1</text>
-                    {/* Cases 2-3 côte à côte */}
                     <rect x="10" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="32.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">2</text>
                     <rect x="65" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="87.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">3</text>
-                    {/* Case 4 */}
                     <rect x="35" y="90" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="60" y="110" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">4</text>
-                    {/* Cases 5-6 côte à côte */}
                     <rect x="10" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="32.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">5</text>
                     <rect x="65" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="87.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">6</text>
-                    {/* Cases 7-8 côte à côte */}
                     <rect x="10" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="32.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">7</text>
                     <rect x="65" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
                     <text x="87.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">8</text>
-                    {/* Pion (caillou) qui saute */}
                     <circle r="8" fill="#f59e0b" opacity="0.9">
                       <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
                       <animate attributeName="cy" values="170;135;135;100;65;65;30;30;170" dur="4s" repeatCount="indefinite"/>
                     </circle>
-                    {/* Ombre du pion */}
                     <ellipse rx="6" ry="2" fill="black" opacity="0.15">
                       <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
                       <animate attributeName="cy" values="182;147;147;112;77;77;42;42;182" dur="4s" repeatCount="indefinite"/>
                     </ellipse>
                   </svg>
                 </div>
-                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
-                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous générons votre QCM de 20 questions.</p>
+                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Pr\u00e9paration de l'examen blanc...</h2>
+                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous g\u00e9n\u00e9rons votre QCM de 20 questions.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
                     { label: 'Analyse des sujets CDG' },
-                    { label: 'Génération des 20 questions QCM' },
-                    { label: 'Répartition des 7 thématiques' },
-                    { label: 'Mise en forme de l\'épreuve' }
+                    { label: 'G\u00e9n\u00e9ration des 20 questions QCM' },
+                    { label: 'R\u00e9partition des 7 th\u00e9matiques' },
+                    { label: 'Mise en forme de l\'\u00e9preuve' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= loadingStep ? 'bg-yellow-50 border border-yellow-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
                       <span className={`font-bold text-sm flex-grow ${i <= loadingStep ? 'text-yellow-700' : 'text-slate-400'}`}>{ls.label}</span>
                       {i < loadingStep && <svg className="w-5 h-5 text-yellow-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
                       {i === loadingStep && <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin shrink-0"></div>}
-                      <span className="text-xs font-bold text-slate-400">{i + 1}/5</span>
+                      <span className="text-xs font-bold text-slate-400">{i + 1}/4</span>
                     </div>
                   ))}
                 </div>
@@ -425,15 +475,15 @@ export default function ExamenPage() {
             </div>
           )}
 
-          {/* ===== ÉPREUVE MATHS ===== */}
-          {step === 'epreuve-maths' && sujetMaths && (
+          {/* ===== EPREUVE QCM ===== */}
+          {step === 'epreuve' && questions.length > 0 && (
             <div className="animate-fade-in overflow-x-hidden">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-full lg:h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden">
 
                 {/* Barre du haut */}
-                <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden">
+                <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden shrink-0">
                   <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">{sujetMaths.titre}</h2>
+                    <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">Examen blanc ATSEM</h2>
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                       <div className={`flex items-center gap-2 sm:gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
                         <div className="w-24 sm:w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
@@ -453,234 +503,111 @@ export default function ExamenPage() {
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-yellow-500/20 text-yellow-300">
-                        Partie 1/2
+                        QCM 20 questions
                       </span>
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
-                        Mathématiques
+                        R\u00e9ponses multiples
                       </span>
-                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
-                        Réponses multiples
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
+                        Sujet g\u00e9n\u00e9r\u00e9 par IA
                       </span>
-                      {sujetMaths.source === 'annale' ? (
-                        <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
-                          Annale {sujetMaths.ville} {sujetMaths.annee}
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
-                          Sujet créé par nos soins
-                        </span>
-                      )}
                     </div>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur {sujetMaths.noteMax || 10} points — Durée : 30 minutes</p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-slate-400 font-bold">{answeredCount}/20 r\u00e9pondues</span>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur 20 — Dur\u00e9e : 45 min</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
+                {/* Question navigation pills */}
+                <div className="bg-slate-50 border-b border-slate-200 px-3 sm:px-6 py-3 shrink-0">
+                  <div className="flex flex-wrap gap-1.5">
+                    {questions.map((q) => {
+                      const answered = (reponses[q.numero] || []).length > 0
+                      return (
+                        <button
+                          key={q.numero}
+                          onClick={() => document.getElementById(`question-${q.numero}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                          className={`w-8 h-8 rounded-lg text-xs font-black transition cursor-pointer ${answered ? 'bg-yellow-500 text-slate-900 shadow-sm' : 'bg-white border border-slate-200 text-slate-500 hover:border-yellow-300 hover:text-yellow-600'}`}
+                        >
+                          {q.numero}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                     <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <p className="text-sm text-amber-800 font-medium">Cette épreuve doit être réalisée <strong>sans calculatrice</strong>, conformément aux conditions du concours FPC. Munissez-vous d'un brouillon pour poser vos calculs.</p>
+                    <p className="text-sm text-amber-800 font-medium">Chaque question comporte <strong>une ou plusieurs r\u00e9ponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes r\u00e9ponses sont coch\u00e9es et aucune mauvaise.</p>
                   </div>
 
-                  <div className="space-y-8">
-                    {sujetMaths.exercices?.map((ex, exIdx) => (
-                      <div key={exIdx} className="bg-slate-200/60 border border-slate-300 rounded-2xl shadow-sm p-4 sm:p-6">
-                        <div className="flex items-center gap-3 mb-5">
-                          <span className="w-9 h-9 bg-yellow-500 text-slate-900 rounded-xl flex items-center justify-center font-black text-sm shadow-sm">{ex.numero}</span>
-                          <h3 className="font-black text-slate-900 text-base sm:text-lg flex-1">{ex.titre}</h3>
-                          <span className="text-base sm:text-lg font-black text-slate-900 shrink-0">/{ex.points}</span>
-                        </div>
-
-                        {ex.enonce && (
-                          <div className="border-l-3 border-yellow-400 bg-slate-50 rounded-r-lg pl-4 pr-4 py-3 mb-6">
-                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{ex.enonce}</p>
-                          </div>
-                        )}
-
-                        <div className="space-y-5">
-                          {ex.questions?.map((q, qIdx) => (
-                            <div key={qIdx}>
-                              <div className="flex items-start gap-3 mb-2">
-                                <span className="w-6 h-6 bg-slate-900 text-white rounded-md flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">{q.id}</span>
-                                <p className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed whitespace-pre-line flex-1 min-w-0" dangerouslySetInnerHTML={{__html: q.question.replace(/\s*:\s*(?=\d)/g, ' :<br class="sm:hidden"/> ')}} />
-                                <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">{q.points} pt{q.points > 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="ml-0 sm:ml-9 w-full sm:max-w-sm">
-                                <input
-                                  type="text"
-                                  className="w-full bg-white border-2 border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-slate-400 transition placeholder:text-slate-400 placeholder:font-normal"
-                                  placeholder="Votre réponse..."
-                                  value={reponses[q.id] || ''}
-                                  onChange={(e) => updateReponse(q.id, e.target.value)}
-                                />
-                              </div>
+                  <div className="space-y-6">
+                    {questions.map((q) => {
+                      const selected = reponses[q.numero] || []
+                      return (
+                        <div key={q.numero} id={`question-${q.numero}`} className="bg-slate-50 border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6">
+                          <div className="flex items-start gap-3 mb-4">
+                            <span className="w-9 h-9 bg-yellow-500 text-slate-900 rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
+                              {q.theme && (
+                                <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700 border border-yellow-200">
+                                  {THEME_LABELS[q.theme] || q.theme}
+                                </span>
+                              )}
                             </div>
-                          ))}
+                            <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">1 pt</span>
+                          </div>
+
+                          <div className="space-y-2 ml-0 sm:ml-12">
+                            {(q.propositions || []).map((prop) => {
+                              const isSelected = selected.includes(prop.lettre)
+                              return (
+                                <button
+                                  key={prop.lettre}
+                                  onClick={() => toggleProposition(q.numero, prop.lettre)}
+                                  className={`w-full flex items-start gap-3 p-3 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-yellow-50 border-yellow-400 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
+                                >
+                                  <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 transition-all ${isSelected ? 'bg-yellow-500 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
+                                    {prop.lettre}
+                                  </span>
+                                  <span className={`text-sm font-medium leading-relaxed pt-0.5 ${isSelected ? 'text-slate-900' : 'text-slate-600'}`}>
+                                    {prop.texte}
+                                  </span>
+                                  <div className={`ml-auto shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all mt-0.5 ${isSelected ? 'bg-yellow-500 border-yellow-500' : 'border-slate-300 group-hover:border-slate-400'}`}>
+                                    {isSelected && <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                                  </div>
+                                </button>
+                              )
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
 
                   {error && <p className="text-red-600 font-bold text-sm mt-4">{error}</p>}
 
-                  <div className="flex items-center justify-end mt-8 pb-4">
-                    <button onClick={() => handleSubmitMaths(false)} className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-yellow-200/50 text-sm flex items-center gap-2 cursor-pointer">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                      Passer à la rédaction
+                  <div className="flex items-center justify-between mt-8 pb-4">
+                    <a href="/dashboard" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner l'examen</a>
+                    <button onClick={() => handleSubmit(false)} className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-yellow-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                      Soumettre ({answeredCount}/20)
                     </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* ===== TRANSITION MATHS → RÉDACTION ===== */}
-          {step === 'transition' && (
-            <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-lg w-full flex flex-col items-center justify-center py-12 px-8 text-center">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <h2 className="text-xl font-black text-slate-900 mb-2">Partie mathématiques terminée !</h2>
-                <p className="text-slate-500 font-medium text-sm mb-2">Vos réponses ont été enregistrées.</p>
-                <p className="text-slate-500 font-medium text-sm mb-8">Préparez-vous pour la partie rédaction. Vous aurez à nouveau 30 minutes.</p>
-
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-yellow-50 border border-yellow-300 rounded-xl">
-                    <span className="w-6 h-6 bg-yellow-100 text-yellow-600 rounded-md flex items-center justify-center font-bold text-xs">1</span>
-                    <span className="text-sm font-bold text-yellow-700">Maths</span>
-                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                  </div>
-                  <svg className="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-yellow-50 border border-yellow-300 rounded-xl">
-                    <span className="w-6 h-6 bg-yellow-100 text-yellow-600 rounded-md flex items-center justify-center font-bold text-xs">2</span>
-                    <span className="text-sm font-bold text-yellow-700">Rédaction</span>
-                  </div>
-                </div>
-
-                <button onClick={startRedaction} className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-yellow-200/50 text-sm flex items-center gap-2 cursor-pointer">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                  Commencer la rédaction
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ===== ÉPREUVE RÉDACTION ===== */}
-          {step === 'epreuve-redaction' && sujetRedaction && (
-            <div className="animate-fade-in overflow-x-hidden flex-1 min-h-0 flex flex-col">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm flex-1 min-h-0 flex flex-col overflow-hidden">
-
-                {/* Barre du haut */}
-                <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden shrink-0">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <div className="min-w-0 mr-3">
-                      <h2 className="text-base sm:text-2xl font-black text-white truncate">{sujetRedaction.titre?.split(/\s[—–\-]\s/)[0]}</h2>
-                      {sujetRedaction.titre && /\s[—–\-]\s/.test(sujetRedaction.titre) && (
-                        <p className="text-sm sm:text-2xl text-slate-400 font-black mt-1 truncate">{sujetRedaction.titre.split(/\s[—–\-]\s/).slice(1).join(' — ')}</p>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-                      <div className={`flex items-center gap-2 sm:gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
-                        <div className="w-24 sm:w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
-                          <div className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? 'bg-red-500' : 'bg-yellow-400'}`} style={{width: `${timePercent}%`}}></div>
-                        </div>
-                        <div className={`flex items-center gap-1 sm:gap-2 font-black text-sm sm:text-lg tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
-                          <svg className="w-6 h-4 sm:w-8 sm:h-6 text-yellow-300 heartbeat-anim" viewBox="0 0 80 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{strokeDasharray: 200, strokeDashoffset: 0}}><polyline points="0,12 15,12 20,12 25,2 30,22 35,6 40,18 45,12 50,12 55,12 60,12 65,8 68,16 70,12 80,12"/></svg>
-                          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-                        </div>
-                      </div>
-                      <a href="/dashboard" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
-                        Quitter l'examen
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
-                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-yellow-500/20 text-yellow-300">
-                        Partie 2/2
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
-                        {sujetRedaction.type === 'analyse' ? 'Analyse de texte' : sujetRedaction.type === 'dissertation' ? 'Dissertation' : 'Questions'}
-                      </span>
-                      {sujetRedaction.source === 'annale' ? (
-                        <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
-                          Annale {sujetRedaction.annee}
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
-                          Sujet créé par nos soins
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-4 relative">
-                      <button onClick={() => setShowBareme(!showBareme)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-yellow-500 hover:bg-yellow-600 text-slate-900 transition cursor-pointer">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                        Barème de notation
-                      </button>
-                      {showBareme && (
-                        <>
-                          <div className="fixed inset-0 z-[60]" onClick={() => setShowBareme(false)}></div>
-                          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-yellow-50 border border-yellow-300 rounded-xl shadow-2xl p-5 z-[70] w-[90vw] max-w-sm animate-fade-in">
-                            <button onClick={() => setShowBareme(false)} className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-md hover:bg-yellow-200 text-yellow-600 transition cursor-pointer">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-                            <h3 className="font-black text-yellow-900 text-sm mb-2">Barème de notation</h3>
-                            <p className="text-xs text-yellow-800 leading-relaxed whitespace-pre-line pr-4">{sujetRedaction.bareme}</p>
-                          </div>
-                        </>
-                      )}
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Durée : 30 minutes</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-1 min-h-0 flex flex-col lg:flex-row">
-                  {/* Sujet */}
-                  <div className="lg:w-[45%] border-b lg:border-b-0 lg:border-r border-slate-200 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-
-                    {sujetRedaction.texte && (
-                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6">
-                        <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{sujetRedaction.texte}</p>
-                      </div>
-                    )}
-
-                    <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-5">
-                      <h3 className="font-black text-yellow-900 text-sm mb-3 flex items-center gap-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        Consigne
-                      </h3>
-                      <div className="space-y-3">
-                        {sujetRedaction.consigne?.split('\n\n').map((line, i) => {
-                          const html = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-yellow-900">$1</strong>')
-                          return <p key={i} className="text-sm text-yellow-800 leading-relaxed" dangerouslySetInnerHTML={{__html: html}} />
-                        })}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Zone de rédaction */}
-                  <div className="flex-1 min-h-0 p-4 sm:p-6 lg:p-8 flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-black text-slate-900 text-sm">Votre rédaction</h3>
-                      <span className="text-xs text-slate-400 font-bold">{redaction.length} caractères</span>
-                    </div>
-                    <textarea
-                      className="flex-1 w-full bg-slate-50 border border-slate-200 rounded-xl p-5 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-yellow-400 transition min-h-[250px] sm:min-h-[400px] lg:min-h-0"
-                      placeholder="Rédigez votre réponse ici..."
-                      value={redaction}
-                      onChange={(e) => setRedaction(e.target.value)}
-                    />
-                    {error && <p className="text-red-600 font-bold text-sm mt-3">{error}</p>}
-                    <div className="flex items-center justify-between mt-5">
-                      <a href="/dashboard" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner l'examen</a>
-                      <button onClick={() => handleSubmitRedaction(false)} className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-yellow-200/50 text-sm flex items-center gap-2 cursor-pointer">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-                        Soumettre et voir les résultats
-                      </button>
-                    </div>
-                  </div>
+                  {/* Scroll to top button */}
+                  {showScrollTop && (
+                    <button
+                      onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+                      className="fixed bottom-6 right-6 w-10 h-10 bg-yellow-500 text-slate-900 rounded-full shadow-lg flex items-center justify-center hover:bg-yellow-600 transition cursor-pointer z-40"
+                    >
+                      <ChevronUp size={20} strokeWidth={2.5} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -703,22 +630,21 @@ export default function ExamenPage() {
                   <div className="goo-drop goo-yin"></div>
                   <div className="goo-drop goo-yang"></div>
                 </div>
-                <h2 className="text-xl font-black text-slate-900 mb-2">Correction des deux épreuves...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Notre IA analyse vos réponses et votre copie en détail.</p>
+                <h2 className="text-xl font-black text-slate-900 mb-2">Correction en cours...</h2>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous comparons vos r\u00e9ponses avec les bonnes r\u00e9ponses.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
-                    { label: 'Lecture de vos réponses mathématiques' },
-                    { label: 'Vérification des calculs' },
-                    { label: 'Analyse de votre rédaction' },
-                    { label: 'Vérification de l\'orthographe et de la syntaxe' },
-                    { label: 'Attribution des notes' },
-                    { label: 'Calcul de la note globale /20' }
+                    { label: 'Lecture de vos r\u00e9ponses' },
+                    { label: 'Comparaison avec les bonnes r\u00e9ponses' },
+                    { label: 'Calcul de votre score' },
+                    { label: 'G\u00e9n\u00e9ration de la correction d\u00e9taill\u00e9e' },
+                    { label: 'Sauvegarde dans l\'historique' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= correctingStep ? 'bg-yellow-50 border border-yellow-300' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
                       <span className={`font-bold text-sm flex-grow ${i <= correctingStep ? 'text-yellow-700' : 'text-slate-400'}`}>{ls.label}</span>
                       {i < correctingStep && <svg className="w-5 h-5 text-yellow-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
                       {i === correctingStep && <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin shrink-0"></div>}
-                      <span className="text-xs font-bold text-slate-400">{i + 1}/6</span>
+                      <span className="text-xs font-bold text-slate-400">{i + 1}/5</span>
                     </div>
                   ))}
                 </div>
@@ -726,188 +652,125 @@ export default function ExamenPage() {
             </div>
           )}
 
-          {/* ===== RÉSULTAT ===== */}
-          {step === 'resultat' && correctionMaths && correctionRedaction && (
-            <div className="animate-fade-in max-w-4xl mx-auto">
+          {/* ===== RESULTAT ===== */}
+          {step === 'resultat' && (
+            <div className="animate-fade-in max-w-4xl mx-auto pb-8">
 
               {/* Note globale */}
               <div className="bg-slate-900 rounded-2xl p-8 text-center mb-6 relative">
                 <a href="/dashboard" className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </a>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Note globale — Examen blanc</p>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Note globale -- Examen blanc QCM ATSEM</p>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-6xl font-black text-white">{correctionMaths.note + correctionRedaction.note}</span>
+                  <span className="text-6xl font-black text-white">{score !== null ? score : '?'}</span>
                   <span className="text-6xl font-black text-slate-400">/20</span>
-                </div>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-4">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
-                    <span className="text-sm font-bold text-slate-400">Maths : <span className="text-white">{correctionMaths.note}/{correctionMaths.noteMax || 10}</span></span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
-                    <span className="text-sm font-bold text-slate-400">Rédaction : <span className="text-white">{correctionRedaction.note}/{correctionRedaction.noteMax || 10}</span></span>
-                  </div>
                 </div>
                 <div className="flex items-center justify-center gap-2 mt-4 text-slate-400">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                  <span className="text-sm font-bold">Temps : {mathsTimeUsed + redactionTimeUsed} min</span>
+                  <span className="text-sm font-bold">Temps : {Math.round((EXAM_DURATION - timeLeft) / 60)} min</span>
                 </div>
-              </div>
-
-              {/* ===== SECTION MATHS ===== */}
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-                  </div>
-                  <h2 className="text-lg font-black text-slate-900">Mathématiques — {correctionMaths.note}/{correctionMaths.noteMax || 10}</h2>
-                </div>
-
-                {/* Appreciation maths */}
-                <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mb-4">
-                  <p className="text-slate-600 font-medium text-sm">{correctionMaths.appreciation}</p>
-                </div>
-
-                {/* Corrections détaillées maths */}
-                <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mb-4">
-                  <h3 className="font-black text-slate-900 text-sm mb-4 flex items-center gap-2">
-                    <div className="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-                    Correction détaillée
-                  </h3>
-                  <div className="space-y-4">
-                    {correctionMaths.corrections?.map((c, i) => (
-                      <div key={i} className={`border rounded-xl p-4 ${c.correct === true ? 'bg-emerald-50 border-emerald-200' : c.correct === 'partiel' ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200'}`}>
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className={`w-6 h-6 rounded-md flex items-center justify-center font-bold text-xs ${c.correct === true ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>{c.id}</span>
-                            <p className="text-sm font-bold text-slate-800">{c.question}</p>
-                          </div>
-                          <span className={`text-xs font-black px-2 py-1 rounded-full ${c.correct === true ? 'bg-emerald-100 text-emerald-700' : c.correct === 'partiel' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
-                            {c.points_obtenus}/{c.points_max} pt{c.points_max > 1 ? 's' : ''}
-                          </span>
-                        </div>
-                        <div className="grid sm:grid-cols-2 gap-3 mb-3">
-                          <div className="bg-white/60 rounded-lg p-3">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Votre réponse</p>
-                            <p className={`text-sm font-bold ${c.correct === true ? 'text-emerald-700' : 'text-red-600'}`}>{c.reponse_candidat || '(vide)'}</p>
-                          </div>
-                          <div className="bg-white/60 rounded-lg p-3">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Réponse attendue</p>
-                            <p className="text-sm font-bold text-emerald-700">{c.reponse_attendue}</p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-slate-600 leading-relaxed">{c.explication}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
-                    <h3 className="font-black text-emerald-700 text-sm mb-4 flex items-center gap-2">
-                      <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                      Points forts
-                    </h3>
-                    <ul className="space-y-2.5">
-                      {correctionMaths.points_forts?.map((p, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-emerald-500 mt-0.5 shrink-0">+</span>{p}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
-                    <h3 className="font-black text-amber-700 text-sm mb-4 flex items-center gap-2">
-                      <div className="w-7 h-7 bg-amber-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></div>
-                      Points à améliorer
-                    </h3>
-                    <ul className="space-y-2.5">
-                      {correctionMaths.points_ameliorer?.map((p, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-amber-500 mt-0.5 shrink-0">-</span>{p}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-                  <h3 className="font-black text-red-800 text-sm mb-2 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/></svg>
-                    Conseil maths
-                  </h3>
-                  <p className="text-red-700 text-sm leading-relaxed">{correctionMaths.conseil}</p>
-                </div>
-              </div>
-
-              {/* ===== SECTION RÉDACTION ===== */}
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
-                    <PenLine size={16} strokeWidth={2} />
-                  </div>
-                  <h2 className="text-lg font-black text-slate-900">Rédaction — {correctionRedaction.note}/{correctionRedaction.noteMax || 10}</h2>
-                </div>
-
-                {/* Appreciation redaction */}
-                <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mb-4">
-                  <p className="text-slate-600 font-medium text-sm">{correctionRedaction.appreciation}</p>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
-                    <h3 className="font-black text-emerald-700 text-sm mb-4 flex items-center gap-2">
-                      <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                      Points forts
-                    </h3>
-                    <ul className="space-y-2.5">
-                      {correctionRedaction.points_forts?.map((p, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-emerald-500 mt-0.5 shrink-0">+</span>{p}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
-                    <h3 className="font-black text-amber-700 text-sm mb-4 flex items-center gap-2">
-                      <div className="w-7 h-7 bg-amber-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></div>
-                      Points à améliorer
-                    </h3>
-                    <ul className="space-y-2.5">
-                      {correctionRedaction.points_ameliorer?.map((p, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><span className="text-amber-500 mt-0.5 shrink-0">-</span>{p}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Fautes */}
-                {correctionRedaction.fautes?.length > 0 && (
-                  <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mb-4">
-                    <h3 className="font-black text-red-700 text-sm mb-4 flex items-center gap-2">
-                      <div className="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center"><svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
-                      Fautes relevées ({correctionRedaction.fautes.length})
-                    </h3>
-                    <div className="space-y-3">
-                      {correctionRedaction.fautes.map((f, i) => (
-                        <div key={i} className="bg-red-50 border border-red-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                          <span className="text-red-600 font-bold text-sm line-through">{f.original}</span>
-                          <svg className="w-4 h-4 text-slate-400 shrink-0 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                          <span className="text-emerald-700 font-bold text-sm">{f.correction}</span>
-                          <span className="ml-auto text-xs text-slate-400 font-bold uppercase">{f.type}</span>
-                        </div>
-                      ))}
+                {score !== null && (
+                  <div className="mt-4">
+                    <div className="w-full max-w-xs mx-auto h-3 bg-white/15 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full transition-all duration-1000 ${score >= 14 ? 'bg-emerald-400' : score >= 10 ? 'bg-yellow-400' : 'bg-red-400'}`} style={{width: `${(score / 20) * 100}%`}}></div>
                     </div>
+                    <p className="text-sm font-bold mt-2 text-slate-300">
+                      {score >= 16 ? 'Excellent ! Vous \u00eates pr\u00eat(e) pour le concours !' : score >= 14 ? 'Tr\u00e8s bien ! Continuez ainsi.' : score >= 10 ? 'Correct, mais vous pouvez encore progresser.' : score >= 6 ? 'Des lacunes \u00e0 combler. Poursuivez vos r\u00e9visions.' : 'Score insuffisant. Revoyez les fondamentaux.'}
+                    </p>
                   </div>
                 )}
+              </div>
 
-                <div className="bg-yellow-50 border border-yellow-300 rounded-2xl p-6">
-                  <h3 className="font-black text-yellow-800 text-sm mb-2 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/></svg>
-                    Conseil rédaction
-                  </h3>
-                  <p className="text-yellow-700 text-sm leading-relaxed">{correctionRedaction.conseil}</p>
+              {/* Correction detaillee */}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
+                    <ClipboardCheck size={16} strokeWidth={2} />
+                  </div>
+                  <h2 className="text-lg font-black text-slate-900">Correction d\u00e9taill\u00e9e</h2>
+                </div>
+
+                <div className="space-y-4">
+                  {questions.map((q) => {
+                    const result = getQuestionResult(q.numero)
+                    const userAnswers = reponses[q.numero] || []
+                    const correctAnswers = result?.reponses_correctes || []
+                    const isCorrect = result?.isCorrect || false
+
+                    return (
+                      <div key={q.numero} className={`bg-white border rounded-2xl shadow-sm overflow-hidden ${isCorrect ? 'border-emerald-200' : 'border-red-200'}`}>
+                        {/* Question header */}
+                        <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${isCorrect ? 'bg-emerald-50' : 'bg-red-50'}`}>
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>{q.numero}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-slate-800 leading-relaxed">{q.enonce}</p>
+                            {q.theme && (
+                              <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/80 text-slate-500 border border-slate-200">
+                                {THEME_LABELS[q.theme] || q.theme}
+                              </span>
+                            )}
+                          </div>
+                          <div className="shrink-0 ml-2">
+                            {isCorrect ? (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full">
+                                <CheckCircle2 size={14} strokeWidth={2.5} />
+                                <span className="text-xs font-black">1/1</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-red-100 text-red-700 rounded-full">
+                                <XCircle size={14} strokeWidth={2.5} />
+                                <span className="text-xs font-black">0/1</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Propositions with correction */}
+                        <div className="px-4 sm:px-6 py-4 space-y-2">
+                          {(q.propositions || []).map((prop) => {
+                            const wasSelected = userAnswers.includes(prop.lettre)
+                            const isGoodAnswer = correctAnswers.includes(prop.lettre)
+                            let bgClass = 'bg-white border-slate-100'
+                            if (isGoodAnswer && wasSelected) bgClass = 'bg-emerald-50 border-emerald-200'
+                            else if (isGoodAnswer && !wasSelected) bgClass = 'bg-emerald-50 border-emerald-300 border-dashed'
+                            else if (!isGoodAnswer && wasSelected) bgClass = 'bg-red-50 border-red-200'
+
+                            return (
+                              <div key={prop.lettre} className={`flex items-start gap-3 p-3 rounded-xl border ${bgClass}`}>
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGoodAnswer ? 'bg-emerald-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                  {prop.lettre}
+                                </span>
+                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGoodAnswer ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
+                                  {prop.texte}
+                                </span>
+                                <div className="shrink-0 mt-0.5">
+                                  {isGoodAnswer && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
+                                  {isGoodAnswer && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manqu\u00e9e</span>}
+                                  {!isGoodAnswer && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* Explanation */}
+                        {result?.explication && (
+                          <div className="px-4 sm:px-6 pb-4">
+                            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                              <p className="text-xs font-black text-slate-400 uppercase tracking-wider mb-1.5">Explication</p>
+                              <p className="text-sm text-slate-700 leading-relaxed">{result.explication}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-center gap-4 pb-8">
+              <div className="flex items-center justify-center gap-4 pb-4">
                 <button onClick={restart} className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-yellow-200/50 text-sm flex items-center gap-2 cursor-pointer">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                   Nouvel examen blanc
