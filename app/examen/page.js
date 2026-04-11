@@ -368,27 +368,40 @@ export default function ExamenPage() {
             <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
                 <div className="mb-6 sm:mb-8">
-                  <svg viewBox="0 0 100 140" className="w-20 h-28 sm:w-24 sm:h-32" xmlns="http://www.w3.org/2000/svg">
-                    {/* Cases de la marelle */}
-                    <rect x="30" y="110" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
-                    <text x="50" y="127" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">1</text>
-                    <rect x="10" y="82" width="35" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
-                    <text x="27.5" y="99" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">2</text>
-                    <rect x="55" y="82" width="35" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
-                    <text x="72.5" y="99" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">3</text>
-                    <rect x="30" y="54" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
-                    <text x="50" y="71" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">4</text>
-                    <rect x="30" y="26" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
-                    <text x="50" y="43" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">5</text>
-                    {/* Pion qui saute */}
-                    <circle r="7" fill="#7c3aed" style={{animation: 'hopscotch 3s ease-in-out infinite'}}>
-                      <animate attributeName="cx" values="50;27.5;72.5;50;50;50" dur="3s" repeatCount="indefinite"/>
-                      <animate attributeName="cy" values="105;87;87;59;31;105" dur="3s" repeatCount="indefinite"/>
+                  <svg viewBox="0 0 120 200" className="w-24 h-40 sm:w-28 sm:h-48" xmlns="http://www.w3.org/2000/svg">
+                    {/* Fond gris asphalte */}
+                    <rect width="120" height="200" rx="12" fill="#64748b"/>
+                    {/* Case 1 - bas */}
+                    <rect x="35" y="160" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="60" y="180" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">1</text>
+                    {/* Cases 2-3 côte à côte */}
+                    <rect x="10" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="32.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">2</text>
+                    <rect x="65" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="87.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">3</text>
+                    {/* Case 4 */}
+                    <rect x="35" y="90" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="60" y="110" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">4</text>
+                    {/* Cases 5-6 côte à côte */}
+                    <rect x="10" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="32.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">5</text>
+                    <rect x="65" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="87.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">6</text>
+                    {/* Cases 7-8 côte à côte */}
+                    <rect x="10" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="32.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">7</text>
+                    <rect x="65" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
+                    <text x="87.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">8</text>
+                    {/* Pion (caillou) qui saute */}
+                    <circle r="8" fill="#f59e0b" opacity="0.9">
+                      <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
+                      <animate attributeName="cy" values="170;135;135;100;65;65;30;30;170" dur="4s" repeatCount="indefinite"/>
                     </circle>
-                    <circle r="4" fill="#a78bfa" opacity="0.4" style={{animation: 'hopscotch 3s ease-in-out infinite'}}>
-                      <animate attributeName="cx" values="50;27.5;72.5;50;50;50" dur="3s" repeatCount="indefinite"/>
-                      <animate attributeName="cy" values="115;97;97;69;41;115" dur="3s" repeatCount="indefinite"/>
-                    </circle>
+                    {/* Ombre du pion */}
+                    <ellipse rx="6" ry="2" fill="black" opacity="0.15">
+                      <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
+                      <animate attributeName="cy" values="182;147;147;112;77;77;42;42;182" dur="4s" repeatCount="indefinite"/>
+                    </ellipse>
                   </svg>
                 </div>
                 <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
