@@ -367,7 +367,30 @@ export default function ExamenPage() {
           {step === 'loading' && (
             <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
-                <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-yellow-400 to-amber-500 shadow-xl shadow-yellow-200 mb-6 sm:mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
+                <div className="mb-6 sm:mb-8">
+                  <svg viewBox="0 0 100 140" className="w-20 h-28 sm:w-24 sm:h-32" xmlns="http://www.w3.org/2000/svg">
+                    {/* Cases de la marelle */}
+                    <rect x="30" y="110" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
+                    <text x="50" y="127" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">1</text>
+                    <rect x="10" y="82" width="35" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
+                    <text x="27.5" y="99" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">2</text>
+                    <rect x="55" y="82" width="35" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
+                    <text x="72.5" y="99" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">3</text>
+                    <rect x="30" y="54" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
+                    <text x="50" y="71" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">4</text>
+                    <rect x="30" y="26" width="40" height="25" rx="4" fill="#ede9fe" stroke="#a78bfa" strokeWidth="1.5"/>
+                    <text x="50" y="43" textAnchor="middle" fill="#7c3aed" fontSize="10" fontWeight="bold">5</text>
+                    {/* Pion qui saute */}
+                    <circle r="7" fill="#7c3aed" style={{animation: 'hopscotch 3s ease-in-out infinite'}}>
+                      <animate attributeName="cx" values="50;27.5;72.5;50;50;50" dur="3s" repeatCount="indefinite"/>
+                      <animate attributeName="cy" values="105;87;87;59;31;105" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle r="4" fill="#a78bfa" opacity="0.4" style={{animation: 'hopscotch 3s ease-in-out infinite'}}>
+                      <animate attributeName="cx" values="50;27.5;72.5;50;50;50" dur="3s" repeatCount="indefinite"/>
+                      <animate attributeName="cy" values="115;97;97;69;41;115" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                  </svg>
+                </div>
                 <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
                 <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous générons votre QCM de 20 questions.</p>
                 <div className="w-full max-w-md space-y-3">
