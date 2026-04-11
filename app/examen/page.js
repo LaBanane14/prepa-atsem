@@ -327,17 +327,17 @@ export default function ExamenPage() {
                   <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
-                  <h2 className="text-lg font-black text-white pr-8">Examen blanc — Conditions réelles</h2>
+                  <h2 className="text-lg font-black text-white pr-8">Examen blanc ATSEM — Conditions réelles</h2>
                   <p className="text-slate-400 text-sm font-medium mt-1">Avant de commencer, voici le déroulement de l'épreuve.</p>
                 </div>
 
                 <div className="p-6">
                   <div className="space-y-4 mb-6">
                     {[
-                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: '2 épreuves enchaînées (1H)', text: 'Vous passerez d\'abord l\'épreuve de mathématiques (30 min), puis l\'épreuve de rédaction (30 min), comme au concours.' },
-                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronomètre par épreuve', text: 'Chaque partie dispose de son propre compte à rebours de 30 minutes. À la fin du temps, vos réponses sont envoyées automatiquement.' },
-                      { icon: <Ban size={18} strokeWidth={2} />, title: 'Sans calculatrice', text: 'Comme au concours FPC, la calculatrice est interdite pour la partie maths. Munissez-vous d\'un brouillon.' },
-                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'Note globale sur 20', text: 'Maths /10 + Rédaction /10 = Note finale /20 avec correction détaillée des deux épreuves.' }
+                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'QCM de 20 questions (45 min)', text: 'Comme au vrai concours ATSEM : 20 questions à choix multiples sur les situations concrètes du métier.' },
+                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronomètre de 45 minutes', text: 'Le compte à rebours démarre dès le début. À la fin du temps, vos réponses sont envoyées automatiquement.' },
+                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Réponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes réponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
+                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Note sur 20 + classement', text: '1 point par question. Correction détaillée avec explications et classement percentile.' }
                     ].map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-9 h-9 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
@@ -424,7 +424,7 @@ export default function ExamenPage() {
                         Mathématiques
                       </span>
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
-                        Sans calculatrice
+                        Réponses multiples
                       </span>
                       {sujetMaths.source === 'annale' ? (
                         <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
