@@ -327,8 +327,8 @@ export default function ExamenPage() {
                   <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
-                  <h2 className="text-lg font-black text-white pr-8">Examen blanc ATSEM — Conditions réelles</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-1">Avant de commencer, voici le déroulement de l'épreuve.</p>
+                  <h2 className="text-lg font-black text-white pr-8">Examen blanc ATSEM</h2>
+                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions réelles — Avant de commencer, voici le déroulement de l'épreuve.</p>
                 </div>
 
                 <div className="p-6">
