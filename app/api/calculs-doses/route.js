@@ -1,7 +1,23 @@
 import { NextResponse } from 'next/server'
+import Anthropic from '@anthropic-ai/sdk'
 import { checkDailyLimit } from '@/lib/daily-limit'
 
-const apiKey = process.env.GEMINI_API_KEY
+let _client = null
+function getClient() {
+  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  return _client
+}
+
+async function callClaude(system, userPrompt) {
+  const client = getClient()
+  const message = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 8192,
+    system,
+    messages: [{ role: 'user', content: userPrompt }]
+  })
+  return message.content[0].text
+}
 
 export async function POST(request) {
   try {
@@ -15,7 +31,7 @@ export async function POST(request) {
       }, { status: 429 })
     }
 
-    if (!apiKey) {
+    if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json({ error: 'Clé API manquante.' }, { status: 500 })
     }
 
@@ -26,9 +42,7 @@ export async function POST(request) {
     }
 
     const prompt = category === 'concentrations'
-      ? `Tu es un formateur en calculs de doses pour des étudiants infirmiers préparant le concours FPC.
-
-Génère UN exercice de calcul de concentration en pourcentage. L'exercice doit être réaliste et basé sur des situations cliniques courantes.
+      ? `Génère UN exercice de calcul de concentration en pourcentage. L'exercice doit être réaliste et basé sur des situations cliniques courantes.
 
 Types d'exercices possibles (varie à chaque fois) :
 - Calculer la masse de substance dans un volume donné à partir d'une concentration en %
@@ -46,9 +60,7 @@ Réponds UNIQUEMENT en JSON avec ce format exact :
   "unit": "g",
   "explanation": "Explication pas à pas de la résolution avec la formule utilisée"
 }`
-      : `Tu es un formateur en calculs de doses pour des étudiants infirmiers préparant le concours FPC.
-
-Génère UN exercice de calcul de débit en gouttes par minute. L'exercice doit être réaliste et basé sur des situations cliniques courantes.
+      : `Génère UN exercice de calcul de débit en gouttes par minute. L'exercice doit être réaliste et basé sur des situations cliniques courantes.
 
 Types d'exercices possibles (varie à chaque fois) :
 - Calculer le débit en gouttes/min pour un volume donné sur une durée donnée (perfuseur standard 1ml = 20 gouttes)
@@ -69,30 +81,10 @@ Réponds UNIQUEMENT en JSON avec ce format exact :
   "explanation": "Explication pas à pas de la résolution avec la formule utilisée"
 }`
 
-    const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 1.2,
-            topP: 0.95,
-            maxOutputTokens: 2000,
-            responseMimeType: 'application/json'
-          }
-        })
-      }
+    const text = await callClaude(
+      'Tu es un formateur en calculs de doses pour des étudiants infirmiers préparant le concours FPC.',
+      prompt
     )
-
-    if (!geminiResponse.ok) {
-      console.error('Gemini error:', await geminiResponse.text())
-      return NextResponse.json({ error: 'Erreur lors de la génération.' }, { status: 500 })
-    }
-
-    const geminiData = await geminiResponse.json()
-    const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text
     if (!text) return NextResponse.json({ error: 'Réponse vide.' }, { status: 500 })
 
     let exercise

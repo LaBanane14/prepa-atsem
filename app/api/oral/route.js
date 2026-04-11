@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server'
+import Anthropic from '@anthropic-ai/sdk'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { BASE_ORAL, FORMAT_SORTIE_ORAL } from '@/lib/prompts/base-oral'
 import { SYSTEM_ORAL, PROMPT_ORAL } from '@/lib/prompts/simulation-oral'
 
-const apiKey = process.env.GEMINI_API_KEY
+let _client = null
+function getClient() {
+  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  return _client
+}
 
 const categoryMap = {
   parcours: 'Parcours professionnel',
@@ -18,8 +23,8 @@ export async function POST(request) {
     const ip = request.headers.get('x-forwarded-for') || 'unknown'
     if (!checkRateLimit(ip)) return NextResponse.json({ error: 'Trop de requêtes. Réessayez dans quelques secondes.' }, { status: 429 })
 
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Clé API Gemini manquante.' }, { status: 500 })
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return NextResponse.json({ error: 'Clé API Claude manquante.' }, { status: 500 })
     }
 
     const formData = await request.formData()
@@ -36,34 +41,23 @@ export async function POST(request) {
     const systemInstruction = BASE_ORAL + '\n\n' + SYSTEM_ORAL
     const userPrompt = PROMPT_ORAL + '\n\n' + FORMAT_SORTIE_ORAL
 
-    // Appel Gemini avec le PDF en inline
-    const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemInstruction }] },
-          contents: [{
-            parts: [
-              { inlineData: { mimeType: 'application/pdf', data: pdfBase64 } },
-              { text: userPrompt }
-            ]
-          }],
-          generationConfig: { temperature: 0.9, topP: 0.95, maxOutputTokens: 24000, responseMimeType: 'application/json' }
-        })
-      }
-    )
+    // Appel Claude avec le PDF en base64
+    const client = getClient()
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8192,
+      system: systemInstruction,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdfBase64 } },
+          { type: 'text', text: userPrompt }
+        ]
+      }]
+    })
 
-    if (!geminiResponse.ok) {
-      const errorText = await geminiResponse.text()
-      console.error('Gemini error:', errorText)
-      return NextResponse.json({ error: 'Erreur Gemini' }, { status: 500 })
-    }
-
-    const geminiData = await geminiResponse.json()
-    const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text
-    if (!text) return NextResponse.json({ error: 'Réponse Gemini vide' }, { status: 500 })
+    const text = message.content[0]?.text
+    if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
     let raw
     try {

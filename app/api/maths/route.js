@@ -1,44 +1,24 @@
 import { NextResponse } from 'next/server'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import Anthropic from '@anthropic-ai/sdk'
 import { BASE_SYSTEM, buildHistoryContext } from '@/lib/prompts/base-maths'
 import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM } from '@/lib/prompts/examen'
 import { checkRateLimit } from '@/lib/rate-limit'
 
-const apiKey = process.env.GEMINI_API_KEY
-
-let annalesBase64 = null
-try {
-  const pdfPath = join(process.cwd(), 'data', 'annales-maths.pdf')
-  const pdfBuffer = readFileSync(pdfPath)
-  annalesBase64 = pdfBuffer.toString('base64')
-} catch (e) {
-  console.error('Impossible de charger le PDF des annales maths:', e.message)
+let _client = null
+function getClient() {
+  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  return _client
 }
 
-async function callGemini(prompt) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, topP: 0.95, maxOutputTokens: 24000, responseMimeType: 'application/json' }
-      })
-    }
-  )
-
-  if (!response.ok) {
-    const errorText = await response.text()
-    console.error('Gemini API error:', response.status, errorText)
-    throw new Error(`Erreur API Gemini (${response.status})`)
-  }
-
-  const data = await response.json()
-  const allText = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n') || ''
-  if (!allText) throw new Error('Réponse vide de Gemini')
-  return allText.replace(/```json/g, '').replace(/```/g, '').trim()
+async function callClaude(system, userPrompt) {
+  const client = getClient()
+  const message = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 8192,
+    system,
+    messages: [{ role: 'user', content: userPrompt }]
+  })
+  return message.content[0].text
 }
 
 export async function POST(request) {
@@ -47,8 +27,8 @@ export async function POST(request) {
     const ip = request.headers.get('x-forwarded-for') || 'unknown'
     if (!checkRateLimit(ip)) return NextResponse.json({ error: 'Trop de requêtes. Réessayez dans quelques secondes.' }, { status: 429 })
 
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Clé API Gemini manquante.' }, { status: 500 })
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return NextResponse.json({ error: 'Clé API Claude manquante.' }, { status: 500 })
     }
 
     const body = await request.json()
@@ -57,37 +37,10 @@ export async function POST(request) {
     // === GÉNÉRER UN SUJET ===
     if (action === 'generer') {
       const historyContext = buildHistoryContext(history)
-      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_MATHS + (historyContext ? '\n\n' + historyContext : '')
+      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_ATSEM + (historyContext ? '\n\n' + historyContext : '')
 
-      // Construire les parts (PDF annales + prompt)
-      const parts = []
-      if (annalesBase64) {
-        parts.push({ inlineData: { mimeType: 'application/pdf', data: annalesBase64 } })
-      }
-      parts.push({ text: PROMPT_EXAMEN_MATHS })
-
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: systemInstruction }] },
-            contents: [{ parts }],
-            generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 12000, responseMimeType: 'application/json' }
-          })
-        }
-      )
-
-      if (!geminiResponse.ok) {
-        const errorText = await geminiResponse.text()
-        console.error('Gemini error:', errorText)
-        return NextResponse.json({ error: 'Erreur Gemini' }, { status: 500 })
-      }
-
-      const geminiData = await geminiResponse.json()
-      const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text
-      if (!text) return NextResponse.json({ error: 'Réponse Gemini vide' }, { status: 500 })
+      const text = await callClaude(systemInstruction, PROMPT_EXAMEN_ATSEM)
+      if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
       let raw
       try {
@@ -132,8 +85,7 @@ export async function POST(request) {
 
       const reponsesFormatted = Object.entries(reponses).map(([id, val]) => `- Question ${id} : "${val}"`).join('\n')
 
-      const prompt = `Tu es un correcteur du concours IFSI FPC pour l'épreuve de mathématiques.
-Tu dois corriger les réponses d'un candidat de manière détaillée, juste et bienveillante.
+      const prompt = `Tu dois corriger les réponses d'un candidat de manière détaillée, juste et bienveillante.
 Rappel du contexte : le candidat disposait de 30 minutes, sans calculatrice.
 
 VOICI LE SUJET ET LE BARÈME (au format JSON) :
@@ -177,7 +129,7 @@ Tu dois répondre UNIQUEMENT au format JSON strict :
   "conseil": "Un conseil pratique pour le concours"
 }`
 
-      const raw = await callGemini(prompt)
+      const raw = await callClaude('Tu es un correcteur du concours ATSEM pour l\'épreuve de mathématiques.', prompt)
       const jsonMatch = raw.match(/\{[\s\S]*\}/)
       if (!jsonMatch) {
         return NextResponse.json({ error: 'Erreur de format. Réessayez.' }, { status: 500 })
