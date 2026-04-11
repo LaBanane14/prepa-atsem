@@ -369,14 +369,14 @@ export default function ExamenPage() {
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
                 <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-yellow-400 to-amber-500 shadow-xl shadow-yellow-200 mb-6 sm:mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
                 <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
-                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous générons les deux épreuves simultanément.</p>
+                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous générons votre QCM de 20 questions.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
-                    { label: 'Analyse des annales' },
-                    { label: 'Génération du sujet de mathématiques' },
-                    { label: 'Génération du sujet de rédaction' },
+                    { label: 'Analyse des sujets CDG' },
+                    { label: 'Génération des 20 questions QCM' },
+                    { label: 'Répartition des 7 thématiques' },
                     { label: 'Calibrage de la difficulté' },
-                    { label: 'Mise en forme des épreuves' }
+                    { label: 'Mise en forme de l\'épreuve' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= loadingStep ? 'bg-yellow-50 border border-yellow-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
                       <span className={`font-bold text-sm flex-grow ${i <= loadingStep ? 'text-yellow-700' : 'text-slate-400'}`}>{ls.label}</span>
