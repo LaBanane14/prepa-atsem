@@ -323,7 +323,7 @@ export default function OralPage() {
       {/* SIDEBAR */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
-          <a href="/" className="mb-4"><div className="w-10 h-10 bg-purple-800 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+          <a href="/" className="mb-4"><div className="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
