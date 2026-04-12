@@ -739,8 +739,8 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 font-medium">Articles</p>
                   </div>
                 </a>
-                <button onClick={() => { setShowReviewPopup(true); setReviewRating(0); setReviewComment(''); setReviewSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-amber-200 transition group flex items-center gap-3 cursor-pointer text-left">
-                  <div className="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <button onClick={() => { setShowReviewPopup(true); setReviewRating(0); setReviewComment(''); setReviewSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3 cursor-pointer text-left">
+                  <div className="w-10 h-10 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                   </div>
                   <div>
