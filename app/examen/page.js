@@ -213,16 +213,9 @@ export default function ExamenPage() {
     }
     setError('')
     setCorrectingStep(0)
-    setStep('correcting')
 
-    // Attendre la correction background si pas encore arrivée
-    if (correction.length === 0 && correctionPromise.current) {
-      await correctionPromise.current
-    }
-
-    // Score locally
+    // Si la correction est déjà prête, pas besoin du loading
     if (correction.length > 0) {
-      const startTime = Date.now()
       let total = 0
       correction.forEach(c => {
         const userAnswers = (reponses[c.numero] || []).sort()
@@ -231,8 +224,6 @@ export default function ExamenPage() {
           total++
         }
       })
-      const elapsed = Date.now() - startTime
-      if (elapsed < 12000) await new Promise(r => setTimeout(r, 12000 - elapsed))
       setScore(total)
 
       // Sauvegarder dans l'historique
@@ -253,23 +244,23 @@ export default function ExamenPage() {
       return
     }
 
-    // Fallback: send to API for correction
-    try {
-      const startTime = Date.now()
-      const res = await fetch('/api/maths', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'corriger', exercices: questions, reponses })
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la correction.'); setStep('epreuve'); return }
-      const elapsed = Date.now() - startTime
-      if (elapsed < 12000) await new Promise(r => setTimeout(r, 12000 - elapsed))
+    // Correction pas encore prête — afficher le loading et attendre
+    setStep('correcting')
+    if (correctionPromise.current) {
+      await correctionPromise.current
+    }
 
-      if (data.correction) {
-        setScore(data.correction.note || 0)
-        setCorrection(data.correction.corrections || [])
-      }
+    // Réessayer après l'attente
+    if (correction.length > 0) {
+      let total = 0
+      correction.forEach(c => {
+        const userAnswers = (reponses[c.numero] || []).sort()
+        const correctAnswers = (c.reponses_correctes || []).sort()
+        if (userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
+          total++
+        }
+      })
+      setScore(total)
 
       const timeUsed = Math.round((EXAM_DURATION - timeLeft) / 60)
       try {
@@ -277,7 +268,7 @@ export default function ExamenPage() {
           user_id: user.id,
           type: 'Examen',
           label: 'Examen blanc QCM ATSEM',
-          note: data.correction?.note || 0,
+          note: total,
           note_max: 20,
           nb_questions: questions.length,
           duration_minutes: timeUsed || 1,
@@ -285,8 +276,8 @@ export default function ExamenPage() {
       } catch (e) { console.error('Erreur sauvegarde historique:', e) }
 
       setStep('resultat')
-    } catch (err) {
-      setError('Erreur de connexion. Réessayez.')
+    } else {
+      setError('Erreur lors de la correction. Réessayez.')
       setStep('epreuve')
     }
   }
