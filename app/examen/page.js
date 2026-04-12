@@ -140,7 +140,7 @@ export default function ExamenPage() {
         body: JSON.stringify({ action: 'generer' })
       })
       const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la g\u00e9n\u00e9ration du QCM.'); window.location.href = '/dashboard'; return }
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la g\u00e9n\u00e9ration du QCM.'); setStep(null); setShowInfoPopup(true); return }
 
       // Parse — handle both direct QCM format and exercices wrapper format
       let parsedQuestions = []

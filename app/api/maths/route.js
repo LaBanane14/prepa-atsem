@@ -50,31 +50,14 @@ export async function POST(request) {
         raw = JSON.parse(cleaned)
       }
 
-      // Mapper vers le format attendu par le front (numero→id, enonce→question)
-      const sujetData = {
-        source: raw.type === 'examen_blanc' ? 'original' : (raw.source || 'original'),
-        titre: raw.theme || 'Épreuve de Mathématiques',
-        annee: null,
-        ville: null,
-        duree: '30 minutes',
-        calculatrice: false,
-        noteMax: raw.total_points || 10,
-        exercices: (raw.exercices || []).map((ex, idx) => ({
-          numero: ex.numero || idx + 1,
-          titre: ex.titre || `Exercice ${idx + 1}`,
-          enonce: ex.consigne || ex.enonce || '',
-          categorie: ex.questions?.[0]?.famille || 'operations',
-          points: ex.questions?.reduce((sum, q) => sum + (q.points || 0), 0) || 0,
-          questions: (ex.questions || []).map((q, qIdx) => ({
-            id: q.numero || `${idx + 1}${String.fromCharCode(97 + qIdx)}`,
-            question: q.enonce || q.question || '',
-            points: q.points || 0,
-            reponse: q.reponse || ''
-          }))
-        }))
-      }
-
-      return NextResponse.json({ sujet: sujetData })
+      // Renvoyer directement le QCM ATSEM (questions + correction)
+      return NextResponse.json({
+        questions: raw.questions || [],
+        correction: raw.correction || [],
+        consigne: raw.consigne || '',
+        duree_minutes: raw.duree_minutes || 45,
+        nb_questions: raw.nb_questions || 20
+      })
     }
 
     // === CORRIGER LES RÉPONSES ===
