@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, BookOpen, CheckCircle2, Clock } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, BookOpen, Shuffle } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -13,29 +13,14 @@ const sidebarItems = [
   { id: 'abonnement', label: 'Devenir Premium', href: '/dashboard?tab=abonnement', icon: BadgeCheck, premium: true }
 ]
 
-const regionColors = {
-  'Auvergne-Rhône-Alpes': 'bg-blue-100 text-blue-800 border-blue-200',
-  'Bretagne': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-  'Grand Est': 'bg-purple-100 text-purple-800 border-purple-200',
-  'Hauts-de-France': 'bg-amber-100 text-amber-800 border-amber-200',
-  'Île-de-France': 'bg-rose-100 text-rose-800 border-rose-200',
-  'Nouvelle-Aquitaine': 'bg-orange-100 text-orange-800 border-orange-200',
-  'Normandie': 'bg-cyan-100 text-cyan-800 border-cyan-200',
-  'Occitanie': 'bg-red-100 text-red-800 border-red-200',
-  'Provence-Alpes-Côte d\'Azur': 'bg-sky-100 text-sky-800 border-sky-200',
-  'Pays de la Loire': 'bg-teal-100 text-teal-800 border-teal-200',
-}
-
 export default function AnnalesPage() {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
   const [annales, setAnnales] = useState([])
-  const [scores, setScores] = useState([])
   const [loading, setLoading] = useState(true)
-  const [filterRegion, setFilterRegion] = useState('')
-  const [filterYear, setFilterYear] = useState('')
+  const [redirecting, setRedirecting] = useState(false)
 
   useEffect(() => {
     if (!supabase) { setAuthLoading(false); return }
@@ -46,38 +31,21 @@ export default function AnnalesPage() {
       if (sub && new Date(sub.current_period_end) > new Date()) setIsPremium(true)
       setAuthLoading(false)
 
-      // Charger les annales
       const { data: annalesData } = await supabase
         .from('annales')
-        .select('id, region, region_nom, cdg, annee, nb_questions, duree_minutes, bareme')
+        .select('id, region_nom, annee, nb_questions')
         .order('annee', { ascending: false })
       setAnnales(annalesData || [])
-
-      // Charger les meilleurs scores de l'utilisateur
-      const { data: scoresData } = await supabase
-        .from('scores_annales')
-        .select('annale_id, score, score_max')
-        .eq('user_id', session.user.id)
-      setScores(scoresData || [])
-
       setLoading(false)
     })
   }, [])
 
-  function getBestScore(annaleId) {
-    const s = scores.filter(s => s.annale_id === annaleId)
-    if (s.length === 0) return null
-    return Math.max(...s.map(x => x.score))
+  function launchRandom() {
+    if (annales.length === 0) return
+    setRedirecting(true)
+    const random = annales[Math.floor(Math.random() * annales.length)]
+    window.location.href = `/annales/${random.id}`
   }
-
-  const regions = [...new Set(annales.map(a => a.region_nom))].sort()
-  const years = [...new Set(annales.map(a => a.annee))].sort((a, b) => b - a)
-
-  const filtered = annales.filter(a => {
-    if (filterRegion && a.region_nom !== filterRegion) return false
-    if (filterYear && a.annee !== parseInt(filterYear)) return false
-    return true
-  })
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
@@ -117,81 +85,36 @@ export default function AnnalesPage() {
           <div className="w-8"></div>
         </div>
 
-        <main className="p-4 sm:p-6 md:p-8 max-w-5xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl font-black text-slate-900 mb-2 flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
-                <BookOpen size={22} strokeWidth={1.8} />
-              </div>
-              Annales corrigées
-            </h1>
-            <p className="text-slate-500 text-sm">Entraînez-vous sur les vrais sujets QCM des CDG en conditions réelles.</p>
-          </div>
+        <main className="flex items-center justify-center min-h-[calc(100vh-3.5rem)] lg:min-h-screen p-4">
+          <div className="max-w-md w-full text-center">
+            <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <BookOpen size={36} strokeWidth={1.5} />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 mb-3">Annales corrigées</h1>
+            <p className="text-slate-500 mb-2">Entraînez-vous sur les vrais sujets QCM des CDG.</p>
+            <p className="text-slate-400 text-sm mb-8">{loading ? 'Chargement...' : `${annales.length} annales disponibles (2015-2025)`}</p>
 
-          {/* Filtres */}
-          <div className="flex flex-wrap gap-3 mb-6">
-            <select value={filterRegion} onChange={e => setFilterRegion(e.target.value)} className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Toutes les régions</option>
-              {regions.map(r => <option key={r} value={r}>{r}</option>)}
-            </select>
-            <select value={filterYear} onChange={e => setFilterYear(e.target.value)} className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Toutes les années</option>
-              {years.map(y => <option key={y} value={y}>{y}</option>)}
-            </select>
-            {(filterRegion || filterYear) && (
-              <button onClick={() => { setFilterRegion(''); setFilterYear('') }} className="text-sm text-purple-800 font-bold hover:underline cursor-pointer">Réinitialiser</button>
+            <button
+              onClick={launchRandom}
+              disabled={loading || annales.length === 0 || redirecting}
+              className="w-full bg-purple-800 hover:bg-purple-900 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg shadow-purple-200 text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto"
+            >
+              {redirecting ? (
+                <div className="animate-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>
+              ) : (
+                <>
+                  <Shuffle size={22} />
+                  Lancer une annale au hasard
+                </>
+              )}
+            </button>
+
+            {!loading && annales.length === 0 && (
+              <p className="text-amber-600 text-sm font-semibold mt-4">Les annales seront bientôt disponibles.</p>
             )}
+
+            <a href="/dashboard" className="text-sm text-slate-400 hover:text-slate-600 transition mt-6 inline-block">Retour au tableau de bord</a>
           </div>
-
-          {/* Liste */}
-          {loading ? (
-            <div className="flex justify-center py-20">
-              <div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div>
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-              <BookOpen size={48} className="text-slate-300 mx-auto mb-4" strokeWidth={1} />
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Aucune annale trouvée</h3>
-              <p className="text-slate-500 text-sm">{annales.length === 0 ? 'Les annales seront bientôt disponibles.' : 'Essayez de modifier vos filtres.'}</p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filtered.map(annale => {
-                const best = getBestScore(annale.id)
-                const color = regionColors[annale.region_nom] || 'bg-slate-100 text-slate-800 border-slate-200'
-
-                return (
-                  <a key={annale.id} href={`/annales/${annale.id}`} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all p-5 flex flex-col group cursor-pointer">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${color}`}>{annale.region_nom}</span>
-                      <span className="text-2xl font-black text-slate-900">{annale.annee}</span>
-                    </div>
-
-                    {annale.cdg && (
-                      <p className="text-xs text-slate-400 font-semibold mb-3">{annale.cdg}</p>
-                    )}
-
-                    <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
-                      <span className="flex items-center gap-1"><Clock size={14} /> {annale.duree_minutes || 45} min</span>
-                      <span className="flex items-center gap-1"><BookOpen size={14} /> {annale.nb_questions || 20} questions</span>
-                    </div>
-
-                    {best !== null ? (
-                      <div className="flex items-center gap-2 mt-auto">
-                        <CheckCircle2 size={16} className="text-emerald-500" />
-                        <span className="text-sm font-bold text-emerald-600">Meilleur score : {best}/{annale.nb_questions || 20}</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2 mt-auto">
-                        <span className="text-sm font-semibold text-slate-400">Pas encore fait</span>
-                      </div>
-                    )}
-                  </a>
-                )
-              })}
-            </div>
-          )}
         </main>
       </div>
     </div>
