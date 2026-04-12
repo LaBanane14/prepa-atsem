@@ -11,10 +11,13 @@ function getClient() {
 }
 
 const categoryMap = {
-  parcours: 'Parcours professionnel',
-  metier: 'Connaissance du métier',
-  qualites: 'Qualités personnelles',
+  parcours: 'Motivation et parcours',
+  missions: 'Missions de l\'ATSEM',
+  collectivites: 'Collectivités et droit public',
+  sante: 'Santé et sécurité',
   mise_en_situation: 'Mise en situation',
+  hygiene: 'Hygiène et entretien',
+  developpement: 'Développement de l\'enfant',
   piege: 'Question piège'
 }
 
@@ -41,11 +44,11 @@ export async function POST(request) {
     const systemInstruction = BASE_ORAL + '\n\n' + SYSTEM_ORAL
     const userPrompt = PROMPT_ORAL + '\n\n' + FORMAT_SORTIE_ORAL
 
-    // Appel Claude avec le PDF en base64
+    // Appel Claude avec le PDF en base64 (streaming pour éviter timeout)
     const client = getClient()
-    const message = await client.messages.create({
+    const stream = await client.messages.stream({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 8192,
+      max_tokens: 16384,
       system: systemInstruction,
       messages: [{
         role: 'user',
@@ -55,6 +58,7 @@ export async function POST(request) {
         ]
       }]
     })
+    const message = await stream.finalMessage()
 
     const text = message.content[0]?.text
     if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
