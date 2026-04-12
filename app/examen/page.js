@@ -74,21 +74,13 @@ export default function ExamenPage() {
     })
   }, [])
 
-  // Loading animation — 8s par étape, step 4 reste en loading
+  // Loading animation — 5s par étape, step 4 reste en loading
   useEffect(() => {
     if (step !== 'loading') return
-    const delays = [5000, 5000, 5000]
-    let currentStep = 0
-    function advance() {
-      if (currentStep < 3) {
-        setTimeout(() => {
-          setLoadingStep(prev => prev + 1)
-          currentStep++
-          advance()
-        }, delays[currentStep])
-      }
-    }
-    advance()
+    const t1 = setTimeout(() => setLoadingStep(1), 5000)
+    const t2 = setTimeout(() => setLoadingStep(2), 10000)
+    const t3 = setTimeout(() => setLoadingStep(3), 15000)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
   }, [step])
 
   // Correcting animation
