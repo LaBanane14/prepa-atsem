@@ -277,6 +277,16 @@ export default function ExamenPage() {
 
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full"></div></div>
 
+  // Nettoyer l'énoncé si Claude a inclus les propositions dedans
+  function cleanEnonce(enonce) {
+    if (!enonce) return ''
+    // Supprimer les patterns "A-...", "A)...", "A. ..." en fin d'énoncé
+    return enonce
+      .replace(/\s*[A-F]\s*[-–)\.]\s*[A-ZÀÂÉÈÊËÏÎÔÙÛÜÇ][^?]*$/g, '')
+      .replace(/\s*[A-F]\s*[-–)\.]\s*[A-ZÀÂÉÈÊËÏÎÔÙÛÜÇ].*$/gm, '')
+      .trim()
+  }
+
   if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">😢</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2><p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
 
   return (
@@ -563,7 +573,7 @@ export default function ExamenPage() {
                           <div className="flex items-start gap-3 mb-4">
                             <span className="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
+                              <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{cleanEnonce(q.enonce)}</p>
                             </div>
                             <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">1 pt</span>
                           </div>
@@ -710,7 +720,7 @@ export default function ExamenPage() {
                         <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${isCorrect ? 'bg-emerald-50' : 'bg-red-50'}`}>
                           <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>{q.numero}</span>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-slate-800 leading-relaxed">{q.enonce}</p>
+                            <p className="text-sm font-semibold text-slate-800 leading-relaxed">{cleanEnonce(q.enonce)}</p>
                             {q.theme && (
                               <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/80 text-slate-500 border border-slate-200">
                                 {THEME_LABELS[q.theme] || q.theme}
