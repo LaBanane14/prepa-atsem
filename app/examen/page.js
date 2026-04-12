@@ -77,7 +77,7 @@ export default function ExamenPage() {
   // Loading animation — 8s par étape, step 4 reste en loading
   useEffect(() => {
     if (step !== 'loading') return
-    const delays = [8000, 8000, 8000]
+    const delays = [5000, 5000, 5000]
     let currentStep = 0
     function advance() {
       if (currentStep < 3) {
@@ -188,7 +188,7 @@ export default function ExamenPage() {
       }).catch(e => console.error('Erreur correction background:', e))
 
       const elapsed = Date.now() - startTime
-      if (elapsed < 24000) await new Promise(r => setTimeout(r, 24000 - elapsed))
+      if (elapsed < 5000) await new Promise(r => setTimeout(r, 5000 - elapsed))
 
       setQuestions(shuffledQuestions)
       setReponses({})
