@@ -2,7 +2,17 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '../../../lib/supabase'
-import { ArrowLeft, Clock, CheckCircle2, XCircle, ChevronDown } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
+
+const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
+
+const sidebarItems = [
+  { id: 'dashboard', label: 'Accueil', href: '/dashboard', icon: Home },
+  { id: 'progression', label: 'Mes stats', href: '/dashboard?tab=progression', icon: TrendingUp },
+  { id: 'historique', label: 'Historique', href: '/dashboard?tab=historique', icon: RotateCcw },
+  { id: 'profil', label: 'Compte', href: '/dashboard?tab=profil', icon: UserRound },
+  { id: 'abonnement', label: 'Devenir Premium', href: '/dashboard?tab=abonnement', icon: BadgeCheck, premium: true }
+]
 
 export default function AnnalePage() {
   const { id } = useParams()
@@ -10,20 +20,29 @@ export default function AnnalePage() {
   const [authLoading, setAuthLoading] = useState(true)
   const [annale, setAnnale] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
 
   // Exam state
-  const [step, setStep] = useState('info') // info, exam, correcting, result
+  const [step, setStep] = useState('info') // info, exam, result
   const [reponses, setReponses] = useState({})
   const [score, setScore] = useState(0)
   const [timeLeft, setTimeLeft] = useState(45 * 60)
   const [timerActive, setTimerActive] = useState(false)
   const timerRef = useRef(null)
 
+  // Scroll-to-top
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const mainRef = useRef(null)
+
   useEffect(() => {
     if (!supabase) { setAuthLoading(false); return }
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { window.location.href = '/auth'; return }
       setUser(session.user)
+      const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
+      const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      if (hasSub) setIsPremium(true)
       setAuthLoading(false)
 
       // Charger l'annale
@@ -59,6 +78,17 @@ export default function AnnalePage() {
     }, 1000)
     return () => clearInterval(timerRef.current)
   }, [timerActive])
+
+  // Scroll-to-top visibility
+  useEffect(() => {
+    const container = mainRef.current
+    if (!container) return
+    const handleScroll = () => setShowScrollTop(container.scrollTop > 400)
+    container.addEventListener('scroll', handleScroll)
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [step])
+
+  async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
   function startExam() {
     setStep('exam')
@@ -119,185 +149,361 @@ export default function AnnalePage() {
     setStep('result')
   }
 
+  const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
+  const EXAM_DURATION = (annale?.duree_minutes || 45) * 60
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
+  const timePercent = (timeLeft / EXAM_DURATION) * 100
   const isUrgent = timeLeft < 5 * 60
   const questions = annale?.questions || []
   const answeredCount = Object.values(reponses).filter(arr => arr.length > 0).length
+  const annaleTitle = annale ? `${annale.region_nom} ${annale.annee}` : ''
+  const annaleFull = annale ? `Annale ${annale.region_nom} ${annale.annee}${annale.cdg ? ' (' + annale.cdg + ')' : ''}` : ''
 
-  if (authLoading || loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>
+  if (authLoading || loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"></div></div>
   if (!annale) return null
 
-  // INFO SCREEN
-  if (step === 'info') {
-    return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-lg max-w-lg w-full overflow-hidden">
-          <div className="bg-slate-900 text-white p-6">
-            <a href="/annales" className="text-slate-400 hover:text-white transition text-sm flex items-center gap-1 mb-4"><ArrowLeft size={16} /> Retour aux annales</a>
-            <h1 className="text-xl font-black">Annale {annale.region_nom} {annale.annee}</h1>
-            {annale.cdg && <p className="text-slate-400 text-sm mt-1">{annale.cdg}</p>}
-            <p className="text-slate-400 text-sm mt-1">Conditions réelles</p>
+  return (
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+      <style>{`
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bellSwing { 0%, 100% { transform: rotate(0deg); } 15% { transform: rotate(8deg); } 30% { transform: rotate(-6deg); } 45% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 75% { transform: rotate(0deg); } }
+        @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
+        .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
+        @keyframes pulse-urgent { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .pulse-urgent { animation: pulse-urgent 1s ease-in-out infinite; }
+      `}</style>
+
+      {sidebarOpen && <div className="fixed top-14 lg:top-0 inset-x-0 bottom-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
+
+      {/* SIDEBAR */}
+      <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
+          <a href="/" className="mb-4"><div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+          <div className="w-7 h-px bg-slate-200 mb-3"></div>
+          <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
+            {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
+              <a key={item.id} href={item.href} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all text-center group ${item.premium ? 'text-amber-500 hover:bg-amber-50 hover:text-amber-600' : 'text-slate-900 hover:bg-blue-50 hover:text-blue-600'}`}>
+                <item.icon size={21} strokeWidth={1.6} className={`transition-transform duration-200 group-hover:scale-125 ${item.premium ? 'premium-scan' : ''}`} />
+                <span>{item.label}</span>
+              </a>
+            ))}
+          </nav>
+          <div className="flex flex-col items-center gap-2 mt-auto pt-3">
+            <div className="w-7 h-px bg-slate-200 mb-1"></div>
+            <a href="/dashboard?tab=profil" className="w-9 h-9 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-xs transition">{firstName.charAt(0).toUpperCase()}</a>
+            <button onClick={handleLogout} className="text-slate-900 hover:text-red-500 transition cursor-pointer p-1">
+              <LogOut size={16} strokeWidth={1.8} />
+            </button>
           </div>
-          <div className="p-6 space-y-4">
-            {[
-              { icon: '📝', title: `QCM de ${questions.length} questions`, text: 'Chaque question peut avoir une ou plusieurs bonnes réponses.' },
-              { icon: '⏱️', title: `Durée : ${annale.duree_minutes || 45} minutes`, text: 'Le chronomètre démarre dès le début. Envoi auto à la fin du temps.' },
-              { icon: '📊', title: annale.bareme || '1 point par bonne réponse complète', text: 'Il faut cocher TOUTES les bonnes réponses sans erreur.' },
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <span className="text-xl">{item.icon}</span>
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">{item.title}</p>
-                  <p className="text-xs text-slate-500">{item.text}</p>
+        </aside>
+      </div>
+
+      {/* MAIN */}
+      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
+        <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          <span className="font-black text-lg text-slate-900" style={{fontFamily: "'Nunito', sans-serif"}}>Prépa <span className="text-blue-500">ATSEM</span></span>
+          <a href="/annales" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </a>
+        </header>
+
+        <main className="flex-1 min-h-0 w-full mx-auto px-4 py-4 sm:py-5 lg:flex lg:flex-col lg:overflow-hidden">
+
+          {/* ===== INFO POPUP ===== */}
+          {step === 'info' && (
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { window.location.href = '/annales' }}>
+              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
+
+                <div className="bg-slate-900 px-6 py-5 relative">
+                  <button onClick={() => { window.location.href = '/annales' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                  <h2 className="text-lg font-black text-white pr-8">{annaleFull}</h2>
+                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions réelles</p>
+                </div>
+
+                <div className="p-6">
+                  <div className="space-y-4 mb-6">
+                    {[
+                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: `QCM de ${questions.length} questions`, text: 'Comme au vrai concours ATSEM : questions à choix multiples sur les situations concrètes du métier.' },
+                      { icon: <Timer size={18} strokeWidth={2} />, title: `Chronomètre de ${annale.duree_minutes || 45} minutes`, text: 'Le compte à rebours démarre dès le début. À la fin du temps, vos réponses sont envoyées automatiquement.' },
+                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Réponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes réponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
+                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: annale.bareme || '1 point par bonne réponse complète', text: 'Il faut cocher TOUTES les bonnes réponses sans erreur. Correction détaillée à la fin.' }
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
+                        <div>
+                          <p className="text-sm font-black text-slate-800">{item.title}</p>
+                          <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{item.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button onClick={startExam} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer mb-4">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                    Commencer l'annale
+                  </button>
+
+                  <a href="/annales" className="block text-center text-xs text-slate-400 font-medium hover:text-slate-600 transition">Retour aux annales</a>
                 </div>
               </div>
-            ))}
-            <button onClick={startExam} className="w-full bg-purple-800 hover:bg-purple-900 text-white font-bold py-3.5 rounded-xl transition shadow-lg text-sm cursor-pointer mt-4">
-              Commencer l'annale
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+            </div>
+          )}
 
-  // EXAM SCREEN
-  if (step === 'exam') {
-    return (
-      <div className="min-h-screen bg-slate-100 flex flex-col">
-        {/* Header fixe */}
-        <div className="sticky top-0 z-50 bg-slate-900 text-white px-4 sm:px-6 py-3 flex items-center justify-between">
-          <div>
-            <p className="font-bold text-sm">{annale.region_nom} {annale.annee}</p>
-            <p className="text-xs text-slate-400">{answeredCount}/{questions.length} répondues</p>
-          </div>
-          <div className={`text-2xl font-black tabular-nums ${isUrgent ? 'text-red-400 animate-pulse' : ''}`}>
-            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-          </div>
-          <button onClick={() => handleSubmit(false)} className="bg-purple-700 hover:bg-purple-800 text-white font-bold px-4 py-2 rounded-xl text-sm cursor-pointer transition">
-            Soumettre
-          </button>
-        </div>
+          {/* ===== EXAM QCM ===== */}
+          {step === 'exam' && questions.length > 0 && (
+            <div className="animate-fade-in overflow-x-hidden">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-full lg:h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden">
 
-        {/* Questions */}
-        <div className="flex-1 p-4 sm:p-6 md:p-8 max-w-3xl mx-auto w-full">
-          <div className="space-y-6">
-            {questions.map(q => {
-              const selected = reponses[q.numero] || []
-              return (
-                <div key={q.numero} className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-6">
-                  <div className="flex items-start gap-3 mb-4">
-                    <span className="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-sm shrink-0">{q.numero}</span>
-                    <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
-                  </div>
-                  <div className="space-y-2 ml-0 sm:ml-12">
-                    {(q.propositions || []).map(p => {
-                      const isSelected = selected.includes(p.lettre.toLowerCase())
-                      return (
-                        <div key={p.lettre} onClick={() => toggleProposition(q.numero, p.lettre.toLowerCase())} className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${isSelected ? 'border-purple-500 bg-purple-50' : 'border-slate-100 hover:border-purple-200'}`}>
-                          <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${isSelected ? 'bg-purple-800 text-white' : 'bg-slate-100 text-slate-500'}`}>{p.lettre.toUpperCase()}</div>
-                          <span className={`text-sm ${isSelected ? 'text-purple-900 font-semibold' : 'text-slate-700'}`}>{p.texte}</span>
+                {/* Barre du haut */}
+                <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden shrink-0">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">{annaleFull}</h2>
+                    <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                      <div className={`flex items-center gap-2 sm:gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
+                        <div className="w-24 sm:w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
+                          <div className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? 'bg-red-500' : 'bg-blue-400'}`} style={{width: `${timePercent}%`}}></div>
                         </div>
-                      )
-                    })}
+                        <div className={`flex items-center gap-1 sm:gap-2 font-black text-sm sm:text-lg tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{animation: 'bellSwing 2s ease-in-out infinite', transformOrigin: 'top center'}}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+                        </div>
+                      </div>
+                      <a href="/annales" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
+                        Quitter l'annale
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-blue-300">
+                        QCM {questions.length} questions
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-blue-300">
+                        Réponses multiples
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-blue-300">
+                        Annale {annaleTitle}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur {questions.length} — Durée : {annale.duree_minutes || 45} min</p>
+                    </div>
                   </div>
                 </div>
-              )
-            })}
-          </div>
 
-          <div className="mt-8 mb-12">
-            <button onClick={() => handleSubmit(false)} className="w-full bg-purple-800 hover:bg-purple-900 text-white font-bold py-4 rounded-2xl transition shadow-lg text-base cursor-pointer">
-              Soumettre mes réponses ({answeredCount}/{questions.length})
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+                <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
-  // RESULT SCREEN
-  if (step === 'result') {
-    const percent = Math.round((score / questions.length) * 100)
-
-    return (
-      <div className="min-h-screen bg-slate-100 p-4 sm:p-6 md:p-8">
-        <div className="max-w-3xl mx-auto">
-          {/* Score */}
-          <div className="bg-white rounded-3xl shadow-lg p-8 mb-6 text-center">
-            <h1 className="text-lg font-bold text-slate-500 mb-2">Annale {annale.region_nom} {annale.annee}</h1>
-            <div className="text-6xl font-black text-slate-900 mb-2">{score}<span className="text-2xl text-slate-400">/{questions.length}</span></div>
-            <div className="w-full bg-slate-100 rounded-full h-3 mb-3 max-w-xs mx-auto">
-              <div className={`h-3 rounded-full transition-all ${percent >= 80 ? 'bg-emerald-500' : percent >= 60 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${percent}%` }}></div>
-            </div>
-            <p className="text-sm text-slate-500 font-semibold">{percent}% de réussite</p>
-            <div className="flex gap-3 justify-center mt-6">
-              <a href="/annales" className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour aux annales</a>
-              <button onClick={() => { setStep('info'); setReponses({}); setTimeLeft((annale.duree_minutes || 45) * 60) }} className="bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition text-sm cursor-pointer">Refaire cette annale</button>
-            </div>
-          </div>
-
-          {/* Correction détaillée */}
-          <h2 className="text-lg font-black text-slate-900 mb-4">Correction détaillée</h2>
-          <div className="space-y-4">
-            {questions.map(q => {
-              const userAnswers = (reponses[q.numero] || []).sort()
-              const correctAnswers = (q.reponses_correctes || []).map(r => r.toLowerCase()).sort()
-              const hasCorrection = correctAnswers.length > 0
-              const isCorrect = hasCorrection && userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])
-
-              return (
-                <div key={q.numero} className={`bg-white rounded-2xl border-2 p-5 ${isCorrect ? 'border-emerald-200' : hasCorrection ? 'border-red-200' : 'border-slate-200'}`}>
-                  <div className="flex items-start gap-3 mb-3">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : hasCorrection ? 'bg-red-500 text-white' : 'bg-slate-200 text-slate-600'}`}>{q.numero}</span>
-                    <p className="text-sm text-slate-800 font-semibold leading-relaxed flex-1">{q.enonce}</p>
-                    {hasCorrection && (
-                      <span className={`text-xs font-bold px-2 py-1 rounded-full shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                        {isCorrect ? '1/1' : '0/1'}
-                      </span>
-                    )}
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+                    <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+                    <p className="text-sm text-blue-800 font-medium">Chaque question comporte <strong>une ou plusieurs réponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.</p>
                   </div>
-                  <div className="space-y-1.5 ml-0 sm:ml-11">
-                    {(q.propositions || []).map(p => {
-                      const l = p.lettre.toLowerCase()
-                      const wasSelected = userAnswers.includes(l)
-                      const isGood = correctAnswers.includes(l)
 
-                      let cls = 'border-slate-100 text-slate-500'
-                      if (hasCorrection) {
-                        if (isGood && wasSelected) cls = 'border-emerald-300 bg-emerald-50 text-emerald-800'
-                        else if (isGood && !wasSelected) cls = 'border-emerald-300 bg-emerald-50/50 text-emerald-600 border-dashed'
-                        else if (!isGood && wasSelected) cls = 'border-red-300 bg-red-50 text-red-700'
-                      } else if (wasSelected) {
-                        cls = 'border-purple-300 bg-purple-50 text-purple-800'
-                      }
-
+                  <div className="space-y-6">
+                    {questions.map((q) => {
+                      const selected = reponses[q.numero] || []
                       return (
-                        <div key={p.lettre} className={`flex items-center gap-2 p-2.5 rounded-lg border ${cls} text-sm`}>
-                          <span className="font-bold text-xs w-5">{p.lettre.toUpperCase()}</span>
-                          <span className="flex-1">{p.texte}</span>
-                          {hasCorrection && isGood && wasSelected && <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />}
-                          {hasCorrection && !isGood && wasSelected && <XCircle size={16} className="text-red-500 shrink-0" />}
-                          {hasCorrection && isGood && !wasSelected && <span className="text-xs text-emerald-500 font-bold shrink-0">Manquée</span>}
+                        <div key={q.numero} id={`question-${q.numero}`} className="bg-slate-50 border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6">
+                          <div className="flex items-start gap-3 mb-4">
+                            <span className="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
+                            </div>
+                            <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">1 pt</span>
+                          </div>
+
+                          <div className="space-y-2 ml-0 sm:ml-12">
+                            {(q.propositions || []).map((prop) => {
+                              const l = prop.lettre.toLowerCase()
+                              const isSelected = selected.includes(l)
+                              return (
+                                <button
+                                  key={prop.lettre}
+                                  onClick={() => toggleProposition(q.numero, l)}
+                                  className={`w-full flex items-start gap-3 p-3 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-blue-50 border-blue-400 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
+                                >
+                                  <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 transition-all ${isSelected ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
+                                    {prop.lettre.toUpperCase()}
+                                  </span>
+                                  <span className={`text-sm font-medium leading-relaxed pt-0.5 ${isSelected ? 'text-slate-900' : 'text-slate-600'}`}>
+                                    {prop.texte}
+                                  </span>
+                                  <div className={`ml-auto shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all mt-0.5 ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-slate-300 group-hover:border-slate-400'}`}>
+                                    {isSelected && <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                                  </div>
+                                </button>
+                              )
+                            })}
+                          </div>
                         </div>
                       )
                     })}
                   </div>
-                  {q.explication && (
-                    <div className="mt-3 ml-0 sm:ml-11 bg-slate-50 border border-slate-200 rounded-xl p-3">
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Explication</p>
-                      <p className="text-sm text-slate-700 leading-relaxed">{q.explication}</p>
-                    </div>
+
+                  <div className="flex items-center justify-between mt-8 pb-4">
+                    <a href="/annales" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner l'annale</a>
+                    <button onClick={() => handleSubmit(false)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                      Soumettre ({answeredCount}/{questions.length})
+                    </button>
+                  </div>
+
+                  {/* Scroll to top button */}
+                  {showScrollTop && (
+                    <button
+                      onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+                      className="fixed bottom-6 right-6 w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-600 transition cursor-pointer z-40"
+                    >
+                      <ChevronUp size={20} strokeWidth={2.5} />
+                    </button>
                   )}
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    )
-  }
+              </div>
+            </div>
+          )}
 
-  return null
+          {/* ===== RESULT ===== */}
+          {step === 'result' && (
+            <div className="animate-fade-in max-w-4xl mx-auto pb-8">
+
+              {/* Note globale */}
+              <div className="bg-slate-900 rounded-2xl p-8 text-center mb-6 relative">
+                <a href="/annales" className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </a>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Note globale — {annaleFull}</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-6xl font-black text-white">{score}</span>
+                  <span className="text-6xl font-black text-slate-400">/{questions.length}</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 mt-4 text-slate-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span className="text-sm font-bold">Temps : {Math.round((EXAM_DURATION - timeLeft) / 60)} min</span>
+                </div>
+                {(() => {
+                  const percent = Math.round((score / questions.length) * 100)
+                  return (
+                    <div className="mt-4">
+                      <div className="w-full max-w-xs mx-auto h-3 bg-white/15 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-blue-400' : 'bg-red-400'}`} style={{width: `${percent}%`}}></div>
+                      </div>
+                      <p className="text-sm font-bold mt-2 text-slate-300">
+                        {percent >= 80 ? 'Excellent ! Vous maîtrisez ce sujet !' : percent >= 60 ? 'Bien joué ! Continuez ainsi.' : percent >= 40 ? 'Correct, mais des lacunes à combler.' : 'Score insuffisant. Revoyez les fondamentaux.'}
+                      </p>
+                    </div>
+                  )
+                })()}
+              </div>
+
+              {/* Correction détaillée */}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
+                    <ClipboardCheck size={16} strokeWidth={2} />
+                  </div>
+                  <h2 className="text-lg font-black text-slate-900">Correction détaillée</h2>
+                </div>
+
+                <div className="space-y-4">
+                  {questions.map(q => {
+                    const userAnswers = (reponses[q.numero] || []).sort()
+                    const correctAnswers = (q.reponses_correctes || []).map(r => r.toLowerCase()).sort()
+                    const hasCorrection = correctAnswers.length > 0
+                    const isCorrect = hasCorrection && userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])
+
+                    return (
+                      <div key={q.numero} className={`bg-white border rounded-2xl shadow-sm overflow-hidden ${isCorrect ? 'border-emerald-200' : hasCorrection ? 'border-red-200' : 'border-slate-200'}`}>
+                        {/* Question header */}
+                        <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${isCorrect ? 'bg-emerald-50' : hasCorrection ? 'bg-red-50' : 'bg-slate-50'}`}>
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : hasCorrection ? 'bg-red-500 text-white' : 'bg-slate-200 text-slate-600'}`}>{q.numero}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-slate-800 leading-relaxed">{q.enonce}</p>
+                          </div>
+                          <div className="shrink-0 ml-2">
+                            {hasCorrection && (
+                              isCorrect ? (
+                                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full">
+                                  <CheckCircle2 size={14} strokeWidth={2.5} />
+                                  <span className="text-xs font-black">1/1</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-red-100 text-red-700 rounded-full">
+                                  <XCircle size={14} strokeWidth={2.5} />
+                                  <span className="text-xs font-black">0/1</span>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Propositions with correction */}
+                        <div className="px-4 sm:px-6 py-4 space-y-2">
+                          {(q.propositions || []).map(p => {
+                            const l = p.lettre.toLowerCase()
+                            const wasSelected = userAnswers.includes(l)
+                            const isGood = correctAnswers.includes(l)
+
+                            let bgClass = 'bg-white border-slate-100'
+                            if (hasCorrection) {
+                              if (isGood && wasSelected) bgClass = 'bg-emerald-50 border-emerald-200'
+                              else if (isGood && !wasSelected) bgClass = 'bg-emerald-50 border-emerald-300 border-dashed'
+                              else if (!isGood && wasSelected) bgClass = 'bg-red-50 border-red-200'
+                            } else if (wasSelected) {
+                              bgClass = 'bg-blue-50 border-blue-300'
+                            }
+
+                            return (
+                              <div key={p.lettre} className={`flex items-start gap-3 p-3 rounded-xl border ${bgClass}`}>
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGood ? 'bg-emerald-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                  {p.lettre.toUpperCase()}
+                                </span>
+                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGood ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
+                                  {p.texte}
+                                </span>
+                                <div className="shrink-0 mt-0.5">
+                                  {hasCorrection && isGood && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
+                                  {hasCorrection && isGood && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manquée</span>}
+                                  {hasCorrection && !isGood && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* Explication */}
+                        {q.explication && (
+                          <div className="px-4 sm:px-6 pb-4">
+                            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                              <p className="text-xs font-black text-slate-400 uppercase tracking-wider mb-1.5">Explication</p>
+                              <p className="text-sm text-slate-700 leading-relaxed">{q.explication}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-center gap-4 pb-4">
+                <button onClick={() => { setStep('info'); setReponses({}); setTimeLeft((annale.duree_minutes || 45) * 60) }} className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                  Refaire cette annale
+                </button>
+                <a href="/annales" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour aux annales</a>
+              </div>
+            </div>
+          )}
+
+        </main>
+      </div>
+    </div>
+  )
 }
