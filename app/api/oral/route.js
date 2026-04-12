@@ -28,12 +28,20 @@ function getClient() {
 
 const categoryMap = {
   parcours: 'Motivation et parcours',
+  motivation_parcours: 'Motivation et parcours',
   missions: 'Missions de l\'ATSEM',
+  missions_statut: 'Missions de l\'ATSEM',
   collectivites: 'Collectivités et droit public',
+  collectivites_droit: 'Collectivités et droit public',
   sante: 'Santé et sécurité',
+  sante_secours: 'Santé et sécurité',
   mise_en_situation: 'Mise en situation',
+  mises_en_situation: 'Mise en situation',
   hygiene: 'Hygiène et entretien',
+  hygiene_entretien: 'Hygiène et entretien',
   developpement: 'Développement de l\'enfant',
+  developpement_enfant: 'Développement de l\'enfant',
+  protection_enfance: 'Protection de l\'enfance',
   piege: 'Question piège'
 }
 
@@ -42,6 +50,26 @@ export async function POST(request) {
     const ip = request.headers.get('x-forwarded-for') || 'unknown'
     if (!checkRateLimit(ip)) return NextResponse.json({ error: 'Trop de requêtes. Réessayez dans quelques secondes.' }, { status: 429 })
 
+    // Vérifier si c'est une requête JSON (mode aléatoire) ou FormData (mode CV)
+    const contentType = request.headers.get('content-type') || ''
+
+    // === MODE QUESTIONS AU SORT (pas besoin de Claude) ===
+    if (contentType.includes('application/json')) {
+      const body = await request.json()
+      if (body.action === 'aleatoire') {
+        const n = body.nb_questions || 20
+        const selected = getRandomQuestions(n)
+        const questions = selected.map((q, i) => ({
+          id: i + 1,
+          question: q.question,
+          category: categoryMap[q.categorie] || q.categorie || 'Question',
+          reponse_attendue: q.reponse_attendue || ''
+        }))
+        return NextResponse.json({ questions, mode: 'aleatoire' })
+      }
+    }
+
+    // === MODE CV (avec Claude) ===
     if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json({ error: 'Clé API Claude manquante.' }, { status: 500 })
     }
