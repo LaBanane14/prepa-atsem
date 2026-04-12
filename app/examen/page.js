@@ -135,6 +135,9 @@ export default function ExamenPage() {
     genererSujets()
   }
 
+  // Ref pour stocker la correction en background
+  const correctionPromise = useRef(null)
+
   async function genererSujets() {
     setError('')
     setLoadingStep(0)
@@ -142,43 +145,17 @@ export default function ExamenPage() {
 
     try {
       const startTime = Date.now()
+
+      // Étape 1 : générer uniquement les questions (rapide)
       const res = await fetch('/api/maths', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generer' })
+        body: JSON.stringify({ action: 'generer_questions' })
       })
       const data = await res.json()
       if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la génération du QCM.'); setStep(null); setShowInfoPopup(true); return }
 
-      // Parse — handle both direct QCM format and exercices wrapper format
-      let parsedQuestions = []
-      let parsedCorrection = []
-
-      if (data.questions && Array.isArray(data.questions)) {
-        // Direct format from the prompt
-        parsedQuestions = data.questions
-        parsedCorrection = data.correction || []
-      } else if (data.sujet) {
-        const sujet = data.sujet
-        if (sujet.questions && Array.isArray(sujet.questions)) {
-          parsedQuestions = sujet.questions
-          parsedCorrection = sujet.correction || []
-        } else if (sujet.exercices && Array.isArray(sujet.exercices)) {
-          // Exercices wrapper — flatten questions from exercices
-          let numero = 1
-          sujet.exercices.forEach(ex => {
-            (ex.questions || []).forEach(q => {
-              parsedQuestions.push({
-                numero: numero,
-                theme: ex.categorie || 'missions_statut',
-                enonce: q.question || q.enonce || '',
-                propositions: q.propositions || []
-              })
-              numero++
-            })
-          })
-        }
-      }
+      let parsedQuestions = data.questions || []
 
       if (parsedQuestions.length === 0) {
         setError('Format de QCM inattendu. Veuillez réessayer.')
@@ -186,20 +163,34 @@ export default function ExamenPage() {
         return
       }
 
-      // Mélanger l'ordre des questions (et garder la correction alignée)
+      // Mélanger l'ordre des questions
       const indices = parsedQuestions.map((_, i) => i)
       for (let i = indices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [indices[i], indices[j]] = [indices[j], indices[i]]
       }
       const shuffledQuestions = indices.map((idx, newIdx) => ({ ...parsedQuestions[idx], numero: newIdx + 1 }))
-      const shuffledCorrection = indices.map((idx, newIdx) => ({ ...parsedCorrection[idx], numero: newIdx + 1 }))
+
+      // Étape 2 : lancer la génération de la correction en arrière-plan
+      correctionPromise.current = fetch('/api/maths', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'generer_correction', questions: shuffledQuestions })
+      }).then(r => r.json()).then(d => {
+        if (d.correction) {
+          // Renuméroter la correction pour correspondre aux questions mélangées
+          const mappedCorrection = shuffledQuestions.map((q, i) => {
+            const original = d.correction.find(c => c.numero === parsedQuestions[indices[i]].numero)
+            return original ? { ...original, numero: i + 1 } : { numero: i + 1, reponses_correctes: [], explication: '' }
+          })
+          setCorrection(mappedCorrection)
+        }
+      }).catch(e => console.error('Erreur correction background:', e))
 
       const elapsed = Date.now() - startTime
-      if (elapsed < 32000) await new Promise(r => setTimeout(r, 32000 - elapsed))
+      if (elapsed < 24000) await new Promise(r => setTimeout(r, 24000 - elapsed))
 
       setQuestions(shuffledQuestions)
-      setCorrection(shuffledCorrection)
       setReponses({})
       setTimeLeft(EXAM_DURATION)
       setStep('epreuve')
@@ -232,7 +223,12 @@ export default function ExamenPage() {
     setCorrectingStep(0)
     setStep('correcting')
 
-    // If we already have the correction from the generation, score locally
+    // Attendre la correction background si pas encore arrivée
+    if (correction.length === 0 && correctionPromise.current) {
+      await correctionPromise.current
+    }
+
+    // Score locally
     if (correction.length > 0) {
       const startTime = Date.now()
       let total = 0

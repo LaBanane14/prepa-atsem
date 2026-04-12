@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { BASE_SYSTEM, buildHistoryContext } from '@/lib/prompts/base-maths'
-import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM } from '@/lib/prompts/examen'
+import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM, PROMPT_QUESTIONS_ONLY, PROMPT_CORRECTION_ONLY } from '@/lib/prompts/examen'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 let _client = null
@@ -58,6 +58,40 @@ export async function POST(request) {
         duree_minutes: raw.duree_minutes || 45,
         nb_questions: raw.nb_questions || 20
       })
+    }
+
+    // === GÉNÉRER UNIQUEMENT LES QUESTIONS (rapide) ===
+    if (action === 'generer_questions') {
+      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_ATSEM
+      const text = await callClaude(systemInstruction, PROMPT_QUESTIONS_ONLY)
+      if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
+
+      let raw
+      try { raw = JSON.parse(text) } catch {
+        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+        raw = JSON.parse(cleaned)
+      }
+
+      return NextResponse.json({ questions: raw.questions || [] })
+    }
+
+    // === GÉNÉRER LA CORRECTION (en arrière-plan) ===
+    if (action === 'generer_correction') {
+      const { questions } = body
+      if (!questions) return NextResponse.json({ error: 'Questions requises.' }, { status: 400 })
+
+      const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_ATSEM
+      const prompt = PROMPT_CORRECTION_ONLY.replace('{QUESTIONS_JSON}', JSON.stringify(questions, null, 2))
+      const text = await callClaude(systemInstruction, prompt)
+      if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
+
+      let raw
+      try { raw = JSON.parse(text) } catch {
+        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+        raw = JSON.parse(cleaned)
+      }
+
+      return NextResponse.json({ correction: raw.correction || [] })
     }
 
     // === CORRIGER LES RÉPONSES ===
