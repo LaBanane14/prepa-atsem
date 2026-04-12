@@ -74,10 +74,10 @@ export default function ExamenPage() {
     })
   }, [])
 
-  // Loading animation — step 1 dure 8s, les suivants 3s, step 4 reste en loading
+  // Loading animation — 8s par étape, step 4 reste en loading
   useEffect(() => {
     if (step !== 'loading') return
-    const delays = [8000, 3000, 3000]
+    const delays = [8000, 8000, 8000]
     let currentStep = 0
     function advance() {
       if (currentStep < 3) {
@@ -182,15 +182,24 @@ export default function ExamenPage() {
 
       if (parsedQuestions.length === 0) {
         setError('Format de QCM inattendu. Veuillez réessayer.')
-        window.location.href = '/dashboard'
+        setStep(null); setShowInfoPopup(true)
         return
       }
 
-      const elapsed = Date.now() - startTime
-      if (elapsed < 20000) await new Promise(r => setTimeout(r, 20000 - elapsed))
+      // Mélanger l'ordre des questions (et garder la correction alignée)
+      const indices = parsedQuestions.map((_, i) => i)
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]]
+      }
+      const shuffledQuestions = indices.map((idx, newIdx) => ({ ...parsedQuestions[idx], numero: newIdx + 1 }))
+      const shuffledCorrection = indices.map((idx, newIdx) => ({ ...parsedCorrection[idx], numero: newIdx + 1 }))
 
-      setQuestions(parsedQuestions)
-      setCorrection(parsedCorrection)
+      const elapsed = Date.now() - startTime
+      if (elapsed < 32000) await new Promise(r => setTimeout(r, 32000 - elapsed))
+
+      setQuestions(shuffledQuestions)
+      setCorrection(shuffledCorrection)
       setReponses({})
       setTimeLeft(EXAM_DURATION)
       setStep('epreuve')
