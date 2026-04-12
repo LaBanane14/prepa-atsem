@@ -16,7 +16,7 @@ async function callClaude(system, userPrompt, retries = 2) {
     try {
       const stream = await client.messages.stream({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 16384,
+        max_tokens: 24000,
         system,
         messages: [
           { role: 'user', content: userPrompt },
