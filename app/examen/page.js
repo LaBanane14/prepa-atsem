@@ -40,7 +40,9 @@ export default function ExamenPage() {
 
   // QCM state
   const [questions, setQuestions] = useState([])
-  const [correction, setCorrection] = useState([])
+  const [correction, _setCorrection] = useState([])
+  const correctionRef = useRef([])
+  function setCorrection(val) { correctionRef.current = val; _setCorrection(val) }
   const [reponses, setReponses] = useState({}) // { [numero]: ['A', 'C'] }
   const [score, setScore] = useState(null)
 
@@ -210,46 +212,19 @@ export default function ExamenPage() {
     setError('')
     setCorrectingStep(0)
 
-    // Si la correction est déjà prête, pas besoin du loading
-    if (correction.length > 0) {
-      let total = 0
-      correction.forEach(c => {
-        const userAnswers = (reponses[c.numero] || []).sort()
-        const correctAnswers = (c.reponses_correctes || []).sort()
-        if (userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
-          total++
-        }
-      })
-      setScore(total)
-
-      // Sauvegarder dans l'historique
-      const timeUsed = Math.round((EXAM_DURATION - timeLeft) / 60)
-      try {
-        await supabase.from('historique').insert({
-          user_id: user.id,
-          type: 'Examen',
-          label: 'Examen blanc QCM ATSEM',
-          note: total,
-          note_max: 20,
-          nb_questions: questions.length,
-          duration_minutes: timeUsed || 1,
-        })
-      } catch (e) { console.error('Erreur sauvegarde historique:', e) }
-
-      setStep('resultat')
-      return
+    // Si la correction n'est pas encore prête, afficher le loading et attendre
+    if (correctionRef.current.length === 0) {
+      setStep('correcting')
+      if (correctionPromise.current) {
+        await correctionPromise.current
+      }
     }
 
-    // Correction pas encore prête — afficher le loading et attendre
-    setStep('correcting')
-    if (correctionPromise.current) {
-      await correctionPromise.current
-    }
-
-    // Réessayer après l'attente
-    if (correction.length > 0) {
+    // Scorer
+    const corr = correctionRef.current
+    if (corr.length > 0) {
       let total = 0
-      correction.forEach(c => {
+      corr.forEach(c => {
         const userAnswers = (reponses[c.numero] || []).sort()
         const correctAnswers = (c.reponses_correctes || []).sort()
         if (userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
