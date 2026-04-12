@@ -91,7 +91,30 @@ export async function POST(request) {
     // === GÉNÉRER UNIQUEMENT LES QUESTIONS (rapide) ===
     if (action === 'generer_questions') {
       const systemInstruction = BASE_SYSTEM + '\n\n' + SYSTEM_EXAMEN_ATSEM
-      const text = await callClaude(systemInstruction, PROMPT_QUESTIONS_ONLY)
+
+      // Seed aléatoire pour forcer la diversité
+      const contexts = [
+        "C'est le matin, les enfants arrivent à l'école.",
+        "C'est l'heure de la cantine, les enfants déjeunent.",
+        "C'est l'heure de la sieste en petite section.",
+        "Une sortie scolaire est prévue au parc.",
+        "C'est la récréation, les enfants jouent dans la cour.",
+        "Un parent vient chercher son enfant plus tôt que prévu.",
+        "L'inspecteur académique visite l'école aujourd'hui.",
+        "C'est la rentrée de septembre, nouveaux élèves en TPS.",
+        "Un exercice incendie est prévu cet après-midi.",
+        "La fête de l'école approche, les préparatifs commencent.",
+        "Un enfant allergique rejoint la classe en cours d'année.",
+        "Les vacances approchent, bilan de fin de période.",
+        "Un nouvel ATSEM rejoint l'équipe ce matin.",
+        "C'est le jour du conseil d'école.",
+        "L'infirmière scolaire est de passage aujourd'hui."
+      ]
+      const randomContext = contexts[Math.floor(Math.random() * contexts.length)]
+      const randomSeed = Math.floor(Math.random() * 100000)
+      const diversityPrompt = PROMPT_QUESTIONS_ONLY + `\n\nIMPORTANT : Contextualise certaines questions autour de cette situation : "${randomContext}". Seed de variabilité : #${randomSeed}. Génère des questions DIFFÉRENTES des sessions précédentes. Varie les formulations, les contextes et les pièges.`
+
+      const text = await callClaude(systemInstruction, diversityPrompt)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
       const raw = parseJSON(text)
