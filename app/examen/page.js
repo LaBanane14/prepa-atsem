@@ -532,7 +532,7 @@ export default function ExamenPage() {
                       return (
                         <div key={q.numero} id={`question-${q.numero}`} className="bg-slate-50 border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6">
                           <div className="flex items-start gap-3 mb-4">
-                            <span className="w-9 h-9 bg-yellow-500 text-slate-900 rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
+                            <span className="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
                               {q.theme && (
