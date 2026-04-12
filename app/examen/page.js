@@ -519,24 +519,6 @@ export default function ExamenPage() {
                   </div>
                 </div>
 
-                {/* Question navigation pills */}
-                <div className="bg-slate-50 border-b border-slate-200 px-3 sm:px-6 py-3 shrink-0">
-                  <div className="flex flex-wrap gap-1.5">
-                    {questions.map((q) => {
-                      const answered = (reponses[q.numero] || []).length > 0
-                      return (
-                        <button
-                          key={q.numero}
-                          onClick={() => document.getElementById(`question-${q.numero}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-                          className={`w-8 h-8 rounded-lg text-xs font-black transition cursor-pointer ${answered ? 'bg-yellow-500 text-slate-900 shadow-sm' : 'bg-white border border-slate-200 text-slate-500 hover:border-yellow-300 hover:text-yellow-600'}`}
-                        >
-                          {q.numero}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-
                 <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
