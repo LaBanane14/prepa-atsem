@@ -14,18 +14,19 @@ async function callClaude(system, userPrompt, retries = 2) {
   const client = getClient()
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const message = await client.messages.create({
+      const stream = await client.messages.stream({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 32000,
+        max_tokens: 16384,
         system,
         messages: [
           { role: 'user', content: userPrompt },
           { role: 'assistant', content: '{' }
         ]
       })
+      const message = await stream.finalMessage()
       if (message.stop_reason === 'max_tokens') {
         console.error('Claude truncated (max_tokens). Attempt:', attempt + 1)
-        if (attempt < retries) continue // retry
+        if (attempt < retries) continue
       }
       return '{' + message.content[0].text
     } catch (e) {
