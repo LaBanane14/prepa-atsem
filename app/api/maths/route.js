@@ -16,13 +16,17 @@ async function callClaude(system, userPrompt, retries = 2) {
     try {
       const message = await client.messages.create({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 16384,
+        max_tokens: 32000,
         system,
         messages: [
           { role: 'user', content: userPrompt },
           { role: 'assistant', content: '{' }
         ]
       })
+      if (message.stop_reason === 'max_tokens') {
+        console.error('Claude truncated (max_tokens). Attempt:', attempt + 1)
+        if (attempt < retries) continue // retry
+      }
       return '{' + message.content[0].text
     } catch (e) {
       if (attempt === retries) throw e
