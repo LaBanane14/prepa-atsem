@@ -242,7 +242,7 @@ export default function ExamenPage() {
           nb_questions: questions.length,
           duration_minutes: timeUsed || 1,
         })
-      } catch (e) { /* silent */ }
+      } catch (e) { console.error('Erreur sauvegarde historique:', e) }
 
       setStep('resultat')
       return
@@ -277,7 +277,7 @@ export default function ExamenPage() {
           nb_questions: questions.length,
           duration_minutes: timeUsed || 1,
         })
-      } catch (e) { /* silent */ }
+      } catch (e) { console.error('Erreur sauvegarde historique:', e) }
 
       setStep('resultat')
     } catch (err) {
