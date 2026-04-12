@@ -113,7 +113,7 @@ export default function AnnalesPage() {
               <p className="text-amber-600 text-sm font-semibold mt-4">Les annales seront bientôt disponibles.</p>
             )}
 
-            <a href="/dashboard" className="text-sm text-slate-400 hover:text-slate-600 transition mt-6 inline-block">Retour au tableau de bord</a>
+            <a href="/dashboard" className="text-sm bg-slate-900 hover:bg-black text-white font-bold px-6 py-3 rounded-xl transition mt-6 inline-block">Retour au tableau de bord</a>
           </div>
         </main>
       </div>
