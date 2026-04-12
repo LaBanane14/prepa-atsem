@@ -37,26 +37,40 @@ async function callClaude(system, userPrompt, retries = 2) {
 }
 
 function parseJSON(text) {
-  // Essai direct
-  try { return JSON.parse(text) } catch {}
-  // Nettoyer backticks
-  const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-  try { return JSON.parse(cleaned) } catch {}
-  // Extraire le premier objet/array JSON valide
-  const match = cleaned.match(/\{[\s\S]*\}|\[[\s\S]*\]/)
-  if (match) {
-    try { return JSON.parse(match[0]) } catch {}
+  function cleanAndParse(str) {
+    // Nettoyer les caractères problématiques
+    let s = str
+      .replace(/```json\n?/g, '').replace(/```\n?/g, '')
+      .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F]/g, ' ') // caractères de contrôle sauf \n \r
+      .trim()
+    return JSON.parse(s)
   }
-  // Tenter de réparer un JSON tronqué (fermer les crochets/accolades manquants)
-  let fixed = cleaned
+
+  // Essai direct
+  try { return cleanAndParse(text) } catch {}
+
+  // Extraire le JSON entre la première { et la dernière }
+  const firstBrace = text.indexOf('{')
+  const lastBrace = text.lastIndexOf('}')
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    const extracted = text.substring(firstBrace, lastBrace + 1)
+    try { return cleanAndParse(extracted) } catch {}
+  }
+
+  // Tenter de réparer un JSON tronqué
+  let fixed = text.substring(firstBrace !== -1 ? firstBrace : 0).replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+  // Supprimer une éventuelle virgule traînante avant ] ou }
+  fixed = fixed.replace(/,\s*([}\]])/g, '$1')
+  // Fermer les crochets/accolades manquants
   const opens = (fixed.match(/\{/g) || []).length
   const closes = (fixed.match(/\}/g) || []).length
   const openBrackets = (fixed.match(/\[/g) || []).length
   const closeBrackets = (fixed.match(/\]/g) || []).length
   for (let i = 0; i < openBrackets - closeBrackets; i++) fixed += ']'
   for (let i = 0; i < opens - closes; i++) fixed += '}'
-  try { return JSON.parse(fixed) } catch {}
-  console.error('JSON non parsable. Début:', text.substring(0, 500), '... Fin:', text.substring(text.length - 500))
+  try { return cleanAndParse(fixed) } catch {}
+
+  console.error('JSON non parsable. Length:', text.length, 'Début:', text.substring(0, 300), '... Fin:', text.substring(text.length - 300))
   throw new Error('Impossible de parser le JSON')
 }
 
