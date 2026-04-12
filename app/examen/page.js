@@ -7,11 +7,11 @@ const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" f
 
 const THEME_LABELS = {
   missions_statut: 'Missions & Statut',
-  hygiene_produits: 'Hygi\u00e8ne & Produits',
-  sante_secours: 'Sant\u00e9 & Secours',
-  maladies_evictions: 'Maladies & \u00c9victions',
+  hygiene_produits: 'Hygi\ène & Produits',
+  sante_secours: 'Sant\é & Secours',
+  maladies_evictions: 'Maladies & \Évictions',
   vie_scolaire: 'Vie scolaire',
-  developpement_enfant: 'D\u00e9veloppement enfant',
+  developpement_enfant: 'D\éveloppement enfant',
   protection_enfance: 'Protection enfance',
 }
 
@@ -140,7 +140,7 @@ export default function ExamenPage() {
         body: JSON.stringify({ action: 'generer' })
       })
       const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la g\u00e9n\u00e9ration du QCM.'); setStep(null); setShowInfoPopup(true); return }
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la g\én\ération du QCM.'); setStep(null); setShowInfoPopup(true); return }
 
       // Parse — handle both direct QCM format and exercices wrapper format
       let parsedQuestions = []
@@ -173,7 +173,7 @@ export default function ExamenPage() {
       }
 
       if (parsedQuestions.length === 0) {
-        setError('Format de QCM inattendu. Veuillez r\u00e9essayer.')
+        setError('Format de QCM inattendu. Veuillez r\éessayer.')
         window.location.href = '/dashboard'
         return
       }
@@ -209,7 +209,7 @@ export default function ExamenPage() {
     if (timerRef.current) clearInterval(timerRef.current)
     if (!autoSubmit) {
       const hasAnswers = Object.values(reponses).some(arr => arr.length > 0)
-      if (!hasAnswers) { setError('Veuillez r\u00e9pondre \u00e0 au moins une question avant de soumettre.'); return }
+      if (!hasAnswers) { setError('Veuillez r\épondre \à au moins une question avant de soumettre.'); return }
     }
     setError('')
     setCorrectingStep(0)
@@ -281,7 +281,7 @@ export default function ExamenPage() {
 
       setStep('resultat')
     } catch (err) {
-      setError('Erreur de connexion. R\u00e9essayez.')
+      setError('Erreur de connexion. R\éessayez.')
       setStep('epreuve')
     }
   }
@@ -310,7 +310,7 @@ export default function ExamenPage() {
 
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full"></div></div>
 
-  if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">{'\ud83d\ude22'}</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est termin\u00e9</h2><p className="text-slate-500 font-medium mb-6">Pour continuer \u00e0 vous entra\u00eener et acc\u00e9der \u00e0 tous les exercices, souscrivez \u00e0 un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
+  if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">😢</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2><p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{backgroundImage: 'radial-gradient(#eab308 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
@@ -368,7 +368,7 @@ export default function ExamenPage() {
       <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-          <span className="font-black text-lg text-slate-900">Pr\u00e9pa <span className="text-yellow-500">ATSEM</span></span>
+          <span className="font-black text-lg text-slate-900">Pr\épa <span className="text-yellow-500">ATSEM</span></span>
           <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
@@ -386,16 +386,16 @@ export default function ExamenPage() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                   <h2 className="text-lg font-black text-white pr-8">Examen blanc ATSEM</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions r\u00e9elles</p>
+                  <p className="text-slate-400 text-sm font-medium mt-1">Conditions r\éelles</p>
                 </div>
 
                 <div className="p-6">
                   <div className="space-y-4 mb-6">
                     {[
-                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'QCM de 20 questions (45 min)', text: 'Comme au vrai concours ATSEM : 20 questions \u00e0 choix multiples sur les situations concr\u00e8tes du m\u00e9tier.' },
-                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronom\u00e8tre de 45 minutes', text: 'Le compte \u00e0 rebours d\u00e9marre d\u00e8s le d\u00e9but. \u00c0 la fin du temps, vos r\u00e9ponses sont envoy\u00e9es automatiquement.' },
-                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'R\u00e9ponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes r\u00e9ponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
-                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Note sur 20 + correction', text: '1 point par question uniquement si toutes les bonnes r\u00e9ponses sont coch\u00e9es et aucune mauvaise. Correction d\u00e9taill\u00e9e avec explications.' }
+                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'QCM de 20 questions (45 min)', text: 'Comme au vrai concours ATSEM : 20 questions \à choix multiples sur les situations concr\ètes du m\étier.' },
+                      { icon: <Timer size={18} strokeWidth={2} />, title: 'Chronom\ètre de 45 minutes', text: 'Le compte \à rebours d\émarre d\ès le d\ébut. \À la fin du temps, vos r\éponses sont envoy\ées automatiquement.' },
+                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'R\éponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes r\éponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
+                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Note sur 20 + correction', text: '1 point par question uniquement si toutes les bonnes r\éponses sont coch\ées et aucune mauvaise. Correction d\étaill\ée avec explications.' }
                     ].map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-9 h-9 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
@@ -454,14 +454,14 @@ export default function ExamenPage() {
                     </ellipse>
                   </svg>
                 </div>
-                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Pr\u00e9paration de l'examen blanc...</h2>
-                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous g\u00e9n\u00e9rons votre QCM de 20 questions.</p>
+                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Pr\éparation de l'examen blanc...</h2>
+                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous g\én\érons votre QCM de 20 questions.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
                     { label: 'Analyse des sujets CDG' },
-                    { label: 'G\u00e9n\u00e9ration des 20 questions QCM' },
-                    { label: 'R\u00e9partition des 7 th\u00e9matiques' },
-                    { label: 'Mise en forme de l\'\u00e9preuve' }
+                    { label: 'G\én\ération des 20 questions QCM' },
+                    { label: 'R\épartition des 7 th\ématiques' },
+                    { label: 'Mise en forme de l\'\épreuve' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= loadingStep ? 'bg-yellow-50 border border-yellow-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
                       <span className={`font-bold text-sm flex-grow ${i <= loadingStep ? 'text-yellow-700' : 'text-slate-400'}`}>{ls.label}</span>
@@ -506,15 +506,15 @@ export default function ExamenPage() {
                         QCM 20 questions
                       </span>
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
-                        R\u00e9ponses multiples
+                        R\éponses multiples
                       </span>
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
-                        Sujet g\u00e9n\u00e9r\u00e9 par IA
+                        Sujet g\én\ér\é par IA
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-slate-400 font-bold">{answeredCount}/20 r\u00e9pondues</span>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur 20 — Dur\u00e9e : 45 min</p>
+                      <span className="text-xs text-slate-400 font-bold">{answeredCount}/20 r\épondues</span>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur 20 — Dur\ée : 45 min</p>
                     </div>
                   </div>
                 </div>
@@ -541,7 +541,7 @@ export default function ExamenPage() {
 
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                     <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <p className="text-sm text-amber-800 font-medium">Chaque question comporte <strong>une ou plusieurs r\u00e9ponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes r\u00e9ponses sont coch\u00e9es et aucune mauvaise.</p>
+                    <p className="text-sm text-amber-800 font-medium">Chaque question comporte <strong>une ou plusieurs r\éponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes r\éponses sont coch\ées et aucune mauvaise.</p>
                   </div>
 
                   <div className="space-y-6">
@@ -631,13 +631,13 @@ export default function ExamenPage() {
                   <div className="goo-drop goo-yang"></div>
                 </div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Correction en cours...</h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous comparons vos r\u00e9ponses avec les bonnes r\u00e9ponses.</p>
+                <p className="text-slate-500 font-medium text-sm text-center mb-8">Nous comparons vos r\éponses avec les bonnes r\éponses.</p>
                 <div className="w-full max-w-md space-y-3">
                   {[
-                    { label: 'Lecture de vos r\u00e9ponses' },
-                    { label: 'Comparaison avec les bonnes r\u00e9ponses' },
+                    { label: 'Lecture de vos r\éponses' },
+                    { label: 'Comparaison avec les bonnes r\éponses' },
                     { label: 'Calcul de votre score' },
-                    { label: 'G\u00e9n\u00e9ration de la correction d\u00e9taill\u00e9e' },
+                    { label: 'G\én\ération de la correction d\étaill\ée' },
                     { label: 'Sauvegarde dans l\'historique' }
                   ].map((ls, i) => (
                     <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= correctingStep ? 'bg-yellow-50 border border-yellow-300' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
@@ -676,7 +676,7 @@ export default function ExamenPage() {
                       <div className={`h-full rounded-full transition-all duration-1000 ${score >= 14 ? 'bg-emerald-400' : score >= 10 ? 'bg-yellow-400' : 'bg-red-400'}`} style={{width: `${(score / 20) * 100}%`}}></div>
                     </div>
                     <p className="text-sm font-bold mt-2 text-slate-300">
-                      {score >= 16 ? 'Excellent ! Vous \u00eates pr\u00eat(e) pour le concours !' : score >= 14 ? 'Tr\u00e8s bien ! Continuez ainsi.' : score >= 10 ? 'Correct, mais vous pouvez encore progresser.' : score >= 6 ? 'Des lacunes \u00e0 combler. Poursuivez vos r\u00e9visions.' : 'Score insuffisant. Revoyez les fondamentaux.'}
+                      {score >= 16 ? 'Excellent ! Vous \êtes pr\êt(e) pour le concours !' : score >= 14 ? 'Tr\ès bien ! Continuez ainsi.' : score >= 10 ? 'Correct, mais vous pouvez encore progresser.' : score >= 6 ? 'Des lacunes \à combler. Poursuivez vos r\évisions.' : 'Score insuffisant. Revoyez les fondamentaux.'}
                     </p>
                   </div>
                 )}
@@ -688,7 +688,7 @@ export default function ExamenPage() {
                   <div className="w-8 h-8 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
                     <ClipboardCheck size={16} strokeWidth={2} />
                   </div>
-                  <h2 className="text-lg font-black text-slate-900">Correction d\u00e9taill\u00e9e</h2>
+                  <h2 className="text-lg font-black text-slate-900">Correction d\étaill\ée</h2>
                 </div>
 
                 <div className="space-y-4">
@@ -746,7 +746,7 @@ export default function ExamenPage() {
                                 </span>
                                 <div className="shrink-0 mt-0.5">
                                   {isGoodAnswer && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
-                                  {isGoodAnswer && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manqu\u00e9e</span>}
+                                  {isGoodAnswer && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manqu\ée</span>}
                                   {!isGoodAnswer && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
                                 </div>
                               </div>
