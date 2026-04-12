@@ -614,11 +614,6 @@ export default function ExamenPage() {
                             <span className="w-9 h-9 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-sm shadow-sm shrink-0">{q.numero}</span>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{q.enonce}</p>
-                              {q.theme && (
-                                <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700 border border-yellow-200">
-                                  {THEME_LABELS[q.theme] || q.theme}
-                                </span>
-                              )}
                             </div>
                             <span className="text-xs font-bold text-slate-400 shrink-0 ml-2">1 pt</span>
                           </div>
