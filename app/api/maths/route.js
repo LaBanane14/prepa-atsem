@@ -14,11 +14,34 @@ async function callClaude(system, userPrompt) {
   const client = getClient()
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 8192,
+    max_tokens: 16384,
     system,
     messages: [{ role: 'user', content: userPrompt }]
   })
   return message.content[0].text
+}
+
+function parseJSON(text) {
+  // Essai direct
+  try { return JSON.parse(text) } catch {}
+  // Nettoyer backticks
+  const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+  try { return JSON.parse(cleaned) } catch {}
+  // Extraire le premier objet/array JSON valide
+  const match = cleaned.match(/\{[\s\S]*\}|\[[\s\S]*\]/)
+  if (match) {
+    try { return JSON.parse(match[0]) } catch {}
+  }
+  // Tenter de réparer un JSON tronqué (fermer les crochets/accolades manquants)
+  let fixed = cleaned
+  const opens = (fixed.match(/\{/g) || []).length
+  const closes = (fixed.match(/\}/g) || []).length
+  const openBrackets = (fixed.match(/\[/g) || []).length
+  const closeBrackets = (fixed.match(/\]/g) || []).length
+  for (let i = 0; i < openBrackets - closeBrackets; i++) fixed += ']'
+  for (let i = 0; i < opens - closes; i++) fixed += '}'
+  try { return JSON.parse(fixed) } catch {}
+  throw new Error('Impossible de parser le JSON')
 }
 
 export async function POST(request) {
@@ -42,13 +65,7 @@ export async function POST(request) {
       const text = await callClaude(systemInstruction, PROMPT_EXAMEN_ATSEM)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
-      let raw
-      try {
-        raw = JSON.parse(text)
-      } catch {
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-        raw = JSON.parse(cleaned)
-      }
+      const raw = parseJSON(text)
 
       // Renvoyer directement le QCM ATSEM (questions + correction)
       return NextResponse.json({
@@ -66,12 +83,7 @@ export async function POST(request) {
       const text = await callClaude(systemInstruction, PROMPT_QUESTIONS_ONLY)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
-      let raw
-      try { raw = JSON.parse(text) } catch {
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-        raw = JSON.parse(cleaned)
-      }
-
+      const raw = parseJSON(text)
       return NextResponse.json({ questions: raw.questions || [] })
     }
 
@@ -85,12 +97,7 @@ export async function POST(request) {
       const text = await callClaude(systemInstruction, prompt)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
-      let raw
-      try { raw = JSON.parse(text) } catch {
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-        raw = JSON.parse(cleaned)
-      }
-
+      const raw = parseJSON(text)
       return NextResponse.json({ correction: raw.correction || [] })
     }
 
