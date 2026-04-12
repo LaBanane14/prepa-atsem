@@ -1,8 +1,24 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { BASE_ORAL, FORMAT_SORTIE_ORAL } from '@/lib/prompts/base-oral'
 import { SYSTEM_ORAL, PROMPT_ORAL } from '@/lib/prompts/simulation-oral'
+
+// Charger la banque de 300 questions
+let questionsBank = []
+try {
+  const raw = JSON.parse(readFileSync(join(process.cwd(), 'data', 'questions-oral-atsem.json'), 'utf8'))
+  questionsBank = raw.questions || []
+} catch (e) {
+  console.error('Impossible de charger la banque de questions oral:', e.message)
+}
+
+function getRandomQuestions(n = 40) {
+  const shuffled = [...questionsBank].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, n)
+}
 
 let _client = null
 function getClient() {
@@ -40,8 +56,15 @@ export async function POST(request) {
     const pdfBuffer = Buffer.from(await pdfFile.arrayBuffer())
     const pdfBase64 = pdfBuffer.toString('base64')
 
+    // Piocher 40 questions aléatoires de la banque pour inspirer Claude
+    const sampleQuestions = getRandomQuestions(40)
+    const questionsContext = sampleQuestions.length > 0
+      ? '\n\n## EXEMPLES DE QUESTIONS RÉELLES (inspire-toi de ces questions pour varier tes formulations) :\n' +
+        sampleQuestions.map(q => `- [${q.categorie}] ${q.question}\n  → ${q.reponse_attendue}`).join('\n')
+      : ''
+
     // Assembler les prompts
-    const systemInstruction = BASE_ORAL + '\n\n' + SYSTEM_ORAL
+    const systemInstruction = BASE_ORAL + '\n\n' + SYSTEM_ORAL + questionsContext
     const userPrompt = PROMPT_ORAL + '\n\n' + FORMAT_SORTIE_ORAL
 
     // Appel Claude avec le PDF en base64 (streaming pour éviter timeout)

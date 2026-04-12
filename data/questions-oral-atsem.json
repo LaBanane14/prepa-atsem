@@ -1,0 +1,2124 @@
+{
+  "titre": "300 Questions Oral Concours ATSEM",
+  "description": "Banque de 300 questions couvrant les 8 catégories de l'oral du concours externe, interne et 3e voie ATSEM",
+  "total_questions": 301,
+  "categories": {
+    "motivation_parcours": "Motivation et parcours personnel",
+    "missions_statut": "Missions et statut de l'ATSEM",
+    "collectivites_droit": "Collectivités territoriales et droit public",
+    "sante_secours": "Santé de l'enfant et premiers secours",
+    "mises_en_situation": "Mises en situation professionnelle",
+    "hygiene_entretien": "Hygiène et entretien des locaux",
+    "developpement_enfant": "Développement et bien-être de l'enfant",
+    "protection_enfance": "Protection de l'enfance"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi voulez-vous devenir ATSEM ?",
+      "reponse_attendue": "Évoquer l'amour du travail avec les enfants, le cadre éducatif, la stabilité de la fonction publique, l'envie de contribuer à l'éveil et l'épanouissement des tout-petits."
+    },
+    {
+      "id": 2,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi ATSEM et pas animateur périscolaire ?",
+      "reponse_attendue": "L'ATSEM travaille au cœur de l'école maternelle, en lien direct avec l'enseignant(e) et le projet pédagogique. L'animateur intervient sur le temps périscolaire avec une mission d'animation, pas d'assistance éducative."
+    },
+    {
+      "id": 3,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi ATSEM et pas auxiliaire de puériculture ?",
+      "reponse_attendue": "L'auxiliaire de puériculture travaille en crèche ou milieu hospitalier avec des enfants de 0 à 3 ans. L'ATSEM intervient en école maternelle (3-6 ans) dans un cadre éducatif scolaire."
+    },
+    {
+      "id": 4,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi ATSEM et pas éducateur de jeunes enfants ?",
+      "reponse_attendue": "L'EJE conçoit et coordonne les projets éducatifs (cadre A/B). L'ATSEM assiste l'enseignant(e) au quotidien et assure l'hygiène et l'entretien (cadre C). Ce sont des missions complémentaires mais différentes."
+    },
+    {
+      "id": 5,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi la fonction publique territoriale ?",
+      "reponse_attendue": "La stabilité de l'emploi, le service public au bénéfice des citoyens, le travail de proximité avec les enfants et les familles, les possibilités d'évolution de carrière."
+    },
+    {
+      "id": 6,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Qu'est-ce qui vous attire dans le travail avec les jeunes enfants ?",
+      "reponse_attendue": "Leur curiosité, leur spontanéité, le fait de contribuer à leurs premiers apprentissages, les accompagner dans leur développement et leur autonomie."
+    },
+    {
+      "id": 7,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Présentez votre parcours professionnel.",
+      "reponse_attendue": "Structurer chronologiquement : formation initiale, expériences marquantes, compétences acquises, lien avec le métier d'ATSEM, motivation pour le concours."
+    },
+    {
+      "id": 8,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Quelle est votre formation ?",
+      "reponse_attendue": "Mentionner le CAP AEPE ou équivalent, les stages effectués, les formations complémentaires (premiers secours, HACCP…)."
+    },
+    {
+      "id": 9,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous déjà travaillé avec des enfants ? Dans quel contexte ?",
+      "reponse_attendue": "Détailler les expériences : stages en école maternelle, crèche, centre de loisirs, baby-sitting, bénévolat associatif…"
+    },
+    {
+      "id": 10,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Qu'avez-vous retenu de vos expériences passées ?",
+      "reponse_attendue": "Évoquer des apprentissages concrets : gestion de groupe, patience, communication avec les parents, travail en équipe, gestion des situations d'urgence."
+    },
+    {
+      "id": 11,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Quelles sont vos qualités pour ce métier ?",
+      "reponse_attendue": "Patience, bienveillance, sens de l'écoute, rigueur dans l'hygiène, discrétion professionnelle, capacité d'adaptation, travail en équipe."
+    },
+    {
+      "id": 12,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Quels sont vos défauts ?",
+      "reponse_attendue": "Présenter un vrai défaut en montrant comment on le gère. Ex : perfectionnisme → apprendre à prioriser ; timidité → prise de parole progressive en formation."
+    },
+    {
+      "id": 13,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Quelles qualités humaines sont essentielles pour un ATSEM ?",
+      "reponse_attendue": "Patience, bienveillance, discrétion, sens de l'observation, adaptabilité, empathie, rigueur, réactivité, sens du relationnel."
+    },
+    {
+      "id": 14,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Comment gérez-vous le stress ?",
+      "reponse_attendue": "Respiration, prise de recul, priorisation des tâches, communication avec les collègues, séparation vie professionnelle/vie personnelle."
+    },
+    {
+      "id": 15,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Que savez-vous du métier d'ATSEM au quotidien ?",
+      "reponse_attendue": "Accueil des enfants, assistance à l'enseignant(e) pendant les ateliers, accompagnement à la cantine et à la sieste, entretien des locaux et du matériel, surveillance périscolaire."
+    },
+    {
+      "id": 16,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Comment vous préparez-vous à ce concours ?",
+      "reponse_attendue": "Révision des annales et QCM, lecture d'ouvrages spécialisés, stages d'observation, entraînement à l'oral avec des proches, suivi de l'actualité éducative."
+    },
+    {
+      "id": 17,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Que ferez-vous si vous n'obtenez pas le concours cette année ?",
+      "reponse_attendue": "Montrer sa détermination : continuer à se former, repasser le concours, acquérir de l'expérience en tant que contractuelle ou remplaçante."
+    },
+    {
+      "id": 18,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous déjà travaillé en école maternelle ?",
+      "reponse_attendue": "Décrire précisément les missions réalisées, les classes, les publics, les enseignants avec qui on a collaboré."
+    },
+    {
+      "id": 19,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Connaissez-vous la commune/collectivité qui organise ce concours ?",
+      "reponse_attendue": "Montrer qu'on s'est renseigné : nombre d'écoles maternelles, projets éducatifs locaux, politique enfance de la ville."
+    },
+    {
+      "id": 20,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Où vous voyez-vous dans 5 ans ?",
+      "reponse_attendue": "En poste d'ATSEM titulaire, ayant développé des compétences spécifiques (handicap, allergies…), éventuellement évolution vers animateur territorial ou responsable périscolaire."
+    },
+    {
+      "id": 21,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Êtes-vous capable de travailler en équipe ?",
+      "reponse_attendue": "Donner un exemple concret de travail d'équipe. L'ATSEM travaille avec l'enseignant(e), les autres ATSEM, le directeur, les parents, les intervenants extérieurs."
+    },
+    {
+      "id": 22,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Comment réagissez-vous face à une critique de votre travail ?",
+      "reponse_attendue": "Écouter, ne pas se braquer, chercher à comprendre, s'améliorer. La remise en question fait partie du professionnalisme."
+    },
+    {
+      "id": 23,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Qu'est-ce que le CAP AEPE vous a apporté ?",
+      "reponse_attendue": "Connaissances sur le développement de l'enfant, les techniques de soin, l'hygiène, la réglementation, les premiers secours, les stages pratiques."
+    },
+    {
+      "id": 24,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Pourquoi ne pas travailler dans le privé (crèche privée, école privée) ?",
+      "reponse_attendue": "La fonction publique territoriale offre un cadre stable, une mission de service public, et un travail spécifiquement lié à l'école maternelle et à l'accompagnement éducatif."
+    },
+    {
+      "id": 25,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Comment décririez-vous votre relationnel avec les adultes ?",
+      "reponse_attendue": "Capacité d'écoute, respect de la hiérarchie, discrétion, communication claire, capacité à travailler avec des personnalités différentes."
+    },
+    {
+      "id": 26,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous une expérience en restauration collective ?",
+      "reponse_attendue": "Si oui : décrire les normes HACCP appliquées, le service aux enfants, la gestion des allergies. Si non : montrer qu'on connaît les principes."
+    },
+    {
+      "id": 27,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Le métier d'ATSEM implique aussi le ménage. Cela vous pose-t-il problème ?",
+      "reponse_attendue": "L'entretien des locaux est une mission essentielle pour la santé et la sécurité des enfants. C'est un acte professionnel à part entière, pas une corvée."
+    },
+    {
+      "id": 28,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous une formation aux premiers secours ?",
+      "reponse_attendue": "Mentionner le PSC1 ou SST si obtenu. Sinon, montrer qu'on connaît les gestes de base et qu'on souhaite se former."
+    },
+    {
+      "id": 29,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Que pensez-vous de la scolarisation dès 3 ans ?",
+      "reponse_attendue": "Depuis la loi du 26 juillet 2019 (loi Blanquer), l'instruction est obligatoire dès 3 ans. C'est un droit de l'enfant et un enjeu d'égalité des chances."
+    },
+    {
+      "id": 30,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Êtes-vous ponctuel(le) et assidu(e) ?",
+      "reponse_attendue": "La ponctualité est essentielle : les enfants et les enseignants comptent sur la présence de l'ATSEM dès l'ouverture de l'école. L'absentéisme désorganise toute l'école."
+    },
+    {
+      "id": 31,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous déjà travaillé avec des enfants en situation de handicap ?",
+      "reponse_attendue": "Si oui : décrire l'accompagnement, les adaptations mises en place. Si non : montrer qu'on est ouvert et prêt à se former."
+    },
+    {
+      "id": 32,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Qu'attendez-vous de votre futur employeur ?",
+      "reponse_attendue": "Un cadre de travail respectueux, des moyens pour bien exercer ses missions, de la formation continue, de la reconnaissance du métier."
+    },
+    {
+      "id": 33,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Comment gérez-vous la fatigue physique du métier ?",
+      "reponse_attendue": "Bonne hygiène de vie, techniques de manutention, organisation du travail, signalement si la charge est excessive."
+    },
+    {
+      "id": 34,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous déjà encadré un groupe d'enfants seul(e) ?",
+      "reponse_attendue": "Attention piège : l'ATSEM ne peut pas encadrer seul un groupe sur le temps scolaire. Sur le périscolaire, oui, sous l'autorité du maire."
+    },
+    {
+      "id": 35,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Seriez-vous prêt(e) à changer d'école en cours d'année si nécessaire ?",
+      "reponse_attendue": "Oui, la mobilité fait partie des contraintes du métier. L'ATSEM est affecté(e) par la commune, pas par l'école."
+    },
+    {
+      "id": 36,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Comment faites-vous preuve de discrétion dans votre travail ?",
+      "reponse_attendue": "Ne pas parler des enfants ou des familles en dehors du cadre professionnel, respecter le secret professionnel, ne pas donner d'informations aux parents sur la pédagogie."
+    },
+    {
+      "id": 37,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Avez-vous des questions à nous poser ?",
+      "reponse_attendue": "Préparer 1-2 questions montrant son intérêt : organisation des ATSEM dans la commune, projets éducatifs en cours, formation continue proposée."
+    },
+    {
+      "id": 38,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "parcours",
+      "question": "Avez-vous déjà participé à un conseil d'école ?",
+      "reponse_attendue": "Si oui : décrire son rôle consultatif. Si non : montrer qu'on connaît la composition et le fonctionnement du conseil d'école."
+    },
+    {
+      "id": 39,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "qualites",
+      "question": "Savez-vous prendre des initiatives ?",
+      "reponse_attendue": "Oui, dans le cadre de ses missions et sous la responsabilité de l'enseignant(e). Par exemple : anticiper la préparation d'un atelier, signaler un danger, proposer une amélioration."
+    },
+    {
+      "id": 40,
+      "categorie": "motivation_parcours",
+      "sous_categorie": "motivation",
+      "question": "Accepteriez-vous de travailler sur le temps périscolaire en plus du temps scolaire ?",
+      "reponse_attendue": "Oui, cela fait souvent partie des missions. Sur le périscolaire, l'ATSEM est sous l'autorité du maire et peut encadrer des activités."
+    },
+    {
+      "id": 41,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qu'est-ce qu'un ATSEM ?",
+      "reponse_attendue": "Agent Territorial Spécialisé des Écoles Maternelles. Fonctionnaire territorial de catégorie C, filière médico-sociale."
+    },
+    {
+      "id": 42,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "De quelle fonction publique relève l'ATSEM ?",
+      "reponse_attendue": "La Fonction Publique Territoriale (FPT), pas l'Éducation nationale ni la FP hospitalière."
+    },
+    {
+      "id": 43,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quelle est la catégorie de l'ATSEM ?",
+      "reponse_attendue": "Catégorie C de la filière médico-sociale."
+    },
+    {
+      "id": 44,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qui recrute l'ATSEM ?",
+      "reponse_attendue": "La commune (le maire), après inscription sur la liste d'aptitude suite à la réussite du concours."
+    },
+    {
+      "id": 45,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qui est le supérieur hiérarchique de l'ATSEM ?",
+      "reponse_attendue": "Le maire (ou son représentant : DRH, directeur éducation…). Sur le temps scolaire, l'ATSEM est sous l'autorité fonctionnelle du directeur d'école."
+    },
+    {
+      "id": 46,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quelle est la différence entre autorité hiérarchique et autorité fonctionnelle ?",
+      "reponse_attendue": "Hiérarchique (maire) : gère la carrière, la paie, les congés, les sanctions. Fonctionnelle (directeur d'école) : organise le travail au quotidien sur le temps scolaire."
+    },
+    {
+      "id": 47,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qui décide de l'affectation de l'ATSEM dans une école ?",
+      "reponse_attendue": "Le maire. L'ATSEM n'est pas affecté(e) à un(e) enseignant(e) 'à vie'."
+    },
+    {
+      "id": 48,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'ATSEM fait-il partie de la communauté éducative ?",
+      "reponse_attendue": "Oui, depuis le décret de 2018. Les ATSEM appartiennent à la communauté éducative et peuvent participer à la mise en œuvre des activités pédagogiques."
+    },
+    {
+      "id": 49,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Quelles sont les 3 grandes missions de l'ATSEM ?",
+      "reponse_attendue": "1) Assistance au personnel enseignant pour l'accueil et l'hygiène des enfants. 2) Préparation et mise en état de propreté des locaux et du matériel. 3) Participation à la communauté éducative."
+    },
+    {
+      "id": 50,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il prendre en charge la classe seul(e) ?",
+      "reponse_attendue": "Non, jamais. L'ATSEM ne peut pas se substituer à l'enseignant(e). Si l'enseignant(e) est absent(e), l'ATSEM ne doit pas garder la classe."
+    },
+    {
+      "id": 51,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il animer un atelier ?",
+      "reponse_attendue": "Oui, sous la responsabilité et l'orientation de l'enseignant(e), et en sa présence dans l'école."
+    },
+    {
+      "id": 52,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il surveiller la récréation seul(e) ?",
+      "reponse_attendue": "Non. La surveillance de la récréation est une responsabilité de l'enseignant(e). L'ATSEM peut y participer mais pas la prendre en charge seul(e)."
+    },
+    {
+      "id": 53,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Quel est le rôle de l'ATSEM pendant la sieste ?",
+      "reponse_attendue": "Surveiller le sommeil des enfants, respecter leur rythme, ne pas les réveiller, signaler tout problème à l'enseignant(e), assurer le confort (doudou, température)."
+    },
+    {
+      "id": 54,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Quel est le rôle de l'ATSEM à la cantine ?",
+      "reponse_attendue": "Accompagner les enfants au repas, veiller au respect des régimes alimentaires (PAI), aider les plus petits, encourager la diversité alimentaire sans forcer."
+    },
+    {
+      "id": 55,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Que fait l'ATSEM pendant l'accueil du matin ?",
+      "reponse_attendue": "Accueillir les enfants et les parents, rassurer l'enfant qui pleure (angoisse de séparation), aider au déshabillage, ranger les affaires dans les casiers."
+    },
+    {
+      "id": 56,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il administrer un médicament à un enfant ?",
+      "reponse_attendue": "Seulement dans le cadre d'un PAI (Projet d'Accueil Individualisé), avec une ordonnance médicale, et si l'ATSEM est désigné(e) dans le protocole."
+    },
+    {
+      "id": 57,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il accompagner une sortie scolaire ?",
+      "reponse_attendue": "Oui, dans le cadre de l'encadrement prévu. L'ATSEM accompagne sous la responsabilité de l'enseignant(e) mais ne peut pas être seul responsable d'un groupe."
+    },
+    {
+      "id": 58,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qu'est-ce que l'obligation de réserve ?",
+      "reponse_attendue": "L'ATSEM doit faire preuve de retenue dans l'expression de ses opinions, y compris en dehors du temps de travail. Il ne doit pas critiquer publiquement son employeur."
+    },
+    {
+      "id": 59,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Qu'est-ce que la discrétion professionnelle ?",
+      "reponse_attendue": "L'ATSEM ne doit pas divulguer d'informations sur les enfants, les familles, ou le fonctionnement interne de l'école à des personnes extérieures."
+    },
+    {
+      "id": 60,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'obligation de réserve s'applique-t-elle en dehors du travail ?",
+      "reponse_attendue": "Oui. L'obligation de réserve et de discrétion professionnelle s'applique 24h/24, y compris sur les réseaux sociaux."
+    },
+    {
+      "id": 61,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Que fait l'ATSEM après la classe ?",
+      "reponse_attendue": "Nettoyage et remise en état des locaux, du matériel pédagogique, des sanitaires, des tables. Rangement et préparation pour le lendemain."
+    },
+    {
+      "id": 62,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il refuser une tâche demandée par l'enseignant(e) ?",
+      "reponse_attendue": "L'ATSEM doit exécuter les consignes de l'enseignant(e) sur le temps scolaire. En cas de désaccord, il en réfère à sa hiérarchie (maire/DRH), pas directement à l'enseignant(e)."
+    },
+    {
+      "id": 63,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Sous quelle autorité est l'ATSEM pendant le temps périscolaire ?",
+      "reponse_attendue": "Sous l'autorité du maire (pas du directeur d'école). Le périscolaire inclut la garderie du matin/soir, la cantine, les NAP."
+    },
+    {
+      "id": 64,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'ATSEM a-t-il un entretien annuel d'évaluation ?",
+      "reponse_attendue": "Oui, obligatoire, réalisé par le supérieur hiérarchique direct (pas l'enseignant(e)). Il porte sur les compétences, les résultats, et les objectifs."
+    },
+    {
+      "id": 65,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quel est le décret qui régit le statut des ATSEM ?",
+      "reponse_attendue": "Le décret n°92-850 du 28 août 1992 portant statut particulier du cadre d'emplois des ATSEM."
+    },
+    {
+      "id": 66,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Combien d'ATSEM minimum par école maternelle ?",
+      "reponse_attendue": "La commune doit mettre au moins un ATSEM à disposition de chaque école maternelle. En pratique, c'est souvent un ATSEM par classe."
+    },
+    {
+      "id": 67,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM prépare-t-il le matériel pédagogique ?",
+      "reponse_attendue": "Oui, sous les indications de l'enseignant(e) : préparer la peinture, découper, installer les ateliers, ranger après usage."
+    },
+    {
+      "id": 68,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il décider du contenu d'un atelier ?",
+      "reponse_attendue": "Non. Le contenu pédagogique relève de l'enseignant(e). L'ATSEM prépare, accompagne et range, mais ne décide pas des activités."
+    },
+    {
+      "id": 69,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Quel est le rôle de l'ATSEM dans l'acquisition de l'autonomie ?",
+      "reponse_attendue": "Aider l'enfant à devenir autonome : l'encourager à s'habiller seul, à manger seul, à aller aux toilettes, sans faire à sa place."
+    },
+    {
+      "id": 70,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il aider un enfant aux toilettes ?",
+      "reponse_attendue": "Oui, c'est une mission d'hygiène fondamentale. L'ATSEM accompagne les enfants aux sanitaires, les aide si nécessaire, et veille à la propreté."
+    },
+    {
+      "id": 71,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'ATSEM peut-il voter au conseil d'école ?",
+      "reponse_attendue": "Non. L'ATSEM peut être invité(e) au conseil d'école mais n'a qu'une voix consultative, pas délibérative (pas de droit de vote)."
+    },
+    {
+      "id": 72,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Comment l'ATSEM doit-il gérer un conflit avec l'enseignant(e) ?",
+      "reponse_attendue": "Ne pas régler le conflit devant les enfants ou les parents. En parler avec le directeur d'école ou avec sa hiérarchie (maire/DRH)."
+    },
+    {
+      "id": 73,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'ATSEM peut-il être sanctionné par le directeur d'école ?",
+      "reponse_attendue": "Non. Seule l'autorité hiérarchique (le maire) peut prononcer des sanctions disciplinaires. Le directeur peut signaler un problème au maire."
+    },
+    {
+      "id": 74,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Que fait l'ATSEM si un parent lui pose une question sur la pédagogie ?",
+      "reponse_attendue": "Il oriente le parent vers l'enseignant(e). L'ATSEM ne doit pas renseigner les parents sur le travail scolaire, les apprentissages, ou le comportement en classe."
+    },
+    {
+      "id": 75,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il renseigner un parent sur le comportement de son enfant à la cantine ?",
+      "reponse_attendue": "Oui, pour ce qui concerne la cantine (temps périscolaire), avec discrétion. Mais pas sur le temps scolaire (domaine de l'enseignant(e))."
+    },
+    {
+      "id": 76,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM doit-il participer aux réunions de rentrée ?",
+      "reponse_attendue": "Ce n'est pas obligatoire mais c'est recommandé et apprécié. L'ATSEM peut être présenté(e) aux parents et expliquer son rôle."
+    },
+    {
+      "id": 77,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quels sont les droits de l'ATSEM en tant que fonctionnaire ?",
+      "reponse_attendue": "Droit à la rémunération, à la formation continue, au droit syndical, au droit de grève, à la protection fonctionnelle, au congé maladie, à l'avancement."
+    },
+    {
+      "id": 78,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quelles sont les obligations de l'ATSEM ?",
+      "reponse_attendue": "Obéissance hiérarchique, neutralité, laïcité, discrétion professionnelle, obligation de réserve, assiduité, obligation de signalement."
+    },
+    {
+      "id": 79,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il accompagner un enfant malade à l'hôpital ?",
+      "reponse_attendue": "Ce n'est pas sa mission première. En cas d'urgence, il faut appeler le 15 (SAMU). L'ATSEM peut accompagner si l'enseignant(e) ou le directeur le demande."
+    },
+    {
+      "id": 80,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Que signifie le devoir de neutralité pour un ATSEM ?",
+      "reponse_attendue": "Ne pas manifester ses opinions politiques, religieuses ou philosophiques dans le cadre de ses fonctions. Respecter le principe de laïcité."
+    },
+    {
+      "id": 81,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM a-t-il un rôle éducatif ?",
+      "reponse_attendue": "Oui, l'ATSEM contribue à l'éducation à l'hygiène, à l'autonomie, au vivre-ensemble, aux règles de vie. C'est un rôle éducatif complémentaire à celui de l'enseignant(e)."
+    },
+    {
+      "id": 82,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il punir un enfant ?",
+      "reponse_attendue": "L'ATSEM ne punit pas au sens disciplinaire. Il peut rappeler les règles de vie, recadrer un comportement, mais les décisions éducatives relèvent de l'enseignant(e)."
+    },
+    {
+      "id": 83,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Comment l'ATSEM gère-t-il la rentrée des petites sections ?",
+      "reponse_attendue": "Patience et bienveillance. Rassurer les enfants qui pleurent, proposer le doudou, faire découvrir les espaces, créer un climat de confiance. Accueillir aussi les parents inquiets."
+    },
+    {
+      "id": 84,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM participe-t-il à la préparation des fêtes d'école ?",
+      "reponse_attendue": "Oui, souvent activement : préparation des costumes, décoration, organisation logistique, accompagnement des enfants lors du spectacle."
+    },
+    {
+      "id": 85,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "L'ATSEM peut-il refuser de faire le ménage ?",
+      "reponse_attendue": "Non. L'entretien des locaux et du matériel fait partie des missions statutaires de l'ATSEM. C'est inscrit dans le décret."
+    },
+    {
+      "id": 86,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Quel est le rôle de l'ATSEM pendant une sortie à la piscine ?",
+      "reponse_attendue": "Accompagner les enfants, aider au déshabillage/rhabillage, veiller à la sécurité dans les vestiaires. L'ATSEM n'est pas maître-nageur et ne surveille pas le bassin."
+    },
+    {
+      "id": 87,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il communiquer avec les parents sur les réseaux sociaux ?",
+      "reponse_attendue": "Non. La discrétion professionnelle interdit de partager des informations sur l'école, les enfants ou les familles sur les réseaux sociaux."
+    },
+    {
+      "id": 88,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "Comment l'ATSEM s'adapte-t-il à un changement d'enseignant(e) ?",
+      "reponse_attendue": "Avec flexibilité et professionnalisme. Chaque enseignant(e) a ses habitudes. L'ATSEM doit s'adapter, proposer son aide, et respecter les nouvelles consignes."
+    },
+    {
+      "id": 89,
+      "categorie": "missions_statut",
+      "sous_categorie": "missions",
+      "question": "L'ATSEM peut-il refuser de changer d'école ?",
+      "reponse_attendue": "Non. L'affectation est décidée par le maire. L'ATSEM peut formuler des vœux mais n'a pas de droit acquis à rester dans une école."
+    },
+    {
+      "id": 90,
+      "categorie": "missions_statut",
+      "sous_categorie": "statut",
+      "question": "Quelle est la durée du stage avant titularisation ?",
+      "reponse_attendue": "1 an de stage après inscription sur la liste d'aptitude et recrutement par une commune."
+    },
+    {
+      "id": 91,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "collectivites",
+      "question": "Quelles sont les 3 grandes collectivités territoriales ?",
+      "reponse_attendue": "La commune, le département et la région. À ces trois niveaux s'ajoutent les EPCI (intercommunalités) et les collectivités à statut particulier."
+    },
+    {
+      "id": 92,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "commune",
+      "question": "Qui élit le maire ?",
+      "reponse_attendue": "Le maire est élu par les conseillers municipaux, eux-mêmes élus au suffrage universel direct pour 6 ans."
+    },
+    {
+      "id": 93,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "commune",
+      "question": "Quelles sont les compétences de la commune en matière scolaire ?",
+      "reponse_attendue": "Construction, entretien et équipement des écoles primaires (maternelles et élémentaires). Gestion du personnel territorial (dont les ATSEM). Restauration scolaire."
+    },
+    {
+      "id": 94,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "departement",
+      "question": "Quelles sont les compétences du département ?",
+      "reponse_attendue": "Action sociale (PMI, ASE, RSA), collèges, routes départementales, transports scolaires (hors agglomération)."
+    },
+    {
+      "id": 95,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "region",
+      "question": "Quelles sont les compétences de la région ?",
+      "reponse_attendue": "Lycées, formation professionnelle, transports régionaux (TER), développement économique, aménagement du territoire."
+    },
+    {
+      "id": 96,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "commune",
+      "question": "Qui est responsable des écoles primaires ?",
+      "reponse_attendue": "La commune pour les bâtiments, l'équipement et le personnel territorial. L'État (Éducation nationale) pour les programmes et les enseignants."
+    },
+    {
+      "id": 97,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "commune",
+      "question": "Qu'est-ce qu'un EPCI ?",
+      "reponse_attendue": "Établissement Public de Coopération Intercommunale. Regroupement de communes pour exercer des compétences en commun (communauté de communes, d'agglomération, métropole)."
+    },
+    {
+      "id": 98,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que le conseil d'école ?",
+      "reponse_attendue": "Instance de concertation qui réunit le directeur d'école (président), les enseignants, les représentants élus des parents, le maire ou son représentant, et le DDEN."
+    },
+    {
+      "id": 99,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qui préside le conseil d'école ?",
+      "reponse_attendue": "Le directeur d'école (pas le maire)."
+    },
+    {
+      "id": 100,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Combien de fois par an se réunit le conseil d'école ?",
+      "reponse_attendue": "Au moins une fois par trimestre, et obligatoirement dans les 15 jours suivant l'élection des représentants des parents d'élèves."
+    },
+    {
+      "id": 101,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Que décide le conseil d'école ?",
+      "reponse_attendue": "Il adopte le projet d'école, le règlement intérieur, et donne son avis sur le fonctionnement de l'école, les activités périscolaires, la restauration, les actions éducatives."
+    },
+    {
+      "id": 102,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que le projet d'école ?",
+      "reponse_attendue": "Document de référence définissant les objectifs pédagogiques et éducatifs de l'école, adopté pour une durée de 3 à 5 ans par le conseil d'école."
+    },
+    {
+      "id": 103,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qui est le DDEN ?",
+      "reponse_attendue": "Le Délégué Départemental de l'Éducation Nationale. Bénévole nommé par le DASEN, il veille aux bonnes conditions de vie des enfants et au respect des textes."
+    },
+    {
+      "id": 104,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que la laïcité à l'école ?",
+      "reponse_attendue": "Neutralité religieuse des personnels, interdiction des signes religieux ostensibles pour les élèves (loi de 2004), respect de toutes les convictions."
+    },
+    {
+      "id": 105,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que le principe de neutralité ?",
+      "reponse_attendue": "Les agents publics ne doivent pas manifester leurs opinions politiques, religieuses ou philosophiques dans le cadre de leurs fonctions."
+    },
+    {
+      "id": 106,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que le PPMS ?",
+      "reponse_attendue": "Plan Particulier de Mise en Sûreté. Protocole prévu pour faire face aux risques majeurs (inondation, tempête, accident industriel) et aux intrusions."
+    },
+    {
+      "id": 107,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce qu'un exercice PPMS intrusion ?",
+      "reponse_attendue": "Simulation d'une intrusion malveillante dans l'école. Les enfants et le personnel doivent se confiner dans les classes, fermer portes et fenêtres, rester silencieux."
+    },
+    {
+      "id": 108,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Quel est le rôle du directeur d'école ?",
+      "reponse_attendue": "Coordonner l'équipe pédagogique, présider le conseil d'école, assurer la sécurité, organiser l'accueil des élèves, gérer l'administration de l'école. Il n'est pas le supérieur hiérarchique des ATSEM."
+    },
+    {
+      "id": 109,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que le DASEN ?",
+      "reponse_attendue": "Directeur Académique des Services de l'Éducation Nationale. Représentant du ministère dans le département, il gère les affectations des enseignants et l'organisation scolaire."
+    },
+    {
+      "id": 110,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que la PMI ?",
+      "reponse_attendue": "Protection Maternelle et Infantile. Service du département qui assure le suivi médical des enfants de 0 à 6 ans et des femmes enceintes."
+    },
+    {
+      "id": 111,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Quelle est la durée maximale de la récréation par demi-journée ?",
+      "reponse_attendue": "30 minutes par demi-journée (pas par journée)."
+    },
+    {
+      "id": 112,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "L'instruction est-elle obligatoire dès 3 ans ?",
+      "reponse_attendue": "Oui, depuis la loi du 26 juillet 2019 (loi pour une école de la confiance, dite 'loi Blanquer'). Auparavant, c'était 6 ans."
+    },
+    {
+      "id": 113,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce qu'un fonctionnaire territorial ?",
+      "reponse_attendue": "Agent titulaire employé par une collectivité territoriale (commune, département, région) ou un EPCI, recruté par concours et titularisé après un stage."
+    },
+    {
+      "id": 114,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Quelle différence entre un titulaire et un contractuel ?",
+      "reponse_attendue": "Le titulaire a réussi un concours et est nommé de façon permanente. Le contractuel est recruté par contrat (CDD ou CDI) sans concours."
+    },
+    {
+      "id": 115,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que la CAP ?",
+      "reponse_attendue": "Commission Administrative Paritaire. Instance consultative composée de représentants de l'administration et du personnel, qui donne un avis sur les décisions individuelles (avancement, sanctions…)."
+    },
+    {
+      "id": 116,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "commune",
+      "question": "Qu'est-ce que le DGS ?",
+      "reponse_attendue": "Directeur Général des Services. Plus haut fonctionnaire d'une commune, il coordonne l'ensemble des services municipaux sous l'autorité du maire."
+    },
+    {
+      "id": 117,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Quels sont les droits syndicaux des ATSEM ?",
+      "reponse_attendue": "Droit d'adhérer à un syndicat, droit de grève (avec préavis), droit à des autorisations d'absence pour activité syndicale."
+    },
+    {
+      "id": 118,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qui finance la restauration scolaire ?",
+      "reponse_attendue": "La commune. Le tarif peut être fixé par le conseil municipal, souvent avec un barème selon le quotient familial."
+    },
+    {
+      "id": 119,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce qu'un arrêté de nomination ?",
+      "reponse_attendue": "Acte administratif pris par le maire qui officialise le recrutement de l'ATSEM dans la commune."
+    },
+    {
+      "id": 120,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Que signifie 'droit de retrait' ?",
+      "reponse_attendue": "Droit d'un agent de se retirer d'une situation de travail présentant un danger grave et imminent pour sa vie ou sa santé. Il doit en informer immédiatement son employeur."
+    },
+    {
+      "id": 121,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que le PEdT ?",
+      "reponse_attendue": "Projet Éducatif Territorial. Document qui formalise l'engagement de la commune à organiser des activités périscolaires en cohérence avec le projet d'école."
+    },
+    {
+      "id": 122,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "collectivites",
+      "question": "Qui finance les écoles privées sous contrat ?",
+      "reponse_attendue": "La commune de résidence des élèves participe au financement des écoles privées sous contrat, dans les mêmes conditions que les écoles publiques (loi Debré de 1959)."
+    },
+    {
+      "id": 123,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que le CNFPT ?",
+      "reponse_attendue": "Centre National de la Fonction Publique Territoriale. Il assure la formation des agents territoriaux (formation d'intégration, formation continue, préparation aux concours)."
+    },
+    {
+      "id": 124,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que la liste d'aptitude ?",
+      "reponse_attendue": "Liste sur laquelle est inscrit le lauréat du concours. Valable 2 ans (renouvelable 2 fois sur demande). L'inscription permet de postuler dans n'importe quelle commune."
+    },
+    {
+      "id": 125,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Le candidat inscrit sur la liste d'aptitude est-il automatiquement recruté ?",
+      "reponse_attendue": "Non. L'inscription donne le droit de postuler mais pas la garantie d'un poste. Il faut être recruté par une commune."
+    },
+    {
+      "id": 126,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que le règlement intérieur de l'école ?",
+      "reponse_attendue": "Document adopté par le conseil d'école qui fixe les règles de fonctionnement : horaires, discipline, sécurité, conditions d'accueil."
+    },
+    {
+      "id": 127,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que le document unique d'évaluation des risques (DUER) ?",
+      "reponse_attendue": "Document obligatoire dans toute collectivité qui recense les risques professionnels auxquels sont exposés les agents et les mesures de prévention."
+    },
+    {
+      "id": 128,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "collectivites",
+      "question": "Quelle est la durée du mandat municipal ?",
+      "reponse_attendue": "6 ans, renouvelable."
+    },
+    {
+      "id": 129,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "droit",
+      "question": "Qu'est-ce que le CDG ?",
+      "reponse_attendue": "Centre de Gestion de la Fonction Publique Territoriale. Organisme départemental qui gère les concours, les carrières, et conseille les collectivités."
+    },
+    {
+      "id": 130,
+      "categorie": "collectivites_droit",
+      "sous_categorie": "ecole",
+      "question": "Qu'est-ce que l'APC ?",
+      "reponse_attendue": "Activités Pédagogiques Complémentaires. Temps d'accompagnement organisé par les enseignants en petits groupes, hors temps scolaire obligatoire."
+    },
+    {
+      "id": 131,
+      "categorie": "sante_secours",
+      "sous_categorie": "fievre",
+      "question": "À partir de quelle température un enfant a-t-il de la fièvre ?",
+      "reponse_attendue": "38°C. À partir de 38,5°C, on parle de fièvre modérée. Au-delà de 39°C, il faut prévenir rapidement les parents et surveiller."
+    },
+    {
+      "id": 132,
+      "categorie": "sante_secours",
+      "sous_categorie": "fievre",
+      "question": "Un enfant a de la fièvre. Que faites-vous ?",
+      "reponse_attendue": "1) Le déshabiller légèrement. 2) L'hydrater. 3) Prévenir l'enseignant(e). 4) Appeler les parents. NE PAS donner de médicament (sauf PAI). NE PAS le couvrir."
+    },
+    {
+      "id": 133,
+      "categorie": "sante_secours",
+      "sous_categorie": "fievre",
+      "question": "Pouvez-vous donner du paracétamol à un enfant fiévreux ?",
+      "reponse_attendue": "Non, sauf dans le cadre d'un PAI avec prescription médicale. L'ATSEM ne peut pas administrer de médicament de sa propre initiative."
+    },
+    {
+      "id": 134,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Quels sont les numéros d'urgence à connaître ?",
+      "reponse_attendue": "15 (SAMU), 18 (pompiers), 112 (numéro européen), 119 (enfance en danger). Le 115 est le SAMU social."
+    },
+    {
+      "id": 135,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant s'étouffe. Que faites-vous ?",
+      "reponse_attendue": "Si obstruction totale : claques dans le dos puis méthode de Heimlich adaptée à l'enfant. Appeler le 15. Prévenir l'enseignant(e). Ne pas mettre les doigts dans la bouche."
+    },
+    {
+      "id": 136,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Qu'est-ce que la méthode de Heimlich ?",
+      "reponse_attendue": "Compression abdominale pour expulser un corps étranger des voies respiratoires. Elle s'applique en cas d'obstruction TOTALE (pas partielle). Chez le nourrisson, on utilise les claques dorsales."
+    },
+    {
+      "id": 137,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Un enfant s'écorche le genou. Comment le soigner ?",
+      "reponse_attendue": "Mettre des gants à usage unique, nettoyer à l'eau et au savon de Marseille, sécher, mettre un pansement. NE PAS utiliser d'alcool, de Bétadine, ou d'éosine colorée."
+    },
+    {
+      "id": 138,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Qu'est-ce qu'une épistaxis et comment la gérer ?",
+      "reponse_attendue": "Saignement de nez. Pencher la tête de l'enfant EN AVANT (pas en arrière), comprimer la narine qui saigne, rassurer l'enfant, prévenir l'enseignant(e)."
+    },
+    {
+      "id": 139,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Que contient la pharmacie de l'école ?",
+      "reponse_attendue": "Compresses stériles, sparadrap, gants jetables, ciseaux, pince à échardes, savon de Marseille, éosine non colorée, couverture isothermique, thermomètre frontal, pansements."
+    },
+    {
+      "id": 140,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Que ne doit-on PAS trouver dans la pharmacie de l'école ?",
+      "reponse_attendue": "Médicaments (sauf PAI), Bétadine, Biafine, Advil, Doliprane, alcool à 90°, Mercurochrome, pommade anti-inflammatoire, Arnica, crème anti-coups, coton hydrophile."
+    },
+    {
+      "id": 141,
+      "categorie": "sante_secours",
+      "sous_categorie": "pai",
+      "question": "Qu'est-ce qu'un PAI ?",
+      "reponse_attendue": "Projet d'Accueil Individualisé. Document qui organise l'accueil d'un enfant ayant une maladie chronique (allergie, diabète, asthme) avec un protocole de soins et un régime alimentaire adapté."
+    },
+    {
+      "id": 142,
+      "categorie": "sante_secours",
+      "sous_categorie": "pai",
+      "question": "Qui rédige le PAI ?",
+      "reponse_attendue": "Le médecin scolaire ou le médecin traitant, en concertation avec la famille, le directeur d'école et l'équipe éducative."
+    },
+    {
+      "id": 143,
+      "categorie": "sante_secours",
+      "sous_categorie": "pai",
+      "question": "Quelle est la différence entre PAI et PPS ?",
+      "reponse_attendue": "Le PAI concerne les maladies chroniques (allergie, diabète, asthme). Le PPS (Projet Personnalisé de Scolarisation) concerne le handicap et implique la MDPH et un AESH."
+    },
+    {
+      "id": 144,
+      "categorie": "sante_secours",
+      "sous_categorie": "pai",
+      "question": "Un enfant a un PAI pour allergie aux arachides. Que faites-vous à la cantine ?",
+      "reponse_attendue": "Vérifier systématiquement les menus et les ingrédients, s'assurer qu'il dispose de son panier-repas si prévu, veiller à ce qu'il ne goûte pas les plats des autres enfants."
+    },
+    {
+      "id": 145,
+      "categorie": "sante_secours",
+      "sous_categorie": "allergie",
+      "question": "Quels sont les fruits à coque ?",
+      "reponse_attendue": "Noix, noisettes, amandes, noix de cajou, noix de pécan, pistaches, noix de macadamia, noix du Brésil."
+    },
+    {
+      "id": 146,
+      "categorie": "sante_secours",
+      "sous_categorie": "allergie",
+      "question": "Un enfant est allergique au gluten. Quels aliments éviter ?",
+      "reponse_attendue": "Pain, pâtes, crêpes, gâteaux, céréales, biscuits, panure. Le riz, le maïs, les pommes de terre et le sarrasin sont sans gluten."
+    },
+    {
+      "id": 147,
+      "categorie": "sante_secours",
+      "sous_categorie": "allergie",
+      "question": "Que faire en cas de réaction allergique grave (choc anaphylactique) ?",
+      "reponse_attendue": "Appeler le 15 immédiatement. Si le PAI prévoit un stylo auto-injecteur d'adrénaline, l'utiliser selon le protocole. Allonger l'enfant, le rassurer, ne rien lui donner à boire."
+    },
+    {
+      "id": 148,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que les TIAC ?",
+      "reponse_attendue": "Toxi-Infections Alimentaires Collectives. Survenue d'au moins 2 cas groupés de symptômes digestifs après un repas commun. Déclaration obligatoire."
+    },
+    {
+      "id": 149,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que le HACCP ?",
+      "reponse_attendue": "Méthode de gestion des risques en sécurité alimentaire utilisée en restauration collective. Elle vise à prévenir les contaminations à chaque étape (réception, stockage, préparation, service)."
+    },
+    {
+      "id": 150,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Quelles maladies nécessitent une éviction scolaire ?",
+      "reponse_attendue": "Coqueluche, rougeole, scarlatine (dans certains cas). La gastro-entérite, la grippe, la rhinopharyngite, l'otite NE nécessitent PAS d'éviction obligatoire."
+    },
+    {
+      "id": 151,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Quelles sont les maladies infantiles éruptives ?",
+      "reponse_attendue": "Varicelle, rougeole, rubéole, scarlatine, roséole, syndrome pieds-mains-bouche. Elles provoquent des éruptions cutanées."
+    },
+    {
+      "id": 152,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "La grippe nécessite-t-elle une éviction scolaire ?",
+      "reponse_attendue": "Non. Il n'y a pas d'éviction réglementaire pour la grippe, mais un enfant malade doit être gardé à la maison par ses parents."
+    },
+    {
+      "id": 153,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que la pédiculose ?",
+      "reponse_attendue": "Infestation par les poux. Pas d'éviction scolaire, mais information aux parents. L'ATSEM peut signaler la présence de poux à l'enseignant(e)."
+    },
+    {
+      "id": 154,
+      "categorie": "sante_secours",
+      "sous_categorie": "hygiene",
+      "question": "Le lavage des mains permet-il de prévenir des maladies ?",
+      "reponse_attendue": "Oui, c'est le geste de prévention le plus efficace. Il prévient les gastro-entérites, l'oxyurose, les infections respiratoires, et de nombreuses maladies transmissibles."
+    },
+    {
+      "id": 155,
+      "categorie": "sante_secours",
+      "sous_categorie": "hygiene",
+      "question": "Quand un enfant doit-il se laver les mains ?",
+      "reponse_attendue": "Avant et après les repas, après les toilettes, après s'être mouché, après avoir joué dehors, après avoir touché un animal."
+    },
+    {
+      "id": 156,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant est inconscient mais respire. Que faites-vous ?",
+      "reponse_attendue": "Le mettre en position latérale de sécurité (PLS), appeler le 15, surveiller sa respiration, couvrir avec une couverture isothermique, prévenir l'enseignant(e) et les parents."
+    },
+    {
+      "id": 157,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant fait une crise d'épilepsie. Que faites-vous ?",
+      "reponse_attendue": "Ne pas le contenir, éloigner les objets dangereux, protéger sa tête, noter la durée de la crise, appeler le 15 si la crise dure plus de 5 minutes ou si c'est la première."
+    },
+    {
+      "id": 158,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant a ingéré un produit d'entretien. Que faites-vous ?",
+      "reponse_attendue": "NE PAS le faire vomir. Appeler immédiatement le centre antipoison (ou le 15). Garder l'emballage du produit. Prévenir l'enseignant(e) et les parents."
+    },
+    {
+      "id": 159,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant tombe et semble s'être cassé un membre. Que faites-vous ?",
+      "reponse_attendue": "Ne pas déplacer le membre blessé, immobiliser si possible, rassurer l'enfant, appeler le 15, prévenir les parents et l'enseignant(e)."
+    },
+    {
+      "id": 160,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "L'alarme incendie se déclenche pendant la sieste. Que faites-vous ?",
+      "reponse_attendue": "Réveiller calmement les enfants, ne pas les habiller, évacuer rapidement vers le point de rassemblement, compter les enfants, ne pas revenir chercher les affaires."
+    },
+    {
+      "id": 161,
+      "categorie": "sante_secours",
+      "sous_categorie": "vaccin",
+      "question": "Y a-t-il des vaccins obligatoires pour les enfants ?",
+      "reponse_attendue": "Oui, depuis 2018, 11 vaccins sont obligatoires pour les enfants nés après le 1er janvier 2018 (diphtérie, tétanos, polio, coqueluche, Hib, hépatite B, pneumocoque, méningocoque C, ROR)."
+    },
+    {
+      "id": 162,
+      "categorie": "sante_secours",
+      "sous_categorie": "sommeil",
+      "question": "Quels sont les cycles de sommeil chez l'enfant de 3 à 6 ans ?",
+      "reponse_attendue": "Endormissement, sommeil léger, sommeil profond, sommeil paradoxal (rêves), puis éveil calme. Un cycle dure environ 60-90 minutes."
+    },
+    {
+      "id": 163,
+      "categorie": "sante_secours",
+      "sous_categorie": "sommeil",
+      "question": "Doit-on réveiller un enfant qui dort longtemps à la sieste ?",
+      "reponse_attendue": "Non, il faut respecter le rythme de l'enfant. Un enfant qui dort en a besoin. Le réveiller brutalement peut le désorienter et le rendre irritable."
+    },
+    {
+      "id": 164,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant a une brûlure. Que faites-vous ?",
+      "reponse_attendue": "Passer la brûlure sous l'eau fraîche (15-20°C) pendant au moins 15 minutes. Ne pas appliquer de crème. Appeler le 15 si la brûlure est étendue ou profonde."
+    },
+    {
+      "id": 165,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Qu'est-ce que la PLS ?",
+      "reponse_attendue": "Position Latérale de Sécurité. On place une personne inconsciente mais qui respire sur le côté pour éviter que sa langue ou ses vomissements n'obstruent les voies respiratoires."
+    },
+    {
+      "id": 166,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Peut-on utiliser du gel hydroalcoolique sur une plaie ?",
+      "reponse_attendue": "Non. Le gel hydroalcoolique est un antiseptique pour les mains, pas un produit de soin des plaies. Il brûle les tissus lésés."
+    },
+    {
+      "id": 167,
+      "categorie": "sante_secours",
+      "sous_categorie": "plaie",
+      "question": "Peut-on utiliser de l'alcool à 70° sur une plaie d'enfant ?",
+      "reponse_attendue": "Non. L'alcool est interdit dans la pharmacie de l'école. On utilise uniquement de l'eau et du savon de Marseille."
+    },
+    {
+      "id": 168,
+      "categorie": "sante_secours",
+      "sous_categorie": "fievre",
+      "question": "Comment prendre la température d'un enfant à l'école ?",
+      "reponse_attendue": "Avec un thermomètre frontal (sans contact). Les thermomètres rectaux et auriculaires ne sont pas adaptés au cadre scolaire."
+    },
+    {
+      "id": 169,
+      "categorie": "sante_secours",
+      "sous_categorie": "pai",
+      "question": "Un parent vous remet un médicament sans ordonnance pour son enfant. Que faites-vous ?",
+      "reponse_attendue": "Refuser de l'accepter. Sans PAI et sans ordonnance, l'ATSEM ne peut administrer aucun médicament. Orienter le parent vers le directeur d'école et le médecin scolaire."
+    },
+    {
+      "id": 170,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant a été piqué par une guêpe et son visage gonfle. Que faites-vous ?",
+      "reponse_attendue": "C'est potentiellement un choc anaphylactique. Appeler le 15 immédiatement. Vérifier s'il existe un PAI avec protocole et stylo d'adrénaline. Ne pas attendre."
+    },
+    {
+      "id": 171,
+      "categorie": "sante_secours",
+      "sous_categorie": "hygiene",
+      "question": "Comment prévenir les poux à l'école ?",
+      "reponse_attendue": "Informer les parents, vérifier régulièrement les cheveux, apprendre aux enfants à ne pas échanger bonnets/écharpes, prévenir en cas de découverte."
+    },
+    {
+      "id": 172,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Un enfant a ingéré de la peinture pendant un atelier. Que faites-vous ?",
+      "reponse_attendue": "Informer l'enseignant(e), appeler le centre antipoison avec la référence du produit, ne pas faire vomir, faire rincer la bouche à l'eau, prévenir les parents."
+    },
+    {
+      "id": 173,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que la dyspraxie ?",
+      "reponse_attendue": "Trouble de la coordination et de la planification des gestes. L'enfant a des difficultés à réaliser des gestes précis (écriture, habillage, découpage). Il peut bénéficier d'un PAP."
+    },
+    {
+      "id": 174,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que l'encoprésie ?",
+      "reponse_attendue": "Incapacité à retenir ses selles, involontaire et répétée, chez un enfant de plus de 4 ans. Ce n'est pas de la malpropreté, c'est un trouble qui nécessite un accompagnement médical et bienveillant."
+    },
+    {
+      "id": 175,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que l'énurésie ?",
+      "reponse_attendue": "Pipi au lit ou émission involontaire d'urine, fréquente chez les jeunes enfants. À l'école, l'ATSEM doit changer l'enfant avec discrétion et bienveillance, sans le gronder."
+    },
+    {
+      "id": 176,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce que le TSA ?",
+      "reponse_attendue": "Trouble du Spectre Autistique. L'enfant peut avoir des difficultés de communication, d'interaction sociale, et des comportements répétitifs. Il relève d'un PPS (pas d'un PAI)."
+    },
+    {
+      "id": 177,
+      "categorie": "sante_secours",
+      "sous_categorie": "maladie",
+      "question": "Qu'est-ce qu'un PAP ?",
+      "reponse_attendue": "Plan d'Accompagnement Personnalisé. Pour les élèves ayant des troubles des apprentissages (dyslexie, dyspraxie, dyscalculie…). Il est interne à l'école, sans intervention de la MDPH."
+    },
+    {
+      "id": 178,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Que faire si un enfant convulse ?",
+      "reponse_attendue": "Ne pas le maintenir, éloigner les objets dangereux, noter l'heure et la durée, appeler le 15. Après la crise, mettre en PLS. Ne rien mettre dans sa bouche."
+    },
+    {
+      "id": 179,
+      "categorie": "sante_secours",
+      "sous_categorie": "hygiene",
+      "question": "Comment gérer la gastro-entérite à l'école ?",
+      "reponse_attendue": "Renforcer le nettoyage des sanitaires, veiller au lavage des mains, aérer les locaux, prévenir les parents de l'enfant malade et les inviter à le garder à la maison."
+    },
+    {
+      "id": 180,
+      "categorie": "sante_secours",
+      "sous_categorie": "urgence",
+      "question": "Que faire si un enfant saigne abondamment d'une plaie ?",
+      "reponse_attendue": "Mettre des gants, comprimer la plaie avec un tissu propre, maintenir la pression, appeler le 15, allonger l'enfant, le rassurer, couvrir avec une couverture isothermique."
+    },
+    {
+      "id": 181,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant vous frappe. Que faites-vous ?",
+      "reponse_attendue": "Ne pas frapper en retour, se mettre à sa hauteur, lui expliquer calmement que c'est interdit, l'isoler un instant pour qu'il se calme, en parler à l'enseignant(e)."
+    },
+    {
+      "id": 182,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant refuse de manger à la cantine. Quelle est votre attitude ?",
+      "reponse_attendue": "L'encourager à goûter sans le forcer, lui proposer de petites quantités, ne pas le punir, signaler le refus répété à l'enseignant(e) et aux parents."
+    },
+    {
+      "id": 183,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant pleure chaque matin à l'arrivée. Comment réagissez-vous ?",
+      "reponse_attendue": "Le rassurer avec bienveillance, lui proposer son doudou, l'aider à trouver une activité, ne pas dramatiser. Si ça persiste, en parler à l'enseignant(e) et aux parents."
+    },
+    {
+      "id": 184,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant fait pipi dans sa culotte. Que faites-vous ?",
+      "reponse_attendue": "Le changer avec douceur et discrétion, sans le gronder. L'aider à se nettoyer, le rassurer. C'est normal à cet âge, surtout en petite section."
+    },
+    {
+      "id": 185,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant vous demande un câlin. Que faites-vous ?",
+      "reponse_attendue": "On peut le rassurer par une main sur l'épaule, un sourire, des mots réconfortants. Les câlins prolongés ne sont pas recommandés dans le cadre professionnel."
+    },
+    {
+      "id": 186,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant refuse de dormir à la sieste. Que faites-vous ?",
+      "reponse_attendue": "Respecter son rythme, lui proposer de se reposer calmement (regarder un livre), ne pas le forcer à dormir, veiller à ce qu'il ne dérange pas les autres."
+    },
+    {
+      "id": 187,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant mord un autre enfant. Que faites-vous ?",
+      "reponse_attendue": "Séparer les enfants, soigner le mordu, rappeler au mordeur que c'est interdit en posant des mots sur ses émotions, signaler l'incident à l'enseignant(e)."
+    },
+    {
+      "id": 188,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant vous dit qu'il a mal au ventre depuis ce matin. Que faites-vous ?",
+      "reponse_attendue": "Observer son état général, prévenir l'enseignant(e), contacter les parents si nécessaire. Ne pas donner de médicament. Lui proposer de se reposer."
+    },
+    {
+      "id": 189,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent vient chercher son enfant en état d'ébriété. Comment réagissez-vous ?",
+      "reponse_attendue": "Ne pas confier l'enfant si sa sécurité est en danger. Prévenir le directeur d'école. Proposer d'appeler un autre parent ou une personne autorisée. En dernier recours, prévenir les services sociaux ou la police."
+    },
+    {
+      "id": 190,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un adulte inconnu vient chercher un enfant. Que faites-vous ?",
+      "reponse_attendue": "Vérifier s'il figure sur la liste des personnes autorisées. Demander une pièce d'identité. S'il n'est pas sur la liste, appeler les parents pour confirmation. Ne jamais laisser partir l'enfant dans le doute."
+    },
+    {
+      "id": 191,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent vous demande si son enfant progresse bien en classe. Que répondez-vous ?",
+      "reponse_attendue": "Orienter le parent vers l'enseignant(e). L'ATSEM ne renseigne pas sur les apprentissages ni la pédagogie. Rester poli et discret."
+    },
+    {
+      "id": 192,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent critique l'enseignant(e) devant vous. Que faites-vous ?",
+      "reponse_attendue": "Rester neutre, ne pas prendre parti, ne pas alimenter la critique. Inviter le parent à prendre rendez-vous avec l'enseignant(e) ou le directeur d'école."
+    },
+    {
+      "id": 193,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent vous confie que le père de son enfant a une interdiction de le chercher. Que faites-vous ?",
+      "reponse_attendue": "En informer l'enseignant(e) et le directeur. Demander un justificatif (décision de justice). Ne pas prendre de décision seul(e)."
+    },
+    {
+      "id": 194,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enseignant",
+      "question": "L'enseignant(e) s'absente une heure. Que faites-vous ?",
+      "reponse_attendue": "L'ATSEM ne peut PAS prendre en charge la classe. Prévenir le directeur d'école qui doit organiser le remplacement ou la répartition des élèves dans les autres classes."
+    },
+    {
+      "id": 195,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enseignant",
+      "question": "Vous êtes en désaccord avec l'enseignant(e) sur la gestion d'un enfant. Que faites-vous ?",
+      "reponse_attendue": "Appliquer les consignes de l'enseignant(e) devant les enfants. En discuter ensuite en tête-à-tête, de façon constructive. Si le désaccord persiste, en référer à la hiérarchie."
+    },
+    {
+      "id": 196,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enseignant",
+      "question": "L'enseignant(e) vous demande de faire une tâche qui ne relève pas de vos missions. Que faites-vous ?",
+      "reponse_attendue": "En discuter calmement avec l'enseignant(e). Si la demande persiste, en référer au directeur d'école ou à votre hiérarchie (maire/DRH)."
+    },
+    {
+      "id": 197,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Vous constatez des hématomes sur un enfant. Que faites-vous ?",
+      "reponse_attendue": "Signaler immédiatement à l'enseignant(e) ou au directeur d'école. NE PAS interroger l'enfant ni les parents. NE PAS en parler aux collègues. L'école fera un signalement si nécessaire (119 ou information préoccupante)."
+    },
+    {
+      "id": 198,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Un enfant vous confie qu'on lui fait du mal chez lui. Que faites-vous ?",
+      "reponse_attendue": "Écouter sans poser de questions suggestives, ne pas promettre le secret, signaler immédiatement au directeur d'école et à l'enseignant(e). L'école doit faire une information préoccupante."
+    },
+    {
+      "id": 199,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Vous surprenez un collègue en train de secouer un enfant. Que faites-vous ?",
+      "reponse_attendue": "Intervenir immédiatement pour protéger l'enfant, signaler l'incident au directeur et à la hiérarchie. L'obligation de signalement s'applique aussi aux professionnels."
+    },
+    {
+      "id": 200,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Un enfant a une réaction allergique pendant le repas. Que faites-vous ?",
+      "reponse_attendue": "Consulter le PAI si existant, appliquer le protocole d'urgence (adrénaline si prescrit), appeler le 15, surveiller l'enfant, prévenir les parents."
+    },
+    {
+      "id": 201,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant refuse de participer à une activité. Que faites-vous ?",
+      "reponse_attendue": "L'encourager sans le forcer, comprendre la raison du refus, en parler à l'enseignant(e). Ne pas le punir, chercher à l'impliquer progressivement."
+    },
+    {
+      "id": 202,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Deux enfants se disputent un jouet. Comment intervenez-vous ?",
+      "reponse_attendue": "Se mettre à leur hauteur, écouter les deux versions, rappeler les règles de partage, proposer de jouer à tour de rôle ou de trouver une autre activité."
+    },
+    {
+      "id": 203,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant s'isole systématiquement et ne joue jamais avec les autres. Que faites-vous ?",
+      "reponse_attendue": "Observer son comportement, essayer de le stimuler en douceur, signaler la situation à l'enseignant(e). Cela peut être le signe d'un mal-être ou d'un trouble."
+    },
+    {
+      "id": 204,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Pendant la récréation, un enfant grimpe sur un muret dangereux. Que faites-vous ?",
+      "reponse_attendue": "L'inviter calmement mais fermement à descendre, sécuriser la zone, signaler le danger au directeur pour qu'il soit corrigé, rappeler les règles de sécurité aux enfants."
+    },
+    {
+      "id": 205,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant insulte un camarade. Quelle est votre réaction ?",
+      "reponse_attendue": "Intervenir calmement, rappeler que les insultes sont interdites, aider l'enfant à exprimer ses émotions autrement, consoler l'enfant insulté, informer l'enseignant(e)."
+    },
+    {
+      "id": 206,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent vous offre un cadeau en fin d'année. Que faites-vous ?",
+      "reponse_attendue": "Accepter avec mesure si c'est un geste symbolique (dessin, chocolats). Refuser tout cadeau d'une valeur significative qui pourrait s'apparenter à un avantage indu."
+    },
+    {
+      "id": 207,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant vomit en classe. Que faites-vous ?",
+      "reponse_attendue": "Mettre des gants, éloigner les autres enfants, réconforter l'enfant, absorber avec du papier, nettoyer et désinfecter, aérer, prévenir l'enseignant(e), appeler les parents."
+    },
+    {
+      "id": 208,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant vous dit un gros mot. Comment réagissez-vous ?",
+      "reponse_attendue": "Rester calme, lui expliquer que ce mot n'est pas acceptable à l'école, lui proposer une autre façon de s'exprimer. Ne pas dramatiser ni rire."
+    },
+    {
+      "id": 209,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant a peur d'aller aux toilettes seul. Que faites-vous ?",
+      "reponse_attendue": "L'accompagner, le rassurer, respecter son intimité tout en restant à proximité. L'encourager progressivement à y aller seul quand il sera prêt."
+    },
+    {
+      "id": 210,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Vous découvrez un produit d'entretien laissé à portée des enfants. Que faites-vous ?",
+      "reponse_attendue": "Le mettre immédiatement hors de portée, vérifier qu'aucun enfant n'y a touché, rappeler les règles de stockage aux collègues, signaler l'incident."
+    },
+    {
+      "id": 211,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant arrive avec des vêtements sales et inadaptés au froid. Que faites-vous ?",
+      "reponse_attendue": "Lui fournir des vêtements de rechange si l'école en dispose, signaler la situation à l'enseignant(e) avec discrétion. Si cela se répète, cela peut relever d'une information préoccupante."
+    },
+    {
+      "id": 212,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant épileptique fait une crise pendant votre surveillance. Que faites-vous ?",
+      "reponse_attendue": "Consulter le PAI, ne pas contenir l'enfant, éloigner les dangers, noter la durée, appeler le 15 si crise > 5 min, prévenir l'enseignant(e) et les parents. Mettre en PLS après la crise."
+    },
+    {
+      "id": 213,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent divorce et les deux parents veulent récupérer l'enfant le même jour. Que faites-vous ?",
+      "reponse_attendue": "Se référer à la liste des personnes autorisées, au jugement de garde si fourni à l'école. En cas de doute, appeler le directeur. Ne pas prendre parti."
+    },
+    {
+      "id": 214,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enseignant",
+      "question": "L'enseignant(e) vous demande de noter les enfants sur un exercice. Que faites-vous ?",
+      "reponse_attendue": "Expliquer poliment que la notation et l'évaluation pédagogique ne relèvent pas de vos missions. L'ATSEM peut observer et rendre compte à l'enseignant(e), mais pas évaluer."
+    },
+    {
+      "id": 215,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "securite",
+      "question": "Un exercice incendie est déclenché pendant la sieste. Quelle est la procédure ?",
+      "reponse_attendue": "Réveiller les enfants calmement, évacuer sans les habiller, suivre le plan d'évacuation, compter les enfants au point de rassemblement. Ne pas revenir en arrière."
+    },
+    {
+      "id": 216,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant pleure parce que son doudou est perdu. Que faites-vous ?",
+      "reponse_attendue": "Le rassurer, chercher le doudou, lui proposer un objet ou une activité de substitution en attendant. Prévenir les parents en fin de journée."
+    },
+    {
+      "id": 217,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant autiste a une crise de colère en classe. Que faites-vous ?",
+      "reponse_attendue": "Rester calme, ne pas le contenir sauf danger, l'isoler dans un espace calme si possible, suivre les recommandations du PPS, prévenir l'enseignant(e)."
+    },
+    {
+      "id": 218,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Un enfant refuse de rendre un jouet appartenant à l'école. Que faites-vous ?",
+      "reponse_attendue": "Expliquer calmement que le jouet appartient à l'école et doit rester à l'école. Proposer de jouer avec demain. Ne pas arracher le jouet des mains."
+    },
+    {
+      "id": 219,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enfant",
+      "question": "Comment gérez-vous un enfant qui tape systématiquement les autres ?",
+      "reponse_attendue": "Observer les déclencheurs, mettre des mots sur ses émotions, rappeler les règles, valoriser les moments positifs, en parler à l'enseignant(e). Cela peut nécessiter un suivi."
+    },
+    {
+      "id": 220,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "parent",
+      "question": "Un parent vous reproche de ne pas avoir changé son enfant assez vite. Que faites-vous ?",
+      "reponse_attendue": "Écouter sans se justifier de manière défensive, expliquer les contraintes (plusieurs enfants à gérer), s'excuser si le reproche est fondé, montrer qu'on prend en compte la remarque."
+    },
+    {
+      "id": 221,
+      "categorie": "mises_en_situation",
+      "sous_categorie": "enseignant",
+      "question": "Vous trouvez que l'enseignant(e) est trop sévère avec un enfant. Que faites-vous ?",
+      "reponse_attendue": "Ne pas intervenir devant les enfants. En parler en tête-à-tête avec l'enseignant(e). Si le comportement est abusif, signaler au directeur et/ou à la hiérarchie."
+    },
+    {
+      "id": 222,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce que le bionettoyage ?",
+      "reponse_attendue": "Procédé qui combine nettoyage, rinçage et désinfection. Il permet d'éliminer les salissures ET les micro-organismes. Utilisé en milieu scolaire et hospitalier."
+    },
+    {
+      "id": 223,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Quelle est la différence entre nettoyer et désinfecter ?",
+      "reponse_attendue": "Nettoyer = éliminer les salissures visibles (détergent). Désinfecter = éliminer les micro-organismes (désinfectant). Le bionettoyage fait les deux."
+    },
+    {
+      "id": 224,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Quels sont les 4 facteurs du cercle de Sinner ?",
+      "reponse_attendue": "1) Action chimique (produit), 2) Action mécanique (frotter), 3) Température de l'eau, 4) Temps d'action. Si l'un diminue, il faut augmenter un autre."
+    },
+    {
+      "id": 225,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Comment diluer un produit d'entretien ?",
+      "reponse_attendue": "Toujours verser le PRODUIT dans l'EAU (jamais l'inverse). Respecter le dosage indiqué sur l'étiquette. Utiliser le bouchon doseur."
+    },
+    {
+      "id": 226,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Peut-on mélanger de l'eau de Javel avec un détergent ?",
+      "reponse_attendue": "NON. Le mélange eau de Javel + détergent (ou tout autre produit) peut provoquer des émanations toxiques (chlore). Ne jamais mélanger des produits d'entretien."
+    },
+    {
+      "id": 227,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "L'eau de Javel est-elle plus efficace diluée dans l'eau chaude ?",
+      "reponse_attendue": "NON. L'eau chaude décompose l'hypochlorite de sodium et rend l'eau de Javel MOINS efficace. Toujours diluer dans l'eau froide ou tiède."
+    },
+    {
+      "id": 228,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Comment stocker les produits d'entretien ?",
+      "reponse_attendue": "Dans un local ventilé, fermé à clé, hors de portée des enfants, rangés par famille de produits, les plus lourds en bas, avec les FDS accessibles."
+    },
+    {
+      "id": 229,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'une FDS ?",
+      "reponse_attendue": "Fiche de Données de Sécurité. Document obligatoire fourni par le fabricant qui détaille les risques du produit, les conditions d'utilisation, les premiers secours en cas d'accident."
+    },
+    {
+      "id": 230,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Les contenants de produits dilués doivent-ils être étiquetés ?",
+      "reponse_attendue": "Oui, obligatoirement. Même un seau contenant un produit dilué doit être identifié (nom du produit, dosage, date de préparation)."
+    },
+    {
+      "id": 231,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un comburant ?",
+      "reponse_attendue": "Substance qui aide une substance inflammable à prendre feu. Ce n'est pas la substance qui brûle elle-même, mais celle qui facilite la combustion (ex : oxygène pur)."
+    },
+    {
+      "id": 232,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pictogrammes",
+      "question": "Que signifie le pictogramme 'tête de mort' sur un produit ?",
+      "reponse_attendue": "Produit toxique. Danger mortel ou grave pour la santé par inhalation, ingestion ou contact cutané."
+    },
+    {
+      "id": 233,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pictogrammes",
+      "question": "Que signifie le pictogramme 'flamme' ?",
+      "reponse_attendue": "Produit inflammable. Peut s'enflammer au contact d'une flamme, d'une étincelle, de la chaleur ou par frottement."
+    },
+    {
+      "id": 234,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pictogrammes",
+      "question": "Que signifie le pictogramme 'point d'exclamation' ?",
+      "reponse_attendue": "Produit irritant ou nocif. Peut provoquer des irritations cutanées, oculaires, des allergies, ou une somnolence."
+    },
+    {
+      "id": 235,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pictogrammes",
+      "question": "Que signifie le pictogramme 'corrosif' (mains rongées) ?",
+      "reponse_attendue": "Produit corrosif. Attaque et ronge les matériaux, la peau et les yeux. Brûlures graves au contact."
+    },
+    {
+      "id": 236,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pictogrammes",
+      "question": "Que signifie le pictogramme 'arbre et poisson morts' ?",
+      "reponse_attendue": "Produit dangereux pour l'environnement aquatique. Ne pas jeter dans les éviers ou les toilettes."
+    },
+    {
+      "id": 237,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment nettoyer un sol de classe ?",
+      "reponse_attendue": "Balayage humide (méthode en godille ou poussé), puis lavage avec détergent dilué, rinçage. Commencer par le fond et finir par la porte."
+    },
+    {
+      "id": 238,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Quelle est la méthode de balayage en godille ?",
+      "reponse_attendue": "Balayage en S avec un balai rasant muni d'une gaze humide. On ne décolle jamais le balai du sol pour éviter de remettre la poussière en suspension."
+    },
+    {
+      "id": 239,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment entretenir les jouets de la classe ?",
+      "reponse_attendue": "Les laver régulièrement à l'eau savonneuse ou au désinfectant, les rincer, les sécher. Les jouets cassés doivent être retirés (risque de coupure/ingestion de petites pièces)."
+    },
+    {
+      "id": 240,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment nettoyer les sanitaires ?",
+      "reponse_attendue": "De haut en bas, du plus propre au plus sale. Utiliser des gants, un produit détergent-désinfectant, insister sur les poignées, robinets, cuvettes, lunettes."
+    },
+    {
+      "id": 241,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "À quelle fréquence nettoyer les sanitaires de l'école ?",
+      "reponse_attendue": "Au moins une fois par jour (après la sortie des classes), idéalement après chaque récréation pour les sanitaires des enfants."
+    },
+    {
+      "id": 242,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "epi",
+      "question": "Qu'est-ce qu'un EPI ?",
+      "reponse_attendue": "Équipement de Protection Individuelle. Exemples : gants à usage unique, blouse, chaussures de sécurité, lunettes de protection, masque."
+    },
+    {
+      "id": 243,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "epi",
+      "question": "Quand l'ATSEM doit-il porter des gants ?",
+      "reponse_attendue": "Pour le nettoyage avec des produits chimiques, pour soigner une plaie (gants à usage unique), pour manipuler des liquides biologiques (vomi, sang, urine)."
+    },
+    {
+      "id": 244,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un détergent ?",
+      "reponse_attendue": "Produit qui dissout les graisses et élimine les salissures. Il nettoie mais ne désinfecte pas."
+    },
+    {
+      "id": 245,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un désinfectant ?",
+      "reponse_attendue": "Produit qui détruit les micro-organismes (bactéries, virus). Il ne nettoie pas les salissures visibles. C'est pourquoi on nettoie AVANT de désinfecter."
+    },
+    {
+      "id": 246,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un bactéricide ?",
+      "reponse_attendue": "Produit qui détruit les bactéries."
+    },
+    {
+      "id": 247,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un virucide ?",
+      "reponse_attendue": "Produit qui détruit les virus."
+    },
+    {
+      "id": 248,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce qu'un fongicide ?",
+      "reponse_attendue": "Produit qui détruit les champignons et moisissures."
+    },
+    {
+      "id": 249,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment procéder en cas de vomissement d'un enfant ?",
+      "reponse_attendue": "Mettre des gants, éloigner les enfants, absorber avec du papier jetable, nettoyer au détergent-désinfectant, rincer, aérer la pièce, désinfecter les surfaces touchées."
+    },
+    {
+      "id": 250,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment laver le linge de l'école (draps de sieste, serviettes) ?",
+      "reponse_attendue": "Lire les étiquettes d'entretien, laver à la température indiquée, sécher, repasser si nécessaire. Les draps de sieste doivent être lavés régulièrement (au moins 1 fois par semaine)."
+    },
+    {
+      "id": 251,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "produits",
+      "question": "Qu'est-ce que le document unique ?",
+      "reponse_attendue": "Le DUER (Document Unique d'Évaluation des Risques). Il recense tous les risques professionnels auxquels sont exposés les agents et les mesures de prévention."
+    },
+    {
+      "id": 252,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "calcul",
+      "question": "Comment calculer une dilution à 3% dans 10 litres ?",
+      "reponse_attendue": "3% de 10 litres = 0,03 × 10 000 mL = 300 mL de produit. Soit 30 cL ou 3 dL."
+    },
+    {
+      "id": 253,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "calcul",
+      "question": "Comment calculer une dilution à 0,25% dans 5 litres ?",
+      "reponse_attendue": "0,25% de 5 litres = 0,0025 × 5 000 mL = 12,5 mL de produit. Soit 1,25 cL."
+    },
+    {
+      "id": 254,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "calcul",
+      "question": "Un produit se dilue à 4% dans 10L d'eau. Quelle quantité ?",
+      "reponse_attendue": "4% de 10 L = 0,04 × 10 000 mL = 400 mL = 40 cL = 4 dL = 0,4 L."
+    },
+    {
+      "id": 255,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment aérer une salle de classe ?",
+      "reponse_attendue": "Ouvrir les fenêtres au moins 10-15 minutes par jour, idéalement entre les activités et pendant le ménage. L'aération réduit la concentration de micro-organismes."
+    },
+    {
+      "id": 256,
+      "categorie": "hygiene_entretien",
+      "sous_categorie": "pratique",
+      "question": "Comment organiser un chariot de ménage ?",
+      "reponse_attendue": "Produits étiquetés et dosés, matériel propre (lavettes, balais, gazes), séparer le propre du sale, remplacer les gazes usagées, ne pas surcharger."
+    },
+    {
+      "id": 257,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "psychomoteur",
+      "question": "Quelles sont les grandes étapes du développement moteur de 3 à 6 ans ?",
+      "reponse_attendue": "3 ans : court, grimpe, saute. 4 ans : pédale, tient sur un pied, lance une balle. 5-6 ans : saute à cloche-pied, fait du vélo, coordonne des gestes complexes."
+    },
+    {
+      "id": 258,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "psychomoteur",
+      "question": "Qu'est-ce que la motricité fine ?",
+      "reponse_attendue": "Capacité à réaliser des gestes précis avec les doigts et les mains : découper, dessiner, enfiler des perles, boutonner, tenir un crayon."
+    },
+    {
+      "id": 259,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "psychomoteur",
+      "question": "Qu'est-ce que le bonhomme têtard ?",
+      "reponse_attendue": "Premier dessin du bonhomme chez l'enfant (vers 3-4 ans) : une tête ronde avec des bras et des jambes directement attachés, sans tronc."
+    },
+    {
+      "id": 260,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Qu'est-ce que l'objet transitionnel ?",
+      "reponse_attendue": "Un objet (doudou, peluche, tissu) qui rassure l'enfant en l'absence de ses parents. Il fait le lien entre la maison et l'école. Concept développé par Winnicott."
+    },
+    {
+      "id": 261,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Qu'est-ce que l'angoisse de séparation ?",
+      "reponse_attendue": "Détresse que ressent l'enfant quand il est séparé de ses parents. Fréquente à la rentrée en petite section. Elle est normale et s'estompe généralement en quelques semaines."
+    },
+    {
+      "id": 262,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Comment gérer un enfant qui pleure tous les matins à la rentrée ?",
+      "reponse_attendue": "Accueil chaleureux, proposer le doudou, ritualiser la séparation (un bisou, un au-revoir), ne pas prolonger le moment, distraire avec une activité, rassurer les parents aussi."
+    },
+    {
+      "id": 263,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "langage",
+      "question": "Quel est le rôle de l'ATSEM dans l'acquisition du langage ?",
+      "reponse_attendue": "Stimuler le vocabulaire à chaque moment de la journée (repas, habillage, toilettes, ateliers), utiliser un langage correct et modélisant, reformuler les phrases incorrectes de l'enfant."
+    },
+    {
+      "id": 264,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "langage",
+      "question": "Qu'est-ce qu'un enfant allophone ?",
+      "reponse_attendue": "Un enfant dont la langue maternelle n'est pas le français. L'ATSEM peut l'aider en utilisant des images, des gestes, un vocabulaire simple, et en le stimulant dans les échanges."
+    },
+    {
+      "id": 265,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "autonomie",
+      "question": "Comment favoriser l'autonomie chez l'enfant ?",
+      "reponse_attendue": "L'encourager à s'habiller seul, se laver les mains, manger seul, ranger ses affaires, aller aux toilettes. Faire AVEC lui, pas À SA PLACE."
+    },
+    {
+      "id": 266,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "autonomie",
+      "question": "À quel âge un enfant est-il propre ?",
+      "reponse_attendue": "La propreté s'acquiert généralement entre 2 et 4 ans, mais le rythme est variable. L'ATSEM accompagne avec patience et sans pression."
+    },
+    {
+      "id": 267,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "sommeil",
+      "question": "Pourquoi la sieste est-elle importante à l'école maternelle ?",
+      "reponse_attendue": "Le sommeil est essentiel au développement cérébral, à la mémorisation des apprentissages, à la croissance et à la régulation émotionnelle."
+    },
+    {
+      "id": 268,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "sommeil",
+      "question": "Tous les enfants doivent-ils dormir à la sieste ?",
+      "reponse_attendue": "En petite section, la sieste est proposée à tous. En moyenne section, elle est adaptée au rythme de chaque enfant. En grande section, elle n'est plus systématique (temps calme possible)."
+    },
+    {
+      "id": 269,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "jeu",
+      "question": "Pourquoi le jeu est-il important en maternelle ?",
+      "reponse_attendue": "Le jeu est le principal vecteur d'apprentissage en maternelle : il développe la socialisation, le langage, la motricité, l'imagination, la résolution de problèmes."
+    },
+    {
+      "id": 270,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Comment accueillir un enfant porteur de handicap ?",
+      "reponse_attendue": "Avec bienveillance et adaptation. Lire le PPS, collaborer avec l'AESH, adapter les activités si nécessaire, favoriser l'inclusion avec les autres enfants."
+    },
+    {
+      "id": 271,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Qu'est-ce que la bienveillance éducative ?",
+      "reponse_attendue": "Posture d'écoute, de compréhension et d'accompagnement de l'enfant. Cela n'exclut pas l'autorité : on peut être bienveillant ET cadrant (rappeler les règles avec douceur)."
+    },
+    {
+      "id": 272,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "litterature",
+      "question": "Citez des auteurs de littérature jeunesse pour le cycle 1.",
+      "reponse_attendue": "Claude Ponti (L'Arbre sans fin), Claude Boujon (La Brouille), Émile Jadoul (À l'eau), Mario Ramos (C'est moi le plus fort), Jeanne Ashbé."
+    },
+    {
+      "id": 273,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "psychomoteur",
+      "question": "Comment aider un enfant dyspraxique dans les activités manuelles ?",
+      "reponse_attendue": "Adapter le matériel (gros crayons, ciseaux ergonomiques), simplifier les consignes, l'aider dans les gestes sans faire à sa place, valoriser ses efforts."
+    },
+    {
+      "id": 274,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Comment gérer un enfant colérique ?",
+      "reponse_attendue": "Rester calme, le laisser exprimer sa colère sans danger, l'aider à mettre des mots sur ses émotions une fois calmé, ne pas céder sous la pression mais rester bienveillant."
+    },
+    {
+      "id": 275,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "alimentation",
+      "question": "Comment encourager un enfant à goûter de nouveaux aliments ?",
+      "reponse_attendue": "Proposer sans forcer, présenter de petites quantités, goûter soi-même, expliquer d'où vient l'aliment, ne pas punir un refus. La néophobie alimentaire est normale entre 2 et 6 ans."
+    },
+    {
+      "id": 276,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "autonomie",
+      "question": "Comment aider un enfant à s'habiller seul ?",
+      "reponse_attendue": "Lui laisser le temps, montrer les étapes, l'encourager, adapter les vêtements (velcro plutôt que lacets), valoriser chaque progrès."
+    },
+    {
+      "id": 277,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Qu'est-ce que le vivre-ensemble en maternelle ?",
+      "reponse_attendue": "Apprentissage des règles de la vie en collectivité : partager, attendre son tour, respecter les autres, écouter, coopérer. L'ATSEM y contribue au quotidien."
+    },
+    {
+      "id": 278,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "jeu",
+      "question": "Qu'est-ce que le jeu symbolique ?",
+      "reponse_attendue": "Jeu d'imitation et de faire-semblant (jouer à la marchande, à la maman, au docteur). Il développe le langage, l'imagination et la compréhension des rôles sociaux."
+    },
+    {
+      "id": 279,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "psychomoteur",
+      "question": "Qu'est-ce que le graphisme en maternelle ?",
+      "reponse_attendue": "Apprentissage des gestes graphiques (traits, ronds, boucles, spirales) qui préparent à l'écriture. L'ATSEM peut observer la tenue du crayon et en rendre compte à l'enseignant(e)."
+    },
+    {
+      "id": 280,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Comment repérer un enfant en souffrance ?",
+      "reponse_attendue": "Changement de comportement (repli, agressivité, pleurs), perte d'appétit, troubles du sommeil, marques physiques, hygiène dégradée. Signaler toute observation à l'enseignant(e)."
+    },
+    {
+      "id": 281,
+      "categorie": "developpement_enfant",
+      "sous_categorie": "affectif",
+      "question": "Qu'est-ce que la période sensible du langage selon Montessori ?",
+      "reponse_attendue": "Période entre 0 et 6 ans où l'enfant absorbe naturellement le langage. Il est essentiel de lui parler, de lui lire des histoires, et de nommer les objets du quotidien."
+    },
+    {
+      "id": 282,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Qu'est-ce que l'obligation de signalement ?",
+      "reponse_attendue": "Tout agent public qui a connaissance ou soupçon de maltraitance sur un enfant DOIT le signaler. Le secret professionnel ne s'oppose pas à cette obligation."
+    },
+    {
+      "id": 283,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Quel est le numéro de l'enfance en danger ?",
+      "reponse_attendue": "Le 119. Appel gratuit, anonyme et confidentiel. Il est joignable 24h/24."
+    },
+    {
+      "id": 284,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Que faites-vous si vous soupçonnez une maltraitance ?",
+      "reponse_attendue": "Signaler immédiatement au directeur d'école et/ou à l'enseignant(e). NE PAS interroger les parents, NE PAS en parler aux collègues, NE PAS mener d'enquête soi-même."
+    },
+    {
+      "id": 285,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Qu'est-ce qu'une information préoccupante ?",
+      "reponse_attendue": "Signalement fait à la CRIP (Cellule de Recueil des Informations Préoccupantes) du département quand un enfant est en danger ou en risque de danger. C'est le directeur d'école ou l'enseignant(e) qui la transmet."
+    },
+    {
+      "id": 286,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Qu'est-ce que la CRIP ?",
+      "reponse_attendue": "Cellule de Recueil des Informations Préoccupantes. Service du département qui centralise les signalements de danger ou risque de danger pour les mineurs."
+    },
+    {
+      "id": 287,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Le secret professionnel empêche-t-il de signaler une maltraitance ?",
+      "reponse_attendue": "Non. L'obligation de signalement prime sur le secret professionnel. L'article 226-14 du Code pénal autorise la levée du secret en cas de maltraitance sur mineur."
+    },
+    {
+      "id": 288,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Que risque un agent qui ne signale pas une maltraitance ?",
+      "reponse_attendue": "Des poursuites pénales pour non-dénonciation de crime ou délit commis sur un mineur (article 434-3 du Code pénal). Jusqu'à 3 ans de prison et 45 000 € d'amende."
+    },
+    {
+      "id": 289,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "L'ATSEM peut-il contacter directement le 119 ?",
+      "reponse_attendue": "Oui, tout citoyen peut appeler le 119. Cependant, dans le cadre scolaire, il est recommandé de passer d'abord par le directeur d'école ou l'enseignant(e)."
+    },
+    {
+      "id": 290,
+      "categorie": "protection_enfance",
+      "sous_categorie": "droits",
+      "question": "Quels sont les principaux droits de l'enfant ?",
+      "reponse_attendue": "Droit à l'éducation, à la santé, à la protection contre la violence et l'exploitation, à l'égalité, à une identité, à s'exprimer et être entendu (Convention internationale des droits de l'enfant, 1989)."
+    },
+    {
+      "id": 291,
+      "categorie": "protection_enfance",
+      "sous_categorie": "droits",
+      "question": "Qu'est-ce que la Convention internationale des droits de l'enfant ?",
+      "reponse_attendue": "Traité international adopté par l'ONU le 20 novembre 1989, ratifié par la France. Il reconnaît les droits civils, économiques, sociaux et culturels de l'enfant."
+    },
+    {
+      "id": 292,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Un enfant arrive régulièrement sale et sans petit-déjeuner. Que faites-vous ?",
+      "reponse_attendue": "Observer et noter les faits objectivement (dates, observations), en parler à l'enseignant(e) et au directeur. Si la situation persiste, cela peut justifier une information préoccupante."
+    },
+    {
+      "id": 293,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Un enfant vous dit 'ne dis rien à personne' après vous avoir confié quelque chose de grave. Que faites-vous ?",
+      "reponse_attendue": "NE PAS promettre le secret. Expliquer à l'enfant que pour l'aider, il faut en parler à quelqu'un de confiance. Signaler immédiatement."
+    },
+    {
+      "id": 294,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Comment distinguer un enfant maladroit d'un enfant maltraité ?",
+      "reponse_attendue": "La localisation des marques (zones inhabituelles : dos, cuisse, oreilles), leur forme (brûlures, morsures), leur fréquence, le comportement de l'enfant (peur, repli). Ne pas se fier aux apparences mais signaler tout doute."
+    },
+    {
+      "id": 295,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "L'ATSEM peut-il déshabiller un enfant pour vérifier s'il a des marques ?",
+      "reponse_attendue": "Non. L'ATSEM note les observations lors des moments habituels (change, sieste, toilettes). Il ne fait pas d'examen corporel. Cela relève du médecin."
+    },
+    {
+      "id": 296,
+      "categorie": "protection_enfance",
+      "sous_categorie": "droits",
+      "question": "Qu'est-ce que la protection de l'enfance ?",
+      "reponse_attendue": "Ensemble des dispositifs (ASE, PMI, CRIP, 119) visant à prévenir les dangers et à protéger les mineurs en situation de risque ou de danger."
+    },
+    {
+      "id": 297,
+      "categorie": "protection_enfance",
+      "sous_categorie": "droits",
+      "question": "Qu'est-ce que l'ASE ?",
+      "reponse_attendue": "Aide Sociale à l'Enfance. Service du département chargé de la protection de l'enfance : mesures éducatives, placement, accompagnement des familles."
+    },
+    {
+      "id": 298,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Un parent vous confie qu'il frappe son enfant 'pour le corriger'. Que faites-vous ?",
+      "reponse_attendue": "Écouter sans juger, ne pas confronter le parent, signaler immédiatement au directeur. Les violences physiques sur enfant sont interdites par la loi (loi du 10 juillet 2019)."
+    },
+    {
+      "id": 299,
+      "categorie": "protection_enfance",
+      "sous_categorie": "droits",
+      "question": "Les châtiments corporels sont-ils interdits en France ?",
+      "reponse_attendue": "Oui, depuis la loi du 10 juillet 2019, les violences éducatives ordinaires (fessées, gifles) sont interdites. L'autorité parentale s'exerce sans violence."
+    },
+    {
+      "id": 300,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Que faire si un collègue vous demande de garder le silence sur une situation suspecte ?",
+      "reponse_attendue": "L'obligation de signalement est individuelle et légale. On ne peut pas garder le silence par solidarité entre collègues. Signaler au directeur ou appeler le 119."
+    },
+    {
+      "id": 301,
+      "categorie": "protection_enfance",
+      "sous_categorie": "signalement",
+      "question": "Un enfant dessine systématiquement des scènes violentes. Est-ce un signe ?",
+      "reponse_attendue": "Ce peut être un signe de mal-être ou d'exposition à la violence, mais pas nécessairement de maltraitance. Le signaler à l'enseignant(e) pour un suivi attentif et un éventuel échange avec les parents ou le psychologue scolaire."
+    }
+  ]
+}
