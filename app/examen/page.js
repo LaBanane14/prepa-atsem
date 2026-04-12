@@ -331,6 +331,7 @@ export default function ExamenPage() {
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bellSwing { 0%, 100% { transform: rotate(0deg); } 15% { transform: rotate(8deg); } 30% { transform: rotate(-6deg); } 45% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 75% { transform: rotate(0deg); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes pulse-urgent { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -562,7 +563,7 @@ export default function ExamenPage() {
                           <div className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? 'bg-red-500' : 'bg-yellow-400'}`} style={{width: `${timePercent}%`}}></div>
                         </div>
                         <div className={`flex items-center gap-1 sm:gap-2 font-black text-sm sm:text-lg tabular-nums ${isUrgent ? 'text-red-400' : 'text-white'}`}>
-                          <svg className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                          <svg className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{animation: 'bellSwing 2s ease-in-out infinite', transformOrigin: 'top center'}}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
                           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
                         </div>
                       </div>
