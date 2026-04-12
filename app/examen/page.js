@@ -426,32 +426,91 @@ export default function ExamenPage() {
             <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
                 <div className="mb-6 sm:mb-8">
-                  <svg viewBox="0 0 120 200" className="w-24 h-40 sm:w-28 sm:h-48" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="200" rx="12" fill="#64748b"/>
-                    <rect x="35" y="160" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="60" y="180" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">1</text>
-                    <rect x="10" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="32.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">2</text>
-                    <rect x="65" y="125" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="87.5" y="145" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">3</text>
-                    <rect x="35" y="90" width="50" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="60" y="110" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">4</text>
-                    <rect x="10" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="32.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">5</text>
-                    <rect x="65" y="55" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="87.5" y="75" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">6</text>
-                    <rect x="10" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="32.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">7</text>
-                    <rect x="65" y="20" width="45" height="30" rx="2" fill="none" stroke="#fbbf24" strokeWidth="2.5"/>
-                    <text x="87.5" y="40" textAnchor="middle" fill="#fbbf24" fontSize="16" fontWeight="bold" fontFamily="sans-serif">8</text>
-                    <circle r="8" fill="#f59e0b" opacity="0.9">
-                      <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
-                      <animate attributeName="cy" values="170;135;135;100;65;65;30;30;170" dur="4s" repeatCount="indefinite"/>
-                    </circle>
-                    <ellipse rx="6" ry="2" fill="black" opacity="0.15">
-                      <animate attributeName="cx" values="60;32.5;87.5;60;32.5;87.5;32.5;87.5;60" dur="4s" repeatCount="indefinite"/>
-                      <animate attributeName="cy" values="182;147;147;112;77;77;42;42;182" dur="4s" repeatCount="indefinite"/>
-                    </ellipse>
+                  <svg viewBox="0 0 200 140" className="w-48 h-32 sm:w-56 sm:h-36" xmlns="http://www.w3.org/2000/svg">
+                    {/* Ciel */}
+                    <rect width="200" height="140" fill="#e0f2fe"/>
+                    {/* Soleil qui tourne */}
+                    <g>
+                      <circle cx="170" cy="30" r="16" fill="#fbbf24"/>
+                      <g stroke="#fbbf24" strokeWidth="2" strokeLinecap="round">
+                        <line x1="170" y1="8" x2="170" y2="3"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
+                        <line x1="170" y1="52" x2="170" y2="57"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
+                        <line x1="148" y1="30" x2="143" y2="30"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
+                        <line x1="192" y1="30" x2="197" y2="30"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
+                      </g>
+                      <animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/>
+                    </g>
+                    {/* Prairie */}
+                    <rect x="0" y="100" width="200" height="40" fill="#86efac" rx="0"/>
+                    <path d="M0 100 Q50 90 100 100 Q150 110 200 100 L200 140 L0 140Z" fill="#4ade80"/>
+                    {/* Herbe */}
+                    <g stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round">
+                      <line x1="15" y1="105" x2="13" y2="95"/><line x1="20" y1="103" x2="22" y2="93"/>
+                      <line x1="55" y1="107" x2="53" y2="97"/><line x1="60" y1="105" x2="62" y2="95"/>
+                      <line x1="140" y1="106" x2="138" y2="96"/><line x1="145" y1="104" x2="147" y2="94"/>
+                      <line x1="180" y1="105" x2="178" y2="95"/><line x1="185" y1="103" x2="187" y2="93"/>
+                    </g>
+                    {/* Petites fleurs */}
+                    <circle cx="30" cy="103" r="3" fill="#f472b6"/><circle cx="30" cy="103" r="1" fill="#fbbf24"/>
+                    <circle cx="160" cy="105" r="3" fill="#c084fc"/><circle cx="160" cy="105" r="1" fill="#fbbf24"/>
+                    <circle cx="120" cy="102" r="2.5" fill="#fb923c"/><circle cx="120" cy="102" r="0.8" fill="#fbbf24"/>
+                    {/* Maison qui pousse */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0 40;0 0" dur="8s" fill="freeze"/>
+                      <animate attributeName="opacity" values="0;0;1;1" dur="8s" fill="freeze" keyTimes="0;0.1;0.4;1"/>
+                      {/* Murs */}
+                      <rect x="60" y="68" width="40" height="32" fill="#fef3c7" stroke="#d97706" strokeWidth="1.5" rx="1"/>
+                      {/* Toit */}
+                      <path d="M55 68 L80 48 L105 68Z" fill="#dc2626" stroke="#b91c1c" strokeWidth="1.5" strokeLinejoin="round"/>
+                      {/* Porte */}
+                      <rect x="75" y="80" width="10" height="20" fill="#92400e" rx="1"/>
+                      <circle cx="83" cy="91" r="1" fill="#fbbf24"/>
+                      {/* Fenetre */}
+                      <rect x="64" y="75" width="8" height="8" fill="#bfdbfe" stroke="#d97706" strokeWidth="1" rx="0.5"/>
+                      <line x1="68" y1="75" x2="68" y2="83" stroke="#d97706" strokeWidth="0.8"/>
+                      <line x1="64" y1="79" x2="72" y2="79" stroke="#d97706" strokeWidth="0.8"/>
+                      {/* Cheminee */}
+                      <rect x="90" y="52" width="6" height="12" fill="#92400e" rx="0.5"/>
+                      {/* Fumee */}
+                      <circle cx="93" cy="48" r="3" fill="#94a3b8" opacity="0.4">
+                        <animate attributeName="cy" values="48;35;22" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.4;0.2;0" dur="3s" repeatCount="indefinite"/>
+                      </circle>
+                      <circle cx="95" cy="45" r="2.5" fill="#94a3b8" opacity="0.3">
+                        <animate attributeName="cy" values="45;32;19" dur="3s" repeatCount="indefinite" begin="1s"/>
+                        <animate attributeName="r" values="2.5;4;2" dur="3s" repeatCount="indefinite" begin="1s"/>
+                        <animate attributeName="opacity" values="0.3;0.15;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+                      </circle>
+                    </g>
+                    {/* Arbre qui pousse */}
+                    <g>
+                      <animateTransform attributeName="transform" type="translate" values="0 30;0 0" dur="6s" fill="freeze"/>
+                      <animate attributeName="opacity" values="0;1;1" dur="4s" fill="freeze"/>
+                      {/* Tronc */}
+                      <rect x="33" y="78" width="6" height="22" fill="#92400e" rx="1"/>
+                      {/* Feuillage */}
+                      <circle cx="36" cy="68" r="14" fill="#22c55e" opacity="0.7"/>
+                      <circle cx="28" cy="72" r="10" fill="#16a34a" opacity="0.6"/>
+                      <circle cx="44" cy="72" r="10" fill="#16a34a" opacity="0.6"/>
+                      <circle cx="36" cy="60" r="10" fill="#4ade80" opacity="0.7"/>
+                      {/* Feuillage qui grandit */}
+                      <circle cx="36" cy="65" r="0" fill="#86efac" opacity="0.5">
+                        <animate attributeName="r" values="0;12" dur="6s" fill="freeze" begin="3s"/>
+                      </circle>
+                    </g>
+                    {/* Nuage qui passe */}
+                    <g opacity="0.6">
+                      <animate attributeName="opacity" values="0;0.6;0.6;0" dur="12s" repeatCount="indefinite"/>
+                      <ellipse rx="18" ry="8" fill="white">
+                        <animate attributeName="cx" values="-20;220" dur="12s" repeatCount="indefinite"/>
+                        <animate attributeName="cy" values="25;25" dur="12s" repeatCount="indefinite"/>
+                      </ellipse>
+                      <ellipse rx="12" ry="6" fill="white">
+                        <animate attributeName="cx" values="-10;230" dur="12s" repeatCount="indefinite"/>
+                        <animate attributeName="cy" values="20;20" dur="12s" repeatCount="indefinite"/>
+                      </ellipse>
+                    </g>
                   </svg>
                 </div>
                 <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
