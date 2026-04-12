@@ -581,7 +581,6 @@ export default function ExamenPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-slate-400 font-bold">{answeredCount}/20 répondues</span>
                       <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Note sur 20 — Durée : 45 min</p>
                     </div>
                   </div>
