@@ -83,7 +83,7 @@ export async function POST(request) {
       subject: `[${safeCategory}] ${safeSubject}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: #dc2626; color: white; padding: 20px; border-radius: 12px 12px 0 0;">
+          <div style="background: #6b21a8; color: white; padding: 20px; border-radius: 12px 12px 0 0;">
             <h2 style="margin: 0;">Nouveau message — ${safeCategory}</h2>
           </div>
           <div style="background: #f8fafc; padding: 24px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
@@ -93,7 +93,7 @@ export async function POST(request) {
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
             <div style="white-space: pre-wrap; color: #334155; line-height: 1.6;">${safeMessage}</div>
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
-            <p style="font-size: 12px; color: #94a3b8; margin: 0;">IP : ${ip} — Envoyé depuis le formulaire de contact Prépa FPC</p>
+            <p style="font-size: 12px; color: #94a3b8; margin: 0;">IP : ${ip} — Envoyé depuis le formulaire de contact Prépa ATSEM</p>
           </div>
         </div>
       `

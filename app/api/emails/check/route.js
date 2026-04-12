@@ -44,7 +44,7 @@ export async function POST(request) {
           emoji: '⏳',
           greeting: 'Votre période d\'essai gratuite touche à sa fin.',
           sections: [
-            'Il vous reste <strong>2 jours</strong> pour profiter de l\'accès complet à la plateforme Prépa FPC.',
+            'Il vous reste <strong>2 jours</strong> pour profiter de l\'accès complet à la plateforme Prépa ATSEM.',
             'Après cette période, vous devrez souscrire à un abonnement pour continuer vos entraînements.',
             'Ne perdez pas votre progression — <strong>abonnez-vous maintenant</strong> pour garder un accès illimité à tous les exercices, annales et examens blancs.'
           ],
@@ -53,7 +53,7 @@ export async function POST(request) {
         })
         const didSend = await claimAndSend(userId, 'trial_j5', {
           to: email,
-          subject: 'Plus que 2 jours d\'essai gratuit — Prépa FPC',
+          subject: 'Plus que 2 jours d\'essai gratuit — Prépa ATSEM',
           html
         })
         if (didSend) sent.push('trial_j5')
@@ -67,18 +67,18 @@ export async function POST(request) {
         const html = buildEmailHtml({
           title: `Votre essai gratuit est terminé, ${firstName}`,
           emoji: '😢',
-          greeting: 'Merci d\'avoir testé <strong style="color:#0f172a;">Prépa FPC</strong> pendant 7 jours !',
+          greeting: 'Merci d\'avoir testé <strong style="color:#0f172a;">Prépa ATSEM</strong> pendant 7 jours !',
           sections: [
             'Votre période d\'essai gratuite est maintenant terminée.',
             'Pour continuer à vous entraîner avec nos <strong>QCM de mathématiques</strong>, nos <strong>sujets de rédaction</strong>, nos <strong>examens blancs</strong> et la <strong>préparation à l\'oral</strong>, souscrivez à un abonnement.',
-            'Des milliers de candidats ont déjà réussi leur concours FPC grâce à notre plateforme. Rejoignez-les !'
+            'Des milliers de candidats ont déjà réussi leur concours ATSEM grâce à notre plateforme. Rejoignez-les !'
           ],
           ctaText: 'Souscrire maintenant',
           ctaUrl: `${siteUrl}/tarifs`
         })
         const didSend = await claimAndSend(userId, 'trial_j7', {
           to: email,
-          subject: 'Votre essai gratuit est terminé — Prépa FPC',
+          subject: 'Votre essai gratuit est terminé — Prépa ATSEM',
           html
         })
         if (didSend) sent.push('trial_j7')
@@ -105,7 +105,7 @@ export async function POST(request) {
             emoji: '💪',
             greeting: `Cela fait ${daysSinceActivity} jours que vous n'avez pas révisé.`,
             sections: [
-              'La régularité est la clé de la réussite au concours FPC. Même <strong>15 minutes par jour</strong> font la différence.',
+              'La régularité est la clé de la réussite au concours ATSEM. Même <strong>15 minutes par jour</strong> font la différence.',
               'Vos exercices et vos statistiques vous attendent sur votre tableau de bord.',
               'Reprenez là où vous en étiez et continuez votre progression vers le concours !'
             ],
@@ -118,7 +118,7 @@ export async function POST(request) {
           if (!insertError) {
             try {
               const { sendEmail } = await import('../../../../lib/email')
-              await sendEmail({ to: email, subject: 'Reprenez vos révisions — Prépa FPC', html })
+              await sendEmail({ to: email, subject: 'Reprenez vos révisions — Prépa ATSEM', html })
               sent.push('inactivity_7d')
             } catch (e) {
               console.error('Inactivity email failed:', e)

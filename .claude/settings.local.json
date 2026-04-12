@@ -25,7 +25,10 @@
       "Bash(grep -r \"base-maths\\\\|examen-maths\\\\|famille-conversions\" /c/Users/Paul/Desktop/prepa-fpc/app --include=*.js)",
       "Bash(xargs wc:*)",
       "Bash(git -C /c/Users/Paul/Desktop/prepa-fpc worktree list)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(node -e ':*)",
+      "Bash(grep -c '\\\\\\\\\\\\\\\\u00\\\\|\\\\\\\\\\\\\\\\ud8\\\\|\\\\\\\\\\\\\\\\é\\\\|\\\\\\\\\\\\\\\\à\\\\|\\\\\\\\\\\\\\\\î' app/examen/page.js)",
+      "Bash(grep -c '\\\\\\\\\\\\\\\\é\\\\|\\\\\\\\\\\\\\\\è\\\\|\\\\\\\\\\\\\\\\ê\\\\|\\\\\\\\\\\\\\\\à\\\\|\\\\\\\\\\\\\\\\î\\\\|\\\\\\\\\\\\\\\\ô\\\\|\\\\\\\\\\\\\\\\ç' app/examen/page.js)"
     ]
   }
 }
