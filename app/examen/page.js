@@ -170,12 +170,8 @@ export default function ExamenPage() {
         body: JSON.stringify({ action: 'generer_correction', questions: shuffledQuestions })
       }).then(r => r.json()).then(d => {
         if (d.correction) {
-          // Renuméroter la correction pour correspondre aux questions mélangées
-          const mappedCorrection = shuffledQuestions.map((q, i) => {
-            const original = d.correction.find(c => c.numero === parsedQuestions[indices[i]].numero)
-            return original ? { ...original, numero: i + 1 } : { numero: i + 1, reponses_correctes: [], explication: '' }
-          })
-          setCorrection(mappedCorrection)
+          // La correction est déjà dans l'ordre des questions mélangées (envoyées telles quelles)
+          setCorrection(d.correction)
         }
       }).catch(e => console.error('Erreur correction background:', e))
 
