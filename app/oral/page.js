@@ -293,7 +293,7 @@ export default function OralPage() {
         <p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p>
         <div className="flex flex-col gap-3">
           <a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a>
-          <a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a>
+          <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-6 py-3 rounded-xl transition">Retour au tableau de bord</a>
         </div>
       </div>
     </div>
@@ -398,7 +398,7 @@ export default function OralPage() {
                 </div>
 
                 <div className="text-center mt-6">
-                  <a href="/dashboard" className="text-slate-400 hover:text-slate-600 font-medium text-sm transition">Retour au tableau de bord</a>
+                  <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-6 py-3 rounded-xl transition">Retour au tableau de bord</a>
                 </div>
               </div>
             </div>
