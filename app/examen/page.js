@@ -74,13 +74,21 @@ export default function ExamenPage() {
     })
   }, [])
 
-  // Loading animation
+  // Loading animation — step 1 dure 8s, les suivants 3s, step 4 reste en loading
   useEffect(() => {
     if (step !== 'loading') return
-    const interval = setInterval(() => {
-      setLoadingStep(prev => prev < 4 ? prev + 1 : prev)
-    }, 3000)
-    return () => clearInterval(interval)
+    const delays = [8000, 3000, 3000]
+    let currentStep = 0
+    function advance() {
+      if (currentStep < 3) {
+        setTimeout(() => {
+          setLoadingStep(prev => prev + 1)
+          currentStep++
+          advance()
+        }, delays[currentStep])
+      }
+    }
+    advance()
   }, [step])
 
   // Correcting animation
