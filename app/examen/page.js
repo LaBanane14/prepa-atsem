@@ -567,6 +567,9 @@ export default function ExamenPage() {
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
                         Réponses multiples
                       </span>
+                      <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-yellow-300">
+                        Calculatrice interdite
+                      </span>
                       <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-white">
                         Sujet généré par IA
                       </span>
