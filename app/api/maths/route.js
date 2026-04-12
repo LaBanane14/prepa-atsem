@@ -10,15 +10,25 @@ function getClient() {
   return _client
 }
 
-async function callClaude(system, userPrompt) {
+async function callClaude(system, userPrompt, retries = 2) {
   const client = getClient()
-  const message = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 16384,
-    system,
-    messages: [{ role: 'user', content: userPrompt }]
-  })
-  return message.content[0].text
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const message = await client.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 16384,
+        system,
+        messages: [
+          { role: 'user', content: userPrompt },
+          { role: 'assistant', content: '{' }
+        ]
+      })
+      return '{' + message.content[0].text
+    } catch (e) {
+      if (attempt === retries) throw e
+      console.error(`Claude attempt ${attempt + 1} failed:`, e.message)
+    }
+  }
 }
 
 function parseJSON(text) {
@@ -41,6 +51,7 @@ function parseJSON(text) {
   for (let i = 0; i < openBrackets - closeBrackets; i++) fixed += ']'
   for (let i = 0; i < opens - closes; i++) fixed += '}'
   try { return JSON.parse(fixed) } catch {}
+  console.error('JSON non parsable. Début:', text.substring(0, 500), '... Fin:', text.substring(text.length - 500))
   throw new Error('Impossible de parser le JSON')
 }
 
