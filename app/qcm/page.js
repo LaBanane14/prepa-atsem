@@ -210,45 +210,67 @@ function QuizContent() {
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         .notebook-bg {
           background-image:
-            linear-gradient(#ede9fe40 1px, transparent 1px),
-            linear-gradient(90deg, #ede9fe40 1px, transparent 1px);
-          background-size: 20px 20px;
-          background-position: -1px -1px;
+            linear-gradient(#e5e7eb30 1px, transparent 1px),
+            linear-gradient(90deg, #e5e7eb30 1px, transparent 1px);
+          background-size: 16px 16px;
+        }
+        .notebook-holes {
+          position: relative;
         }
         .notebook-holes::before {
           content: '';
           position: absolute;
-          left: 10px;
-          top: 15%;
-          width: 12px;
-          height: 12px;
+          left: 12px;
+          top: 12%;
+          width: 10px;
+          height: 10px;
           border-radius: 50%;
-          border: 2px solid #d4d0e0;
-          background: #f3f0ff;
-          box-shadow: 0 70px 0 #f3f0ff, 0 140px 0 #f3f0ff, 0 210px 0 #f3f0ff;
-          z-index: 2;
-        }
-        .notebook-holes::after {
-          content: '';
-          position: absolute;
-          left: 10px;
-          top: 15%;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          border: 2px solid #d4d0e0;
-          box-shadow: 0 70px 0 0 transparent, 0 140px 0 0 transparent, 0 210px 0 0 transparent;
-          z-index: 2;
+          background: #f1f5f9;
+          border: 1.5px solid #cbd5e1;
+          box-shadow: 0 60px 0 #f1f5f9, 0 120px 0 #f1f5f9, 0 180px 0 #f1f5f9, 0 240px 0 #f1f5f9;
+          z-index: 3;
         }
         .notebook-spine {
           position: absolute;
           left: 0;
+          top: -1px;
+          bottom: -1px;
+          width: 34px;
+          z-index: 1;
+          overflow: hidden;
+        }
+        .notebook-spine::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            180deg,
+            transparent 0px,
+            transparent 12px,
+            #c4b5d8 12px,
+            #c4b5d8 14px,
+            transparent 14px,
+            transparent 18px
+          );
+          opacity: 0.5;
+        }
+        .notebook-spine::after {
+          content: '';
+          position: absolute;
+          right: 0;
           top: 0;
           bottom: 0;
-          width: 32px;
-          background: linear-gradient(90deg, #e8e2f2 0%, #f0ecf8 70%, transparent 100%);
-          border-radius: 16px 0 0 16px;
-          z-index: 1;
+          width: 1px;
+          background: #d1d5db40;
+        }
+        .notebook-margin {
+          position: absolute;
+          left: 34px;
+          top: 0;
+          bottom: 0;
+          width: 1.5px;
+          background: #fca5a550;
+          z-index: 2;
         }
       `}</style>
 
@@ -275,10 +297,11 @@ function QuizContent() {
 
             {/* QCM CARD — Style cahier d'écolier */}
             <div className="relative">
-            <div className="notebook-bg bg-white rounded-2xl sm:rounded-3xl shadow-xl flex flex-col overflow-hidden relative notebook-holes">
+            <div className="notebook-bg bg-[#fefefe] rounded-2xl sm:rounded-3xl shadow-xl flex flex-col overflow-hidden relative notebook-holes" style={{ maxWidth: '580px', margin: '0 auto' }}>
               <div className="notebook-spine"></div>
+              <div className="notebook-margin"></div>
               {/* Header */}
-              <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 pl-12 sm:pl-14 border-b border-purple-100/30 gap-2">
+              <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 pl-11 sm:pl-12 border-b border-purple-100/30 gap-2">
                 <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{reorderedQuizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
@@ -287,9 +310,7 @@ function QuizContent() {
               </div>
 
               {/* Question */}
-              <div className="p-4 sm:p-6 pl-12 sm:pl-14 flex-grow relative">
-                {/* Marge rouge du cahier */}
-                <div className="absolute left-[32px] top-0 bottom-0 w-[2px] bg-rose-300/30"></div>
+              <div className="p-4 sm:p-6 pl-11 sm:pl-12 flex-grow relative">
                 <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.question}</h2>
                 <div className="space-y-2 sm:space-y-3">
                   {data.options.map((option, index) => {
@@ -335,7 +356,7 @@ function QuizContent() {
               </div>
 
               {/* Actions */}
-              <div className="p-4 sm:p-5 pl-12 sm:pl-14 pt-0 flex gap-3">
+              <div className="p-4 sm:p-5 pl-11 sm:pl-12 pt-0 flex gap-3">
                 {current > 0 && (
                   <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
