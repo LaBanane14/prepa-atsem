@@ -208,54 +208,6 @@ function QuizContent() {
       <style>{`
         .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .notebook-bg {
-          background-image:
-            linear-gradient(#e5e7eb30 1px, transparent 1px),
-            linear-gradient(90deg, #e5e7eb30 1px, transparent 1px);
-          background-size: 16px 16px;
-        }
-        .notebook-holes {
-          position: relative;
-        }
-        .notebook-holes::before {
-          content: '';
-          position: absolute;
-          left: 56px;
-          top: 12%;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #f3f0ff;
-          border: 1.5px solid #d4d0e0;
-          box-shadow: 0 60px 0 #f3f0ff, 0 120px 0 #f3f0ff, 0 180px 0 #f3f0ff, 0 240px 0 #f3f0ff;
-          z-index: 3;
-        }
-        .notebook-spine {
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 52px;
-          background: linear-gradient(135deg, #5b21b6 0%, #6d28d9 40%, #7c3aed 100%);
-          border-radius: 16px 0 0 16px;
-          z-index: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          padding: 16px 4px;
-          box-shadow: 2px 0 8px rgba(91, 33, 182, 0.15);
-        }
-        .notebook-margin {
-          position: absolute;
-          left: 52px;
-          top: 0;
-          bottom: 0;
-          width: 1.5px;
-          background: #fca5a540;
-          z-index: 2;
-        }
       `}</style>
 
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -279,20 +231,11 @@ function QuizContent() {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </a>
 
-            {/* QCM CARD — Style cahier d'écolier */}
-            <div className="relative">
-            <div className="notebook-bg bg-[#fefefe] rounded-2xl sm:rounded-3xl shadow-xl flex flex-col overflow-hidden relative notebook-holes" style={{ maxWidth: '580px', margin: '0 auto' }}>
-              <div className="notebook-spine">
-                {/* Logo enfants */}
-                <LogoSvg className="w-8 h-8 text-white/80" />
-                {/* Texte vertical QCM */}
-                <span className="text-white/60 text-[9px] font-black tracking-[3px] uppercase" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>QCM ATSEM</span>
-                {/* Petite étoile en bas */}
-                <svg className="w-4 h-4 text-amber-300/70 mt-auto" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15,9 22,9.5 17,14 18.5,21 12,17 5.5,21 7,14 2,9.5 9,9"/></svg>
-              </div>
-              <div className="notebook-margin"></div>
+            {/* QCM CARD */}
+            <div className={`${colors.wrapper} rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 shadow-sm`}>
+            <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
               {/* Header */}
-              <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 pl-16 sm:pl-18 border-b border-purple-100/30 gap-2">
+              <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
                 <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{reorderedQuizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
                 <div className="absolute bottom-0 left-0 w-full h-2 bg-purple-100">
@@ -301,7 +244,7 @@ function QuizContent() {
               </div>
 
               {/* Question */}
-              <div className="p-4 sm:p-6 pl-16 sm:pl-18 flex-grow relative">
+              <div className="p-4 sm:p-6 flex-grow">
                 <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.question}</h2>
                 <div className="space-y-2 sm:space-y-3">
                   {data.options.map((option, index) => {
@@ -347,7 +290,7 @@ function QuizContent() {
               </div>
 
               {/* Actions */}
-              <div className="p-4 sm:p-5 pl-16 sm:pl-18 pt-0 flex gap-3">
+              <div className="p-4 sm:p-5 pt-0 flex gap-3">
                 {current > 0 && (
                   <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
