@@ -217,10 +217,10 @@ export default function TarifsPage() {
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <LogoSvg className="w-5 h-5 text-purple-400" />
+              <LogoSvg className="w-5 h-5 text-purple-500" />
               <h4 className="text-white font-bold text-lg">Prépa ATSEM</h4>
             </div>
-            <p className="max-w-xs leading-relaxed">La seule plateforme d'entraînement pour préparer le concours ATSEM. QCM, annales corrigées et simulations d'oral, avec un suivi en temps réel de votre progression !</p>
+            <p className="max-w-xs leading-relaxed">La seule plateforme d'entraînement pour préparer le concours ATSEM. Entraînez-vous dans les conditions réelles du concours.</p>
           </div>
           <div>
             <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources</h4>

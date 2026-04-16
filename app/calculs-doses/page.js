@@ -635,15 +635,15 @@ export default function CalculsDosesPage() {
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm mt-auto">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4"><Stethoscope className="w-5 h-5 text-red-500" /><h4 className="text-white font-bold text-lg">Prépa FPC</h4></div>
-            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats en reconversion professionnelle qui préparent le concours FPC. Entraînez-vous dans les conditions réelles du concours.</p>
+            <div className="flex items-center gap-2 mb-4"><Stethoscope className="w-5 h-5 text-purple-500" /><h4 className="text-white font-bold text-lg">Prépa ATSEM</h4></div>
+            <p className="max-w-xs leading-relaxed">La seule plateforme d'entraînement pour préparer le concours ATSEM. Entraînez-vous dans les conditions réelles du concours.</p>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources IFSI</h4>
+            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources</h4>
             <ul className="space-y-3">
-              <li><a href="/blog/dates-concours-fpc-infirmier-2026" className="hover:text-white transition">Dates concours FPC</a></li>
-              <li><a href="/blog/dossier-inscription-concours-fpc-infirmier-guide-complet-2026" className="hover:text-white transition">Préparer son dossier FPC</a></li>
-              <li><a href="/calculs-doses" className="hover:text-white transition">Formules calculs de doses</a></li>
+              <li><a href="/calendrier" className="hover:text-white transition">Calendrier 2026</a></li>
+              <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
+              <li><a href="/tarifs" className="hover:text-white transition">Nos formules</a></li>
             </ul>
           </div>
           <div>
@@ -651,12 +651,12 @@ export default function CalculsDosesPage() {
             <ul className="space-y-3">
               <li><a href="/mentions-legales" className="hover:text-white transition">Mentions légales</a></li>
               <li><a href="/cgu" className="hover:text-white transition">CGV &amp; CGU</a></li>
-              <li><span className="text-white text-sm font-medium">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#112;&#114;&#101;&#112;&#97;&#45;&#102;&#112;&#99;&#46;&#102;&#114;</span></li>
+              <li><span className="text-white text-sm font-medium">support@prepa-atsem.fr</span></li>
             </ul>
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center">
-          <p>&copy; 2026 Prépa FPC (prepa-fpc.fr). Tous droits réservés.</p>
+          <p>&copy; 2026 Prépa ATSEM. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
