@@ -345,11 +345,11 @@ function Nav() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <a href="/" className="flex items-center gap-3">
           <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
-            <LogoSvg className="w-9 h-9" />
+            <LogoSvg className="w-10 h-10" />
           </div>
-          <div>
-            <span className="font-black text-2xl tracking-tight text-slate-900 block leading-none" style={{ fontFamily: "'Nunito', sans-serif" }}><span className="translate-y-[2px] inline-block">Prépa ATSEM</span></span>
-            <span className="text-xs font-bold text-slate-500 tracking-widest uppercase flex items-center gap-1.5">Concours ATSEM <svg className="w-4 h-3 inline-block" viewBox="0 0 20 15"><rect width="7" height="15" fill="#002395"/><rect x="7" width="6" height="15" fill="#FFFFFF"/><rect x="13" width="7" height="15" fill="#ED2939"/></svg></span>
+          <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+            <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
+            <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
           </div>
         </a>
         <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
