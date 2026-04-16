@@ -56,18 +56,14 @@ Chaque article suit ce squelette. Ne jamais inclure de balise `<h1>` dans le cor
 
 <hr />
 
-<h2>[Section principale N]</h2>
+<h2>[Section principale N — dernière section éditoriale]</h2>
 
 <h3>[Sous-section si nécessaire]</h3>
 
-<p>...</p>
-
-<hr />
-
-<h2>Préparez le concours ATSEM avec Prépa ATSEM</h2>
-
-<p>[CTA final — toujours en dernière section, avec lien vers le site]</p>
+<p>[Dernière phrase forte / ouverture / leçon retenue — pas de CTA commercial, l'article se termine sur une note éditoriale]</p>
 ```
+
+⚠️ **Ne JAMAIS terminer l'article par un bloc CTA commercial** (« Préparez le concours ATSEM avec Prépa ATSEM », « Inscrivez-vous… »). Le blog article affiche déjà un CTA automatiquement en fin de page pour les visiteurs non connectés (via le template). Ajouter un CTA dans le contenu ferait doublon et nuirait à l'E-E-A-T (Google déteste les articles qui finissent en argument de vente). Le maillage vers les pages produit doit être fait **au fil du texte**, pas en conclusion.
 
 ### Balises HTML autorisées
 
@@ -468,13 +464,13 @@ Avant de passer à la rédaction, Claude doit **systématiquement demander à l'
 - Poser des questions rhétoriques pour impliquer le lecteur
 - Éviter le jargon administratif non expliqué (décrets, grades, échelons — toujours reformuler)
 - Chaque H2 introduit un angle nouveau (pas de répétition)
-- Le CTA final doit être naturel, pas agressif commercialement
+- Ne jamais terminer par un CTA commercial (voir la règle dédiée dans la section Structure HTML). Les liens vers les pages produit se placent au fil du texte, quand c'est pertinent pour le lecteur.
 
 ### Mots et expressions à privilégier
 concours ATSEM, Agent Territorial Spécialisé des Écoles Maternelles, école maternelle, petite enfance, fonction publique territoriale, CAP AEPE, CAP Petite Enfance, concours externe, concours interne, concours 3ème voie, Centre de Gestion, CDG, CNFPT, épreuve d'admissibilité, épreuve d'admission, entretien avec le jury, reconversion ATSEM, catégorie C, filière médico-sociale
 
 ### Mots et expressions à éviter
-"dans cet article nous allons voir", "il est important de noter que", "en conclusion", "n'hésitez pas à" (sauf dans le CTA final), toute formulation IA générique type "plongeons dans", "décortiquons", "naviguer dans"
+"dans cet article nous allons voir", "il est important de noter que", "en conclusion", "n'hésitez pas à", toute formulation IA générique type "plongeons dans", "décortiquons", "naviguer dans"
 
 ---
 
@@ -537,7 +533,8 @@ Avant de livrer un article, vérifier :
 - [ ] 2-3 `<mark>` max dans tout l'article
 - [ ] `<blockquote>` utilisés pour les leçons/résumés (pas abusé)
 - [ ] `<strong>` sur les chiffres-clés (8-12 max)
-- [ ] CTA final avec lien vers prepa-atsem.fr
+- [ ] Aucun CTA commercial en fin d'article (le template du blog en affiche un automatiquement)
+- [ ] L'article se termine sur une note éditoriale (ouverture, leçon, perspective)
 
 **Métadonnées**
 - [ ] Métadonnées SEO fournies (title, meta description, slug)
