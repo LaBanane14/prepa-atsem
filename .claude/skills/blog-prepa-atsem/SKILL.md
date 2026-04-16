@@ -78,6 +78,7 @@ Chaque article suit ce squelette. Ne jamais inclure de balise `<h1>` dans le cor
 | `<ul><li>` | Listes (questions d'oral, erreurs courantes, conseils pratiques) |
 | `<hr />` | Séparateur entre grandes sections thématiques |
 | `<a href="...">` | Liens (internes vers prepa-atsem.fr ou externes vers sources officielles) |
+| `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>` | Tableaux comparatifs (grilles salariales, comparaison voies, etc.) — à utiliser quand ça clarifie vraiment la donnée, pas pour faire joli |
 
 ### Règles de hiérarchie Hn
 
@@ -153,7 +154,8 @@ SLUG : [url-friendly, court, avec mot-clé — ex: concours-atsem-epreuves-admis
 
    **Pages produit (toujours inclure 2-3 de celles-ci) :**
    - Page d'accueil : `https://prepa-atsem.fr`
-   - QCM : `https://prepa-atsem.fr/qcm`
+   - Espace entraînement / QCM (toujours pointer ici pour les QCM dans les articles) : `https://prepa-atsem.fr/dashboard`
+   - QCM statique (démo 20 questions, à NE PAS lier dans les articles blog) : `https://prepa-atsem.fr/qcm`
    - Blog : `https://prepa-atsem.fr/blog`
    - Tarifs : `https://prepa-atsem.fr/tarifs`
    - Calendrier des concours : `https://prepa-atsem.fr/calendrier`
@@ -438,7 +440,7 @@ Avant de passer à la rédaction, Claude doit **systématiquement demander à l'
    > - [Titre de l'article 1] → `https://prepa-atsem.fr/blog/slug-1`
    >
    > 🔗 Pages produit :
-   > - QCM → `https://prepa-atsem.fr/qcm`
+   > - Espace d'entraînement QCM → `https://prepa-atsem.fr/dashboard`
    > - Calendrier → `https://prepa-atsem.fr/calendrier`
    >
    > Peux-tu confirmer que ces URLs sont correctes et que ces articles existent bien ?

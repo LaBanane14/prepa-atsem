@@ -249,6 +249,13 @@ export default function ArticlePage() {
           [&_mark]:bg-purple-100 [&_mark]:text-inherit [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:rounded
           [&_a]:text-purple-800 [&_a]:font-bold [&_a]:underline [&_a]:decoration-purple-300 [&_a]:underline-offset-2 hover:[&_a]:decoration-purple-500 [&_a]:transition
           [&_strong]:text-slate-800
+          [&_table]:!w-full [&_table]:!my-8 [&_table]:!border-collapse [&_table]:!rounded-xl [&_table]:!overflow-hidden [&_table]:!border [&_table]:!border-slate-200 [&_table]:!shadow-sm [&_table]:!text-sm [&_table]:!table-auto
+          [&_thead]:!bg-gradient-to-r [&_thead]:!from-purple-100 [&_thead]:!to-purple-50
+          [&_th]:!px-4 [&_th]:!py-3 [&_th]:!text-left [&_th]:!font-black [&_th]:!text-purple-900 [&_th]:!text-xs [&_th]:!uppercase [&_th]:!tracking-wide [&_th]:!border-b-2 [&_th]:!border-purple-300
+          [&_td]:!px-4 [&_td]:!py-3 [&_td]:!text-slate-700 [&_td]:!border-b [&_td]:!border-slate-100 [&_td]:!font-medium [&_td]:!align-middle
+          [&_tbody_tr:last-child_td]:!border-b-0
+          [&_tbody_tr:nth-child(even)]:!bg-slate-50/70
+          [&_tbody_tr:hover]:!bg-purple-50/40 [&_tbody_tr]:!transition-colors
         `} dangerouslySetInnerHTML={{__html: article.content}}></div>
 
         {/* Like / Dislike */}
