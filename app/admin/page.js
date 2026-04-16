@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [message, setMessage] = useState('')
   const [uploading, setUploading] = useState(false)
 
-  const emptyArticle = { title: '', slug: '', category: '', category_color: 'blue', excerpt: '', content: '', date: new Date().toISOString().split('T')[0], reading_time: '5 min de lecture', published: true, image_url: '' }
+  const emptyArticle = { title: '', slug: '', category: '', category_color: 'blue', excerpt: '', content: '', date: new Date().toISOString().split('T')[0], reading_time: '5 min de lecture', published: true, image_url: '', schema_extra: '', views: 0 }
   const [form, setForm] = useState(emptyArticle)
   const [pasteInput, setPasteInput] = useState('')
   const [pasteOpen, setPasteOpen] = useState(false)
@@ -32,6 +32,24 @@ export default function AdminPage() {
       }
     }
     return null
+  }
+
+  function extractSchemaExtra(text) {
+    const blocks = []
+    const fenceRegex = /```(?:json)?\s*\n(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```/g
+    let m
+    while ((m = fenceRegex.exec(text)) !== null) {
+      try {
+        const parsed = JSON.parse(m[1])
+        const items = Array.isArray(parsed) ? parsed : [parsed]
+        for (const item of items) {
+          const type = item?.['@type']
+          if (type === 'FAQPage' || type === 'HowTo') blocks.push(item)
+        }
+      } catch {}
+    }
+    if (blocks.length === 0) return ''
+    return JSON.stringify(blocks.length === 1 ? blocks[0] : blocks, null, 2)
   }
 
   function extractHtmlContent(text) {
@@ -72,6 +90,7 @@ export default function AdminPage() {
     const colorHex = extractField(t, ['CATEGORY_COLOR', 'COULEUR'])
     const publishedRaw = extractField(t, ['PUBLISHED', 'PUBLIÉ'])
     const html = extractHtmlContent(t)
+    const schemaExtra = extractSchemaExtra(t)
 
     const updated = { ...form }
     if (title) updated.title = title
@@ -88,9 +107,10 @@ export default function AdminPage() {
     }
     if (publishedRaw) updated.published = /true|oui|yes/i.test(publishedRaw)
     if (html) updated.content = html
+    if (schemaExtra) updated.schema_extra = schemaExtra
 
     setForm(updated)
-    const filled = [title && 'titre', slug && 'slug', excerpt && 'résumé', category && 'catégorie', colorHex && 'couleur', html && 'contenu'].filter(Boolean)
+    const filled = [title && 'titre', slug && 'slug', excerpt && 'résumé', category && 'catégorie', colorHex && 'couleur', html && 'contenu', schemaExtra && 'schema.org'].filter(Boolean)
     setMessage(filled.length ? `Importé : ${filled.join(', ')}` : 'Aucun champ détecté — format non reconnu')
     setPasteInput('')
     setPasteOpen(false)
@@ -302,6 +322,20 @@ export default function AdminPage() {
             </div>
           </div>
 
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">
+              Nombre de vues <span className="font-normal text-slate-400">(ajustable manuellement)</span>
+            </label>
+            <div className="flex gap-2">
+              <input type="number" min="0" value={form.views ?? 0} onChange={e => handleChange('views', parseInt(e.target.value) || 0)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium"/>
+              {[50, 100, 500, 1000].map(n => (
+                <button key={n} type="button" onClick={() => handleChange('views', (form.views || 0) + n)} className="bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold px-3 py-2 rounded-lg text-xs transition shrink-0">
+                  +{n}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* IMAGE UPLOAD */}
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-1.5">Image de couverture</label>
@@ -349,6 +383,14 @@ export default function AdminPage() {
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-1.5">Contenu (HTML)</label>
             <textarea rows={12} required value={form.content} onChange={e => handleChange('content', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-mono text-sm resize-y" placeholder="<h2>Introduction</h2><p>Votre contenu ici...</p>"/>
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">
+              Schema.org additionnel <span className="font-normal text-slate-400">(optionnel — FAQPage, HowTo)</span>
+            </label>
+            <textarea rows={5} value={form.schema_extra || ''} onChange={e => handleChange('schema_extra', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-mono text-xs resize-y" placeholder='{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[...]}'/>
+            <p className="text-xs text-slate-400 mt-1.5 font-medium">BlogPosting + BreadcrumbList sont générés automatiquement. Ne remplir ce champ que pour les schémas spécifiques (FAQ, HowTo).</p>
           </div>
 
           <div className="flex items-center gap-3">

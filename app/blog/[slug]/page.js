@@ -106,22 +106,50 @@ export default function ArticlePage() {
 
   const colors = colorMap[article.category_color] || colorMap.blue
 
-  const jsonLd = {
+  const SITE_URL = 'https://prepa-atsem.fr'
+  const articleUrl = `${SITE_URL}/blog/${params.slug}`
+
+  const blogPostingLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
-    dateModified: article.date,
-    author: { '@type': 'Organization', name: 'Prépa FPC', url: 'https://www.prepa-fpc.fr' },
-    publisher: { '@type': 'Organization', name: 'Prépa FPC', url: 'https://www.prepa-fpc.fr' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.prepa-fpc.fr/blog/${params.slug}` },
+    dateModified: article.updated_at || article.date,
+    author: { '@type': 'Organization', name: 'Prépa ATSEM', url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Prépa ATSEM',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` }
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    articleSection: article.category,
     ...(article.image_url && { image: article.image_url }),
+  }
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: article.title, item: articleUrl }
+    ]
+  }
+
+  let schemaExtra = null
+  if (article.schema_extra) {
+    try { schemaExtra = JSON.parse(article.schema_extra) } catch {}
   }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-red-200 flex flex-col">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      {schemaExtra && (Array.isArray(schemaExtra) ? schemaExtra : [schemaExtra]).map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
       {/* NAVIGATION */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
