@@ -298,14 +298,21 @@ function QuizContent() {
             {/* QCM CARD — Style cahier d'écolier */}
             <div className="relative">
             <div className="notebook-bg bg-[#fefefe] rounded-2xl sm:rounded-3xl shadow-xl flex flex-col overflow-hidden relative notebook-holes" style={{ maxWidth: '580px', margin: '0 auto' }}>
-              <div className="notebook-spine"></div>
+              <div className="notebook-spine">
+                {/* Petits dessins d'enfants griffonnés dans la marge */}
+                <svg className="absolute left-[6px] top-[15%] w-[22px] h-[22px] text-purple-300/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polygon points="12,2 15,9 22,9.5 17,14 18.5,21 12,17 5.5,21 7,14 2,9.5 9,9"/></svg>
+                <svg className="absolute left-[8px] top-[32%] w-[18px] h-[18px] text-pink-300/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="10" r="5"/><circle cx="7" cy="12" r="4"/><circle cx="17" cy="12" r="4"/><circle cx="9" cy="16" r="4"/><circle cx="15" cy="16" r="4"/><line x1="12" y1="15" x2="12" y2="24"/></svg>
+                <svg className="absolute left-[5px] top-[50%] w-[24px] h-[20px] text-amber-300/50" viewBox="0 0 40 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="20" cy="10" r="7"/><line x1="20" y1="0" x2="20" y2="2"/><line x1="20" y1="18" x2="20" y2="20"/><line x1="10" y1="10" x2="12" y2="10"/><line x1="28" y1="10" x2="30" y2="10"/><line x1="13" y1="4" x2="14.5" y2="5.5"/><line x1="25.5" y1="14.5" x2="27" y2="16"/></svg>
+                <svg className="absolute left-[7px] top-[68%] w-[20px] h-[20px] text-emerald-300/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <svg className="absolute left-[6px] top-[83%] w-[22px] h-[16px] text-blue-300/50" viewBox="0 0 30 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M5 18 L15 5 L25 18"/><rect x="11" y="12" width="8" height="6"/><rect x="13" y="14" width="4" height="4"/></svg>
+              </div>
               <div className="notebook-margin"></div>
               {/* Header */}
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 pl-11 sm:pl-12 border-b border-purple-100/30 gap-2">
                 <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{reorderedQuizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
-                <div className="absolute bottom-0 left-0 w-full h-1.5 bg-purple-100/50">
-                  <div className="h-full bg-purple-600 transition-all duration-500 rounded-r-full" style={{width: `${progress}%`}}></div>
+                <div className="absolute bottom-0 left-0 w-full h-2 bg-purple-100">
+                  <div className="h-full bg-purple-700 transition-all duration-500" style={{width: `${progress}%`}}></div>
                 </div>
               </div>
 
