@@ -13,6 +13,88 @@ export default function AdminPage() {
 
   const emptyArticle = { title: '', slug: '', category: '', category_color: 'blue', excerpt: '', content: '', date: new Date().toISOString().split('T')[0], reading_time: '5 min de lecture', published: true, image_url: '' }
   const [form, setForm] = useState(emptyArticle)
+  const [pasteInput, setPasteInput] = useState('')
+  const [pasteOpen, setPasteOpen] = useState(false)
+
+  const hexToColorName = {
+    '#dc2626': 'red', '#2563eb': 'blue', '#7c3aed': 'purple', '#ea580c': 'amber',
+    '#059669': 'emerald', '#0891b2': 'blue', '#ca8a04': 'amber', '#4f46e5': 'purple',
+    '#db2777': 'rose', '#f43f5e': 'rose', '#ef4444': 'red', '#f59e0b': 'amber',
+    '#10b981': 'emerald', '#8b5cf6': 'purple', '#3b82f6': 'blue'
+  }
+
+  function extractField(text, labels) {
+    for (const label of labels) {
+      const regex = new RegExp(`${label}\\s*:\\s*(.+?)(?:\\r?\\n|$)`, 'i')
+      const match = text.match(regex)
+      if (match && match[1].trim()) {
+        return match[1].trim().replace(/^\[|\]$/g, '').replace(/^["']|["']$/g, '').trim()
+      }
+    }
+    return null
+  }
+
+  function extractHtmlContent(text) {
+    const bodyMatch = text.match(/<body[^>]*>([\s\S]*?)<\/body>/i)
+    if (bodyMatch) {
+      return bodyMatch[1].replace(/<!--[\s\S]*?-->/g, '').trim()
+    }
+    const fenceMatch = text.match(/```(?:html)?\s*\n([\s\S]*?)```/i)
+    if (fenceMatch && /<(p|h2|h3|ul|ol|blockquote|hr)/i.test(fenceMatch[1])) {
+      return fenceMatch[1].trim()
+    }
+    const firstTag = text.search(/<(p|h2|h3)[\s>]/i)
+    if (firstTag !== -1) {
+      const slice = text.slice(firstTag)
+      const lastClose = slice.lastIndexOf('>')
+      if (lastClose !== -1) return slice.slice(0, lastClose + 1).trim()
+    }
+    return null
+  }
+
+  function inferCategoryFromColor(hex) {
+    const map = {
+      '#7c3aed': 'Concours ATSEM', '#2563eb': 'Épreuve écrite', '#dc2626': 'Épreuve orale',
+      '#ea580c': 'Témoignages', '#059669': 'Reconversion', '#0891b2': 'Métier ATSEM',
+      '#ca8a04': 'Pédagogie', '#4f46e5': 'Fonction publique', '#db2777': 'CAP AEPE'
+    }
+    return map[hex?.toLowerCase()] || null
+  }
+
+  function handleImportPaste() {
+    if (!pasteInput.trim()) { setMessage('Collez d\'abord la réponse de l\'agent'); return }
+    const t = pasteInput
+
+    const title = extractField(t, ['TITRE SEO', 'TITRE', 'TITLE'])
+    const slug = extractField(t, ['SLUG'])
+    const excerpt = extractField(t, ['RÉSUMÉ', 'RESUME', 'META DESCRIPTION', 'META-DESCRIPTION'])
+    const category = extractField(t, ['CATÉGORIE', 'CATEGORIE', 'CATEGORY'])
+    const colorHex = extractField(t, ['CATEGORY_COLOR', 'COULEUR'])
+    const publishedRaw = extractField(t, ['PUBLISHED', 'PUBLIÉ'])
+    const html = extractHtmlContent(t)
+
+    const updated = { ...form }
+    if (title) updated.title = title
+    if (slug) updated.slug = slug
+    if (excerpt) updated.excerpt = excerpt
+    if (category) updated.category = category
+    else if (colorHex) {
+      const inferred = inferCategoryFromColor(colorHex)
+      if (inferred && !updated.category) updated.category = inferred
+    }
+    if (colorHex) {
+      const name = hexToColorName[colorHex.toLowerCase()]
+      if (name) updated.category_color = name
+    }
+    if (publishedRaw) updated.published = /true|oui|yes/i.test(publishedRaw)
+    if (html) updated.content = html
+
+    setForm(updated)
+    const filled = [title && 'titre', slug && 'slug', excerpt && 'résumé', category && 'catégorie', colorHex && 'couleur', html && 'contenu'].filter(Boolean)
+    setMessage(filled.length ? `Importé : ${filled.join(', ')}` : 'Aucun champ détecté — format non reconnu')
+    setPasteInput('')
+    setPasteOpen(false)
+  }
 
   const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL
 
@@ -128,7 +210,7 @@ export default function AdminPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div></div>
+    return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>
   }
 
   const colorOptions = [
@@ -147,7 +229,7 @@ export default function AdminPage() {
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="font-black text-lg">Admin</span>
-            <span className="text-slate-400 text-sm">Prépa FPC</span>
+            <span className="text-slate-400 text-sm">Prépa ATSEM</span>
           </div>
           <div className="flex items-center gap-4">
             <a href="/blog" className="text-slate-400 hover:text-white text-sm font-medium transition">Voir le blog</a>
@@ -163,33 +245,60 @@ export default function AdminPage() {
           <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${message.startsWith('Erreur') ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'}`}>{message}</div>
         )}
 
+        {/* IMPORT DEPUIS RÉPONSE AGENT */}
+        <div className="bg-white rounded-2xl border-2 border-dashed border-purple-300 p-5 mb-6">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2"/></svg>
+              </div>
+              <div>
+                <h2 className="font-black text-slate-900">Importer depuis la réponse de l'agent</h2>
+                <p className="text-xs text-slate-500 font-medium">Collez la sortie du skill blog-prepa-atsem pour remplir le formulaire automatiquement</p>
+              </div>
+            </div>
+            <button type="button" onClick={() => setPasteOpen(!pasteOpen)} className="bg-purple-800 hover:bg-purple-900 text-white text-xs font-bold px-4 py-2 rounded-lg transition shrink-0">
+              {pasteOpen ? 'Fermer' : 'Coller'}
+            </button>
+          </div>
+          {pasteOpen && (
+            <div className="mt-4 space-y-3">
+              <textarea rows={10} value={pasteInput} onChange={e => setPasteInput(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-mono text-xs resize-y" placeholder={`Collez ici la réponse complète de l'agent, par exemple :\n\nTITRE SEO : Concours ATSEM : les épreuves à connaître\nMETA DESCRIPTION : ...\nSLUG : concours-atsem-epreuves\n\nSUPABASE\nTITRE : ...\nRÉSUMÉ : ...\nCATEGORY_COLOR : #7c3aed\n\n<p>...</p>\n<h2>...</h2>`}/>
+              <div className="flex gap-2">
+                <button type="button" onClick={handleImportPaste} className="bg-purple-800 hover:bg-purple-900 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition">Importer dans le formulaire</button>
+                <button type="button" onClick={() => { setPasteInput(''); setPasteOpen(false) }} className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-5 py-2.5 rounded-xl text-sm transition">Annuler</button>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* FORMULAIRE */}
         <form onSubmit={handleSave} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-10 space-y-5">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">Titre</label>
-              <input type="text" required value={form.title} onChange={e => handleChange('title', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium" placeholder="Mon super article"/>
+              <input type="text" required value={form.title} onChange={e => handleChange('title', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium" placeholder="Mon super article"/>
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">Slug (URL)</label>
-              <input type="text" required value={form.slug} onChange={e => handleChange('slug', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium font-mono text-sm" placeholder="mon-super-article"/>
+              <input type="text" required value={form.slug} onChange={e => handleChange('slug', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium font-mono text-sm" placeholder="mon-super-article"/>
             </div>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-5">
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">Catégorie</label>
-              <input type="text" required value={form.category} onChange={e => handleChange('category', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium" placeholder="Mathématiques"/>
+              <input type="text" required value={form.category} onChange={e => handleChange('category', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium" placeholder="Concours ATSEM"/>
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">Couleur</label>
-              <select value={form.category_color} onChange={e => handleChange('category_color', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium">
+              <select value={form.category_color} onChange={e => handleChange('category_color', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium">
                 {colorOptions.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-1.5">Date</label>
-              <input type="date" value={form.date} onChange={e => handleChange('date', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium"/>
+              <input type="date" value={form.date} onChange={e => handleChange('date', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium"/>
             </div>
           </div>
 
@@ -210,11 +319,11 @@ export default function AdminPage() {
                   </div>
                 </div>
               ) : (
-                <label className={`flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-xl cursor-pointer transition ${uploading ? 'border-red-300 bg-red-50' : 'border-slate-300 hover:border-red-400 hover:bg-red-50/30'}`}>
+                <label className={`flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-xl cursor-pointer transition ${uploading ? 'border-purple-300 bg-purple-50' : 'border-slate-300 hover:border-purple-400 hover:bg-purple-50/30'}`}>
                   {uploading ? (
                     <div className="flex items-center gap-2">
-                      <div className="animate-spin w-5 h-5 border-2 border-red-600 border-t-transparent rounded-full"></div>
-                      <span className="text-sm font-bold text-red-600">Upload en cours...</span>
+                      <div className="animate-spin w-5 h-5 border-2 border-purple-800 border-t-transparent rounded-full"></div>
+                      <span className="text-sm font-bold text-purple-800">Upload en cours...</span>
                     </div>
                   ) : (
                     <>
@@ -234,21 +343,21 @@ export default function AdminPage() {
 
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-1.5">Résumé (affiché sur la carte blog)</label>
-            <textarea rows={2} value={form.excerpt} onChange={e => handleChange('excerpt', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-medium resize-none" placeholder="Un court résumé de l'article..."/>
+            <textarea rows={2} value={form.excerpt} onChange={e => handleChange('excerpt', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-medium resize-none" placeholder="Un court résumé de l'article..."/>
           </div>
 
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-1.5">Contenu (HTML)</label>
-            <textarea rows={12} required value={form.content} onChange={e => handleChange('content', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:bg-white focus:border-transparent outline-none font-mono text-sm resize-y" placeholder="<h2>Introduction</h2><p>Votre contenu ici...</p>"/>
+            <textarea rows={12} required value={form.content} onChange={e => handleChange('content', e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white focus:border-transparent outline-none font-mono text-sm resize-y" placeholder="<h2>Introduction</h2><p>Votre contenu ici...</p>"/>
           </div>
 
           <div className="flex items-center gap-3">
-            <input type="checkbox" id="published" checked={form.published} onChange={e => handleChange('published', e.target.checked)} className="w-4 h-4 accent-red-600"/>
+            <input type="checkbox" id="published" checked={form.published} onChange={e => handleChange('published', e.target.checked)} className="w-4 h-4 accent-purple-800"/>
             <label htmlFor="published" className="text-sm font-bold text-slate-700">Publié (visible sur le blog)</label>
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-red-600/20">
+            <button type="submit" disabled={saving} className="bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-800/20">
               {saving ? 'Enregistrement...' : editing ? 'Mettre à jour' : "Publier l'article"}
             </button>
             {editing && (
