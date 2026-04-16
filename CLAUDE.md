@@ -36,7 +36,6 @@ All pages are client components (`'use client'`) using plain `.js` files in the 
 - `app/blog/page.js` and `app/blog/[slug]/page.js` — Blog with articles stored in Supabase `articles` table
 - `app/auth/page.js` — Auth page (login/signup)
 - `app/login/page.js` and `app/signup/page.js` — Redirect to `/auth`
-- `app/calculs-doses/page.js` — Dose calculation formulas reference page
 - `app/tarifs/page.js` — Pricing page
 
 ### Auth pattern

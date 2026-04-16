@@ -721,13 +721,13 @@ function DashboardContent() {
               {/* RACCOURCIS UTILES */}
               <h2 className="text-lg font-black text-slate-900 mb-4">Raccourcis utiles</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                <a href="/calculs-doses" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
+                <a href="/qcm" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
                   <div className="w-10 h-10 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2Z"/><path d="M9 7h6"/><path d="M12 7v6"/><path d="M9 17h6"/></svg>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h3M13 14h3M8 18h3M13 18h3"/></svg>
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">Formules</p>
-                    <p className="text-[10px] text-slate-400 font-medium">Calculs de doses</p>
+                    <p className="font-bold text-slate-900 text-sm">QCM</p>
+                    <p className="text-[10px] text-slate-400 font-medium">Entraînement</p>
                   </div>
                 </a>
                 <a href="/blog" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
