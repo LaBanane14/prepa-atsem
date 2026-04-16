@@ -222,7 +222,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 {answered ? (
-                  <a href="/qcm" className="bg-purple-800 hover:bg-purple-900 p-4 text-center transition flex items-center justify-center gap-2 cursor-pointer">
+                  <a href={`/qcm?start=1&a=${selectedIndex}`} className="bg-purple-800 hover:bg-purple-900 p-4 text-center transition flex items-center justify-center gap-2 cursor-pointer">
                     <span className="text-white font-bold text-sm">Lancer l'entraînement complet</span>
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
                   </a>
