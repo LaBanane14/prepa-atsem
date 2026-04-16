@@ -304,8 +304,8 @@ function QuizContent() {
               <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 pl-11 sm:pl-12 border-b border-purple-100/30 gap-2">
                 <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{reorderedQuizData.length}</span>
                 <span className={`${colors.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase transition-colors duration-300`}>{data.category}</span>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
-                  <div className="h-full bg-purple-800 transition-all duration-500" style={{width: `${progress}%`}}></div>
+                <div className="absolute bottom-0 left-0 w-full h-1.5 bg-purple-100/50">
+                  <div className="h-full bg-purple-600 transition-all duration-500 rounded-r-full" style={{width: `${progress}%`}}></div>
                 </div>
               </div>
 
