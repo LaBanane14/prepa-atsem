@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '../../../lib/supabase'
 
-const Stethoscope = ({className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
+const LogoSvg = ({className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
 const colorMap = {
   blue: { bg: 'from-blue-50 to-indigo-50', text: 'text-blue-600', icon: 'text-blue-200' },
@@ -65,7 +65,7 @@ export default function ArticlePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full"></div>
+        <div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div>
       </div>
     )
   }
@@ -144,36 +144,36 @@ export default function ArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-red-200 flex flex-col">
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-purple-200 flex flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       {schemaExtra && (Array.isArray(schemaExtra) ? schemaExtra : [schemaExtra]).map((s, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
       {/* NAVIGATION */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
-            <div className="bg-red-600 text-white p-2 rounded-xl shadow-sm"><Stethoscope className="w-7 h-7" /></div>
-            <div>
-              <span className="font-black text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-red-600">FPC</span></span>
-              <span className="text-xs font-bold text-slate-500 tracking-widest uppercase">La passerelle IFSI</span>
+            <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm"><LogoSvg className="w-10 h-10" /></div>
+            <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+              <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
+              <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM</span>
             </div>
           </a>
           <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
-            {[{href:'/',label:'Accueil'},{href:'/calculs-doses',label:'Calculs de doses'},{href:'/blog',label:'Blog',active:true},{href:'/tarifs',label:'Tarifs'}].map(link => (
-              <a key={link.label} href={link.href} className={link.active ? 'text-red-600' : 'hover:text-red-600 transition'}>{link.label}</a>
+            {[{href:'/',label:'Accueil'},{href:'/calendrier',label:'Calendrier'},{href:'/blog',label:'Blog',active:true},{href:'/tarifs',label:'Tarifs'}].map(link => (
+              <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
           </div>
           <div className="flex items-center gap-4">
             {!authLoading && (user ? (
               <>
-                <a href="/dashboard" className="hidden md:inline-flex bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-full font-bold shadow-lg shadow-slate-200 transition transform hover:-translate-y-0.5 text-sm">Mon tableau de bord</a>
+                <a href="/dashboard" className="hidden md:inline-flex bg-purple-800 hover:bg-purple-900 text-white px-5 py-2.5 rounded-full font-bold shadow-lg shadow-purple-200 transition transform hover:-translate-y-0.5 text-sm">Mon tableau de bord</a>
               </>
             ) : (
               <>
-                <a href="/login" className="hidden md:block text-slate-600 font-semibold hover:text-slate-900 transition">Connexion</a>
-                <a href="/signup" className="hidden md:inline-flex bg-slate-900 hover:bg-black text-white px-5 py-2.5 rounded-full font-semibold shadow-lg shadow-slate-200 transition transform hover:-translate-y-0.5">Inscription</a>
+                <a href="/login" className="hidden md:block text-slate-600 font-semibold hover:text-purple-800 transition">Connexion</a>
+                <a href="/signup" className="hidden md:inline-flex bg-purple-800 hover:bg-purple-900 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg shadow-purple-200 transition transform hover:-translate-y-0.5">Inscription</a>
               </>
             ))}
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
@@ -184,19 +184,19 @@ export default function ArticlePage() {
         {menuOpen && (
           <div className="md:hidden border-t border-slate-100 bg-white pb-4 shadow-lg absolute w-full z-40">
             <div className="max-w-6xl mx-auto px-4 pt-4 space-y-2">
-              {[{href:'/',label:'Accueil'},{href:'/calculs-doses',label:'Calculs de doses'},{href:'/blog',label:'Blog',active:true},{href:'/tarifs',label:'Tarifs'}].map(link => (
-                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-red-600 bg-red-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
+              {[{href:'/',label:'Accueil'},{href:'/calendrier',label:'Calendrier'},{href:'/blog',label:'Blog',active:true},{href:'/tarifs',label:'Tarifs'}].map(link => (
+                <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-800 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
               ))}
               <div className="pt-2 border-t border-slate-100 mt-2 flex flex-col gap-2">
                 {user ? (
                   <>
                     <a href="/dashboard" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Mon espace</a>
-                    <button onClick={handleLogout} className="block py-3 px-4 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 transition text-center w-full">Déconnexion</button>
+                    <button onClick={handleLogout} className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 hover:bg-purple-900 transition text-center w-full">Déconnexion</button>
                   </>
                 ) : (
                   <>
                     <a href="/login" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Connexion</a>
-                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-slate-900 hover:bg-black transition text-center">Inscription</a>
+                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 hover:bg-purple-900 transition text-center">Inscription</a>
                   </>
                 )}
               </div>
@@ -207,7 +207,7 @@ export default function ArticlePage() {
 
       {/* ARTICLE */}
       <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex-grow">
-        <a href="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-red-600 transition mb-8">
+        <a href="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-purple-800 transition mb-8">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg> Retour au blog
         </a>
 
@@ -244,10 +244,10 @@ export default function ArticlePage() {
           [&_p]:text-slate-600 [&_p]:font-medium [&_p]:leading-relaxed [&_p]:mb-5
           [&_hr]:my-10 [&_hr]:border-slate-200
           [&_ul]:my-6 [&_ul]:space-y-2 [&_ul]:list-none [&_ul]:pl-0
-          [&_li]:relative [&_li]:pl-7 [&_li]:text-slate-600 [&_li]:font-medium [&_li]:leading-relaxed [&_li]:before:content-['▸'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-red-400 [&_li]:before:font-bold
-          [&_blockquote]:border-l-4 [&_blockquote]:border-red-300 [&_blockquote]:bg-red-50/50 [&_blockquote]:rounded-r-xl [&_blockquote]:pl-6 [&_blockquote]:pr-6 [&_blockquote]:py-4 [&_blockquote]:my-6 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote_p]:mb-0 [&_blockquote_p]:text-slate-700
-          [&_mark]:bg-red-100 [&_mark]:text-inherit [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:rounded
-          [&_a]:text-red-600 [&_a]:font-bold [&_a]:underline [&_a]:decoration-red-200 [&_a]:underline-offset-2 hover:[&_a]:decoration-red-400 [&_a]:transition
+          [&_li]:relative [&_li]:pl-7 [&_li]:text-slate-600 [&_li]:font-medium [&_li]:leading-relaxed [&_li]:before:content-['▸'] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:text-purple-500 [&_li]:before:font-bold
+          [&_blockquote]:border-l-4 [&_blockquote]:border-purple-300 [&_blockquote]:bg-purple-50/50 [&_blockquote]:rounded-r-xl [&_blockquote]:pl-6 [&_blockquote]:pr-6 [&_blockquote]:py-4 [&_blockquote]:my-6 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote_p]:mb-0 [&_blockquote_p]:text-slate-700
+          [&_mark]:bg-purple-100 [&_mark]:text-inherit [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:rounded
+          [&_a]:text-purple-800 [&_a]:font-bold [&_a]:underline [&_a]:decoration-purple-300 [&_a]:underline-offset-2 hover:[&_a]:decoration-purple-500 [&_a]:transition
           [&_strong]:text-slate-800
         `} dangerouslySetInnerHTML={{__html: article.content}}></div>
 
@@ -262,10 +262,10 @@ export default function ArticlePage() {
         </div>
 
         {!user && (
-      <div className="mt-12 bg-slate-900 rounded-3xl p-10 text-center shadow-xl">
-        <h3 className="text-xl font-black text-white mb-3">Prêt(e) à vous entraîner ?</h3>
-        <p className="text-slate-400 font-medium mb-6">Rejoignez Prépa FPC et commencez vos révisions dès maintenant.</p>
-        <a href="/signup" className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl transition shadow-lg shadow-red-200/30">
+      <div className="mt-12 bg-gradient-to-br from-purple-900 to-purple-700 rounded-3xl p-10 text-center shadow-xl">
+        <h3 className="text-xl font-black text-white mb-3">Prêt(e) à préparer le concours ATSEM ?</h3>
+        <p className="text-purple-100 font-medium mb-6">Rejoignez Prépa ATSEM et commencez votre entraînement dès maintenant.</p>
+        <a href="/signup" className="inline-flex items-center gap-2 bg-white hover:bg-purple-50 text-purple-800 font-bold px-8 py-4 rounded-xl transition shadow-lg">
           Inscrivez-vous dès maintenant <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
         </a>
       </div>
@@ -276,15 +276,15 @@ export default function ArticlePage() {
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm mt-auto">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4"><Stethoscope className="w-5 h-5 text-red-500" /><h4 className="text-white font-bold text-lg">Prépa FPC</h4></div>
-            <p className="max-w-xs leading-relaxed">La plateforme d'entraînement dédiée aux candidats en reconversion professionnelle qui préparent le concours FPC. Entraînez-vous dans les conditions réelles du concours.</p>
+            <div className="flex items-center gap-2 mb-4"><LogoSvg className="w-5 h-5 text-purple-500" /><h4 className="text-white font-bold text-lg">Prépa ATSEM</h4></div>
+            <p className="max-w-xs leading-relaxed">La seule plateforme d'entraînement pour préparer le concours ATSEM. Entraînez-vous dans les conditions réelles du concours.</p>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources IFSI</h4>
+            <h4 className="text-white font-bold mb-4 uppercase tracking-wider text-xs">Ressources</h4>
             <ul className="space-y-3">
-              <li><a href="/blog/dates-concours-fpc-infirmier-2026" className="hover:text-white transition">Dates concours FPC</a></li>
-              <li><a href="/blog/dossier-inscription-concours-fpc-infirmier-guide-complet-2026" className="hover:text-white transition">Préparer son dossier FPC</a></li>
-              <li><a href="/calculs-doses" className="hover:text-white transition">Formules calculs de doses</a></li>
+              <li><a href="/calendrier" className="hover:text-white transition">Calendrier 2026</a></li>
+              <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
+              <li><a href="/tarifs" className="hover:text-white transition">Nos formules</a></li>
             </ul>
           </div>
           <div>
@@ -292,12 +292,12 @@ export default function ArticlePage() {
             <ul className="space-y-3">
               <li><a href="/mentions-legales" className="hover:text-white transition">Mentions légales</a></li>
               <li><a href="/cgu" className="hover:text-white transition">CGV &amp; CGU</a></li>
-              <li><span className="text-white text-sm font-medium">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#112;&#114;&#101;&#112;&#97;&#45;&#102;&#112;&#99;&#46;&#102;&#114;</span></li>
+              <li><span className="text-white text-sm font-medium">support@prepa-atsem.fr</span></li>
             </ul>
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center">
-          <p>&copy; 2026 Prépa FPC (prepa-fpc.fr). Tous droits réservés.</p>
+          <p>&copy; 2026 Prépa ATSEM. Tous droits réservés.</p>
         </div>
       </footer>
     </div>
