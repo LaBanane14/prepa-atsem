@@ -323,84 +323,78 @@ export default function SpecifiquePage() {
             </div>
           )}
 
-          {/* ===== ÉPREUVE ===== */}
-          {step === 'epreuve' && data && selectedCategorie && (
-            <div className="animate-fade-in max-w-2xl mx-auto pb-6">
+          {/* ===== ÉPREUVE (design exact /qcm) ===== */}
+          {step === 'epreuve' && data && selectedCategorie && (() => {
+            const hasAnswered = !!validated[data.numero]
+            const userAnswer = reponses[data.numero]
+            const isCorrect = hasAnswered && userAnswer === data.reponse_correcte
+            return (
+              <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-6 xl:gap-8 items-start w-full">
 
-              {/* Header */}
-              <div className="bg-slate-900 rounded-t-2xl px-4 sm:px-5 py-3 sm:py-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <h2 className="text-base sm:text-xl font-black text-white">QCM {selectedCategorie.titre}</h2>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{questions.length} questions · {Object.keys(validated).length} validées</p>
-                  </div>
-                  <button onClick={restart} className="bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition flex items-center gap-2">
-                    Quitter
-                    <XCircle size={14} />
+                {/* Colonne 1 : spacer */}
+                <div className="hidden xl:block"></div>
+
+                {/* Colonne 2 : QCM CARD */}
+                <div className="w-full max-w-2xl mx-auto xl:w-[650px] relative mt-2 sm:mt-4">
+                  {/* Croix quitter */}
+                  <button onClick={restart} className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-20 w-9 h-9 sm:w-10 sm:h-10 bg-purple-800 hover:bg-purple-900 text-white rounded-full flex items-center justify-center transition shadow-lg cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
-                </div>
-                <div className="w-full h-2 bg-white/15 rounded-full overflow-hidden">
-                  <div className="h-full bg-purple-400 transition-all duration-500 rounded-full" style={{width: `${progress}%`}}></div>
-                </div>
-              </div>
 
-              {/* Question card (style /qcm) */}
-              {(() => {
-                const hasAnswered = !!validated[data.numero]
-                const userAnswer = reponses[data.numero]
-                const isCorrect = hasAnswered && userAnswer === data.reponse_correcte
-                return (
-                  <>
-                    <div className="bg-white border border-t-0 border-slate-200 rounded-b-2xl shadow-sm overflow-hidden mb-3">
+                  <div className="bg-purple-100/60 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 shadow-sm">
+                    <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
                       {/* Header */}
-                      <div className="relative flex flex-wrap justify-between items-center px-4 py-2.5 border-b border-slate-100 gap-2">
-                        <span className="text-slate-600 font-bold text-xs tracking-wide">Question {current + 1}/{questions.length}</span>
-                        <span className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
+                      <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
+                        <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{questions.length}</span>
+                        <span className="bg-purple-50 text-purple-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
+                        <div className="absolute bottom-0 left-0 w-full h-2 bg-purple-100">
+                          <div className="h-full bg-purple-700 transition-all duration-500" style={{width: `${progress}%`}}></div>
+                        </div>
                       </div>
 
-                      {/* Question + propositions */}
-                      <div className="p-4 sm:p-5">
-                        <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-3 sm:mb-4 leading-relaxed">{data.enonce}</h2>
-                        <div className="space-y-2">
+                      {/* Question */}
+                      <div className="p-4 sm:p-6 flex-grow">
+                        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.enonce}</h2>
+                        <div className="space-y-2 sm:space-y-3">
                           {(data.propositions || []).map(prop => {
                             const lettre = String(prop.lettre).toUpperCase()
                             const isSelected = userAnswer === lettre
                             const isGood = data.reponse_correcte === lettre
-                            let optClass = 'p-2.5 sm:p-3 border rounded-lg flex justify-between items-center group transition-all '
-                            let letterClass = 'w-7 h-7 rounded-md font-bold flex items-center justify-center text-xs shrink-0 transition-all '
-                            let circle = null
+                            let optClass = 'p-3 sm:p-4 border rounded-xl flex justify-between items-center group transition-all '
+                            let letterClass = 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold flex items-center justify-center text-xs sm:text-sm shrink-0 transition-all '
+                            let circleContent = null
 
                             if (hasAnswered) {
                               if (isGood) {
                                 optClass += 'border-green-500 bg-green-50 '
                                 letterClass += 'bg-green-500 text-white '
-                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                               } else if (isSelected) {
                                 optClass += 'border-red-500 bg-red-50 '
                                 letterClass += 'bg-red-500 text-white '
-                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></div>
+                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></div>
                               } else {
                                 optClass += 'border-slate-200 opacity-50 '
                                 letterClass += 'bg-slate-100 text-slate-500 '
-                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
+                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                               }
                             } else if (isSelected) {
-                              optClass += 'border-purple-700 bg-purple-50 shadow-[0_0_0_4px_rgba(126,34,206,0.05)] cursor-pointer '
-                              letterClass += 'bg-purple-700 text-white '
-                              circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-purple-700 flex items-center justify-center"><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-700 rounded-full"></div></div>
+                              optClass += 'border-purple-800 bg-purple-50 shadow-[0_0_0_4px_rgba(91,33,182,0.05)] cursor-pointer '
+                              letterClass += 'bg-purple-800 text-white '
+                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-purple-800 flex items-center justify-center"><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-800 rounded-full"></div></div>
                             } else {
                               optClass += 'border-slate-200 cursor-pointer hover:bg-slate-50 '
                               letterClass += 'bg-slate-100 text-slate-500 group-hover:bg-slate-200 '
-                              circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
+                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                             }
 
                             return (
                               <div key={lettre} className={optClass} onClick={() => selectAnswer(data.numero, lettre)}>
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 sm:gap-4">
                                   <span className={letterClass}>{lettre}</span>
-                                  <span className="font-semibold text-slate-800 text-sm">{prop.texte}</span>
+                                  <span className="font-bold text-slate-800 text-sm sm:text-base">{prop.texte}</span>
                                 </div>
-                                {circle}
+                                {circleContent}
                               </div>
                             )
                           })}
@@ -408,73 +402,57 @@ export default function SpecifiquePage() {
                       </div>
 
                       {/* Actions */}
-                      <div className="px-4 sm:px-5 pb-4 sm:pb-5 flex gap-2">
+                      <div className="p-4 sm:p-5 pt-0 flex gap-3">
                         {current > 0 && (
-                          <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-2.5 px-3 sm:px-4 rounded-lg transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
-                            <ArrowLeft size={14} />
+                          <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
                             <span className="hidden sm:inline">Précédent</span>
                           </button>
                         )}
                         <button
                           onClick={handleAction}
                           disabled={!hasAnswered && !userAnswer}
-                          className={`flex-grow bg-purple-700 text-white font-bold py-2.5 px-4 rounded-lg transition-colors hover:bg-purple-800 flex items-center justify-center gap-2 text-sm shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          className={`flex-grow bg-purple-800 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-purple-900 flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           {!hasAnswered ? (
-                            <>Valider ma réponse <CheckCircle2 size={14} /></>
+                            <>Valider ma réponse <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></>
                           ) : current === questions.length - 1 ? (
-                            <>Voir mes résultats <ArrowRight size={14} /></>
+                            <>Voir mes résultats <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></>
                           ) : (
-                            <>Question suivante <ArrowRight size={14} /></>
+                            <>Question suivante <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></>
                           )}
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    {/* Panneau d'explication */}
-                    {hasAnswered && (
-                      <div className={`animate-fade-in rounded-xl shadow-md p-3 sm:p-4 mb-3 border-2 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
-                        <div className="flex items-center gap-2.5 mb-2">
-                          <div className={`w-7 h-7 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
-                            {isCorrect ? <CheckCircle2 size={16} strokeWidth={2.5} /> : <XCircle size={16} strokeWidth={2.5} />}
-                          </div>
-                          <span className="text-base font-black">{isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse'}</span>
+                {/* Colonne 3 : EXPLICATION */}
+                <div className="w-full max-w-2xl mx-auto xl:mx-0 flex flex-col justify-start xl:pr-4">
+                  {hasAnswered && (
+                    <div className={`animate-fade-in mt-2 sm:mt-4 xl:mt-8 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col border-2 transition-colors duration-300 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
+                      <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                        <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
+                          {isCorrect ? (
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                          )}
                         </div>
-                        {data.explication && (
-                          <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 rounded-lg border border-white/40 shadow-sm text-sm">
-                            {data.explication}
-                          </div>
-                        )}
+                        <span className="text-lg sm:text-xl font-black">{isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse'}</span>
                       </div>
-                    )}
-                  </>
-                )
-              })()}
+                      {data.explication && (
+                        <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 sm:p-5 rounded-xl border border-white/40 shadow-sm text-sm sm:text-base">
+                          {data.explication}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
 
-              {/* Mini-pagination */}
-              <div className="mt-6 flex flex-wrap justify-center gap-1.5">
-                {questions.map((q, i) => {
-                  const isCurrent = i === current
-                  const isValidated = !!validated[q.numero]
-                  const isCorrectQ = isValidated && reponses[q.numero] === q.reponse_correcte
-                  let cls = 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'
-                  if (isCurrent) cls = 'bg-purple-700 text-white scale-110'
-                  else if (isValidated && isCorrectQ) cls = 'bg-green-100 text-green-700 hover:bg-green-200'
-                  else if (isValidated) cls = 'bg-red-100 text-red-700 hover:bg-red-200'
-                  else if (reponses[q.numero]) cls = 'bg-purple-100 text-purple-700 hover:bg-purple-200'
-                  return (
-                    <button
-                      key={q.numero}
-                      onClick={() => setCurrent(i)}
-                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${cls}`}
-                    >
-                      {q.numero}
-                    </button>
-                  )
-                })}
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* ===== RÉSULTAT ===== */}
           {step === 'resultat' && selectedCategorie && (
