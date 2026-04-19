@@ -195,7 +195,7 @@ export default function SpecifiquePage() {
   )
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{backgroundImage: 'radial-gradient(#7e22ce 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{background: '#faf8ff', fontFamily: "'Nunito', sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
