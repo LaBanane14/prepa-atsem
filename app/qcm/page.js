@@ -1,7 +1,7 @@
 'use client'
-import React, { useState, useEffect, useMemo, Suspense } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { getReorderedQuiz, quizData } from '../../lib/quizData'
+import { getReorderedQuiz } from '../../lib/quizData'
 
 const letters = ['A', 'B', 'C', 'D']
 
@@ -12,24 +12,6 @@ const catColors = {
   "Pédagogie": { badge: "bg-amber-50 text-amber-600", wrapper: "bg-amber-100/60", card: "bg-amber-50 border-amber-200", iconText: "text-amber-600", progressBar: "bg-amber-500" },
   "Relations pro": { badge: "bg-blue-50 text-blue-600", wrapper: "bg-blue-100/60", card: "bg-blue-50 border-blue-200", iconText: "text-blue-600", progressBar: "bg-blue-600" },
   "Calculs": { badge: "bg-emerald-50 text-emerald-600", wrapper: "bg-emerald-100/60", card: "bg-emerald-50 border-emerald-200", iconText: "text-emerald-600", progressBar: "bg-emerald-500" }
-}
-
-const catIcons = {
-  "Institutionnel": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>,
-  "Hygiène": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M7 21h10M12 3v3M8 6h8l1 5H7l1-5zM9 11v4a3 3 0 006 0v-4"/></svg>,
-  "Santé": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>,
-  "Pédagogie": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>,
-  "Relations pro": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>,
-  "Calculs": <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h3M13 14h3M8 18h3M13 18h3"/></svg>
-}
-
-const catDescriptions = {
-  "Institutionnel": "Statut, missions, hiérarchie, cadre légal",
-  "Hygiène": "Bionettoyage, dilutions, protocoles, HACCP",
-  "Santé": "Premiers secours, PAI, gestes d'urgence",
-  "Pédagogie": "Programme, sieste, ateliers, développement",
-  "Relations pro": "Discrétion, devoir de réserve, communication",
-  "Calculs": "Dilutions, surfaces, proportions"
 }
 
 function LogoSvg({ className }) {
@@ -50,31 +32,18 @@ function QuizContent() {
   const searchParams = useSearchParams()
   const startFrom = parseInt(searchParams.get('start')) || 0
   const homeAnswer = searchParams.get('a') !== null ? parseInt(searchParams.get('a')) : null
-  const catParam = searchParams.get('cat')
-  const [selectedCategory, setSelectedCategory] = useState(catParam && catColors[catParam] ? catParam : null)
-  const reorderedQuizData = useMemo(() => {
-    const all = getReorderedQuiz()
-    if (selectedCategory) return all.filter(q => q.category === selectedCategory)
-    return all
-  }, [selectedCategory])
+  const [reorderedQuizData] = useState(() => getReorderedQuiz())
   const [current, setCurrent] = useState(startFrom)
   const [selected, setSelected] = useState(null)
   const [answers, setAnswers] = useState(() => {
     const initial = new Array(reorderedQuizData.length).fill(null)
-    if (startFrom > 0 && homeAnswer !== null) initial[0] = homeAnswer
+    if (startFrom > 0 && homeAnswer !== null) {
+      initial[0] = homeAnswer
+    }
     return initial
   })
   const [state, setState] = useState('questioning')
   const [showResults, setShowResults] = useState(false)
-
-  // Reset quand la catégorie change
-  useEffect(() => {
-    setCurrent(0)
-    setSelected(null)
-    setState('questioning')
-    setShowResults(false)
-    setAnswers(new Array(reorderedQuizData.length).fill(null))
-  }, [reorderedQuizData])
   const data = reorderedQuizData[current]
   const hasAnswered = answers[current] !== null
   const progress = ((current + 1) / reorderedQuizData.length) * 100
@@ -117,51 +86,6 @@ function QuizContent() {
   }
 
   const isCorrect = hasAnswered && answers[current] === data.correct
-
-  // === ÉCRAN DE SÉLECTION DE CATÉGORIE ===
-  if (!selectedCategory && startFrom === 0) {
-    const categoryOrder = ["Institutionnel", "Hygiène", "Santé", "Pédagogie", "Relations pro", "Calculs"]
-    const categoryCounts = {}
-    quizData.forEach(q => { categoryCounts[q.category] = (categoryCounts[q.category] || 0) + 1 })
-
-    return (
-      <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
-        <Nav />
-        <main className="flex-grow flex items-center justify-center px-4 py-8 sm:py-12">
-          <div className="max-w-5xl w-full">
-            <div className="text-center mb-8 sm:mb-10">
-              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3">Choisissez une thématique</h1>
-              <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">Entraînez-vous sur l'un des 6 grands thèmes du concours ATSEM.</p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {categoryOrder.map(cat => {
-                const count = categoryCounts[cat] || 0
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className="group bg-white border-2 border-slate-200 hover:border-purple-600 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-100 transition-all">
-                      {catIcons[cat]}
-                    </div>
-                    <h3 className="font-black text-lg text-slate-900 mb-1">{cat}</h3>
-                    <p className="text-sm text-slate-600 mb-3 leading-snug">{catDescriptions[cat]}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">{count} questions</span>
-                      <svg className="w-5 h-5 text-purple-700 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
 
   if (showResults) {
     // Calcul du score final
