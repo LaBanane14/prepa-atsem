@@ -54,7 +54,7 @@ export default function AnnalePage() {
         .single()
 
       if (error || !data) {
-        window.location.href = '/annales'
+        window.location.href = '/dashboard'
         return
       }
       setAnnale(data)
@@ -223,11 +223,11 @@ export default function AnnalePage() {
 
           {/* ===== INFO POPUP ===== */}
           {step === 'info' && (
-            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { window.location.href = '/annales' }}>
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { window.location.href = '/dashboard' }}>
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
 
                 <div className="bg-slate-900 px-6 py-5 relative">
-                  <button onClick={() => { window.location.href = '/annales' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                  <button onClick={() => { window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                   <h2 className="text-lg font-black text-white pr-8">{annaleFull}</h2>
