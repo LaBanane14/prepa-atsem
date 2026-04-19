@@ -25,6 +25,7 @@ export default function AnnalePage() {
 
   // Exam state
   const [step, setStep] = useState('info') // info, exam, result
+  const [dontShowAgain, setDontShowAgain] = useState(false)
   const [reponses, setReponses] = useState({})
   const [score, setScore] = useState(0)
   const [timeLeft, setTimeLeft] = useState(45 * 60)
@@ -59,6 +60,12 @@ export default function AnnalePage() {
       setAnnale(data)
       setTimeLeft((data.duree_minutes || 45) * 60)
       setLoading(false)
+
+      if (localStorage.getItem('annale_skip_info') === 'true') {
+        setStep('exam')
+        setTimerActive(true)
+        setReponses({})
+      }
     })
   }, [id])
 
@@ -91,6 +98,7 @@ export default function AnnalePage() {
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
   function startExam() {
+    if (dontShowAgain) localStorage.setItem('annale_skip_info', 'true')
     setStep('exam')
     setTimerActive(true)
     setReponses({})
@@ -249,7 +257,10 @@ export default function AnnalePage() {
                     Commencer l'annale
                   </button>
 
-                  <a href="/annales" className="block text-center text-xs text-slate-400 font-medium hover:text-slate-600 transition">Retour aux annales</a>
+                  <label className="flex items-center gap-2 cursor-pointer justify-center">
+                    <input type="checkbox" checked={dontShowAgain} onChange={e => setDontShowAgain(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-500 focus:ring-blue-500 cursor-pointer" />
+                    <span className="text-xs text-slate-400 font-medium">Ne plus afficher ce message</span>
+                  </label>
                 </div>
               </div>
             </div>
