@@ -195,9 +195,10 @@ export default function SpecifiquePage() {
   )
 
   return (
-    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{background: '#faf8ff', fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse 800px 500px at 15% 10%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 85% 30%, rgba(251,191,36,0.14), transparent 60%), radial-gradient(ellipse 700px 500px at 25% 70%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse 800px 500px at 80% 90%, rgba(14,165,233,0.12), transparent 60%)', backgroundAttachment: 'fixed', fontFamily: "'Nunito', sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
+        html, body { background: #faf8ff; }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
@@ -213,7 +214,6 @@ export default function SpecifiquePage() {
         .v1-qcount { color: var(--c-color); display: flex; align-items: center; gap: 8px; }
         .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
-        .v1-bg::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 420px; background: radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.18), transparent 55%), radial-gradient(ellipse at 85% 10%, rgba(251,191,36,0.14), transparent 55%), radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.10), transparent 60%); pointer-events: none; z-index: 0; }
         .v1-bg > * { position: relative; z-index: 1; }
       `}</style>
 
