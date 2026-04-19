@@ -14,12 +14,12 @@ const sidebarItems = [
 ]
 
 const CATEGORIES = [
-  { id: 'institutionnel', titre: 'Institutionnel', description: 'Statut, missions, hiérarchie, cadre légal', icon: Building2 },
-  { id: 'hygiene', titre: 'Hygiène', description: 'Bionettoyage, dilutions, protocoles, HACCP', icon: SprayCan },
-  { id: 'sante', titre: 'Santé', description: 'Premiers secours, PAI, gestes d\'urgence', icon: Heart },
-  { id: 'pedagogie', titre: 'Pédagogie', description: 'Programme, sieste, ateliers, développement', icon: GraduationCap },
-  { id: 'relations', titre: 'Relations pro', description: 'Discrétion, devoir de réserve, communication', icon: Users },
-  { id: 'calculs', titre: 'Calculs', description: 'Dilutions, surfaces, proportions', icon: Calculator },
+  { id: 'institutionnel', titre: 'Institutionnel', description: 'Statut, missions, hiérarchie, cadre légal', icon: Building2, color: '#8b5cf6', tint: '#ede9fe', soft: '#f5f3ff' },
+  { id: 'hygiene', titre: 'Hygiène', description: 'Bionettoyage, dilutions, protocoles, HACCP', icon: SprayCan, color: '#10b981', tint: '#d1fae5', soft: '#ecfdf5' },
+  { id: 'sante', titre: 'Santé', description: 'Premiers secours, PAI, gestes d\'urgence', icon: Heart, color: '#f43f5e', tint: '#ffe4e6', soft: '#fff1f2' },
+  { id: 'pedagogie', titre: 'Pédagogie', description: 'Programme, sieste, ateliers, développement', icon: GraduationCap, color: '#f59e0b', tint: '#fef3c7', soft: '#fffbeb' },
+  { id: 'relations', titre: 'Relations pro', description: 'Discrétion, devoir de réserve, communication', icon: Users, color: '#0ea5e9', tint: '#e0f2fe', soft: '#f0f9ff' },
+  { id: 'calculs', titre: 'Calculs', description: 'Dilutions, surfaces, proportions', icon: Calculator, color: '#ec4899', tint: '#fce7f3', soft: '#fdf2f8' },
 ]
 
 export default function SpecifiquePage() {
@@ -202,6 +202,19 @@ export default function SpecifiquePage() {
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
+        .v1-card { transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s; }
+        .v1-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -24px rgba(26, 19, 37, 0.22); }
+        .v1-card .v1-icon { transition: transform 0.3s, background 0.3s, color 0.3s; background: var(--c-tint); color: var(--c-color); }
+        .v1-card:hover .v1-icon { background: var(--c-color); color: #fff; transform: scale(1.05) rotate(-4deg); }
+        .v1-card .v1-arrow { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s, color 0.25s; background: var(--c-tint); color: var(--c-color); }
+        .v1-card:hover .v1-arrow { background: var(--c-color); color: #fff; transform: translateX(6px); }
+        .v1-card-top { background: var(--c-soft); }
+        .v1-num { color: var(--c-color); border-color: var(--c-tint); }
+        .v1-qcount { color: var(--c-color); display: flex; align-items: center; gap: 8px; }
+        .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
+        .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
+        .v1-bg::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 420px; background: radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.18), transparent 55%), radial-gradient(ellipse at 85% 10%, rgba(251,191,36,0.14), transparent 55%), radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.10), transparent 60%); pointer-events: none; z-index: 0; }
+        .v1-bg > * { position: relative; z-index: 1; }
       `}</style>
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
@@ -241,57 +254,91 @@ export default function SpecifiquePage() {
 
         <main ref={mainRef} className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 overflow-x-hidden overflow-y-auto">
 
-          {/* ===== CHOIX CATÉGORIE ===== */}
+          {/* ===== CHOIX CATÉGORIE (design Editorial Cards colorées) ===== */}
           {step === 'choix' && (
-            <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
-              <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+            <div className="animate-fade-in v1-bg relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-10">
 
-                {/* Header sombre */}
-                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center relative">
-                  <a href="/dashboard" className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                  </a>
-                  <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">Choisissez votre thématique</h1>
-                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
+              {/* Topbar */}
+              <div className="flex items-center justify-between mb-10 sm:mb-12">
+                <div className="text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase text-slate-500 flex items-center gap-2.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-500 ring-4 ring-purple-500/20"></span>
+                  Entraînement · Thématique
                 </div>
+                <a href="/dashboard" className="w-10 h-10 rounded-xl bg-white border border-slate-200 hover:bg-purple-50 flex items-center justify-center text-slate-700 transition cursor-pointer">
+                  <XCircle size={18} strokeWidth={1.8} className="hidden" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </a>
+              </div>
 
-                {/* Contenu */}
-                <div className="p-5 sm:p-8">
-                  {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
-                      <XCircle size={18} className="shrink-0" />
-                      {error}
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                    {CATEGORIES.map(cat => {
-                      const Icon = cat.icon
-                      const isLoading = loadingCategorie === cat.id
-                      const isDisabled = !!loadingCategorie && !isLoading
-                      return (
-                        <button
-                          key={cat.id}
-                          onClick={() => !loadingCategorie && startCategorie(cat)}
-                          disabled={isDisabled}
-                          className={`group bg-slate-50 border-2 border-slate-200 hover:border-purple-500 hover:bg-white rounded-2xl p-5 sm:p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col items-center ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
-                        >
-                          <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-200 transition-all">
-                            {isLoading ? <div className="w-6 h-6 border-2 border-purple-700 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
-                          </div>
-                          <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
-                          <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
-                          <div className="flex items-center justify-center gap-2 mt-auto pt-2">
-                            <span className="bg-white border border-slate-200 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
-                            <ArrowRight size={20} className="text-purple-700 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </button>
-                      )
-                    })}
-                  </div>
-
+              {/* Hero */}
+              <div className="mb-12 sm:mb-14 max-w-3xl">
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">
+                  Choisissez votre <em className="v1-hero-em">thématique</em>.
+                </h1>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mb-6 sm:mb-7">
+                  10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4 — concentrez-vous, vous démarrez quand vous voulez.
+                </p>
+                <div className="flex flex-wrap gap-2.5 text-[13px] font-bold">
+                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
+                    <b className="font-black text-purple-600">6</b> catégories
+                  </span>
+                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
+                    <b className="font-black text-pink-600">60</b> questions disponibles
+                  </span>
+                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
+                    <b className="font-black text-amber-600">~4 min</b> par session
+                  </span>
                 </div>
+              </div>
 
+              {error && (
+                <div className="mb-6 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2 max-w-xl">
+                  <XCircle size={18} className="shrink-0" />
+                  {error}
+                </div>
+              )}
+
+              {/* Grid de 6 cartes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {CATEGORIES.map((cat, i) => {
+                  const Icon = cat.icon
+                  const isLoading = loadingCategorie === cat.id
+                  const isDisabled = !!loadingCategorie && !isLoading
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => !loadingCategorie && startCategorie(cat)}
+                      disabled={isDisabled}
+                      className={`v1-card group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col min-h-[300px] text-left cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      style={{'--c-color': cat.color, '--c-tint': cat.tint, '--c-soft': cat.soft}}
+                    >
+                      <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
+                        <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
+                          {isLoading
+                            ? <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                            : <Icon size={26} strokeWidth={1.8} />
+                          }
+                        </div>
+                        <div className="v1-num px-2.5 py-1.5 rounded-full bg-white border text-[11px] font-black tracking-[0.15em]">
+                          0{i + 1}
+                        </div>
+                      </div>
+
+                      <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
+                        <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">{cat.titre}</h3>
+                        <p className="text-[14px] text-slate-500 leading-relaxed mb-auto">{cat.description}</p>
+                        <div className="flex items-center justify-between mt-6 pt-5 border-t border-dashed border-slate-200">
+                          <span className="v1-qcount text-xs font-black tracking-[0.1em] uppercase">
+                            10 questions
+                          </span>
+                          <span className="v1-arrow w-10 h-10 rounded-full grid place-items-center shrink-0">
+                            <ArrowRight size={16} strokeWidth={2} />
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
