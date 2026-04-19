@@ -214,7 +214,7 @@ export default function AnnalePage() {
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
           <span className="font-black text-lg text-slate-900" style={{fontFamily: "'Nunito', sans-serif"}}>Prépa <span className="text-blue-500">ATSEM</span></span>
-          <a href="/annales" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
+          <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
         </header>
@@ -285,7 +285,7 @@ export default function AnnalePage() {
                           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
                         </div>
                       </div>
-                      <a href="/annales" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
+                      <a href="/dashboard" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
                         Quitter l'annale
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                       </a>
@@ -367,7 +367,7 @@ export default function AnnalePage() {
                   </div>
 
                   <div className="flex items-center justify-between mt-8 pb-4">
-                    <a href="/annales" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner l'annale</a>
+                    <a href="/dashboard" className="text-slate-500 hover:text-slate-700 font-bold text-sm transition cursor-pointer">Abandonner l'annale</a>
                     <button onClick={() => handleSubmit(false)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center gap-2 cursor-pointer">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
                       Soumettre ({answeredCount}/{questions.length})
@@ -394,7 +394,7 @@ export default function AnnalePage() {
 
               {/* Note globale */}
               <div className="bg-slate-900 rounded-2xl p-8 text-center mb-6 relative">
-                <a href="/annales" className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition">
+                <a href="/dashboard" className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </a>
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Note globale — {annaleFull}</p>
