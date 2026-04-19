@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Prépa ATSEM** (prepa-atsem.fr) is a French-language preparation platform for the **concours d'ATSEM** (Agent Territorial Spécialisé des Écoles Maternelles) — the entrance exam for working as a specialized assistant in French nursery schools. The site targets candidates preparing the external, internal, and 3rd-way concours: aspiring ATSEM, holders of CAP AEPE, and people in career change.
 
-The codebase is a fork of Prépa FPC (nursing school exam prep) being progressively adapted to ATSEM. Some legacy FPC files may still exist (math families prompts, `/maths` route, `/api/calculs-doses`) and should be cleaned up over time.
+The codebase is a fork of Prépa FPC (nursing school exam prep), now fully adapted to ATSEM.
 
 ## Tech Stack
 
