@@ -136,22 +136,21 @@ function QuizContent() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {categoryOrder.map(cat => {
-                const colors = catColors[cat]
                 const count = categoryCounts[cat] || 0
                 return (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`group ${colors.card} border-2 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer`}
+                    className="group bg-white border-2 border-slate-200 hover:border-purple-600 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer"
                   >
-                    <div className={`w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-4 ${colors.iconText} group-hover:scale-110 transition-transform`}>
+                    <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-100 transition-all">
                       {catIcons[cat]}
                     </div>
                     <h3 className="font-black text-lg text-slate-900 mb-1">{cat}</h3>
                     <p className="text-sm text-slate-600 mb-3 leading-snug">{catDescriptions[cat]}</p>
                     <div className="flex items-center justify-between">
-                      <span className={`${colors.badge} px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider`}>{count} questions</span>
-                      <svg className={`w-5 h-5 ${colors.iconText} group-hover:translate-x-1 transition-transform`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                      <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">{count} questions</span>
+                      <svg className="w-5 h-5 text-purple-700 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
                     </div>
                   </button>
                 )
