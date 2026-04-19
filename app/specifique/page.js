@@ -36,7 +36,8 @@ export default function SpecifiquePage() {
   const [loadingStep, setLoadingStep] = useState(0)
 
   const [current, setCurrent] = useState(0)
-  const [reponses, setReponses] = useState({}) // { numero: 'A' }
+  const [reponses, setReponses] = useState({}) // { numero: 'A' } — sélection (avant ou après validation)
+  const [validated, setValidated] = useState({}) // { numero: true } — questions validées
   const [score, setScore] = useState(0)
 
   const [showScrollTop, setShowScrollTop] = useState(false)
@@ -81,6 +82,7 @@ export default function SpecifiquePage() {
     setError('')
     setQuestions([])
     setReponses({})
+    setValidated({})
     setCurrent(0)
 
     try {
@@ -113,7 +115,14 @@ export default function SpecifiquePage() {
   }
 
   function selectAnswer(numero, lettre) {
+    if (validated[numero]) return // verrouillé après validation
     setReponses(prev => ({ ...prev, [numero]: lettre }))
+  }
+
+  function validateCurrent() {
+    if (!data) return
+    if (!reponses[data.numero]) return
+    setValidated(prev => ({ ...prev, [data.numero]: true }))
   }
 
   function goNext() {
@@ -121,6 +130,16 @@ export default function SpecifiquePage() {
   }
   function goPrev() {
     if (current > 0) setCurrent(current - 1)
+  }
+
+  function handleAction() {
+    if (!validated[data.numero]) {
+      validateCurrent()
+    } else if (current < questions.length - 1) {
+      goNext()
+    } else {
+      handleSubmit()
+    }
   }
 
   async function handleSubmit() {
@@ -146,7 +165,7 @@ export default function SpecifiquePage() {
   }
 
   function restart() {
-    setStep('choix'); setQuestions([]); setReponses({}); setError(''); setLoadingCategorie(null); setSelectedCategorie(null); setCurrent(0); setScore(0)
+    setStep('choix'); setQuestions([]); setReponses({}); setValidated({}); setError(''); setLoadingCategorie(null); setSelectedCategorie(null); setCurrent(0); setScore(0)
   }
 
   function retryCategorie() {
@@ -159,8 +178,6 @@ export default function SpecifiquePage() {
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
   const data = questions[current]
   const progress = questions.length ? ((current + 1) / questions.length) * 100 : 0
-  const answeredCount = Object.keys(reponses).length
-
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></div></div>
 
   if (showAccessBlock) return (
@@ -315,7 +332,7 @@ export default function SpecifiquePage() {
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h2 className="text-base sm:text-xl font-black text-white">QCM {selectedCategorie.titre}</h2>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{questions.length} questions · {answeredCount} répondues</p>
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{questions.length} questions · {Object.keys(validated).length} validées</p>
                   </div>
                   <button onClick={restart} className="bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition flex items-center gap-2">
                     Quitter
@@ -327,67 +344,129 @@ export default function SpecifiquePage() {
                 </div>
               </div>
 
-              {/* Question */}
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-4">
-                <div className="flex items-start gap-3 mb-5">
-                  <span className="w-9 h-9 bg-purple-600 text-white rounded-xl flex items-center justify-center font-black text-sm shrink-0">{data.numero}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{data.enonce}</p>
-                  </div>
-                </div>
+              {/* Question card (style /qcm) */}
+              {(() => {
+                const hasAnswered = !!validated[data.numero]
+                const userAnswer = reponses[data.numero]
+                const isCorrect = hasAnswered && userAnswer === data.reponse_correcte
+                return (
+                  <>
+                    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-4">
+                      {/* Header */}
+                      <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
+                        <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{questions.length}</span>
+                        <span className="bg-purple-50 text-purple-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
+                      </div>
 
-                <div className="space-y-2.5">
-                  {(data.propositions || []).map(prop => {
-                    const lettre = String(prop.lettre).toUpperCase()
-                    const isSelected = reponses[data.numero] === lettre
-                    return (
-                      <button
-                        key={lettre}
-                        onClick={() => selectAnswer(data.numero, lettre)}
-                        className={`w-full flex items-start gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-purple-50 border-purple-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
-                      >
-                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 transition-all ${isSelected ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
-                          {lettre}
-                        </span>
-                        <span className={`text-sm font-medium leading-relaxed pt-1 flex-1 ${isSelected ? 'text-slate-900' : 'text-slate-700'}`}>
-                          {prop.texte}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+                      {/* Question + propositions */}
+                      <div className="p-4 sm:p-6">
+                        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.enonce}</h2>
+                        <div className="space-y-2 sm:space-y-3">
+                          {(data.propositions || []).map(prop => {
+                            const lettre = String(prop.lettre).toUpperCase()
+                            const isSelected = userAnswer === lettre
+                            const isGood = data.reponse_correcte === lettre
+                            let optClass = 'p-3 sm:p-4 border rounded-xl flex justify-between items-center group transition-all '
+                            let letterClass = 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold flex items-center justify-center text-xs sm:text-sm shrink-0 transition-all '
+                            let circle = null
 
-              {/* Navigation */}
-              <div className="flex items-center justify-between gap-3">
-                <button onClick={goPrev} disabled={current === 0} className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold px-4 sm:px-5 py-3 rounded-xl transition text-sm flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
-                  <ArrowLeft size={16} />
-                  <span className="hidden sm:inline">Précédent</span>
-                </button>
+                            if (hasAnswered) {
+                              if (isGood) {
+                                optClass += 'border-green-500 bg-green-50 '
+                                letterClass += 'bg-green-500 text-white '
+                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                              } else if (isSelected) {
+                                optClass += 'border-red-500 bg-red-50 '
+                                letterClass += 'bg-red-500 text-white '
+                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></div>
+                              } else {
+                                optClass += 'border-slate-200 opacity-50 '
+                                letterClass += 'bg-slate-100 text-slate-500 '
+                                circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
+                              }
+                            } else if (isSelected) {
+                              optClass += 'border-purple-700 bg-purple-50 shadow-[0_0_0_4px_rgba(126,34,206,0.05)] cursor-pointer '
+                              letterClass += 'bg-purple-700 text-white '
+                              circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-purple-700 flex items-center justify-center"><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-700 rounded-full"></div></div>
+                            } else {
+                              optClass += 'border-slate-200 cursor-pointer hover:bg-slate-50 '
+                              letterClass += 'bg-slate-100 text-slate-500 group-hover:bg-slate-200 '
+                              circle = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
+                            }
 
-                {current < questions.length - 1 ? (
-                  <button onClick={goNext} className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
-                    Question suivante
-                    <ArrowRight size={16} />
-                  </button>
-                ) : (
-                  <button onClick={handleSubmit} className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-emerald-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
-                    <CheckCircle2 size={18} />
-                    Soumettre ({answeredCount}/{questions.length})
-                  </button>
-                )}
-              </div>
+                            return (
+                              <div key={lettre} className={optClass} onClick={() => selectAnswer(data.numero, lettre)}>
+                                <div className="flex items-center gap-3 sm:gap-4">
+                                  <span className={letterClass}>{lettre}</span>
+                                  <span className="font-bold text-slate-800 text-sm sm:text-base">{prop.texte}</span>
+                                </div>
+                                {circle}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="p-4 sm:p-5 pt-0 flex gap-3">
+                        {current > 0 && (
+                          <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
+                            <ArrowLeft size={16} />
+                            <span className="hidden sm:inline">Précédent</span>
+                          </button>
+                        )}
+                        <button
+                          onClick={handleAction}
+                          disabled={!hasAnswered && !userAnswer}
+                          className={`flex-grow bg-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-purple-800 flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          {!hasAnswered ? (
+                            <>Valider ma réponse <CheckCircle2 size={16} /></>
+                          ) : current === questions.length - 1 ? (
+                            <>Voir mes résultats <ArrowRight size={16} /></>
+                          ) : (
+                            <>Question suivante <ArrowRight size={16} /></>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Panneau d'explication */}
+                    {hasAnswered && (
+                      <div className={`animate-fade-in rounded-2xl shadow-lg p-4 sm:p-6 mb-4 border-2 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
+                            {isCorrect ? <CheckCircle2 size={18} strokeWidth={2.5} /> : <XCircle size={18} strokeWidth={2.5} />}
+                          </div>
+                          <span className="text-lg sm:text-xl font-black">{isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse'}</span>
+                        </div>
+                        {data.explication && (
+                          <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 sm:p-5 rounded-xl border border-white/40 shadow-sm text-sm sm:text-base">
+                            {data.explication}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )
+              })()}
 
               {/* Mini-pagination */}
               <div className="mt-6 flex flex-wrap justify-center gap-1.5">
                 {questions.map((q, i) => {
                   const isCurrent = i === current
-                  const isAnswered = !!reponses[q.numero]
+                  const isValidated = !!validated[q.numero]
+                  const isCorrectQ = isValidated && reponses[q.numero] === q.reponse_correcte
+                  let cls = 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'
+                  if (isCurrent) cls = 'bg-purple-700 text-white scale-110'
+                  else if (isValidated && isCorrectQ) cls = 'bg-green-100 text-green-700 hover:bg-green-200'
+                  else if (isValidated) cls = 'bg-red-100 text-red-700 hover:bg-red-200'
+                  else if (reponses[q.numero]) cls = 'bg-purple-100 text-purple-700 hover:bg-purple-200'
                   return (
                     <button
                       key={q.numero}
                       onClick={() => setCurrent(i)}
-                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${isCurrent ? 'bg-purple-600 text-white scale-110' : isAnswered ? 'bg-purple-100 text-purple-700 hover:bg-purple-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}
+                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${cls}`}
                     >
                       {q.numero}
                     </button>
