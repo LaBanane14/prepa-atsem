@@ -247,7 +247,10 @@ export default function SpecifiquePage() {
               <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
                 {/* Header sombre */}
-                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center">
+                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center relative">
+                  <a href="/dashboard" className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </a>
                   <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">Choisissez votre thématique</h1>
                   <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
                 </div>
@@ -287,12 +290,6 @@ export default function SpecifiquePage() {
                     })}
                   </div>
 
-                  <div className="mt-8 text-center">
-                    <a href="/dashboard" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm">
-                      <ArrowLeft size={16} />
-                      Retour au tableau de bord
-                    </a>
-                  </div>
                 </div>
 
               </div>
