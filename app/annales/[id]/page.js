@@ -314,8 +314,14 @@ export default function AnnalePage() {
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                     <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
                     <div className="text-sm text-blue-800 font-medium">
-                      <p className="font-black mb-1">Barème de cette annale</p>
-                      <p>{annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.'}</p>
+                      <p className="font-black mb-2">Barème de cette annale</p>
+                      <ul className="space-y-1 list-disc pl-5 marker:text-blue-400">
+                        {(annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.')
+                          .split(/,\s*/)
+                          .map(item => item.trim())
+                          .filter(Boolean)
+                          .map((item, i) => <li key={i}>{item}</li>)}
+                      </ul>
                     </div>
                   </div>
 
@@ -511,7 +517,7 @@ export default function AnnalePage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                   Refaire cette annale
                 </button>
-                <a href="/annales" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour aux annales</a>
+                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour au dashboard</a>
               </div>
             </div>
           )}
