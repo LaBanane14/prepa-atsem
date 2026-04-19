@@ -240,7 +240,7 @@ export default function AnnalePage() {
                       { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: `QCM de ${questions.length} questions`, text: 'Comme au vrai concours ATSEM : questions à choix multiples sur les situations concrètes du métier.' },
                       { icon: <Timer size={18} strokeWidth={2} />, title: `Chronomètre de ${annale.duree_minutes || 45} minutes`, text: 'Le compte à rebours démarre dès le début. À la fin du temps, vos réponses sont envoyées automatiquement.' },
                       { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Réponses multiples', text: 'Chaque question peut avoir une ou plusieurs bonnes réponses. Il faut toutes les cocher sans erreur pour obtenir le point.' },
-                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: annale.bareme || '1 point par bonne réponse complète', text: 'Il faut cocher TOUTES les bonnes réponses sans erreur. Correction détaillée à la fin.' }
+                      { icon: <GraduationCap size={18} strokeWidth={2} />, title: 'Barème spécifique à cette annale', text: 'Chaque annale a son propre barème de correction. Il sera détaillé en haut de l\'épreuve.' }
                     ].map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
@@ -313,7 +313,10 @@ export default function AnnalePage() {
 
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                     <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <p className="text-sm text-blue-800 font-medium">Chaque question comporte <strong>une ou plusieurs réponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.</p>
+                    <div className="text-sm text-blue-800 font-medium">
+                      <p className="font-black mb-1">Barème de cette annale</p>
+                      <p>{annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.'}</p>
+                    </div>
                   </div>
 
                   <div className="space-y-6">
