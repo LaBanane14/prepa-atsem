@@ -325,10 +325,10 @@ export default function SpecifiquePage() {
 
           {/* ===== ÉPREUVE ===== */}
           {step === 'epreuve' && data && selectedCategorie && (
-            <div className="animate-fade-in max-w-3xl mx-auto pb-8">
+            <div className="animate-fade-in max-w-2xl mx-auto pb-6">
 
               {/* Header */}
-              <div className="bg-slate-900 rounded-2xl px-4 sm:px-6 py-4 sm:py-5 mb-6">
+              <div className="bg-slate-900 rounded-t-2xl px-4 sm:px-5 py-3 sm:py-4">
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h2 className="text-base sm:text-xl font-black text-white">QCM {selectedCategorie.titre}</h2>
@@ -351,23 +351,23 @@ export default function SpecifiquePage() {
                 const isCorrect = hasAnswered && userAnswer === data.reponse_correcte
                 return (
                   <>
-                    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-4">
+                    <div className="bg-white border border-t-0 border-slate-200 rounded-b-2xl shadow-sm overflow-hidden mb-3">
                       {/* Header */}
-                      <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
-                        <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{questions.length}</span>
-                        <span className="bg-purple-50 text-purple-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
+                      <div className="relative flex flex-wrap justify-between items-center px-4 py-2.5 border-b border-slate-100 gap-2">
+                        <span className="text-slate-600 font-bold text-xs tracking-wide">Question {current + 1}/{questions.length}</span>
+                        <span className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
                       </div>
 
                       {/* Question + propositions */}
-                      <div className="p-4 sm:p-6">
-                        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.enonce}</h2>
-                        <div className="space-y-2 sm:space-y-3">
+                      <div className="p-4 sm:p-5">
+                        <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-3 sm:mb-4 leading-relaxed">{data.enonce}</h2>
+                        <div className="space-y-2">
                           {(data.propositions || []).map(prop => {
                             const lettre = String(prop.lettre).toUpperCase()
                             const isSelected = userAnswer === lettre
                             const isGood = data.reponse_correcte === lettre
-                            let optClass = 'p-3 sm:p-4 border rounded-xl flex justify-between items-center group transition-all '
-                            let letterClass = 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold flex items-center justify-center text-xs sm:text-sm shrink-0 transition-all '
+                            let optClass = 'p-2.5 sm:p-3 border rounded-lg flex justify-between items-center group transition-all '
+                            let letterClass = 'w-7 h-7 rounded-md font-bold flex items-center justify-center text-xs shrink-0 transition-all '
                             let circle = null
 
                             if (hasAnswered) {
@@ -396,9 +396,9 @@ export default function SpecifiquePage() {
 
                             return (
                               <div key={lettre} className={optClass} onClick={() => selectAnswer(data.numero, lettre)}>
-                                <div className="flex items-center gap-3 sm:gap-4">
+                                <div className="flex items-center gap-3">
                                   <span className={letterClass}>{lettre}</span>
-                                  <span className="font-bold text-slate-800 text-sm sm:text-base">{prop.texte}</span>
+                                  <span className="font-semibold text-slate-800 text-sm">{prop.texte}</span>
                                 </div>
                                 {circle}
                               </div>
@@ -408,24 +408,24 @@ export default function SpecifiquePage() {
                       </div>
 
                       {/* Actions */}
-                      <div className="p-4 sm:p-5 pt-0 flex gap-3">
+                      <div className="px-4 sm:px-5 pb-4 sm:pb-5 flex gap-2">
                         {current > 0 && (
-                          <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
-                            <ArrowLeft size={16} />
+                          <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-2.5 px-3 sm:px-4 rounded-lg transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
+                            <ArrowLeft size={14} />
                             <span className="hidden sm:inline">Précédent</span>
                           </button>
                         )}
                         <button
                           onClick={handleAction}
                           disabled={!hasAnswered && !userAnswer}
-                          className={`flex-grow bg-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-purple-800 flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          className={`flex-grow bg-purple-700 text-white font-bold py-2.5 px-4 rounded-lg transition-colors hover:bg-purple-800 flex items-center justify-center gap-2 text-sm shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           {!hasAnswered ? (
-                            <>Valider ma réponse <CheckCircle2 size={16} /></>
+                            <>Valider ma réponse <CheckCircle2 size={14} /></>
                           ) : current === questions.length - 1 ? (
-                            <>Voir mes résultats <ArrowRight size={16} /></>
+                            <>Voir mes résultats <ArrowRight size={14} /></>
                           ) : (
-                            <>Question suivante <ArrowRight size={16} /></>
+                            <>Question suivante <ArrowRight size={14} /></>
                           )}
                         </button>
                       </div>
@@ -433,15 +433,15 @@ export default function SpecifiquePage() {
 
                     {/* Panneau d'explication */}
                     {hasAnswered && (
-                      <div className={`animate-fade-in rounded-2xl shadow-lg p-4 sm:p-6 mb-4 border-2 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
-                            {isCorrect ? <CheckCircle2 size={18} strokeWidth={2.5} /> : <XCircle size={18} strokeWidth={2.5} />}
+                      <div className={`animate-fade-in rounded-xl shadow-md p-3 sm:p-4 mb-3 border-2 ${isCorrect ? 'bg-green-50 border-green-400 text-green-900' : 'bg-red-50 border-red-400 text-red-900'}`}>
+                        <div className="flex items-center gap-2.5 mb-2">
+                          <div className={`w-7 h-7 rounded-full text-white flex items-center justify-center shrink-0 ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
+                            {isCorrect ? <CheckCircle2 size={16} strokeWidth={2.5} /> : <XCircle size={16} strokeWidth={2.5} />}
                           </div>
-                          <span className="text-lg sm:text-xl font-black">{isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse'}</span>
+                          <span className="text-base font-black">{isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse'}</span>
                         </div>
                         {data.explication && (
-                          <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 sm:p-5 rounded-xl border border-white/40 shadow-sm text-sm sm:text-base">
+                          <div className="leading-relaxed font-medium text-slate-900 bg-white/60 p-3 rounded-lg border border-white/40 shadow-sm text-sm">
                             {data.explication}
                           </div>
                         )}
