@@ -749,20 +749,20 @@ export default function ExamenPage() {
                             const isGoodAnswer = correctAnswers.includes(prop.lettre)
                             let bgClass = 'bg-white border-slate-100'
                             if (isGoodAnswer && wasSelected) bgClass = 'bg-emerald-50 border-emerald-200'
-                            else if (isGoodAnswer && !wasSelected) bgClass = 'bg-emerald-50 border-emerald-300 border-dashed'
+                            else if (isGoodAnswer && !wasSelected) bgClass = 'bg-amber-50 border-amber-300 border-dashed'
                             else if (!isGoodAnswer && wasSelected) bgClass = 'bg-red-50 border-red-200'
 
                             return (
                               <div key={prop.lettre} className={`flex items-start gap-3 p-3 rounded-xl border ${bgClass}`}>
-                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGoodAnswer ? 'bg-emerald-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGoodAnswer && wasSelected ? 'bg-emerald-500 text-white' : isGoodAnswer ? 'bg-amber-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
                                   {prop.lettre}
                                 </span>
-                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGoodAnswer ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
+                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGoodAnswer && !wasSelected ? 'text-amber-800' : isGoodAnswer ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
                                   {prop.texte}
                                 </span>
                                 <div className="shrink-0 mt-0.5">
                                   {isGoodAnswer && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
-                                  {isGoodAnswer && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manquée</span>}
+                                  {isGoodAnswer && !wasSelected && <span className="text-xs font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">Manquée</span>}
                                   {!isGoodAnswer && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
                                 </div>
                               </div>
