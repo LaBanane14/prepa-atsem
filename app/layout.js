@@ -116,23 +116,23 @@ export default function RootLayout({ children }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "EducationalOrganization",
-          "name": "Prépa FPC",
-          "description": "Plateforme de préparation au concours FPC d'entrée en IFSI",
-          "url": "https://www.prepa-fpc.fr",
+          "name": "Prépa ATSEM",
+          "description": "Plateforme de préparation au concours d'ATSEM (Agent Territorial Spécialisé des Écoles Maternelles)",
+          "url": "https://www.prepa-atsem.fr",
           "offers": [
             {
               "@type": "Offer",
-              "name": "Abonnement mensuel",
-              "price": "12.99",
+              "name": "Formule mensuelle",
+              "price": "9.99",
               "priceCurrency": "EUR",
-              "url": "https://www.prepa-fpc.fr/tarifs"
+              "url": "https://www.prepa-atsem.fr/tarifs"
             },
             {
               "@type": "Offer",
-              "name": "Pack annuel",
-              "price": "89.99",
+              "name": "Pack Concours 6 mois",
+              "price": "49.99",
               "priceCurrency": "EUR",
-              "url": "https://www.prepa-fpc.fr/tarifs"
+              "url": "https://www.prepa-atsem.fr/tarifs"
             }
           ]
         })}} />

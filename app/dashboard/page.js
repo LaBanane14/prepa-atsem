@@ -841,7 +841,7 @@ function DashboardContent() {
                   <div className="w-16 h-16 bg-slate-100 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-4"><svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
                   <h3 className="font-black text-slate-900 text-lg mb-2">Commencez à vous entraîner</h3>
                   <p className="text-slate-500 font-medium text-sm mb-6">Vos statistiques apparaîtront ici dès votre premier entraînement.</p>
-                  <a href="/maths" className="inline-flex items-center gap-2 bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Lancer un exercice <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+                  <a href="/specifique" className="inline-flex items-center gap-2 bg-purple-800 hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-xl transition text-sm">Choisir une thématique <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
                 </div>
               ) : (
                 <>

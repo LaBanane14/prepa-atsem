@@ -70,7 +70,6 @@ All pages are client components (`'use client'`) using plain `.js` files in the 
 - `lib/prompts/qcm-thematique.js` — System + per-category prompts for `/specifique` QCM generation.
 - `lib/prompts/examen.js` — System + prompts for the mock exam (`/examen`).
 - `lib/prompts/base-oral.js`, `simulation-oral.js` — Oral prep prompts.
-- `lib/prompts/famille-*.js`, `base-maths.js` — **Legacy FPC math prompts**, no longer used. Safe to remove.
 
 #### Database tables (Supabase)
 - `subscriptions` — Stripe subscription state (`status`, `current_period_end`).
