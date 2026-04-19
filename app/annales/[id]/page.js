@@ -145,7 +145,7 @@ export default function AnnalePage() {
       })
       await supabase.from('historique').insert({
         user_id: user.id,
-        type: 'Examen',
+        type: 'Annale',
         label: `Annale ${annale.region_nom} ${annale.annee}${annale.cdg ? ' (' + annale.cdg + ')' : ''}`,
         note: total,
         note_max: questions.length,
@@ -472,7 +472,7 @@ export default function AnnalePage() {
                             let bgClass = 'bg-white border-slate-100'
                             if (hasCorrection) {
                               if (isGood && wasSelected) bgClass = 'bg-emerald-50 border-emerald-200'
-                              else if (isGood && !wasSelected) bgClass = 'bg-emerald-50 border-emerald-300 border-dashed'
+                              else if (isGood && !wasSelected) bgClass = 'bg-amber-50 border-amber-300 border-dashed'
                               else if (!isGood && wasSelected) bgClass = 'bg-red-50 border-red-200'
                             } else if (wasSelected) {
                               bgClass = 'bg-blue-50 border-blue-300'
@@ -480,15 +480,15 @@ export default function AnnalePage() {
 
                             return (
                               <div key={p.lettre} className={`flex items-start gap-3 p-3 rounded-xl border ${bgClass}`}>
-                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGood ? 'bg-emerald-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGood && wasSelected ? 'bg-emerald-500 text-white' : isGood ? 'bg-amber-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
                                   {p.lettre.toUpperCase()}
                                 </span>
-                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGood ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
+                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGood && !wasSelected ? 'text-amber-800' : isGood ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
                                   {p.texte}
                                 </span>
                                 <div className="shrink-0 mt-0.5">
                                   {hasCorrection && isGood && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
-                                  {hasCorrection && isGood && !wasSelected && <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Manquée</span>}
+                                  {hasCorrection && isGood && !wasSelected && <span className="text-xs font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">Manquée</span>}
                                   {hasCorrection && !isGood && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
                                 </div>
                               </div>

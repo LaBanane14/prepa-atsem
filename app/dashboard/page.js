@@ -796,7 +796,7 @@ function DashboardContent() {
             historique.forEach(h => { typeCount[h.type || 'Autre'] = (typeCount[h.type || 'Autre'] || 0) + 1 })
             const typeLabels = Object.keys(typeCount)
             const typeValues = Object.values(typeCount)
-            const typeColors = { Maths: '#7e22ce', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Autre: '#94a3b8' }
+            const typeColors = { Maths: '#7e22ce', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Annale: '#2563eb', Autre: '#94a3b8' }
 
             // Évolution de la moyenne (par exercice noté, chronologique) — exclure Spécifique
             const notesChron = [...historique].filter(h => h.note != null && h.note_max && h.type !== 'Spécifique').sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
@@ -1056,6 +1056,7 @@ function DashboardContent() {
               if (type === 'Rédaction') return 'purple'
               if (type === 'Examen') return 'yellow'
               if (type === 'Oral') return 'emerald'
+              if (type === 'Annale') return 'blue'
               return 'blue'
             }
 
@@ -1219,6 +1220,7 @@ function DashboardContent() {
                                   {item.type === 'Rédaction' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>}
                                   {item.type === 'Spécifique' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>}
                                   {item.type === 'Examen' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>}
+                                  {item.type === 'Annale' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>}
                                   {item.type === 'Oral' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>}
                                 </div>
                                 <div className="flex-1 min-w-0">

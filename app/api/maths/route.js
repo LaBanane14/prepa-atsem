@@ -3,6 +3,41 @@ import Anthropic from '@anthropic-ai/sdk'
 import { BASE_SYSTEM, buildHistoryContext } from '@/lib/prompts/base-maths'
 import { SYSTEM_EXAMEN_ATSEM, PROMPT_EXAMEN_ATSEM, PROMPT_QUESTIONS_ONLY, PROMPT_CORRECTION_ONLY } from '@/lib/prompts/examen'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { supabase } from '@/lib/supabase'
+
+// Récupère ~4 annales aléatoires et en extrait un échantillon de questions réelles
+// pour servir d'exemples d'inspiration à Claude (style, vocabulaire, pièges).
+async function fetchAnnalesInspiration() {
+  if (!supabase) return ''
+  try {
+    const { data } = await supabase
+      .from('annales')
+      .select('region_nom, annee, questions')
+      .not('questions', 'is', null)
+    if (!data || data.length === 0) return ''
+
+    // Shuffle + prendre 3 annales
+    const shuffled = [...data].sort(() => Math.random() - 0.5).slice(0, 3)
+    const examples = []
+
+    for (const annale of shuffled) {
+      const qs = Array.isArray(annale.questions) ? annale.questions : []
+      if (qs.length === 0) continue
+      // Prendre 3 questions aléatoires par annale
+      const picked = [...qs].sort(() => Math.random() - 0.5).slice(0, 3)
+      for (const q of picked) {
+        if (!q.enonce || !q.propositions) continue
+        const props = (q.propositions || []).map(p => `${String(p.lettre).toUpperCase()}. ${p.texte}`).join('\n')
+        examples.push(`[Annale ${annale.region_nom} ${annale.annee}]\n${q.enonce}\n${props}`)
+      }
+    }
+    if (examples.length === 0) return ''
+    return `\n\nVoici des exemples RÉELS tirés d'annales ATSEM passées. Tu peux REPRENDRE OU ADAPTER au MAXIMUM 4 questions sur les 20 (soit 20%) parmi celles-ci. Les 16 autres questions DOIVENT être nouvelles, créées dans le même esprit (style, vocabulaire, niveau de détail, types de pièges) :\n\n${examples.join('\n\n---\n\n')}`
+  } catch (e) {
+    console.error('fetchAnnalesInspiration error:', e.message)
+    return ''
+  }
+}
 
 let _client = null
 function getClient() {
@@ -131,7 +166,8 @@ export async function POST(request) {
       ]
       const randomContext = contexts[Math.floor(Math.random() * contexts.length)]
       const randomSeed = Math.floor(Math.random() * 100000)
-      const diversityPrompt = PROMPT_QUESTIONS_ONLY + `\n\nIMPORTANT : Contextualise certaines questions autour de cette situation : "${randomContext}". Seed de variabilité : #${randomSeed}. Génère des questions DIFFÉRENTES des sessions précédentes. Varie les formulations, les contextes et les pièges.`
+      const inspiration = await fetchAnnalesInspiration()
+      const diversityPrompt = PROMPT_QUESTIONS_ONLY + `\n\nIMPORTANT : Contextualise certaines questions autour de cette situation : "${randomContext}". Seed de variabilité : #${randomSeed}. Génère des questions DIFFÉRENTES des sessions précédentes. Varie les formulations, les contextes et les pièges.` + inspiration
 
       const text = await callClaude(systemInstruction, diversityPrompt)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
