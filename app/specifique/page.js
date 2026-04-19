@@ -1,7 +1,7 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Target, BookOpen, Sparkles, ClipboardCheck, Sigma, Percent, ArrowLeftRight, Equal, ArrowRight } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Target, BookOpen, Sparkles, ClipboardCheck, Building2, SprayCan, Heart, GraduationCap, Users, Calculator, CheckCircle2, XCircle, ArrowLeft, ArrowRight, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -13,87 +13,36 @@ const sidebarItems = [
   { id: 'abonnement', label: 'Devenir Premium', href: '/dashboard?tab=abonnement', icon: BadgeCheck, premium: true }
 ]
 
-const familles = [
-  {
-    id: 'operations',
-    titre: 'Produit en croix',
-    description: 'Calculs de doses, débits de perfusion, recettes, approvisionnement — la proportionnalité du concours FPC.',
-    icon: Sigma,
-    color: 'blue',
-    textColor: 'text-blue-600',
-    bgIconColor: 'bg-blue-100',
-    hoverShadow: 'hover:shadow-blue-500/20',
-    borderColor: 'group-hover:border-blue-500/50',
-    gradient: 'from-blue-400 to-blue-600'
-  },
-  {
-    id: 'pourcentages',
-    titre: 'Pourcentages',
-    description: 'Augmentations, remises, TVA, taux d\'intérêt, contextes santé — tous les types de pourcentages du concours.',
-    icon: Percent,
-    color: 'blue',
-    textColor: 'text-sky-600',
-    bgIconColor: 'bg-sky-100',
-    hoverShadow: 'hover:shadow-sky-500/20',
-    borderColor: 'group-hover:border-sky-500/50',
-    gradient: 'from-sky-400 to-blue-500'
-  },
-  {
-    id: 'conversions',
-    titre: 'Conversions & opérations',
-    description: 'Masses (µg, mg, g), volumes, durées, fractions, IMC et opérations avec décimaux.',
-    icon: ArrowLeftRight,
-    color: 'blue',
-    textColor: 'text-indigo-600',
-    bgIconColor: 'bg-indigo-100',
-    hoverShadow: 'hover:shadow-indigo-500/20',
-    borderColor: 'group-hover:border-indigo-500/50',
-    gradient: 'from-blue-500 to-indigo-600'
-  },
-  {
-    id: 'equations',
-    titre: 'Équations et problèmes',
-    description: 'Problèmes d\'âges, moyennes, vitesse, répartitions, achats — les classiques du concours FPC.',
-    icon: Equal,
-    color: 'blue',
-    textColor: 'text-violet-600',
-    bgIconColor: 'bg-violet-100',
-    hoverShadow: 'hover:shadow-violet-500/20',
-    borderColor: 'group-hover:border-violet-500/50',
-    gradient: 'from-indigo-500 to-violet-600'
-  }
+const CATEGORIES = [
+  { id: 'institutionnel', titre: 'Institutionnel', description: 'Statut, missions, hiérarchie, cadre légal', icon: Building2 },
+  { id: 'hygiene', titre: 'Hygiène', description: 'Bionettoyage, dilutions, protocoles, HACCP', icon: SprayCan },
+  { id: 'sante', titre: 'Santé', description: 'Premiers secours, PAI, gestes d\'urgence', icon: Heart },
+  { id: 'pedagogie', titre: 'Pédagogie', description: 'Programme, sieste, ateliers, développement', icon: GraduationCap },
+  { id: 'relations', titre: 'Relations pro', description: 'Discrétion, devoir de réserve, communication', icon: Users },
+  { id: 'calculs', titre: 'Calculs', description: 'Dilutions, surfaces, proportions', icon: Calculator },
 ]
-
-const colorMap = {
-  operations: { text: 'text-sky-500', iconBg: 'bg-sky-100', gradient: 'from-[#7DD3FC] to-[#38BDF8]', badge: 'bg-sky-50 text-sky-600', wrapper: 'bg-sky-100', progressBar: 'bg-sky-400', ring: 'focus:ring-sky-300 focus:border-sky-400', dropColor: '#38BDF8' },
-  conversions: { text: 'text-blue-500', iconBg: 'bg-blue-100', gradient: 'from-[#38BDF8] to-[#3B82F6]', badge: 'bg-blue-50 text-blue-600', wrapper: 'bg-blue-100', progressBar: 'bg-blue-500', ring: 'focus:ring-blue-300 focus:border-blue-400', dropColor: '#3B82F6' },
-  pourcentages: { text: 'text-indigo-500', iconBg: 'bg-indigo-100', gradient: 'from-[#3B82F6] to-[#6366F1]', badge: 'bg-indigo-50 text-indigo-600', wrapper: 'bg-indigo-100', progressBar: 'bg-indigo-500', ring: 'focus:ring-indigo-300 focus:border-indigo-400', dropColor: '#6366F1' },
-  equations: { text: 'text-indigo-600', iconBg: 'bg-indigo-100', gradient: 'from-[#6366F1] to-[#4F46E5]', badge: 'bg-indigo-50 text-indigo-700', wrapper: 'bg-indigo-100', progressBar: 'bg-indigo-600', ring: 'focus:ring-indigo-300 focus:border-indigo-500', dropColor: '#4F46E5' }
-}
 
 export default function SpecifiquePage() {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
-
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
-  const [hoveredIndex, setHoveredIndex] = useState(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [showInfoPopup, setShowInfoPopup] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
-  const [step, setStep] = useState('choix') // null, choix, epreuve, correcting, resultat
-  const [selectedFamille, setSelectedFamille] = useState(null)
-  const [sujet, setSujet] = useState(null)
+  const [step, setStep] = useState('choix') // null, choix, loading, epreuve, resultat
+  const [selectedCategorie, setSelectedCategorie] = useState(null)
+  const [questions, setQuestions] = useState([])
   const [error, setError] = useState('')
-  const [loadingFamille, setLoadingFamille] = useState(null)
-  const [correction, setCorrection] = useState(null)
-  const [streamingDone, setStreamingDone] = useState(false)
+  const [loadingCategorie, setLoadingCategorie] = useState(null)
+  const [loadingStep, setLoadingStep] = useState(0)
 
-  // Question par question
   const [current, setCurrent] = useState(0)
-  const [reponses, setReponses] = useState({})
-  const [validated, setValidated] = useState({})
+  const [reponses, setReponses] = useState({}) // { numero: 'A' }
+  const [score, setScore] = useState(0)
+
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const mainRef = useRef(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -106,117 +55,138 @@ export default function SpecifiquePage() {
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
       const skipPopup = localStorage.getItem('specifique_skip_info') === 'true'
-      if (!skipPopup) {
-        setShowInfoPopup(true)
-        setStep(null)
-      }
+      if (!skipPopup) { setShowInfoPopup(true); setStep(null) }
     })
   }, [])
 
-  async function startExercice(famille) {
-    setSelectedFamille(famille)
-    setLoadingFamille(famille.id)
+  // Loading animation
+  useEffect(() => {
+    if (step !== 'loading') return
+    setLoadingStep(0)
+    const t1 = setTimeout(() => setLoadingStep(1), 3000)
+    const t2 = setTimeout(() => setLoadingStep(2), 6000)
+    const t3 = setTimeout(() => setLoadingStep(3), 9000)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+  }, [step])
+
+  // Scroll-to-top
+  useEffect(() => {
+    const container = mainRef.current
+    if (!container) return
+    const handleScroll = () => setShowScrollTop(container.scrollTop > 400)
+    container.addEventListener('scroll', handleScroll)
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [step])
+
+  async function startCategorie(cat) {
+    setSelectedCategorie(cat)
+    setLoadingCategorie(cat.id)
     setStep('loading')
     setError('')
-    setSujet({ questions: [] })
+    setQuestions([])
     setReponses({})
-    setValidated({})
     setCurrent(0)
-    setStreamingDone(false)
 
     try {
       const res = await fetch('/api/specifique', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'generer', famille: famille.id })
+        body: JSON.stringify({ action: 'generer', categorie: cat.id })
       })
       const data = await res.json()
       if (!res.ok || data.error) {
         setError(data.error || 'Erreur lors de la génération.')
-        setLoadingFamille(null)
+        setLoadingCategorie(null)
         setStep('choix')
         return
       }
-      setSujet(data.sujet)
-      setStreamingDone(true)
-      setLoadingFamille(null)
+      if (!data.questions || data.questions.length === 0) {
+        setError('Aucune question générée. Réessayez.')
+        setLoadingCategorie(null)
+        setStep('choix')
+        return
+      }
+      setQuestions(data.questions)
+      setLoadingCategorie(null)
       setStep('epreuve')
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
-      setLoadingFamille(null)
+      setLoadingCategorie(null)
       setStep('choix')
     }
   }
 
-  function validateCurrent() {
-    if (!data) return
-    // Extraire uniquement la partie numérique des réponses
-    const normalize = (val) => {
-      let s = String(val).trim().replace(/,/g, '.').replace(/\s/g, '')
-      // Extraire le dernier nombre (le résultat final si l'élève écrit son raisonnement)
-      const matches = s.match(/-?\d+\.?\d*/g)
-      return matches ? parseFloat(matches[matches.length - 1]) : NaN
-    }
-    const userNum = normalize(reponses[data.id] || '')
-    const expectedNum = normalize(data.reponse)
-    // Comparaison numérique avec tolérance pour les arrondis
-    const isCorrect = !isNaN(userNum) && !isNaN(expectedNum) && Math.abs(userNum - expectedNum) < 0.01
-    setValidated(prev => ({ ...prev, [data.id]: { correct: isCorrect, reponse_attendue: data.reponse, explication: data.explication || '' } }))
+  function selectAnswer(numero, lettre) {
+    setReponses(prev => ({ ...prev, [numero]: lettre }))
   }
 
   function goNext() {
-    if (sujet && current < sujet.questions.length - 1) setCurrent(current + 1)
+    if (current < questions.length - 1) setCurrent(current + 1)
   }
-
   function goPrev() {
     if (current > 0) setCurrent(current - 1)
   }
 
-  async function handleSubmitAll() {
-    const totalQuestions = sujet.questions.length
-    const correctCount = Object.values(validated).filter(v => v.correct).length
-    setCorrection({ note: correctCount, noteMax: totalQuestions })
-    await supabase.from('historique').insert({
-      user_id: user.id,
-      type: 'Spécifique',
-      label: selectedFamille.titre,
-      note: correctCount,
-      note_max: totalQuestions,
-      nb_questions: totalQuestions,
-      duration_minutes: null,
+  async function handleSubmit() {
+    let total = 0
+    questions.forEach(q => {
+      if (reponses[q.numero] === q.reponse_correcte) total++
     })
+    setScore(total)
+
+    try {
+      await supabase.from('historique').insert({
+        user_id: user.id,
+        type: 'Spécifique',
+        label: `QCM ${selectedCategorie.titre}`,
+        note: total,
+        note_max: questions.length,
+        nb_questions: questions.length,
+        duration_minutes: null,
+      })
+    } catch (e) { console.error('Erreur sauvegarde:', e) }
+
     setStep('resultat')
   }
 
   function restart() {
-    setStep('choix'); setSujet(null); setReponses({}); setValidated({}); setError(''); setLoadingFamille(null); setSelectedFamille(null); setCurrent(0); setCorrection(null)
+    setStep('choix'); setQuestions([]); setReponses({}); setError(''); setLoadingCategorie(null); setSelectedCategorie(null); setCurrent(0); setScore(0)
   }
 
-  function retryFamille() {
-    if (selectedFamille) startExercice(selectedFamille)
+  function retryCategorie() {
+    if (selectedCategorie) startCategorie(selectedCategorie)
     else restart()
   }
 
   async function handleLogout() { await supabase.auth.signOut(); window.location.href = '/' }
 
   const firstName = user?.user_metadata?.first_name || user?.email?.split('@')[0] || ''
-  const c = selectedFamille ? colorMap[selectedFamille.id] : colorMap.operations
-  const data = sujet?.questions?.[current]
-  const progress = sujet ? ((current + 1) / sujet.questions.length) * 100 : 0
-  const answeredCount = sujet ? sujet.questions.filter(q => reponses[q.id]?.trim()).length : 0
+  const data = questions[current]
+  const progress = questions.length ? ((current + 1) / questions.length) * 100 : 0
+  const answeredCount = Object.keys(reponses).length
 
   if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
 
-  if (showAccessBlock) return (<div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"><div className="text-5xl mb-3 mx-auto">😢</div><h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2><p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p><div className="flex flex-col gap-3"><a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a><a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a></div></div></div>)
+  if (showAccessBlock) return (
+    <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+        <div className="text-5xl mb-3 mx-auto">😢</div>
+        <h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2>
+        <p className="text-slate-500 font-medium mb-6">Pour continuer à vous entraîner et accéder à tous les exercices, souscrivez à un abonnement.</p>
+        <div className="flex flex-col gap-3">
+          <a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a>
+          <a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
-        .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .animate-stagger { opacity: 0; transform: translateY(20px); animation: staggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes staggerIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
       `}</style>
@@ -225,8 +195,8 @@ export default function SpecifiquePage() {
 
       {/* SIDEBAR */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
-          <a href="/" className="mb-4"><div className={`w-10 h-10 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-all bg-gradient-to-br ${selectedFamille ? c.gradient : 'from-blue-500 to-blue-600'}`}><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+        <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]">
+          <a href="/" className="mb-4"><div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
@@ -250,389 +220,356 @@ export default function SpecifiquePage() {
       <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-          <span className="font-black text-lg text-slate-900">Prépa <span className={selectedFamille ? c.text : 'text-red-600'}>FPC</span></span>
+          <span className="font-black text-lg text-slate-900">Prépa <span className="text-blue-600">ATSEM</span></span>
           <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
         </header>
 
-        <main className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 overflow-x-hidden">
+        <main ref={mainRef} className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 overflow-x-hidden overflow-y-auto">
 
-      {/* ===== POPUP INFO ===== */}
-      {showInfoPopup && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
-            <div className="bg-slate-900 px-6 py-5 relative">
-              <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-              <h2 className="text-lg font-black text-white pr-8">Entraînement spécifique</h2>
-              <p className="text-slate-400 text-sm font-medium mt-1">Avant de commencer, voici le déroulement de l'épreuve.</p>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4 mb-6">
-                {[
-                  { icon: <Target size={18} strokeWidth={2} />, title: 'Choisissez votre famille', text: 'Opérations, pourcentages, conversions ou équations : travaillez vos points faibles.' },
-                  { icon: <BookOpen size={18} strokeWidth={2} />, title: '10-15 questions par session', text: 'Des exercices ciblés, sans calculatrice, pour progresser efficacement.' },
-                  { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Exercices générés par notre IA', text: 'Des exercices spécifiques et ciblées pour progresser rapidement !' },
-                  { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'Correction détaillée', text: 'Chaque réponse est corrigée avec une explication pas à pas pour comprendre la méthode.' }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="w-9 h-9 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
-                    <div>
-                      <p className="text-sm font-black text-slate-800">{item.title}</p>
-                      <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{item.text}</p>
-                    </div>
+          {/* ===== POPUP INFO ===== */}
+          {showInfoPopup && (
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }}>
+              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
+                <div className="bg-slate-900 px-6 py-5 relative">
+                  <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                  <h2 className="text-lg font-black text-white pr-8">Entraînement spécifique</h2>
+                  <p className="text-slate-400 text-sm font-medium mt-1">QCM thématiques générés par IA</p>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4 mb-6">
+                    {[
+                      { icon: <Target size={18} strokeWidth={2} />, title: 'Choisissez une thématique', text: '6 grandes catégories du concours ATSEM : statut, hygiène, santé, pédagogie, relations pro, calculs.' },
+                      { icon: <BookOpen size={18} strokeWidth={2} />, title: '10 questions par session', text: 'Une bonne réponse sur 4 propositions, comme dans les vraies annales.' },
+                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Questions générées par notre IA', text: 'Un nouveau QCM à chaque session pour ne jamais retomber sur les mêmes questions.' },
+                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'Correction détaillée', text: 'Chaque réponse est expliquée pour bien comprendre la bonne réponse et les pièges.' }
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
+                        <div>
+                          <p className="text-sm font-black text-slate-800">{item.title}</p>
+                          <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{item.text}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <button onClick={() => { if (dontShowAgain) localStorage.setItem('specifique_skip_info', 'true'); setShowInfoPopup(false); setStep('choix') }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer mb-4">
+                    <ArrowRight size={18} />
+                    Choisir une thématique
+                  </button>
+                  <label className="flex items-center gap-2 cursor-pointer justify-center">
+                    <input type="checkbox" checked={dontShowAgain} onChange={e => setDontShowAgain(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-500 focus:ring-blue-500 cursor-pointer" />
+                    <span className="text-xs text-slate-400 font-medium">Ne plus afficher ce message</span>
+                  </label>
+                </div>
               </div>
-              <button onClick={() => { if (dontShowAgain) localStorage.setItem('specifique_skip_info', 'true'); setShowInfoPopup(false); setStep('choix') }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer mb-4">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                C'est parti !
-              </button>
-              <label className="flex items-center gap-2 cursor-pointer justify-center">
-                <input type="checkbox" checked={dontShowAgain} onChange={e => setDontShowAgain(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" />
-                <span className="text-xs text-slate-400 font-medium">Ne plus afficher ce message</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ===== CHOIX FAMILLE (Constellation) ===== */}
-      {step === 'choix' && (() => {
-        const constellationData = [
-          { ...familles[0], top: '22%', left: '-8%', colorTheme: 'text-white border-sky-300 bg-gradient-to-br from-[#7DD3FC] to-[#38BDF8]', glowTheme: 'shadow-[0_0_60px_rgba(56,189,248,0.7)]', lineColor: '#38BDF8', tooltipClass: 'top-full mt-6 left-1/2 -translate-x-1/2', labelColor: 'text-sky-600' },
-          { ...familles[2], top: '82%', left: '30%', colorTheme: 'text-white border-sky-400 bg-gradient-to-br from-[#38BDF8] to-[#3B82F6]', glowTheme: 'shadow-[0_0_60px_rgba(59,130,246,0.7)]', lineColor: '#3B82F6', tooltipClass: 'right-full mr-10 top-0 -translate-y-full', labelColor: 'text-blue-600' },
-          { ...familles[1], top: '34%', left: '58%', colorTheme: 'text-white border-blue-400 bg-gradient-to-br from-[#3B82F6] to-[#6366F1]', glowTheme: 'shadow-[0_0_60px_rgba(99,102,241,0.7)]', lineColor: '#6366F1', tooltipClass: 'bottom-0 left-full ml-10 -translate-y-full', labelColor: 'text-indigo-600' },
-          { ...familles[3], top: '72%', left: '97%', colorTheme: 'text-white border-indigo-400 bg-gradient-to-br from-[#6366F1] to-[#4F46E5]', glowTheme: 'shadow-[0_0_60px_rgba(79,70,229,0.7)]', lineColor: '#4F46E5', tooltipClass: 'bottom-full mb-12 left-1/2 -translate-x-1/2', labelColor: 'text-indigo-700' }
-        ]
-        const edges = [
-          { source: 0, target: 1 },
-          { source: 1, target: 2 },
-          { source: 2, target: 3 }
-        ]
-        return (
-        <div className="animate-fade-in min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] flex flex-col md:items-center md:justify-center relative overflow-x-hidden md:overflow-hidden w-full" style={{fontFamily: "'Nunito', sans-serif"}}>
-
-          {/* Bouton quitter — desktop */}
-          <a href="/dashboard" className="hidden md:flex absolute top-4 right-4 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 z-30 shadow-lg">
-            Quitter l&apos;exercice
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-          </a>
-
-          {error && (
-            <div className="absolute top-4 left-4 right-16 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2 z-30">
-              <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-              {error}
             </div>
           )}
 
-          {/* Titre */}
-          <div className="pt-5 pb-4 px-4 text-center z-20 md:absolute md:top-5 md:left-1/2 md:-translate-x-1/2 md:p-0 pointer-events-none">
-            <h1 className="text-xl sm:text-3xl md:text-4xl font-black text-slate-800 tracking-tight">Choisissez votre entraînement</h1>
-          </div>
+          {/* ===== CHOIX CATÉGORIE ===== */}
+          {step === 'choix' && (
+            <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
+              <div className="text-center mb-8 sm:mb-10">
+                <h1 className="text-2xl sm:text-4xl font-black text-slate-900 mb-3">Choisissez votre thématique</h1>
+                <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
+              </div>
 
-          {/* Version mobile : liste de cartes */}
-          <div className="flex flex-col gap-3 w-full px-4 pb-6 md:hidden">
-            {familles.map((f, idx) => {
-              const Icon = f.icon
-              const isLoading = loadingFamille === f.id
-              const mobileColors = ['from-[#7DD3FC] to-[#38BDF8]', 'from-[#38BDF8] to-[#3B82F6]', 'from-[#3B82F6] to-[#6366F1]', 'from-[#6366F1] to-[#4F46E5]']
-              return (
-                <button key={f.id} onClick={() => !loadingFamille && startExercice(f)} disabled={!!loadingFamille} className={`flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-slate-200 transition-all hover:shadow-md ${loadingFamille && !isLoading ? 'opacity-40' : ''} cursor-pointer`}>
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${mobileColors[idx]} shrink-0`}>
-                    {isLoading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Icon className="w-6 h-6 text-white" strokeWidth={2.5} />}
-                  </div>
-                  <div className="text-left flex-1 min-w-0">
-                    <h3 className="font-black text-slate-800 text-sm">{f.titre}</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed truncate">{f.description}</p>
-                  </div>
-                  <svg className="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                </button>
-              )
-            })}
-            {/* Bouton retour — mobile */}
-            <a href="/dashboard" className="mt-4 bg-slate-900 hover:bg-black text-white font-bold text-sm py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
-              Retour au dashboard
-            </a>
-          </div>
+              {error && (
+                <div className="mb-6 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2 max-w-xl mx-auto">
+                  <XCircle size={18} className="shrink-0" />
+                  {error}
+                </div>
+              )}
 
-          {/* Constellation desktop */}
-          <div className="relative w-full max-w-4xl aspect-square md:aspect-video hidden md:block">
-
-            {/* Lignes SVG avec flux lumineux */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-              <defs>
-                {edges.map((edge, i) => {
-                  const s = constellationData[edge.source]
-                  const t = constellationData[edge.target]
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                {CATEGORIES.map(cat => {
+                  const Icon = cat.icon
+                  const isLoading = loadingCategorie === cat.id
+                  const isDisabled = !!loadingCategorie && !isLoading
                   return (
-                    <linearGradient key={`grad-${i}`} id={`flow-grad-${i}`} x1={s.left} y1={s.top} x2={t.left} y2={t.top} gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor={s.lineColor} />
-                      <stop offset="100%" stopColor={t.lineColor} />
-                    </linearGradient>
+                    <button
+                      key={cat.id}
+                      onClick={() => !loadingCategorie && startCategorie(cat)}
+                      disabled={isDisabled}
+                      className={`group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                    >
+                      <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-100 transition-all">
+                        {isLoading ? <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
+                      </div>
+                      <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
+                      <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
+                        <ArrowRight size={20} className="text-blue-600 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </button>
                   )
                 })}
-              </defs>
-              {/* Lignes de base */}
-              {edges.map((edge, i) => {
-                const s = constellationData[edge.source]
-                const t = constellationData[edge.target]
-                return <line key={i} x1={s.left} y1={s.top} x2={t.left} y2={t.top} stroke={`url(#flow-grad-${i})`} strokeWidth="1.5" strokeOpacity={hoveredIndex !== null ? '0' : '0.15'} className="transition-all duration-300" />
-              })}
-              {/* Un seul point qui traverse tout le chemin */}
-              {(() => {
-                const pts = constellationData
-                const xVals = pts.map(p => p.left).join(';')
-                const yVals = pts.map(p => p.top).join(';')
-                const colorVals = pts.map(p => p.lineColor).join(';')
-                const totalDur = '8s'
-                return (
-                  <g style={{opacity: hoveredIndex !== null ? 0 : 1, transition: 'opacity 0.3s'}}>
-                    <filter id="pulse-glow" x="-100%" y="-100%" width="300%" height="300%">
-                      <feGaussianBlur stdDeviation="6" result="blur" />
-                      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                    </filter>
-                    {/* Halo */}
-                    <circle r="12" opacity="0.2" filter="url(#pulse-glow)">
-                      <animate attributeName="cx" values={xVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="cy" values={yVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="fill" values={colorVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="r" values="10;16;10;16;10;16;10;16;10" dur="0.8s" repeatCount="indefinite" />
-                    </circle>
-                    {/* Point central */}
-                    <circle r="5" opacity="0.9">
-                      <animate attributeName="cx" values={xVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="cy" values={yVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="fill" values={colorVals} dur={totalDur} repeatCount="indefinite" calcMode="linear" />
-                      <animate attributeName="r" values="4;7;4;7;4;7;4;7;4" dur="0.8s" repeatCount="indefinite" />
-                    </circle>
-                  </g>
-                )
-              })()}
-            </svg>
-
-            {/* Noeuds de compétences */}
-            {constellationData.map((cat, idx) => {
-              const Icon = cat.icon
-              const isHovered = hoveredIndex === idx
-              const isDimmed = hoveredIndex !== null && hoveredIndex !== idx
-              const isLoading = loadingFamille === cat.id
-              return (
-                <div key={cat.id} className="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 group" style={{top: cat.top, left: cat.left}} onMouseEnter={() => setHoveredIndex(idx)} onMouseLeave={() => setHoveredIndex(null)}>
-                  <button
-                    onClick={() => !loadingFamille && startExercice(cat)}
-                    disabled={!!loadingFamille}
-                    className={`relative w-16 h-16 sm:w-22 sm:h-22 md:w-28 md:h-28 flex items-center justify-center border-2 transition-all duration-500 cursor-pointer ${cat.colorTheme} ${isHovered ? `scale-125 ${cat.glowTheme}` : 'scale-100 hover:scale-110 shadow-lg'} ${isDimmed ? 'opacity-30 grayscale' : 'opacity-100'} `}
-                    style={{borderRadius: ['60% 40% 30% 70% / 60% 30% 70% 40%', '40% 60% 70% 30% / 50% 60% 40% 50%', '70% 30% 50% 50% / 30% 50% 50% 70%', '50% 50% 30% 70% / 40% 70% 30% 60%'][idx]}}
-                  >
-                    {isLoading ? (
-                      <div className="w-8 h-8 rounded-full animate-spin" style={{borderWidth: '3px', borderStyle: 'solid', borderColor: 'currentColor', borderTopColor: 'transparent'}}></div>
-                    ) : (
-                      <Icon size={32} className="transition-transform duration-300 md:w-9 md:h-9" strokeWidth={isHovered ? 2.5 : 1.5} />
-                    )}
-                    <div className="absolute inset-3 border border-dashed border-white/40" style={{borderRadius: 'inherit'}} />
-                  </button>
-
-                  {/* Tooltip au survol */}
-                  <div className={`absolute ${cat.tooltipClass} w-64 md:w-72 p-5 rounded-2xl bg-white border border-slate-200 shadow-2xl pointer-events-none transition-all duration-300 ${isHovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}>
-                    <h3 className={`text-lg font-black mb-2 text-center ${cat.labelColor}`}>{cat.titre}</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed text-center">{cat.description}</p>
-                  </div>
-
-                  {/* Label sous le noeud */}
-                  <div className={`absolute ${idx === 0 || idx === 2 ? 'bottom-full mb-4' : 'top-full mt-4'} left-1/2 -translate-x-1/2 sm:whitespace-nowrap text-center max-w-[120px] sm:max-w-none transition-opacity duration-300 ${isHovered || isDimmed ? 'opacity-0' : 'opacity-70'}`}>
-                    <span className={`text-base font-black tracking-wide ${cat.labelColor}`}>{cat.titre}</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-        )
-      })()}
-
-      {/* ===== LOADING ===== */}
-      {step === 'loading' && selectedFamille && (() => {
-        const fillColor = colorMap[selectedFamille.id]?.dropColor || '#3b82f6'
-        return (
-        <div className={`fixed inset-0 z-40 lg:pl-[90px] flex flex-col pt-14 lg:pt-0 ${colorMap[selectedFamille.id]?.wrapper || 'bg-slate-100'}`}>
-          <style>{`
-            @keyframes dropFill { 0% { transform: translateY(100%); } 100% { transform: translateY(0%); } }
-            @keyframes dropPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-          `}</style>
-          <div className="flex items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
-            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left flex-1" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={colorMap[selectedFamille.id]?.text || 'text-blue-500'}>— {selectedFamille.titre}</span></h1>
-            <a href="/dashboard" className="hidden sm:flex bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 shadow-lg shrink-0">
-              Quitter l&apos;exercice
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </a>
-          </div>
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-5">
-              <div style={{animation: 'dropPulse 2s ease-in-out infinite'}}>
-                <svg width="80" height="100" viewBox="0 0 64 80">
-                  <defs>
-                    <clipPath id="dropClipLoad">
-                      <path d="M32 2 C32 2 8 36 8 52 C8 66 18 76 32 76 C46 76 56 66 56 52 C56 36 32 2 32 2Z" />
-                    </clipPath>
-                  </defs>
-                  <path d="M32 2 C32 2 8 36 8 52 C8 66 18 76 32 76 C46 76 56 66 56 52 C56 36 32 2 32 2Z" fill="none" stroke={fillColor} strokeWidth="2.5" strokeOpacity="0.3" />
-                  <g clipPath="url(#dropClipLoad)">
-                    <rect x="0" y="0" width="64" height="80" fill={fillColor} fillOpacity="0.7" style={{animation: 'dropFill 10s ease-in-out forwards'}} />
-                  </g>
-                  <ellipse cx="24" cy="42" rx="6" ry="10" fill="white" fillOpacity="0.25" transform="rotate(-15 24 42)" />
-                </svg>
               </div>
-              <div className="text-center">
-                <p className="text-slate-500 font-bold text-sm">Génération des questions...</p>
-                <p className="text-slate-400 font-medium text-sm mt-1" style={{animation: 'fadeIn 0.5s ease-out 8s forwards', opacity: 0}}>Encore quelques secondes</p>
+
+              <div className="mt-8 text-center">
+                <a href="/dashboard" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 font-bold text-sm transition">
+                  <ArrowLeft size={16} />
+                  Retour au tableau de bord
+                </a>
               </div>
             </div>
-          </div>
-        </div>
-        )
-      })()}
+          )}
 
-      {/* ===== ÉPREUVE ===== */}
-      {step === 'epreuve' && sujet && data && selectedFamille && (
-        <div className={`fixed inset-0 z-40 lg:pl-[90px] ${c.wrapper} overflow-y-auto flex flex-col pt-14 lg:pt-0`}>
-          <div className="flex items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
-            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left flex-1" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={c.text}>— {selectedFamille.titre}</span></h1>
-            <a href="/dashboard" className="hidden sm:flex bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 shadow-lg shrink-0">
-              Quitter l&apos;exercice
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </a>
-          </div>
-          <div className="flex-1 flex items-start sm:items-center justify-center px-2 sm:px-4 pb-4 sm:pb-8">
-            <div className="w-full max-w-2xl">
-            <div className="rounded-2xl sm:rounded-[2.5rem] p-1 sm:p-6">
-              <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
-                {/* Header */}
-                <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
-                  <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{sujet.questions.length}</span>
-                  <span className={`${c.badge} px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-slate-50">
-                    <div className={`h-full ${c.progressBar} transition-all duration-500`} style={{width: `${progress}%`}}></div>
-                  </div>
+          {/* ===== LOADING ===== */}
+          {step === 'loading' && selectedCategorie && (
+            <div className="animate-fade-in min-h-[calc(100vh-8rem)] flex items-center justify-center">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md w-full p-6 sm:p-8 text-center">
+                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-
-                {/* Question + input + résultat */}
-                <div className="p-4 sm:p-6 flex-grow">
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-5 leading-relaxed">{data.question}</h2>
-                  <input
-                    type="text"
-                    className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-800 font-medium focus:outline-none focus:ring-2 ${c.ring} transition placeholder:text-slate-400 ${validated[data.id] ? 'opacity-60 pointer-events-none' : ''}`}
-                    placeholder="Votre réponse..."
-                    value={reponses[data.id] || ''}
-                    onChange={(e) => setReponses(prev => ({ ...prev, [data.id]: e.target.value }))}
-                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if (!validated[data.id]) validateCurrent(); else if (current < sujet.questions.length - 1) goNext() } }}
-                    disabled={!!validated[data.id]}
-                  />
-
-                  {/* Résultat après validation */}
-                  {validated[data.id] && (
-                    <div className={`mt-4 rounded-xl border overflow-hidden ${validated[data.id].correct ? 'border-green-200' : 'border-red-200'}`}>
-                      <div className={`flex items-center justify-between px-4 py-2.5 ${validated[data.id].correct ? 'bg-green-500' : 'bg-red-500'}`}>
-                        <div className="flex items-center gap-2">
-                          {validated[data.id].correct ? (
-                            <><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg><span className="text-white font-black text-sm">Correct</span></>
-                          ) : (
-                            <><svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span className="text-white font-black text-sm">Incorrect</span></>
-                          )}
-                        </div>
-                        <span className="text-white/90 font-bold text-sm">Réponse : {validated[data.id].reponse_attendue}</span>
+                <h2 className="text-xl font-black text-slate-900 mb-2">Génération en cours…</h2>
+                <p className="text-sm text-slate-500 font-medium mb-6">QCM sur <span className="text-blue-600 font-black">{selectedCategorie.titre}</span></p>
+                <div className="space-y-2.5 text-left">
+                  {[
+                    'Sélection des thèmes pertinents',
+                    'Rédaction des énoncés et propositions',
+                    'Préparation des explications',
+                    'Finalisation du QCM'
+                  ].map((s, i) => (
+                    <div key={i} className={`flex items-center gap-3 transition-opacity ${i <= loadingStep ? 'opacity-100' : 'opacity-30'}`}>
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${i < loadingStep ? 'bg-emerald-500' : i === loadingStep ? 'bg-blue-600' : 'bg-slate-200'}`}>
+                        {i < loadingStep ? (
+                          <CheckCircle2 size={14} className="text-white" strokeWidth={2.5} />
+                        ) : i === loadingStep ? (
+                          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                        ) : null}
                       </div>
-                      {validated[data.id].explication && (
-                        <div className={`px-4 py-3 ${validated[data.id].correct ? 'bg-green-50' : 'bg-red-50'}`}>
-                          {validated[data.id].explication.split(/\s*\|\s*/).map((step, i) => (
-                            <p key={i} className="text-sm text-slate-700 font-medium py-0.5">{step}</p>
-                          ))}
-                        </div>
-                      )}
+                      <span className={`text-sm font-medium ${i <= loadingStep ? 'text-slate-700' : 'text-slate-400'}`}>{s}</span>
                     </div>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div className="p-4 sm:p-5 pt-0 flex gap-3">
-                  {current > 0 && (
-                    <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
-                      <span className="hidden sm:inline">Précédent</span>
-                    </button>
-                  )}
-                  {!validated[data.id] ? (
-                    <button onClick={validateCurrent} className={`flex-grow bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer`}>
-                      Valider <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    </button>
-                  ) : current < sujet.questions.length - 1 ? (
-                    <button onClick={goNext} className="flex-grow bg-slate-900 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-black flex items-center justify-center gap-2 text-sm sm:text-base shadow-md cursor-pointer">
-                      Question suivante <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                    </button>
-                  ) : !streamingDone ? (
-                    <div className="flex-grow flex items-center justify-center gap-2 py-3 text-slate-400 text-sm font-bold">
-                      <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                      Chargement des questions...
-                    </div>
-                  ) : (
-                    <button onClick={handleSubmitAll} className={`flex-grow bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer`}>
-                      Voir mes résultats ({Object.keys(validated).length}/{sujet.questions.length})
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    </button>
-                  )}
+                  ))}
                 </div>
               </div>
             </div>
+          )}
 
-            {/* Navigation rapide */}
-            <div className="flex justify-center gap-1.5 sm:gap-2 mt-5">
-              {sujet.questions.map((q, i) => (
-                <button key={i} onClick={() => setCurrent(i)} className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold text-[10px] sm:text-xs transition cursor-pointer bg-slate-900 text-white ${i === current ? 'ring-2 ring-offset-2 ring-slate-900' : reponses[q.id]?.trim() ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
-                  {i + 1}
+          {/* ===== ÉPREUVE ===== */}
+          {step === 'epreuve' && data && selectedCategorie && (
+            <div className="animate-fade-in max-w-3xl mx-auto pb-8">
+
+              {/* Header */}
+              <div className="bg-slate-900 rounded-2xl px-4 sm:px-6 py-4 sm:py-5 mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h2 className="text-base sm:text-xl font-black text-white">QCM {selectedCategorie.titre}</h2>
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">{questions.length} questions · {answeredCount} répondues</p>
+                  </div>
+                  <button onClick={restart} className="bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition flex items-center gap-2">
+                    Quitter
+                    <XCircle size={14} />
+                  </button>
+                </div>
+                <div className="w-full h-2 bg-white/15 rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-400 transition-all duration-500 rounded-full" style={{width: `${progress}%`}}></div>
+                </div>
+              </div>
+
+              {/* Question */}
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-4">
+                <div className="flex items-start gap-3 mb-5">
+                  <span className="w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center font-black text-sm shrink-0">{data.numero}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{data.enonce}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2.5">
+                  {(data.propositions || []).map(prop => {
+                    const lettre = String(prop.lettre).toUpperCase()
+                    const isSelected = reponses[data.numero] === lettre
+                    return (
+                      <button
+                        key={lettre}
+                        onClick={() => selectAnswer(data.numero, lettre)}
+                        className={`w-full flex items-start gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-blue-50 border-blue-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
+                      >
+                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 transition-all ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
+                          {lettre}
+                        </span>
+                        <span className={`text-sm font-medium leading-relaxed pt-1 flex-1 ${isSelected ? 'text-slate-900' : 'text-slate-700'}`}>
+                          {prop.texte}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex items-center justify-between gap-3">
+                <button onClick={goPrev} disabled={current === 0} className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold px-4 sm:px-5 py-3 rounded-xl transition text-sm flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+                  <ArrowLeft size={16} />
+                  <span className="hidden sm:inline">Précédent</span>
                 </button>
-              ))}
-            </div>
-          </div>
-          </div>
-        </div>
-      )}
 
-      {/* ===== RÉSULTATS ===== */}
-      {step === 'resultat' && correction && selectedFamille && (
-        <div className={`fixed inset-0 z-40 lg:pl-[90px] flex flex-col pt-14 lg:pt-0 ${c.wrapper}`}>
-          <div className="flex items-center justify-between gap-3 p-4 pt-4 sm:pt-8 shrink-0">
-            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-slate-800 tracking-tight text-center sm:text-left flex-1" style={{fontFamily: "'Nunito', sans-serif"}}>Entraînement spécifique <span className={c.text}>— {selectedFamille.titre}</span></h1>
-            <a href="/dashboard" className="hidden sm:flex bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2 shadow-lg shrink-0">
-              Quitter l&apos;exercice
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </a>
-          </div>
-          <div className="flex-1 flex items-start sm:items-center justify-center px-2 sm:px-4 pb-4 sm:pb-8">
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-12 max-w-md w-full text-center">
-            <span className={`${c.badge} px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide uppercase`}>{selectedFamille.titre}</span>
-            <div className="flex justify-center items-center my-5">
-              <span className={`text-5xl sm:text-7xl font-black ${c.text} tracking-tighter`}>{correction.note}</span>
-              <span className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{correction.noteMax}</span>
-            </div>
-            <p className="text-slate-400 text-sm font-bold mb-8">Ne compte pas dans la moyenne</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button onClick={retryFamille} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 px-5 rounded-xl transition text-sm flex items-center gap-2 cursor-pointer">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                Recommencer
-              </button>
-              <a href="/dashboard" className={`bg-gradient-to-r ${c.gradient} text-white font-bold py-3 px-5 rounded-xl transition shadow-lg text-sm flex items-center gap-2`}>
-                Dashboard
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-              </a>
-            </div>
-          </div>
-          </div>
-        </div>
-      )}
+                {current < questions.length - 1 ? (
+                  <button onClick={goNext} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
+                    Question suivante
+                    <ArrowRight size={16} />
+                  </button>
+                ) : (
+                  <button onClick={handleSubmit} className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-emerald-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
+                    <CheckCircle2 size={18} />
+                    Soumettre ({answeredCount}/{questions.length})
+                  </button>
+                )}
+              </div>
 
+              {/* Mini-pagination */}
+              <div className="mt-6 flex flex-wrap justify-center gap-1.5">
+                {questions.map((q, i) => {
+                  const isCurrent = i === current
+                  const isAnswered = !!reponses[q.numero]
+                  return (
+                    <button
+                      key={q.numero}
+                      onClick={() => setCurrent(i)}
+                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${isCurrent ? 'bg-blue-600 text-white scale-110' : isAnswered ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}
+                    >
+                      {q.numero}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ===== RÉSULTAT ===== */}
+          {step === 'resultat' && selectedCategorie && (
+            <div className="animate-fade-in max-w-3xl mx-auto pb-8">
+
+              {/* Note globale */}
+              <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 text-center mb-6 relative">
+                <button onClick={restart} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                  <XCircle size={20} />
+                </button>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">QCM {selectedCategorie.titre}</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-6xl font-black text-white">{score}</span>
+                  <span className="text-6xl font-black text-slate-400">/{questions.length}</span>
+                </div>
+                {(() => {
+                  const percent = Math.round((score / questions.length) * 100)
+                  return (
+                    <div className="mt-4">
+                      <div className="w-full max-w-xs mx-auto h-3 bg-white/15 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-blue-400' : 'bg-red-400'}`} style={{width: `${percent}%`}}></div>
+                      </div>
+                      <p className="text-sm font-bold mt-2 text-slate-300">
+                        {percent >= 80 ? 'Excellent ! Vous maîtrisez ce thème.' : percent >= 60 ? 'Bien joué ! Continuez ainsi.' : percent >= 40 ? 'Correct, mais des lacunes à combler.' : 'Score insuffisant. Revoyez les fondamentaux.'}
+                      </p>
+                    </div>
+                  )
+                })()}
+              </div>
+
+              {/* Correction */}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
+                    <ClipboardCheck size={16} strokeWidth={2} />
+                  </div>
+                  <h2 className="text-lg font-black text-slate-900">Correction détaillée</h2>
+                </div>
+
+                <div className="space-y-4">
+                  {questions.map(q => {
+                    const userAnswer = reponses[q.numero]
+                    const isCorrect = userAnswer === q.reponse_correcte
+                    const isAnswered = !!userAnswer
+
+                    return (
+                      <div key={q.numero} className={`bg-white border rounded-2xl shadow-sm overflow-hidden ${isCorrect ? 'border-emerald-200' : isAnswered ? 'border-red-200' : 'border-amber-200'}`}>
+                        <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${isCorrect ? 'bg-emerald-50' : isAnswered ? 'bg-red-50' : 'bg-amber-50'}`}>
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : isAnswered ? 'bg-red-500 text-white' : 'bg-amber-500 text-white'}`}>{q.numero}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-slate-800 leading-relaxed">{q.enonce}</p>
+                          </div>
+                          <div className="shrink-0 ml-2">
+                            {isCorrect ? (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full">
+                                <CheckCircle2 size={14} strokeWidth={2.5} />
+                                <span className="text-xs font-black">1/1</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-red-100 text-red-700 rounded-full">
+                                <XCircle size={14} strokeWidth={2.5} />
+                                <span className="text-xs font-black">0/1</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="px-4 sm:px-6 py-4 space-y-2">
+                          {(q.propositions || []).map(p => {
+                            const lettre = String(p.lettre).toUpperCase()
+                            const wasSelected = userAnswer === lettre
+                            const isGood = q.reponse_correcte === lettre
+                            let bgClass = 'bg-white border-slate-100'
+                            if (isGood && wasSelected) bgClass = 'bg-emerald-50 border-emerald-200'
+                            else if (isGood && !wasSelected) bgClass = 'bg-amber-50 border-amber-300 border-dashed'
+                            else if (!isGood && wasSelected) bgClass = 'bg-red-50 border-red-200'
+                            return (
+                              <div key={lettre} className={`flex items-start gap-3 p-3 rounded-xl border ${bgClass}`}>
+                                <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${isGood && wasSelected ? 'bg-emerald-500 text-white' : isGood ? 'bg-amber-500 text-white' : wasSelected ? 'bg-red-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                  {lettre}
+                                </span>
+                                <span className={`text-sm font-medium leading-relaxed pt-0.5 flex-1 ${isGood && !wasSelected ? 'text-amber-800' : isGood ? 'text-slate-800' : wasSelected ? 'text-red-700' : 'text-slate-500'}`}>
+                                  {p.texte}
+                                </span>
+                                <div className="shrink-0 mt-0.5">
+                                  {isGood && wasSelected && <CheckCircle2 size={18} className="text-emerald-500" strokeWidth={2} />}
+                                  {isGood && !wasSelected && <span className="text-xs font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">Bonne</span>}
+                                  {!isGood && wasSelected && <XCircle size={18} className="text-red-400" strokeWidth={2} />}
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {q.explication && (
+                          <div className="px-4 sm:px-6 pb-4">
+                            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                              <p className="text-xs font-black text-slate-400 uppercase tracking-wider mb-1.5">Explication</p>
+                              <p className="text-sm text-slate-700 leading-relaxed">{q.explication}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-center gap-4 pb-4 flex-wrap">
+                <button onClick={retryCategorie} className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                  <RotateCcw size={16} />
+                  Refaire {selectedCategorie.titre}
+                </button>
+                <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Choisir une autre thématique</button>
+                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour au dashboard</a>
+              </div>
+            </div>
+          )}
+
+          {/* Scroll-to-top */}
+          {showScrollTop && (
+            <button
+              onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="fixed bottom-6 right-6 w-10 h-10 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition cursor-pointer z-40"
+            >
+              <ChevronUp size={20} strokeWidth={2.5} />
+            </button>
+          )}
         </main>
       </div>
     </div>

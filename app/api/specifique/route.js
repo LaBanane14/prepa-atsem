@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { checkRateLimit } from '@/lib/rate-limit'
-import { BASE_SYSTEM, FORMAT_SORTIE } from '@/lib/prompts/base-maths'
-import { SYSTEM_POURCENTAGES, PROMPT_POURCENTAGES } from '@/lib/prompts/famille-pourcentages'
-import { SYSTEM_PROPORTIONNALITE, PROMPT_PROPORTIONNALITE } from '@/lib/prompts/famille-proportionnalite'
-import { SYSTEM_CONVERSIONS, PROMPT_CONVERSIONS } from '@/lib/prompts/famille-conversions'
-import { SYSTEM_EQUATIONS, PROMPT_EQUATIONS } from '@/lib/prompts/famille-equations'
+import { SYSTEM_QCM_THEMATIQUE, PROMPTS_THEMATIQUES, CATEGORIES_LABELS } from '@/lib/prompts/qcm-thematique'
 
 let _client = null
 function getClient() {
@@ -15,20 +11,39 @@ function getClient() {
 
 async function callClaude(system, userPrompt) {
   const client = getClient()
-  const message = await client.messages.create({
+  const stream = await client.messages.stream({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 8192,
+    max_tokens: 12000,
     system,
-    messages: [{ role: 'user', content: userPrompt }]
+    messages: [
+      { role: 'user', content: userPrompt },
+      { role: 'assistant', content: '{' }
+    ]
   })
-  return message.content[0].text
+  const message = await stream.finalMessage()
+  return '{' + message.content[0].text
 }
 
-const FAMILLES = {
-  operations: { system: SYSTEM_PROPORTIONNALITE, prompt: PROMPT_PROPORTIONNALITE },
-  pourcentages: { system: SYSTEM_POURCENTAGES, prompt: PROMPT_POURCENTAGES },
-  conversions: { system: SYSTEM_CONVERSIONS, prompt: PROMPT_CONVERSIONS },
-  equations: { system: SYSTEM_EQUATIONS, prompt: PROMPT_EQUATIONS }
+function parseJSON(text) {
+  function clean(str) {
+    return str.replace(/```json\n?/g, '').replace(/```\n?/g, '')
+      .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F]/g, ' ')
+      .trim()
+  }
+  try { return JSON.parse(clean(text)) } catch {}
+  const first = text.indexOf('{')
+  const last = text.lastIndexOf('}')
+  if (first !== -1 && last > first) {
+    try { return JSON.parse(clean(text.substring(first, last + 1))) } catch {}
+  }
+  let fixed = clean(text.substring(first !== -1 ? first : 0)).replace(/,\s*([}\]])/g, '$1')
+  const opens = (fixed.match(/\{/g) || []).length
+  const closes = (fixed.match(/\}/g) || []).length
+  const ob = (fixed.match(/\[/g) || []).length
+  const cb = (fixed.match(/\]/g) || []).length
+  for (let i = 0; i < ob - cb; i++) fixed += ']'
+  for (let i = 0; i < opens - closes; i++) fixed += '}'
+  return JSON.parse(fixed)
 }
 
 export async function POST(request) {
@@ -41,39 +56,33 @@ export async function POST(request) {
     }
 
     const body = await request.json()
-    const { action, famille } = body
+    const { action, categorie } = body
 
     if (action === 'generer') {
-      if (!famille || !FAMILLES[famille]) {
-        return NextResponse.json({ error: 'Famille non reconnue.' }, { status: 400 })
+      if (!categorie || !PROMPTS_THEMATIQUES[categorie]) {
+        return NextResponse.json({ error: 'Catégorie non reconnue.' }, { status: 400 })
       }
 
-      const config = FAMILLES[famille]
-      const systemInstruction = BASE_SYSTEM + '\n\n' + config.system
-      const userPrompt = config.prompt + '\n\n' + FORMAT_SORTIE
+      const seed = Math.floor(Math.random() * 100000)
+      const prompt = PROMPTS_THEMATIQUES[categorie] + `\n\nSeed de variabilité : #${seed}. Génère des questions DIFFÉRENTES des sessions précédentes.`
 
-      const text = await callClaude(systemInstruction, userPrompt)
-      if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
+      const text = await callClaude(SYSTEM_QCM_THEMATIQUE, prompt)
+      if (!text) return NextResponse.json({ error: 'Réponse Claude vide.' }, { status: 500 })
 
-      let sujetData
-      try {
-        sujetData = JSON.parse(text)
-      } catch {
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-        sujetData = JSON.parse(cleaned)
-      }
+      const data = parseJSON(text)
+      const questions = (data.questions || []).map((q, i) => ({
+        numero: q.numero || i + 1,
+        enonce: q.enonce || '',
+        propositions: q.propositions || [],
+        reponse_correcte: (q.reponse_correcte || '').toUpperCase(),
+        explication: q.explication || ''
+      }))
 
-      // Mapper les champs pour compatibilité avec le front (numero→id, enonce→question)
-      if (sujetData.questions) {
-        sujetData.questions = sujetData.questions.map(q => ({
-          id: q.numero || q.id,
-          question: q.enonce || q.question,
-          reponse: q.reponse,
-          explication: q.explication || ''
-        }))
-      }
-
-      return NextResponse.json({ sujet: sujetData })
+      return NextResponse.json({
+        categorie,
+        label: CATEGORIES_LABELS[categorie] || categorie,
+        questions
+      })
     }
 
     return NextResponse.json({ error: 'Action non reconnue.' }, { status: 400 })
