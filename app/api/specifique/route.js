@@ -30,13 +30,30 @@ function parseJSON(text) {
       .replace(/[\x00-\x09\x0B\x0C\x0E-\x1F]/g, ' ')
       .trim()
   }
+  // Insère les virgules manquantes entre éléments adjacents (}{, ][, "" hors string, etc.)
+  function insertMissingCommas(str) {
+    // }<whitespace>{ → },{
+    str = str.replace(/}(\s*){/g, '},$1{')
+    // ]<whitespace>[ → ],[
+    str = str.replace(/\](\s*)\[/g, '],$1[')
+    // }<whitespace>" (clé suivante manquante) → },"
+    str = str.replace(/}(\s*)"/g, '},$1"')
+    // "<whitespace>" entre deux strings dans un array (rare) → ","
+    str = str.replace(/"(\s*\n\s*)"/g, '",$1"')
+    return str
+  }
+
   try { return JSON.parse(clean(text)) } catch {}
+
   const first = text.indexOf('{')
   const last = text.lastIndexOf('}')
-  if (first !== -1 && last > first) {
-    try { return JSON.parse(clean(text.substring(first, last + 1))) } catch {}
-  }
-  let fixed = clean(text.substring(first !== -1 ? first : 0)).replace(/,\s*([}\]])/g, '$1')
+  let candidate = first !== -1 && last > first ? clean(text.substring(first, last + 1)) : clean(text)
+
+  try { return JSON.parse(candidate) } catch {}
+  try { return JSON.parse(insertMissingCommas(candidate)) } catch {}
+
+  // Réparation aggressive : virgules manquantes + brackets/braces
+  let fixed = insertMissingCommas(candidate).replace(/,\s*([}\]])/g, '$1')
   const opens = (fixed.match(/\{/g) || []).length
   const closes = (fixed.match(/\}/g) || []).length
   const ob = (fixed.match(/\[/g) || []).length
@@ -63,13 +80,23 @@ export async function POST(request) {
         return NextResponse.json({ error: 'Catégorie non reconnue.' }, { status: 400 })
       }
 
-      const seed = Math.floor(Math.random() * 100000)
-      const prompt = PROMPTS_THEMATIQUES[categorie] + `\n\nSeed de variabilité : #${seed}. Génère des questions DIFFÉRENTES des sessions précédentes.`
-
-      const text = await callClaude(SYSTEM_QCM_THEMATIQUE, prompt)
-      if (!text) return NextResponse.json({ error: 'Réponse Claude vide.' }, { status: 500 })
-
-      const data = parseJSON(text)
+      // Retry jusqu'à 3 fois en cas de JSON malformé par Claude
+      let data = null
+      let lastErr = null
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const seed = Math.floor(Math.random() * 100000)
+        const prompt = PROMPTS_THEMATIQUES[categorie] + `\n\nSeed de variabilité : #${seed}. Génère des questions DIFFÉRENTES des sessions précédentes.`
+        const text = await callClaude(SYSTEM_QCM_THEMATIQUE, prompt)
+        if (!text) { lastErr = 'Réponse Claude vide.'; continue }
+        try {
+          data = parseJSON(text)
+          break
+        } catch (e) {
+          lastErr = e.message
+          console.error(`Tentative ${attempt + 1} : parse JSON échoué (${e.message})`)
+        }
+      }
+      if (!data) return NextResponse.json({ error: 'Erreur de génération : ' + (lastErr || 'JSON invalide après plusieurs tentatives') }, { status: 500 })
       const questions = (data.questions || []).map((q, i) => ({
         numero: q.numero || i + 1,
         enonce: q.enonce || '',
