@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Target, BookOpen, Sparkles, ClipboardCheck, Building2, SprayCan, Heart, GraduationCap, Users, Calculator, CheckCircle2, XCircle, ArrowLeft, ArrowRight, ChevronUp } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, ClipboardCheck, Building2, SprayCan, Heart, GraduationCap, Users, Calculator, CheckCircle2, XCircle, ArrowLeft, ArrowRight, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -28,9 +28,7 @@ export default function SpecifiquePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
-  const [showInfoPopup, setShowInfoPopup] = useState(false)
-  const [dontShowAgain, setDontShowAgain] = useState(false)
-  const [step, setStep] = useState('choix') // null, choix, loading, epreuve, resultat
+  const [step, setStep] = useState('choix') // choix, loading, epreuve, resultat
   const [selectedCategorie, setSelectedCategorie] = useState(null)
   const [questions, setQuestions] = useState([])
   const [error, setError] = useState('')
@@ -54,8 +52,6 @@ export default function SpecifiquePage() {
       const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
       if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
-      const skipPopup = localStorage.getItem('specifique_skip_info') === 'true'
-      if (!skipPopup) { setShowInfoPopup(true); setStep(null) }
     })
   }, [])
 
@@ -165,7 +161,7 @@ export default function SpecifiquePage() {
   const progress = questions.length ? ((current + 1) / questions.length) * 100 : 0
   const answeredCount = Object.keys(reponses).length
 
-  if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
+  if (authLoading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></div></div>
 
   if (showAccessBlock) return (
     <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
@@ -182,7 +178,7 @@ export default function SpecifiquePage() {
   )
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{backgroundImage: 'radial-gradient(#7e22ce 1px, transparent 1px)', backgroundSize: '24px 24px', fontFamily: "'Nunito', sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
@@ -196,11 +192,11 @@ export default function SpecifiquePage() {
       {/* SIDEBAR */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]">
-          <a href="/" className="mb-4"><div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+          <a href="/" className="mb-4"><div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
-              <a key={item.id} href={item.href} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all text-center group ${item.premium ? 'text-amber-500 hover:bg-amber-50 hover:text-amber-600' : 'text-slate-900 hover:bg-blue-50 hover:text-blue-600'}`}>
+              <a key={item.id} href={item.href} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all text-center group ${item.premium ? 'text-amber-500 hover:bg-amber-50 hover:text-amber-600' : 'text-slate-900 hover:bg-purple-50 hover:text-purple-600'}`}>
                 <item.icon size={21} strokeWidth={1.6} className={`transition-transform duration-200 group-hover:scale-125 ${item.premium ? 'premium-scan' : ''}`} />
                 <span>{item.label}</span>
               </a>
@@ -220,54 +216,13 @@ export default function SpecifiquePage() {
       <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-          <span className="font-black text-lg text-slate-900">Prépa <span className="text-blue-600">ATSEM</span></span>
+          <span className="font-black text-lg text-slate-900">Prépa <span className="text-purple-600">ATSEM</span></span>
           <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
         </header>
 
         <main ref={mainRef} className="flex-grow w-full mx-auto px-4 py-4 sm:py-5 overflow-x-hidden overflow-y-auto">
-
-          {/* ===== POPUP INFO ===== */}
-          {showInfoPopup && (
-            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }}>
-              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
-                <div className="bg-slate-900 px-6 py-5 relative">
-                  <button onClick={() => { setShowInfoPopup(false); window.location.href = '/dashboard' }} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                  </button>
-                  <h2 className="text-lg font-black text-white pr-8">Entraînement spécifique</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-1">QCM thématiques générés par IA</p>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-4 mb-6">
-                    {[
-                      { icon: <Target size={18} strokeWidth={2} />, title: 'Choisissez une thématique', text: '6 grandes catégories du concours ATSEM : statut, hygiène, santé, pédagogie, relations pro, calculs.' },
-                      { icon: <BookOpen size={18} strokeWidth={2} />, title: '10 questions par session', text: 'Une bonne réponse sur 4 propositions, comme dans les vraies annales.' },
-                      { icon: <Sparkles size={18} strokeWidth={2} />, title: 'Questions générées par notre IA', text: 'Un nouveau QCM à chaque session pour ne jamais retomber sur les mêmes questions.' },
-                      { icon: <ClipboardCheck size={18} strokeWidth={2} />, title: 'Correction détaillée', text: 'Chaque réponse est expliquée pour bien comprendre la bonne réponse et les pièges.' }
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
-                        <div>
-                          <p className="text-sm font-black text-slate-800">{item.title}</p>
-                          <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{item.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <button onClick={() => { if (dontShowAgain) localStorage.setItem('specifique_skip_info', 'true'); setShowInfoPopup(false); setStep('choix') }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer mb-4">
-                    <ArrowRight size={18} />
-                    Choisir une thématique
-                  </button>
-                  <label className="flex items-center gap-2 cursor-pointer justify-center">
-                    <input type="checkbox" checked={dontShowAgain} onChange={e => setDontShowAgain(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-500 focus:ring-blue-500 cursor-pointer" />
-                    <span className="text-xs text-slate-400 font-medium">Ne plus afficher ce message</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* ===== CHOIX CATÉGORIE ===== */}
           {step === 'choix' && (
@@ -294,16 +249,16 @@ export default function SpecifiquePage() {
                       key={cat.id}
                       onClick={() => !loadingCategorie && startCategorie(cat)}
                       disabled={isDisabled}
-                      className={`group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      className={`group bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-100 transition-all">
-                        {isLoading ? <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
+                      <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-100 transition-all">
+                        {isLoading ? <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
                       </div>
                       <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
                       <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
                       <div className="flex items-center justify-between">
                         <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
-                        <ArrowRight size={20} className="text-blue-600 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight size={20} className="text-purple-600 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </button>
                   )
@@ -323,11 +278,11 @@ export default function SpecifiquePage() {
           {step === 'loading' && selectedCategorie && (
             <div className="animate-fade-in min-h-[calc(100vh-8rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md w-full p-6 sm:p-8 text-center">
-                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
                 <h2 className="text-xl font-black text-slate-900 mb-2">Génération en cours…</h2>
-                <p className="text-sm text-slate-500 font-medium mb-6">QCM sur <span className="text-blue-600 font-black">{selectedCategorie.titre}</span></p>
+                <p className="text-sm text-slate-500 font-medium mb-6">QCM sur <span className="text-purple-600 font-black">{selectedCategorie.titre}</span></p>
                 <div className="space-y-2.5 text-left">
                   {[
                     'Sélection des thèmes pertinents',
@@ -336,7 +291,7 @@ export default function SpecifiquePage() {
                     'Finalisation du QCM'
                   ].map((s, i) => (
                     <div key={i} className={`flex items-center gap-3 transition-opacity ${i <= loadingStep ? 'opacity-100' : 'opacity-30'}`}>
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${i < loadingStep ? 'bg-emerald-500' : i === loadingStep ? 'bg-blue-600' : 'bg-slate-200'}`}>
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${i < loadingStep ? 'bg-emerald-500' : i === loadingStep ? 'bg-purple-600' : 'bg-slate-200'}`}>
                         {i < loadingStep ? (
                           <CheckCircle2 size={14} className="text-white" strokeWidth={2.5} />
                         ) : i === loadingStep ? (
@@ -368,14 +323,14 @@ export default function SpecifiquePage() {
                   </button>
                 </div>
                 <div className="w-full h-2 bg-white/15 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-400 transition-all duration-500 rounded-full" style={{width: `${progress}%`}}></div>
+                  <div className="h-full bg-purple-400 transition-all duration-500 rounded-full" style={{width: `${progress}%`}}></div>
                 </div>
               </div>
 
               {/* Question */}
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 mb-4">
                 <div className="flex items-start gap-3 mb-5">
-                  <span className="w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center font-black text-sm shrink-0">{data.numero}</span>
+                  <span className="w-9 h-9 bg-purple-600 text-white rounded-xl flex items-center justify-center font-black text-sm shrink-0">{data.numero}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed">{data.enonce}</p>
                   </div>
@@ -389,9 +344,9 @@ export default function SpecifiquePage() {
                       <button
                         key={lettre}
                         onClick={() => selectAnswer(data.numero, lettre)}
-                        className={`w-full flex items-start gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-blue-50 border-blue-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
+                        className={`w-full flex items-start gap-3 p-3 sm:p-4 rounded-xl border-2 transition-all text-left cursor-pointer group ${isSelected ? 'bg-purple-50 border-purple-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`}
                       >
-                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 transition-all ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
+                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0 transition-all ${isSelected ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}>
                           {lettre}
                         </span>
                         <span className={`text-sm font-medium leading-relaxed pt-1 flex-1 ${isSelected ? 'text-slate-900' : 'text-slate-700'}`}>
@@ -411,7 +366,7 @@ export default function SpecifiquePage() {
                 </button>
 
                 {current < questions.length - 1 ? (
-                  <button onClick={goNext} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
+                  <button onClick={goNext} className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 sm:px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm flex items-center justify-center gap-2 cursor-pointer">
                     Question suivante
                     <ArrowRight size={16} />
                   </button>
@@ -432,7 +387,7 @@ export default function SpecifiquePage() {
                     <button
                       key={q.numero}
                       onClick={() => setCurrent(i)}
-                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${isCurrent ? 'bg-blue-600 text-white scale-110' : isAnswered ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}
+                      className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer ${isCurrent ? 'bg-purple-600 text-white scale-110' : isAnswered ? 'bg-purple-100 text-purple-700 hover:bg-purple-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}`}
                     >
                       {q.numero}
                     </button>
@@ -461,7 +416,7 @@ export default function SpecifiquePage() {
                   return (
                     <div className="mt-4">
                       <div className="w-full max-w-xs mx-auto h-3 bg-white/15 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-blue-400' : 'bg-red-400'}`} style={{width: `${percent}%`}}></div>
+                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-purple-400' : 'bg-red-400'}`} style={{width: `${percent}%`}}></div>
                       </div>
                       <p className="text-sm font-bold mt-2 text-slate-300">
                         {percent >= 80 ? 'Excellent ! Vous maîtrisez ce thème.' : percent >= 60 ? 'Bien joué ! Continuez ainsi.' : percent >= 40 ? 'Correct, mais des lacunes à combler.' : 'Score insuffisant. Revoyez les fondamentaux.'}
@@ -474,7 +429,7 @@ export default function SpecifiquePage() {
               {/* Correction */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center">
                     <ClipboardCheck size={16} strokeWidth={2} />
                   </div>
                   <h2 className="text-lg font-black text-slate-900">Correction détaillée</h2>
@@ -551,7 +506,7 @@ export default function SpecifiquePage() {
 
               {/* Actions */}
               <div className="flex items-center justify-center gap-4 pb-4 flex-wrap">
-                <button onClick={retryCategorie} className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-blue-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                <button onClick={retryCategorie} className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm flex items-center gap-2 cursor-pointer">
                   <RotateCcw size={16} />
                   Refaire {selectedCategorie.titre}
                 </button>
@@ -565,7 +520,7 @@ export default function SpecifiquePage() {
           {showScrollTop && (
             <button
               onClick={() => mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="fixed bottom-6 right-6 w-10 h-10 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition cursor-pointer z-40"
+              className="fixed bottom-6 right-6 w-10 h-10 bg-purple-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-purple-700 transition cursor-pointer z-40"
             >
               <ChevronUp size={20} strokeWidth={2.5} />
             </button>
