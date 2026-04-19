@@ -227,9 +227,9 @@ export default function SpecifiquePage() {
           {/* ===== CHOIX CATÉGORIE ===== */}
           {step === 'choix' && (
             <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
-              <div className="text-center mb-8 sm:mb-10">
-                <h1 className="text-2xl sm:text-4xl font-black text-slate-900 mb-3">Choisissez votre thématique</h1>
-                <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
+              <div className="bg-slate-900 rounded-2xl px-6 py-6 sm:py-8 text-center mb-8 sm:mb-10">
+                <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">Choisissez votre thématique</h1>
+                <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
               </div>
 
               {error && (
@@ -249,14 +249,14 @@ export default function SpecifiquePage() {
                       key={cat.id}
                       onClick={() => !loadingCategorie && startCategorie(cat)}
                       disabled={isDisabled}
-                      className={`group bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl p-5 sm:p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      className={`group bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl p-5 sm:p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col items-center ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
                     >
                       <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-100 transition-all">
                         {isLoading ? <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
                       </div>
                       <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
                       <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-center gap-2 mt-auto pt-2">
                         <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
                         <ArrowRight size={20} className="text-purple-600 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -266,7 +266,7 @@ export default function SpecifiquePage() {
               </div>
 
               <div className="mt-8 text-center">
-                <a href="/dashboard" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 font-bold text-sm transition">
+                <a href="/dashboard" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm">
                   <ArrowLeft size={16} />
                   Retour au tableau de bord
                 </a>
