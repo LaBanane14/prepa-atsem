@@ -244,49 +244,57 @@ export default function SpecifiquePage() {
           {/* ===== CHOIX CATÉGORIE ===== */}
           {step === 'choix' && (
             <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
-              <div className="bg-slate-900 rounded-2xl px-6 py-6 sm:py-8 text-center mb-8 sm:mb-10">
-                <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">Choisissez votre thématique</h1>
-                <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
-              </div>
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-              {error && (
-                <div className="mb-6 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2 max-w-xl mx-auto">
-                  <XCircle size={18} className="shrink-0" />
-                  {error}
+                {/* Header sombre */}
+                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center">
+                  <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">Choisissez votre thématique</h1>
+                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4.</p>
                 </div>
-              )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                {CATEGORIES.map(cat => {
-                  const Icon = cat.icon
-                  const isLoading = loadingCategorie === cat.id
-                  const isDisabled = !!loadingCategorie && !isLoading
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => !loadingCategorie && startCategorie(cat)}
-                      disabled={isDisabled}
-                      className={`group bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl p-5 sm:p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col items-center ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
-                    >
-                      <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-100 transition-all">
-                        {isLoading ? <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
-                      </div>
-                      <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
-                      <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
-                      <div className="flex items-center justify-center gap-2 mt-auto pt-2">
-                        <span className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
-                        <ArrowRight size={20} className="text-purple-600 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
+                {/* Contenu */}
+                <div className="p-5 sm:p-8">
+                  {error && (
+                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+                      <XCircle size={18} className="shrink-0" />
+                      {error}
+                    </div>
+                  )}
 
-              <div className="mt-8 text-center">
-                <a href="/dashboard" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm">
-                  <ArrowLeft size={16} />
-                  Retour au tableau de bord
-                </a>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                    {CATEGORIES.map(cat => {
+                      const Icon = cat.icon
+                      const isLoading = loadingCategorie === cat.id
+                      const isDisabled = !!loadingCategorie && !isLoading
+                      return (
+                        <button
+                          key={cat.id}
+                          onClick={() => !loadingCategorie && startCategorie(cat)}
+                          disabled={isDisabled}
+                          className={`group bg-slate-50 border-2 border-slate-200 hover:border-purple-500 hover:bg-white rounded-2xl p-5 sm:p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer flex flex-col items-center ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                        >
+                          <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-purple-200 transition-all">
+                            {isLoading ? <div className="w-6 h-6 border-2 border-purple-700 border-t-transparent rounded-full animate-spin"></div> : <Icon size={28} strokeWidth={1.8} />}
+                          </div>
+                          <h3 className="font-black text-lg text-slate-900 mb-1">{cat.titre}</h3>
+                          <p className="text-sm text-slate-600 mb-3 leading-snug">{cat.description}</p>
+                          <div className="flex items-center justify-center gap-2 mt-auto pt-2">
+                            <span className="bg-white border border-slate-200 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">10 questions</span>
+                            <ArrowRight size={20} className="text-purple-700 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  <div className="mt-8 text-center">
+                    <a href="/dashboard" className="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm">
+                      <ArrowLeft size={16} />
+                      Retour au tableau de bord
+                    </a>
+                  </div>
+                </div>
+
               </div>
             </div>
           )}
