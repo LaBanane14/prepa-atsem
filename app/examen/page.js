@@ -1,7 +1,15 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp, MapPin, Info } from 'lucide-react'
+import { getBareme, scoreQuestion, BAREME_FAMILIES, getRegionsForFamily, NIVEAUX, getRegionDisplayName } from '../../lib/baremes-atsem'
+
+const EXAMEN_REGIONS_PAR_FAMILLE = [
+  { familyId: 1, regions: ['Occitanie', 'Nouvelle-Aquitaine', 'Normandie', 'Hauts-de-France'] },
+  { familyId: 2, regions: ['Auvergne-Rhône-Alpes'] },
+  { familyId: 3, regions: ['Pays de la Loire'] },
+  { familyId: 4, regions: ['Île-de-France', 'Bretagne', 'Grand Est', 'Bourgogne-Franche-Comté', 'PACA', 'Corse'] },
+]
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -32,8 +40,9 @@ export default function ExamenPage() {
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [showAccessBlock, setShowAccessBlock] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
-  // Steps: null (popup), loading, epreuve, correcting, resultat
+  // Steps: null (popup), choix_region, loading, epreuve, correcting, resultat
   const [step, setStep] = useState('loading')
+  const [selectedRegion, setSelectedRegion] = useState(null)
   const [error, setError] = useState('')
   const [loadingStep, setLoadingStep] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
@@ -68,7 +77,7 @@ export default function ExamenPage() {
       setAuthLoading(false)
       const skipPopup = localStorage.getItem('examen_skip_info') === 'true'
       if (skipPopup) {
-        genererSujets()
+        setStep('choix_region')
       } else {
         setShowInfoPopup(true)
         setStep(null)
@@ -126,6 +135,11 @@ export default function ExamenPage() {
   function handleStartFromPopup() {
     if (dontShowAgain) localStorage.setItem('examen_skip_info', 'true')
     setShowInfoPopup(false)
+    setStep('choix_region')
+  }
+
+  function selectRegionAndStart(regionName) {
+    setSelectedRegion(regionName)
     genererSujets()
   }
 
@@ -147,13 +161,13 @@ export default function ExamenPage() {
         body: JSON.stringify({ action: 'generer_questions' })
       })
       const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la génération du QCM.'); setStep(null); setShowInfoPopup(true); return }
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors de la génération du QCM.'); setStep('choix_region'); return }
 
       let parsedQuestions = data.questions || []
 
       if (parsedQuestions.length === 0) {
         setError('Format de QCM inattendu. Veuillez réessayer.')
-        setStep(null); setShowInfoPopup(true)
+        setStep('choix_region')
         return
       }
 
@@ -220,16 +234,16 @@ export default function ExamenPage() {
       }
     }
 
-    // Scorer
+    // Scorer — selon la famille de barème de la région choisie
     const corr = correctionRef.current
     if (corr.length > 0) {
+      const bareme = getBareme(selectedRegion) || { id: 1, penalty: 0 }
       let total = 0
       corr.forEach(c => {
-        const userAnswers = (reponses[c.numero] || []).sort()
-        const correctAnswers = (c.reponses_correctes || []).sort()
-        if (userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
-          total++
-        }
+        const userAnswers = reponses[c.numero] || []
+        const correctAnswers = c.reponses_correctes || []
+        const { points } = scoreQuestion(bareme, userAnswers, correctAnswers)
+        total += points
       })
       setScore(total)
 
@@ -238,7 +252,7 @@ export default function ExamenPage() {
         await supabase.from('historique').insert({
           user_id: user.id,
           type: 'Examen',
-          label: 'Examen blanc QCM ATSEM',
+          label: `Examen blanc — ${selectedRegion || 'ATSEM'}`,
           note: total,
           note_max: 20,
           nb_questions: questions.length,
@@ -256,7 +270,8 @@ export default function ExamenPage() {
   function restart() {
     setQuestions([]); setCorrection([]); setReponses({}); setScore(null)
     setError(''); setLoadingStep(0); setTimeLeft(EXAM_DURATION); setTimerActive(false)
-    genererSujets()
+    setSelectedRegion(null)
+    setStep('choix_region')
   }
 
   function getQuestionResult(numero) {
@@ -399,6 +414,65 @@ export default function ExamenPage() {
             </div>
           )}
 
+          {/* ===== CHOIX RÉGION ===== */}
+          {step === 'choix_region' && (
+            <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+
+                {/* Header sombre */}
+                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center relative">
+                  <a href="/dashboard" className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </a>
+                  <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 flex items-center justify-center gap-3">
+                    <MapPin size={30} strokeWidth={2.2} className="text-yellow-400" />
+                    Choisissez votre région d'examen
+                  </h1>
+                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">Le barème de votre examen blanc s'adaptera aux règles de la région sélectionnée.</p>
+                </div>
+
+                <div className="p-5 sm:p-8 space-y-6">
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+                      <XCircle size={18} className="shrink-0" />
+                      {error}
+                    </div>
+                  )}
+
+                  {EXAMEN_REGIONS_PAR_FAMILLE.map(({ familyId, regions }) => {
+                    const fam = BAREME_FAMILIES[familyId]
+                    const niveauLabel = { 1: 'Souple', 2: 'Normal', 3: 'Difficile' }[fam.niveau]
+                    const niveauColors = {
+                      1: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+                      2: 'bg-amber-100 text-amber-700 border-amber-300',
+                      3: 'bg-rose-100 text-rose-600 border-rose-200',
+                    }
+                    return (
+                      <div key={familyId}>
+                        <div className="flex items-center gap-2 mb-3 flex-wrap">
+                          <h3 className="font-black text-slate-900 text-sm sm:text-base">Famille {familyId} — {fam.titre}</h3>
+                          <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${niveauColors[fam.niveau]}`}>{niveauLabel}</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {regions.map(region => (
+                            <button
+                              key={region}
+                              onClick={() => selectRegionAndStart(region)}
+                              className="group bg-slate-50 border-2 border-slate-200 hover:border-yellow-500 hover:bg-yellow-50 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer flex items-center gap-3"
+                            >
+                              <MapPin size={18} className="text-slate-400 group-hover:text-yellow-600 transition-colors shrink-0" />
+                              <span className="font-bold text-slate-900 text-sm">{region}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ===== LOADING ===== */}
           {step === 'loading' && (
             <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
@@ -520,7 +594,7 @@ export default function ExamenPage() {
                 {/* Barre du haut */}
                 <div className="bg-slate-900 rounded-t-2xl px-3 sm:px-6 py-3 sm:py-5 overflow-hidden shrink-0">
                   <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">Examen blanc ATSEM</h2>
+                    <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">Examen blanc{selectedRegion ? ` — ${selectedRegion}` : ' ATSEM'}</h2>
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                       <div className={`flex items-center gap-2 sm:gap-3 ${isUrgent ? 'pulse-urgent' : ''}`}>
                         <div className="w-24 sm:w-32 h-2 bg-white/15 rounded-full overflow-hidden hidden sm:block">
@@ -560,10 +634,69 @@ export default function ExamenPage() {
 
                 <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-                    <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <p className="text-sm text-amber-800 font-medium">Chaque question comporte <strong>une ou plusieurs réponses exactes</strong>. Cochez la ou les cases correspondantes. 1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.</p>
-                  </div>
+                  {(() => {
+                    const family = getBareme(selectedRegion)
+                    if (!family) return null
+                    const palette = {
+                      emerald: { border: 'border-emerald-200', bg: 'bg-emerald-50', text: 'text-emerald-800', textDark: 'text-emerald-900', icon: 'text-emerald-500', marker: 'marker:text-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-700', stratBg: 'bg-emerald-100/70', stratBorder: 'border-emerald-300' },
+                      amber:   { border: 'border-amber-200', bg: 'bg-amber-50', text: 'text-amber-800', textDark: 'text-amber-900', icon: 'text-amber-500', marker: 'marker:text-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-700', stratBg: 'bg-amber-100/70', stratBorder: 'border-amber-300' },
+                      rose:    { border: 'border-rose-200', bg: 'bg-rose-50', text: 'text-rose-700', textDark: 'text-rose-800', icon: 'text-rose-400', marker: 'marker:text-rose-300', badgeBg: 'bg-rose-100', badgeText: 'text-rose-600', stratBg: 'bg-rose-100/70', stratBorder: 'border-rose-200' },
+                    }
+                    const p = palette[family.couleur] || palette.amber
+                    return (
+                      <div className={`${p.bg} border ${p.border} rounded-xl p-4 mb-6 flex items-start gap-3`}>
+                        <Info className={`w-5 h-5 ${p.icon} shrink-0 mt-0.5`} strokeWidth={2} />
+                        <div className={`text-sm ${p.text} font-medium flex-1`}>
+                          <div className="flex items-center gap-2 flex-wrap mb-3">
+                            <p className={`font-black ${p.textDark}`}>Cette région utilise ce barème</p>
+                            <span className={`${p.badgeBg} ${p.badgeText} px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider`}>
+                              Famille {family.id} — {family.titre}
+                            </span>
+                          </div>
+
+                          <div className="flex items-stretch gap-1 mb-4 max-w-md">
+                            {NIVEAUX.map(niv => {
+                              const isActive = niv.id === family.niveau
+                              const activeColors = {
+                                1: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+                                2: 'bg-amber-100 text-amber-700 border-amber-300',
+                                3: 'bg-rose-100 text-rose-600 border-rose-200',
+                              }
+                              return (
+                                <div key={niv.id} className={`flex-1 text-center py-1.5 px-2 rounded-md text-[11px] font-black uppercase tracking-wider transition border ${isActive ? activeColors[niv.id] : 'bg-white/50 text-slate-400 border-slate-200'}`}>
+                                  {niv.label}
+                                </div>
+                              )
+                            })}
+                          </div>
+
+                          <ul className={`space-y-1 list-disc pl-5 ${p.marker} mb-3`}>
+                            {family.regle.map((item, i) => <li key={i}>{item}</li>)}
+                          </ul>
+
+                          {(() => {
+                            const regions = getRegionsForFamily(family.id)
+                            const currentDisplay = getRegionDisplayName(selectedRegion)
+                            const others = regions.filter(r => r !== currentDisplay)
+                            if (others.length === 0) return null
+                            return (
+                              <div className={`text-xs mb-3 ${p.textDark} opacity-80`}>
+                                <span className="font-bold">Également appliqué en </span>{others.join(', ')}
+                              </div>
+                            )
+                          })()}
+
+                          <div className={`${p.stratBg} border ${p.stratBorder} rounded-lg px-3 py-2 flex items-start gap-2`}>
+                            <svg className={`w-4 h-4 ${p.icon} shrink-0 mt-0.5`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2l2.39 7.36H22l-6.2 4.5 2.38 7.36L12 16.72l-6.18 4.5L8.2 13.86 2 9.36h7.61z"/></svg>
+                            <div>
+                              <p className={`font-black ${p.textDark} text-xs uppercase tracking-wider mb-0.5`}>Stratégie recommandée</p>
+                              <p className={`${p.textDark} text-sm`}>{family.strategie}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })()}
 
                   <div className="space-y-6">
                     {questions.map((q) => {
