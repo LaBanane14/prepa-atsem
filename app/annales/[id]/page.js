@@ -342,7 +342,7 @@ export default function AnnalePage() {
                           <Info className={`w-5 h-5 ${p.icon} shrink-0 mt-0.5`} strokeWidth={2} />
                           <div className={`text-sm ${p.text} font-medium flex-1`}>
                             <div className="flex items-center gap-2 flex-wrap mb-3">
-                              <p className={`font-black ${p.textDark}`}>La {getRegionDisplayName(annale.region_nom)} utilise ce barème</p>
+                              <p className={`font-black ${p.textDark}`}>Cette région utilise ce barème</p>
                               <span className={`${p.badgeBg} ${p.badgeText} px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider`}>
                                 Famille {family.id} — {family.titre}
                               </span>
