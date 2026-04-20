@@ -674,18 +674,6 @@ export default function ExamenPage() {
                             {family.regle.map((item, i) => <li key={i}>{item}</li>)}
                           </ul>
 
-                          {(() => {
-                            const regions = getRegionsForFamily(family.id)
-                            const currentDisplay = getRegionDisplayName(selectedRegion)
-                            const others = regions.filter(r => r !== currentDisplay)
-                            if (others.length === 0) return null
-                            return (
-                              <div className={`text-xs mb-3 ${p.textDark} opacity-80`}>
-                                <span className="font-bold">Également appliqué en </span>{others.join(', ')}
-                              </div>
-                            )
-                          })()}
-
                           <div className={`${p.stratBg} border ${p.stratBorder} rounded-lg px-3 py-2 flex items-start gap-2`}>
                             <svg className={`w-4 h-4 ${p.icon} shrink-0 mt-0.5`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2l2.39 7.36H22l-6.2 4.5 2.38 7.36L12 16.72l-6.18 4.5L8.2 13.86 2 9.36h7.61z"/></svg>
                             <div>
