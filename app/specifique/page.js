@@ -258,15 +258,10 @@ export default function SpecifiquePage() {
           {step === 'choix' && (
             <div className="animate-fade-in v1-bg relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-10">
 
-              {/* Topbar */}
-              <div className="flex items-center justify-between mb-10 sm:mb-12">
-                <div className="text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase text-slate-500 flex items-center gap-2.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-500 ring-4 ring-purple-500/20"></span>
-                  Entraînement · Thématique
-                </div>
-                <a href="/dashboard" className="w-10 h-10 rounded-xl bg-white border border-slate-200 hover:bg-purple-50 flex items-center justify-center text-slate-700 transition cursor-pointer">
-                  <XCircle size={18} strokeWidth={1.8} className="hidden" />
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              {/* Topbar — bouton retour uniquement */}
+              <div className="flex items-center justify-end mb-8 sm:mb-10">
+                <a href="/dashboard" className="w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </a>
               </div>
 
@@ -275,20 +270,9 @@ export default function SpecifiquePage() {
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">
                   Choisissez votre <em className="v1-hero-em">thématique</em>.
                 </h1>
-                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mb-6 sm:mb-7">
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">
                   10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4 — concentrez-vous, vous démarrez quand vous voulez.
                 </p>
-                <div className="flex flex-wrap gap-2.5 text-[13px] font-bold">
-                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
-                    <b className="font-black text-purple-600">6</b> catégories
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
-                    <b className="font-black text-pink-600">60</b> questions disponibles
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-slate-700">
-                    <b className="font-black text-amber-600">~4 min</b> par session
-                  </span>
-                </div>
               </div>
 
               {error && (
