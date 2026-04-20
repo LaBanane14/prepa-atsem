@@ -498,15 +498,15 @@ export default function ExamenPage() {
               <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
                 {/* Header sombre */}
-                <div className="bg-slate-900 px-6 py-6 sm:py-8 text-center relative">
+                <div className="bg-slate-900 px-6 py-4 sm:py-5 text-center relative">
                   <a href="/dashboard" className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </a>
-                  <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 flex items-center justify-center gap-3">
-                    <MapPin size={30} strokeWidth={2.2} className="text-yellow-400" />
+                  <h1 className="text-xl sm:text-2xl font-black text-white mb-2 flex items-center justify-center gap-2">
+                    <MapPin size={22} strokeWidth={2.2} className="text-yellow-400" />
                     Choisissez votre région d'examen
                   </h1>
-                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">Cela permettra de vous habituer aux barèmes réels.</p>
+                  <p className="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto">Cela permettra de vous habituer aux barèmes réels.</p>
                 </div>
 
                 <div className="p-5 sm:p-8">
