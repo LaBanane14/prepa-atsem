@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '../../../lib/supabase'
-import { getBaremeFamily, NIVEAUX } from '../../../lib/baremes-atsem'
+import { getBaremeFamily, NIVEAUX, scoreQuestion } from '../../../lib/baremes-atsem'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
@@ -121,14 +121,14 @@ export default function AnnalePage() {
     if (timerRef.current) clearInterval(timerRef.current)
 
     const questions = annale.questions || []
+    const family = getBaremeFamily(annale.region_nom)
+    const familyId = family?.id || 1
     let total = 0
 
     questions.forEach(q => {
-      const userAnswers = (reponses[q.numero] || []).sort()
-      const correctAnswers = (q.reponses_correctes || []).map(r => r.toLowerCase()).sort()
-      if (correctAnswers.length > 0 && userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])) {
-        total++
-      }
+      if (!q.reponses_correctes || q.reponses_correctes.length === 0) return
+      const { points } = scoreQuestion(familyId, reponses[q.numero] || [], q.reponses_correctes)
+      total += points
     })
 
     setScore(total)
@@ -453,7 +453,7 @@ export default function AnnalePage() {
                 </a>
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Note globale — {annaleFull}</p>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-6xl font-black text-white">{score}</span>
+                  <span className="text-6xl font-black text-white">{Number.isInteger(score) ? score : score.toFixed(2).replace(/\.?0+$/, '')}</span>
                   <span className="text-6xl font-black text-slate-400">/{questions.length}</span>
                 </div>
                 <div className="flex items-center justify-center gap-2 mt-4 text-slate-400">
@@ -462,13 +462,14 @@ export default function AnnalePage() {
                 </div>
                 {(() => {
                   const percent = Math.round((score / questions.length) * 100)
+                  const barPercent = Math.max(0, Math.min(100, percent))
                   return (
                     <div className="mt-4">
                       <div className="w-full max-w-xs mx-auto h-3 bg-white/15 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-blue-400' : 'bg-red-400'}`} style={{width: `${percent}%`}}></div>
+                        <div className={`h-full rounded-full transition-all duration-1000 ${percent >= 70 ? 'bg-emerald-400' : percent >= 50 ? 'bg-blue-400' : 'bg-red-400'}`} style={{width: `${barPercent}%`}}></div>
                       </div>
                       <p className="text-sm font-bold mt-2 text-slate-300">
-                        {percent >= 80 ? 'Excellent ! Vous maîtrisez ce sujet !' : percent >= 60 ? 'Bien joué ! Continuez ainsi.' : percent >= 40 ? 'Correct, mais des lacunes à combler.' : 'Score insuffisant. Revoyez les fondamentaux.'}
+                        {percent >= 80 ? 'Excellent ! Vous maîtrisez ce sujet !' : percent >= 60 ? 'Bien joué ! Continuez ainsi.' : percent >= 40 ? 'Correct, mais des lacunes à combler.' : percent >= 0 ? 'Score insuffisant. Revoyez les fondamentaux.' : 'Score négatif : attention aux pénalités, privilégiez les réponses sûres.'}
                       </p>
                     </div>
                   )
@@ -489,29 +490,36 @@ export default function AnnalePage() {
                     const userAnswers = (reponses[q.numero] || []).sort()
                     const correctAnswers = (q.reponses_correctes || []).map(r => r.toLowerCase()).sort()
                     const hasCorrection = correctAnswers.length > 0
-                    const isCorrect = hasCorrection && userAnswers.length === correctAnswers.length && userAnswers.every((v, i) => v === correctAnswers[i])
+                    const family = getBaremeFamily(annale.region_nom)
+                    const familyId = family?.id || 1
+                    const result = hasCorrection ? scoreQuestion(familyId, userAnswers, correctAnswers) : { points: 0, status: 'empty' }
+                    const status = result.status
+                    const points = result.points
+                    const pointsLabel = (points > 0 ? '+' : '') + (Number.isInteger(points) ? points : points.toFixed(2).replace(/\.?0+$/, ''))
+
+                    const statusColors = {
+                      perfect: { border: 'border-emerald-200', bg: 'bg-emerald-50', num: 'bg-emerald-500 text-white', pill: 'bg-emerald-100 text-emerald-700', Icon: CheckCircle2 },
+                      partial: { border: 'border-amber-200', bg: 'bg-amber-50', num: 'bg-amber-500 text-white', pill: 'bg-amber-100 text-amber-700', Icon: CheckCircle2 },
+                      error: { border: 'border-red-200', bg: 'bg-red-50', num: 'bg-red-500 text-white', pill: 'bg-red-100 text-red-700', Icon: XCircle },
+                      empty: { border: 'border-slate-200', bg: 'bg-slate-50', num: 'bg-slate-200 text-slate-600', pill: 'bg-slate-100 text-slate-600', Icon: XCircle },
+                    }
+                    const sc = statusColors[status] || statusColors.empty
+                    const StatusIcon = sc.Icon
 
                     return (
-                      <div key={q.numero} className={`bg-white border rounded-2xl shadow-sm overflow-hidden ${isCorrect ? 'border-emerald-200' : hasCorrection ? 'border-red-200' : 'border-slate-200'}`}>
+                      <div key={q.numero} className={`bg-white border rounded-2xl shadow-sm overflow-hidden ${sc.border}`}>
                         {/* Question header */}
-                        <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${isCorrect ? 'bg-emerald-50' : hasCorrection ? 'bg-red-50' : 'bg-slate-50'}`}>
-                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isCorrect ? 'bg-emerald-500 text-white' : hasCorrection ? 'bg-red-500 text-white' : 'bg-slate-200 text-slate-600'}`}>{q.numero}</span>
+                        <div className={`px-4 sm:px-6 py-4 flex items-start gap-3 ${sc.bg}`}>
+                          <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${sc.num}`}>{q.numero}</span>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-slate-800 leading-relaxed">{q.enonce}</p>
                           </div>
                           <div className="shrink-0 ml-2">
                             {hasCorrection && (
-                              isCorrect ? (
-                                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full">
-                                  <CheckCircle2 size={14} strokeWidth={2.5} />
-                                  <span className="text-xs font-black">1/1</span>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-red-100 text-red-700 rounded-full">
-                                  <XCircle size={14} strokeWidth={2.5} />
-                                  <span className="text-xs font-black">0/1</span>
-                                </div>
-                              )
+                              <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${sc.pill}`}>
+                                <StatusIcon size={14} strokeWidth={2.5} />
+                                <span className="text-xs font-black">{pointsLabel}/1</span>
+                              </div>
                             )}
                           </div>
                         </div>
