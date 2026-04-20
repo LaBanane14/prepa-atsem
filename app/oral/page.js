@@ -10,7 +10,7 @@ const catColors = {
   'Missions de l\'ATSEM': { bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-200', badge: 'bg-purple-100 text-purple-700' },
   'Collectivités et droit public': { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200', badge: 'bg-amber-100 text-amber-700' },
   'Santé et sécurité': { bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-200', badge: 'bg-red-100 text-red-700' },
-  'Mise en situation': { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-200', badge: 'bg-emerald-100 text-emerald-700' },
+  'Mise en situation': { bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-200', badge: 'bg-rose-100 text-rose-700' },
   'Hygiène et entretien': { bg: 'bg-cyan-50', text: 'text-cyan-600', border: 'border-cyan-200', badge: 'bg-cyan-100 text-cyan-700' },
   'Développement de l\'enfant': { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-200', badge: 'bg-pink-100 text-pink-700' },
   'Protection de l\'enfance': { bg: 'bg-orange-50', text: 'text-orange-600', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-700' },
@@ -323,7 +323,7 @@ export default function OralPage() {
       {/* SIDEBAR */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "'Nunito', sans-serif"}}>
-          <a href="/" className="mb-4"><div className="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+          <a href="/" className="mb-4"><div className="w-10 h-10 bg-rose-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
@@ -384,13 +384,13 @@ export default function OralPage() {
                   </button>
 
                   {/* Card 2: Questions au sort */}
-                  <button onClick={startModeAleatoire} className="bg-white border-2 border-slate-200 hover:border-emerald-600 rounded-2xl p-6 sm:p-8 text-left transition-all hover:shadow-lg hover:shadow-emerald-100 group cursor-pointer">
-                    <div className="w-14 h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <button onClick={startModeAleatoire} className="bg-white border-2 border-slate-200 hover:border-rose-600 rounded-2xl p-6 sm:p-8 text-left transition-all hover:shadow-lg hover:shadow-rose-100 group cursor-pointer">
+                    <div className="w-14 h-14 bg-rose-600 text-white rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                       <Shuffle size={26} strokeWidth={1.8} />
                     </div>
                     <h3 className="text-lg font-black text-slate-900 mb-2">Questions au sort</h3>
                     <p className="text-sm text-slate-500 font-medium leading-relaxed">20 questions tirées aléatoirement parmi 300 questions réelles du concours</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-emerald-600 font-bold text-sm">
+                    <div className="mt-5 inline-flex items-center gap-2 text-rose-600 font-bold text-sm">
                       Commencer
                       <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
                     </div>
@@ -582,7 +582,7 @@ export default function OralPage() {
                     <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">Questions au sort</h2>
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                       <div className="flex items-center gap-1 sm:gap-2 font-black text-sm sm:text-lg tabular-nums text-white">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <svg className="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                         {String(oralMinutes).padStart(2, '0')}:{String(oralSeconds).padStart(2, '0')}
                       </div>
                       <a href="/dashboard" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
@@ -592,7 +592,7 @@ export default function OralPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
-                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-emerald-400">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-rose-400">
                       Question {currentQ + 1}/{questions.length}
                     </span>
                     <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider ${colors.badge}`}>
@@ -600,7 +600,7 @@ export default function OralPage() {
                     </span>
                   </div>
                   <div className="mt-3 w-full h-1 bg-white/10 rounded-full">
-                    <div className="h-full bg-emerald-400 rounded-full transition-all duration-500" style={{width: `${progress}%`}}></div>
+                    <div className="h-full bg-rose-400 rounded-full transition-all duration-500" style={{width: `${progress}%`}}></div>
                   </div>
                 </div>
 
@@ -629,7 +629,7 @@ export default function OralPage() {
                     <div className="animate-fade-in">
                       <p className="text-sm font-bold text-slate-600 text-center mb-3">Comment avez-vous répondu ?</p>
                       <div className="grid grid-cols-3 gap-3">
-                        <button onClick={() => handleSelfEval(q.id, 'savais')} className="bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-100 text-emerald-700 font-bold py-3 px-3 rounded-xl transition cursor-pointer text-sm flex flex-col items-center gap-1">
+                        <button onClick={() => handleSelfEval(q.id, 'savais')} className="bg-rose-50 border-2 border-rose-200 hover:border-rose-500 hover:bg-rose-100 text-rose-700 font-bold py-3 px-3 rounded-xl transition cursor-pointer text-sm flex flex-col items-center gap-1">
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                           Je savais
                         </button>
@@ -647,7 +647,7 @@ export default function OralPage() {
 
                   {/* Already evaluated indicator */}
                   {selfEvals[q.id] && (
-                    <div className={`text-center text-sm font-bold py-2 rounded-xl ${selfEvals[q.id] === 'savais' ? 'text-emerald-600' : selfEvals[q.id] === 'hesite' ? 'text-amber-600' : 'text-red-600'}`}>
+                    <div className={`text-center text-sm font-bold py-2 rounded-xl ${selfEvals[q.id] === 'savais' ? 'text-rose-600' : selfEvals[q.id] === 'hesite' ? 'text-amber-600' : 'text-red-600'}`}>
                       {selfEvals[q.id] === 'savais' ? 'Vous saviez' : selfEvals[q.id] === 'hesite' ? 'Vous avez hésité' : 'Vous ne saviez pas'}
                     </div>
                   )}
@@ -678,7 +678,7 @@ export default function OralPage() {
                   <div className="mt-4 grid grid-cols-5 sm:grid-cols-10 gap-2 max-w-md mx-auto">
                     {questions.map((qq, i) => {
                       const ev = selfEvals[qq.id]
-                      const bgColor = ev === 'savais' ? 'bg-emerald-500 text-white' : ev === 'hesite' ? 'bg-amber-500 text-white' : ev === 'passu' ? 'bg-red-500 text-white' : 'bg-slate-900 text-white opacity-40'
+                      const bgColor = ev === 'savais' ? 'bg-rose-500 text-white' : ev === 'hesite' ? 'bg-amber-500 text-white' : ev === 'passu' ? 'bg-red-500 text-white' : 'bg-slate-900 text-white opacity-40'
                       return (
                         <button key={qq.id} onClick={() => { setCurrentQ(i); setShowAnswer(false) }} className={`aspect-square rounded-lg text-xs font-bold transition cursor-pointer ${bgColor} ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900 opacity-100' : ev ? 'opacity-100' : 'hover:opacity-60'}`}>
                           {i + 1}
@@ -728,11 +728,11 @@ export default function OralPage() {
 
                 {/* Score recap */}
                 <div className="space-y-3 mb-8">
-                  <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-                    <div className="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center font-black text-lg">{scoreSavais}</div>
+                  <div className="flex items-center gap-3 bg-rose-50 border border-rose-200 rounded-xl p-4">
+                    <div className="w-10 h-10 bg-rose-500 text-white rounded-full flex items-center justify-center font-black text-lg">{scoreSavais}</div>
                     <div>
-                      <p className="font-black text-emerald-700 text-sm">Je savais</p>
-                      <p className="text-emerald-600 text-xs font-medium">{questions.length > 0 ? Math.round((scoreSavais / questions.length) * 100) : 0}% de bonnes réponses</p>
+                      <p className="font-black text-rose-700 text-sm">Je savais</p>
+                      <p className="text-rose-600 text-xs font-medium">{questions.length > 0 ? Math.round((scoreSavais / questions.length) * 100) : 0}% de bonnes réponses</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4">

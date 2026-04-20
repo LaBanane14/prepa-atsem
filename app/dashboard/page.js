@@ -631,14 +631,14 @@ function DashboardContent() {
                   <p className="text-xs text-slate-500 flex-1">Conditions réelles : 20 questions générées par IA, 45 min, sans aide. Classement percentile</p>
                   <span className="text-[10px] font-black text-amber-500 mt-2">Note /20</span>
                 </a>
-                <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-emerald-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md">15 min</span>
-                  <div className="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-rose-400 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded-md">15 min</span>
+                  <div className="w-11 h-11 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Simulation d'oral</h3>
                   <p className="text-xs text-slate-500 flex-1">L'IA génère des questions de jury : mises en situation, motivations, relation ATSEM/enseignant</p>
-                  <span className="text-[10px] mt-2 text-emerald-600 font-bold">Pas de note</span>
+                  <span className="text-[10px] mt-2 text-rose-500 font-bold">Pas de note</span>
                 </a>
               </div>
 
