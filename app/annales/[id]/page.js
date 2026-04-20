@@ -337,10 +337,15 @@ export default function AnnalePage() {
                             <div className="flex items-stretch gap-1 mb-4 max-w-md">
                               {NIVEAUX.map(niv => {
                                 const isActive = niv.id === family.niveau
+                                const activeColors = {
+                                  1: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+                                  2: 'bg-amber-100 text-amber-700 border-amber-300',
+                                  3: 'bg-red-100 text-red-700 border-red-300',
+                                }
                                 return (
                                   <div
                                     key={niv.id}
-                                    className={`flex-1 text-center py-1.5 px-2 rounded-md text-[11px] font-black uppercase tracking-wider transition ${isActive ? `${p.badgeBg} ${p.badgeText} border ${p.stratBorder}` : 'bg-white/50 text-slate-400 border border-slate-200'}`}
+                                    className={`flex-1 text-center py-1.5 px-2 rounded-md text-[11px] font-black uppercase tracking-wider transition border ${isActive ? activeColors[niv.id] : 'bg-white/50 text-slate-400 border-slate-200'}`}
                                   >
                                     {niv.label}
                                   </div>
