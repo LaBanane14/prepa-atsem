@@ -796,7 +796,7 @@ function DashboardContent() {
             historique.forEach(h => { typeCount[h.type || 'Autre'] = (typeCount[h.type || 'Autre'] || 0) + 1 })
             const typeLabels = Object.keys(typeCount)
             const typeValues = Object.values(typeCount)
-            const typeColors = { Maths: '#7e22ce', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#10b981', Spécifique: '#3b82f6', Annale: '#2563eb', Autre: '#94a3b8' }
+            const typeColors = { Maths: '#7e22ce', 'Rédaction': '#8b5cf6', Examen: '#eab308', Oral: '#ec4899', Spécifique: '#3b82f6', Annale: '#2563eb', Autre: '#94a3b8' }
 
             // Évolution de la moyenne (par exercice noté, chronologique) — exclure Spécifique
             const notesChron = [...historique].filter(h => h.note != null && h.note_max && h.type !== 'Spécifique').sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
@@ -1055,7 +1055,7 @@ function DashboardContent() {
               if (type === 'Maths') return 'red'
               if (type === 'Rédaction') return 'purple'
               if (type === 'Examen') return 'yellow'
-              if (type === 'Oral') return 'emerald'
+              if (type === 'Oral') return 'pink'
               if (type === 'Annale') return 'blue'
               return 'blue'
             }
@@ -1161,7 +1161,7 @@ function DashboardContent() {
                           {hasExercises && !isSelected && (
                             <div className="flex gap-0.5">
                               {types.map(t => (
-                                <div key={t} className={`w-1.5 h-1.5 rounded-full ${t === 'Maths' ? 'bg-purple-500' : t === 'Rédaction' ? 'bg-purple-500' : t === 'Examen' ? 'bg-yellow-500' : t === 'Oral' ? 'bg-emerald-500' : 'bg-blue-500'}`}></div>
+                                <div key={t} className={`w-1.5 h-1.5 rounded-full ${t === 'Maths' ? 'bg-purple-500' : t === 'Rédaction' ? 'bg-purple-500' : t === 'Examen' ? 'bg-yellow-500' : t === 'Oral' ? 'bg-pink-500' : 'bg-blue-500'}`}></div>
                               ))}
                             </div>
                           )}
@@ -1183,7 +1183,7 @@ function DashboardContent() {
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-purple-500"></div><span className="text-[10px] font-bold text-slate-400">Rédaction</span></div>
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-blue-500"></div><span className="text-[10px] font-bold text-slate-400">Spécifique</span></div>
                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-yellow-500"></div><span className="text-[10px] font-bold text-slate-400">Examen</span></div>
-                    <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500"></div><span className="text-[10px] font-bold text-slate-400">Oral</span></div>
+                    <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-pink-500"></div><span className="text-[10px] font-bold text-slate-400">Oral</span></div>
                   </div>
                 </div>
 
@@ -1215,7 +1215,7 @@ function DashboardContent() {
                             const scoreNorm = item.note != null && item.note_max ? (item.note / item.note_max) * 20 : null
                             return (
                               <div key={item.id} className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color === 'red' ? 'bg-purple-100 text-purple-800' : color === 'purple' ? 'bg-purple-100 text-purple-600' : color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : color === 'emerald' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color === 'red' ? 'bg-purple-100 text-purple-800' : color === 'purple' ? 'bg-purple-100 text-purple-600' : color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : color === 'pink' ? 'bg-pink-100 text-pink-600' : 'bg-blue-100 text-blue-600'}`}>
                                   {item.type === 'Maths' && <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>}
                                   {item.type === 'Rédaction' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>}
                                   {item.type === 'Spécifique' && <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>}
