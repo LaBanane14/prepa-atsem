@@ -30,7 +30,8 @@
       "Bash(grep -c '\\\\\\\\\\\\\\\\u00\\\\|\\\\\\\\\\\\\\\\ud8\\\\|\\\\\\\\\\\\\\\\é\\\\|\\\\\\\\\\\\\\\\à\\\\|\\\\\\\\\\\\\\\\î' app/examen/page.js)",
       "Bash(grep -c '\\\\\\\\\\\\\\\\é\\\\|\\\\\\\\\\\\\\\\è\\\\|\\\\\\\\\\\\\\\\ê\\\\|\\\\\\\\\\\\\\\\à\\\\|\\\\\\\\\\\\\\\\î\\\\|\\\\\\\\\\\\\\\\ô\\\\|\\\\\\\\\\\\\\\\ç' app/examen/page.js)",
       "Bash(node scripts/test-examen-diversity.mjs)",
-      "Bash(npx --offline next build)"
+      "Bash(npx --offline next build)",
+      "WebFetch(domain:api.anthropic.com)"
     ]
   }
 }

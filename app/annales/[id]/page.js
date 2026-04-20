@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '../../../lib/supabase'
+import { getBaremeFamily, NIVEAUX } from '../../../lib/baremes-atsem'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
@@ -312,32 +313,62 @@ export default function AnnalePage() {
                 <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
                   {(() => {
-                    const raw = annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.'
-                    // Découpe sur ". " (groupes) ; chaque groupe peut avoir un préfixe "Titre: items" et ses items séparés par ", "
-                    // Les virgules suivies d'un chiffre (ex: "0,25pt") ne sont PAS des séparateurs.
-                    const groups = raw.split(/\.\s+(?=[A-ZÀ-Ý])/).map(g => g.trim()).filter(Boolean)
+                    const family = getBaremeFamily(annale.region_nom)
+                    if (family) {
+                      const palette = {
+                        emerald: { border: 'border-emerald-200', bg: 'bg-emerald-50', text: 'text-emerald-800', textDark: 'text-emerald-900', icon: 'text-emerald-500', marker: 'marker:text-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-700', stratBg: 'bg-emerald-100/70', stratBorder: 'border-emerald-300' },
+                        sky:     { border: 'border-sky-200', bg: 'bg-sky-50', text: 'text-sky-800', textDark: 'text-sky-900', icon: 'text-sky-500', marker: 'marker:text-sky-400', badgeBg: 'bg-sky-100', badgeText: 'text-sky-700', stratBg: 'bg-sky-100/70', stratBorder: 'border-sky-300' },
+                        amber:   { border: 'border-amber-200', bg: 'bg-amber-50', text: 'text-amber-800', textDark: 'text-amber-900', icon: 'text-amber-500', marker: 'marker:text-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-700', stratBg: 'bg-amber-100/70', stratBorder: 'border-amber-300' },
+                        rose:    { border: 'border-rose-200', bg: 'bg-rose-50', text: 'text-rose-800', textDark: 'text-rose-900', icon: 'text-rose-500', marker: 'marker:text-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-700', stratBg: 'bg-rose-100/70', stratBorder: 'border-rose-300' },
+                      }
+                      const p = palette[family.couleur] || palette.sky
+                      return (
+                        <div className={`${p.bg} border ${p.border} rounded-xl p-4 mb-6 flex items-start gap-3`}>
+                          <svg className={`w-5 h-5 ${p.icon} shrink-0 mt-0.5`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+                          <div className={`text-sm ${p.text} font-medium flex-1`}>
+                            <div className="flex items-center gap-2 flex-wrap mb-3">
+                              <p className={`font-black ${p.textDark}`}>Barème de cette annale</p>
+                              <span className={`${p.badgeBg} ${p.badgeText} px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider`}>
+                                Famille {family.id} — {family.titre}
+                              </span>
+                            </div>
+
+                            {/* Barre de niveau de difficulté */}
+                            <div className="flex items-stretch gap-1 mb-4 max-w-md">
+                              {NIVEAUX.map(niv => {
+                                const isActive = niv.id === family.niveau
+                                return (
+                                  <div
+                                    key={niv.id}
+                                    className={`flex-1 text-center py-1.5 px-2 rounded-md text-[11px] font-black uppercase tracking-wider transition ${isActive ? `${p.badgeBg} ${p.badgeText} border ${p.stratBorder}` : 'bg-white/50 text-slate-400 border border-slate-200'}`}
+                                  >
+                                    {niv.label}
+                                  </div>
+                                )
+                              })}
+                            </div>
+
+                            <ul className={`space-y-1 list-disc pl-5 ${p.marker} mb-3`}>
+                              {family.regle.map((item, i) => <li key={i}>{item}</li>)}
+                            </ul>
+                            <div className={`${p.stratBg} border ${p.stratBorder} rounded-lg px-3 py-2 flex items-start gap-2`}>
+                              <svg className={`w-4 h-4 ${p.icon} shrink-0 mt-0.5`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2l2.39 7.36H22l-6.2 4.5 2.38 7.36L12 16.72l-6.18 4.5L8.2 13.86 2 9.36h7.61z"/></svg>
+                              <div>
+                                <p className={`font-black ${p.textDark} text-xs uppercase tracking-wider mb-0.5`}>Stratégie recommandée</p>
+                                <p className={`${p.textDark} text-sm`}>{family.strategie}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Fallback : région non mappée → affiche le bareme brut s'il existe
                     return (
                       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
                         <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
                         <div className="text-sm text-blue-800 font-medium flex-1">
                           <p className="font-black mb-2">Barème de cette annale</p>
-                          {groups.map((group, gi) => {
-                            const colonIdx = group.indexOf(':')
-                            const heading = colonIdx > -1 ? group.substring(0, colonIdx).trim() : null
-                            const body = colonIdx > -1 ? group.substring(colonIdx + 1).trim() : group
-                            const items = body
-                              .split(/,\s+(?=[a-zA-ZàâéèêëîïôûùüÿñçÀÂÉÈÊËÎÏÔÛÙÜŸÑÇ])/)
-                              .map(s => s.trim().replace(/\.$/, ''))
-                              .filter(Boolean)
-                            return (
-                              <div key={gi} className={gi > 0 ? 'mt-3' : ''}>
-                                {heading && <p className="font-bold text-blue-900 mb-1">{heading}</p>}
-                                <ul className="space-y-1 list-disc pl-5 marker:text-blue-400">
-                                  {items.map((item, i) => <li key={i}>{item}</li>)}
-                                </ul>
-                              </div>
-                            )
-                          })}
+                          <p>{annale.bareme || 'Barème spécifique à cette annale — consultez l\'énoncé original pour le détail.'}</p>
                         </div>
                       </div>
                     )
