@@ -8,6 +8,15 @@ export default function AnnalesPage() {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { window.location.href = '/auth'; return }
 
+      // Vérifie l'accès : essai gratuit actif OU abonnement actif
+      const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
+      const hasSub = sub && new Date(sub.current_period_end) > new Date()
+      const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
+      if (!hasSub && trialMs <= 0) {
+        window.location.href = '/dashboard?tab=abonnement'
+        return
+      }
+
       const { data: annalesData } = await supabase
         .from('annales')
         .select('id')

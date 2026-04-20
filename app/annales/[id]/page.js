@@ -23,6 +23,7 @@ export default function AnnalePage() {
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
+  const [showAccessBlock, setShowAccessBlock] = useState(false)
 
   // Exam state
   const [step, setStep] = useState('info') // info, exam, result
@@ -45,6 +46,8 @@ export default function AnnalePage() {
       const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', session.user.id).eq('status', 'active').single()
       const hasSub = sub && new Date(sub.current_period_end) > new Date()
       if (hasSub) setIsPremium(true)
+      const trialMs = 7 * 24 * 60 * 60 * 1000 - (Date.now() - new Date(session.user.created_at))
+      if (!hasSub && trialMs <= 0) { setShowAccessBlock(true); setAuthLoading(false); return }
       setAuthLoading(false)
 
       // Charger l'annale
@@ -169,6 +172,20 @@ export default function AnnalePage() {
   const annaleFull = annale ? `Annale ${annale.region_nom} ${annale.annee}` : ''
 
   if (authLoading || loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"></div></div>
+
+  if (showAccessBlock) return (
+    <div className="min-h-screen bg-[#eceef1] flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+        <div className="text-5xl mb-3 mx-auto">😢</div>
+        <h2 className="text-2xl font-black text-slate-900 mb-2">Votre essai gratuit est terminé</h2>
+        <p className="text-slate-500 font-medium mb-6">Pour continuer à accéder aux annales corrigées, souscrivez à un abonnement.</p>
+        <div className="flex flex-col gap-3">
+          <a href="/tarifs" className="bg-slate-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm">Voir les tarifs</a>
+          <a href="/dashboard" className="text-slate-500 font-medium text-sm hover:text-slate-700 transition">Retour au tableau de bord</a>
+        </div>
+      </div>
+    </div>
+  )
   if (!annale) return null
 
   return (
