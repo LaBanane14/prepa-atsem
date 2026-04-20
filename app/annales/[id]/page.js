@@ -311,19 +311,37 @@ export default function AnnalePage() {
 
                 <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-                    <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <div className="text-sm text-blue-800 font-medium">
-                      <p className="font-black mb-2">Barème de cette annale</p>
-                      <ul className="space-y-1 list-disc pl-5 marker:text-blue-400">
-                        {(annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.')
-                          .split(/,\s*/)
-                          .map(item => item.trim())
-                          .filter(Boolean)
-                          .map((item, i) => <li key={i}>{item}</li>)}
-                      </ul>
-                    </div>
-                  </div>
+                  {(() => {
+                    const raw = annale.bareme || '1 point par question uniquement si toutes les bonnes réponses sont cochées et aucune mauvaise.'
+                    // Découpe sur ". " (groupes) ; chaque groupe peut avoir un préfixe "Titre: items" et ses items séparés par ", "
+                    // Les virgules suivies d'un chiffre (ex: "0,25pt") ne sont PAS des séparateurs.
+                    const groups = raw.split(/\.\s+(?=[A-ZÀ-Ý])/).map(g => g.trim()).filter(Boolean)
+                    return (
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+                        <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+                        <div className="text-sm text-blue-800 font-medium flex-1">
+                          <p className="font-black mb-2">Barème de cette annale</p>
+                          {groups.map((group, gi) => {
+                            const colonIdx = group.indexOf(':')
+                            const heading = colonIdx > -1 ? group.substring(0, colonIdx).trim() : null
+                            const body = colonIdx > -1 ? group.substring(colonIdx + 1).trim() : group
+                            const items = body
+                              .split(/,\s+(?=[a-zA-ZàâéèêëîïôûùüÿñçÀÂÉÈÊËÎÏÔÛÙÜŸÑÇ])/)
+                              .map(s => s.trim().replace(/\.$/, ''))
+                              .filter(Boolean)
+                            return (
+                              <div key={gi} className={gi > 0 ? 'mt-3' : ''}>
+                                {heading && <p className="font-bold text-blue-900 mb-1">{heading}</p>}
+                                <ul className="space-y-1 list-disc pl-5 marker:text-blue-400">
+                                  {items.map((item, i) => <li key={i}>{item}</li>)}
+                                </ul>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )
+                  })()}
 
                   <div className="space-y-6">
                     {questions.map((q) => {
