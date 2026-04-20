@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '../../../lib/supabase'
-import { getBaremeFamily, NIVEAUX, scoreQuestion } from '../../../lib/baremes-atsem'
+import { getBareme, NIVEAUX, scoreQuestion } from '../../../lib/baremes-atsem'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
@@ -121,13 +121,12 @@ export default function AnnalePage() {
     if (timerRef.current) clearInterval(timerRef.current)
 
     const questions = annale.questions || []
-    const family = getBaremeFamily(annale.region_nom)
-    const familyId = family?.id || 1
+    const bareme = getBareme(annale.region_nom)
     let total = 0
 
     questions.forEach(q => {
       if (!q.reponses_correctes || q.reponses_correctes.length === 0) return
-      const { points } = scoreQuestion(familyId, reponses[q.numero] || [], q.reponses_correctes)
+      const { points } = scoreQuestion(bareme || { id: 1, penalty: 0 }, reponses[q.numero] || [], q.reponses_correctes)
       total += points
     })
 
@@ -313,7 +312,7 @@ export default function AnnalePage() {
                 <div ref={mainRef} className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto relative">
 
                   {(() => {
-                    const family = getBaremeFamily(annale.region_nom)
+                    const family = getBareme(annale.region_nom)
                     if (family) {
                       const palette = {
                         emerald: { border: 'border-emerald-200', bg: 'bg-emerald-50', text: 'text-emerald-800', textDark: 'text-emerald-900', icon: 'text-emerald-500', marker: 'marker:text-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-700', stratBg: 'bg-emerald-100/70', stratBorder: 'border-emerald-300' },
@@ -489,9 +488,8 @@ export default function AnnalePage() {
                     const userAnswers = (reponses[q.numero] || []).sort()
                     const correctAnswers = (q.reponses_correctes || []).map(r => r.toLowerCase()).sort()
                     const hasCorrection = correctAnswers.length > 0
-                    const family = getBaremeFamily(annale.region_nom)
-                    const familyId = family?.id || 1
-                    const result = hasCorrection ? scoreQuestion(familyId, userAnswers, correctAnswers) : { points: 0, status: 'empty' }
+                    const bareme = getBareme(annale.region_nom) || { id: 1, penalty: 0 }
+                    const result = hasCorrection ? scoreQuestion(bareme, userAnswers, correctAnswers) : { points: 0, status: 'empty' }
                     const status = result.status
                     const points = result.points
                     const pointsLabel = (points > 0 ? '+' : '') + (Number.isInteger(points) ? points : points.toFixed(2).replace(/\.?0+$/, ''))
