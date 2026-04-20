@@ -5,11 +5,80 @@ import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Spar
 import { getBareme, scoreQuestion, BAREME_FAMILIES, getRegionsForFamily, NIVEAUX, getRegionDisplayName } from '../../lib/baremes-atsem'
 
 const EXAMEN_REGIONS_PAR_FAMILLE = [
-  { familyId: 1, regions: ['Occitanie', 'Nouvelle-Aquitaine', 'Normandie', 'Hauts-de-France'] },
+  { familyId: 1, regions: ['Occitanie', 'Nouvelle-Aquitaine', 'Normandie', 'Hauts-de-France', 'Centre-Val de Loire'] },
   { familyId: 2, regions: ['Auvergne-Rhône-Alpes'] },
   { familyId: 3, regions: ['Pays de la Loire'] },
   { familyId: 4, regions: ['Île-de-France', 'Bretagne', 'Grand Est', 'Bourgogne-Franche-Comté', 'PACA', 'Corse'] },
 ]
+
+// Régions métropolitaines + Corse. Paths SVG approximatifs (viewBox 0 0 600 600).
+// family : id de la famille de barème ; non cliquable = null (Centre-Val de Loire)
+const FRANCE_REGIONS = [
+  { name: 'Hauts-de-France',        family: 1, path: 'M 220 30 L 360 40 L 375 100 L 335 140 L 290 125 L 250 130 L 220 95 Z', labelX: 285, labelY: 85 },
+  { name: 'Normandie',              family: 1, path: 'M 130 100 L 220 95 L 250 130 L 245 175 L 195 195 L 130 180 L 115 140 Z', labelX: 180, labelY: 145 },
+  { name: 'Île-de-France',          family: 4, path: 'M 280 140 L 330 140 L 345 175 L 315 200 L 275 190 L 265 165 Z', labelX: 305, labelY: 170 },
+  { name: 'Grand Est',              family: 4, path: 'M 345 100 L 460 85 L 495 145 L 490 215 L 445 235 L 395 225 L 370 190 L 355 150 Z', labelX: 425, labelY: 165 },
+  { name: 'Bretagne',               family: 4, path: 'M 30 170 L 110 165 L 150 195 L 150 235 L 115 265 L 55 255 L 20 220 Z', labelX: 85, labelY: 215 },
+  { name: 'Pays de la Loire',       family: 3, path: 'M 115 205 L 200 200 L 225 245 L 215 295 L 170 310 L 120 300 L 100 260 Z', labelX: 160, labelY: 255 },
+  { name: 'Centre-Val de Loire',    family: 1, path: 'M 215 200 L 285 195 L 320 225 L 315 285 L 260 305 L 220 290 L 210 245 Z', labelX: 265, labelY: 245 },
+  { name: 'Bourgogne-Franche-Comté',family: 4, path: 'M 320 205 L 410 215 L 440 260 L 435 320 L 385 340 L 335 325 L 315 280 Z', labelX: 375, labelY: 275 },
+  { name: 'Nouvelle-Aquitaine',     family: 1, path: 'M 105 310 L 220 300 L 255 370 L 260 450 L 215 490 L 155 485 L 95 440 L 85 365 Z', labelX: 175, labelY: 400 },
+  { name: 'Auvergne-Rhône-Alpes',   family: 2, path: 'M 260 310 L 380 325 L 435 355 L 450 420 L 425 470 L 370 480 L 310 460 L 275 410 L 260 360 Z', labelX: 355, labelY: 395 },
+  { name: 'Occitanie',              family: 1, path: 'M 180 475 L 305 475 L 365 490 L 375 535 L 325 565 L 245 575 L 185 555 L 160 510 Z', labelX: 275, labelY: 525 },
+  { name: 'PACA',                   family: 4, path: 'M 380 465 L 455 455 L 495 490 L 495 540 L 450 565 L 385 555 L 370 510 Z', labelX: 440, labelY: 510 },
+  { name: 'Corse',                  family: 4, path: 'M 535 510 L 575 505 L 585 555 L 570 595 L 545 590 L 530 555 Z', labelX: 560, labelY: 550 },
+]
+
+function FranceMap({ onRegionClick }) {
+  const familyColors = {
+    1: { fill: '#d1fae5', hover: '#10b981', stroke: '#059669', text: '#065f46' },
+    2: { fill: '#fef3c7', hover: '#f59e0b', stroke: '#d97706', text: '#78350f' },
+    3: { fill: '#fef3c7', hover: '#f59e0b', stroke: '#d97706', text: '#78350f' },
+    4: { fill: '#ffe4e6', hover: '#f43f5e', stroke: '#e11d48', text: '#881337' },
+  }
+  const noneColor = { fill: '#e2e8f0', hover: '#94a3b8', stroke: '#94a3b8', text: '#475569' }
+
+  return (
+    <div className="w-full max-w-2xl mx-auto">
+      <svg viewBox="0 0 600 610" className="w-full h-auto" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.08))' }}>
+        {FRANCE_REGIONS.map(r => {
+          const c = r.family ? familyColors[r.family] : noneColor
+          const clickable = !!r.family
+          return (
+            <g
+              key={r.name}
+              className={clickable ? 'cursor-pointer' : 'cursor-not-allowed'}
+              onClick={clickable ? () => onRegionClick(r.name) : undefined}
+            >
+              <path
+                d={r.path}
+                fill={c.fill}
+                stroke="white"
+                strokeWidth="2.5"
+                style={{ transition: 'fill 0.2s' }}
+                onMouseEnter={(e) => { if (clickable) e.currentTarget.setAttribute('fill', c.hover) }}
+                onMouseLeave={(e) => { if (clickable) e.currentTarget.setAttribute('fill', c.fill) }}
+              />
+              <text
+                x={r.labelX}
+                y={r.labelY}
+                textAnchor="middle"
+                fill={c.text}
+                fontSize="11"
+                fontWeight="800"
+                style={{ pointerEvents: 'none', userSelect: 'none' }}
+              >
+                {r.name.length > 15 ? r.name.split(' ').map((w, i) => (
+                  <tspan key={i} x={r.labelX} dy={i === 0 ? 0 : 12}>{w}</tspan>
+                )) : r.name}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+    </div>
+  )
+}
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -431,43 +500,30 @@ export default function ExamenPage() {
                   <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">Le barème de votre examen blanc s'adaptera aux règles de la région sélectionnée.</p>
                 </div>
 
-                <div className="p-5 sm:p-8 space-y-6">
+                <div className="p-5 sm:p-8">
                   {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+                    <div className="mb-5 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
                       <XCircle size={18} className="shrink-0" />
                       {error}
                     </div>
                   )}
 
-                  {EXAMEN_REGIONS_PAR_FAMILLE.map(({ familyId, regions }) => {
-                    const fam = BAREME_FAMILIES[familyId]
-                    const niveauLabel = { 1: 'Souple', 2: 'Normal', 3: 'Difficile' }[fam.niveau]
-                    const niveauColors = {
-                      1: 'bg-emerald-100 text-emerald-700 border-emerald-300',
-                      2: 'bg-amber-100 text-amber-700 border-amber-300',
-                      3: 'bg-rose-100 text-rose-600 border-rose-200',
-                    }
-                    return (
-                      <div key={familyId}>
-                        <div className="flex items-center gap-2 mb-3 flex-wrap">
-                          <h3 className="font-black text-slate-900 text-sm sm:text-base">Famille {familyId} — {fam.titre}</h3>
-                          <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${niveauColors[fam.niveau]}`}>{niveauLabel}</span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                          {regions.map(region => (
-                            <button
-                              key={region}
-                              onClick={() => selectRegionAndStart(region)}
-                              className="group bg-slate-50 border-2 border-slate-200 hover:border-yellow-500 hover:bg-yellow-50 rounded-xl p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer flex items-center gap-3"
-                            >
-                              <MapPin size={18} className="text-slate-400 group-hover:text-yellow-600 transition-colors shrink-0" />
-                              <span className="font-bold text-slate-900 text-sm">{region}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {/* Carte interactive */}
+                  <FranceMap onRegionClick={selectRegionAndStart} />
+
+                  {/* Légende */}
+                  <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
+                    <span className="text-slate-500 font-bold uppercase tracking-wider">Niveau :</span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-black">
+                      <span className="w-2 h-2 rounded-full bg-amber-500"></span>Normal
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 font-black">
+                      <span className="w-2 h-2 rounded-full bg-rose-400"></span>Difficile
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
