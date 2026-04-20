@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp, MapPin, Info } from 'lucide-react'
 import { getBareme, scoreQuestion, BAREME_FAMILIES, getRegionsForFamily, NIVEAUX, getRegionDisplayName } from '../../lib/baremes-atsem'
+import FranceMapData from '../../data/france-map'
 
 const EXAMEN_REGIONS_PAR_FAMILLE = [
   { familyId: 1, regions: ['Occitanie', 'Nouvelle-Aquitaine', 'Normandie', 'Hauts-de-France', 'Centre-Val de Loire'] },
@@ -11,68 +12,64 @@ const EXAMEN_REGIONS_PAR_FAMILLE = [
   { familyId: 4, regions: ['Île-de-France', 'Bretagne', 'Grand Est', 'Bourgogne-Franche-Comté', 'PACA', 'Corse'] },
 ]
 
-// Régions métropolitaines + Corse. Paths SVG approximatifs (viewBox 0 0 600 600).
-// family : id de la famille de barème ; non cliquable = null (Centre-Val de Loire)
-const FRANCE_REGIONS = [
-  { name: 'Hauts-de-France',        family: 1, path: 'M 220 30 L 360 40 L 375 100 L 335 140 L 290 125 L 250 130 L 220 95 Z', labelX: 285, labelY: 85 },
-  { name: 'Normandie',              family: 1, path: 'M 130 100 L 220 95 L 250 130 L 245 175 L 195 195 L 130 180 L 115 140 Z', labelX: 180, labelY: 145 },
-  { name: 'Île-de-France',          family: 4, path: 'M 280 140 L 330 140 L 345 175 L 315 200 L 275 190 L 265 165 Z', labelX: 305, labelY: 170 },
-  { name: 'Grand Est',              family: 4, path: 'M 345 100 L 460 85 L 495 145 L 490 215 L 445 235 L 395 225 L 370 190 L 355 150 Z', labelX: 425, labelY: 165 },
-  { name: 'Bretagne',               family: 4, path: 'M 30 170 L 110 165 L 150 195 L 150 235 L 115 265 L 55 255 L 20 220 Z', labelX: 85, labelY: 215 },
-  { name: 'Pays de la Loire',       family: 3, path: 'M 115 205 L 200 200 L 225 245 L 215 295 L 170 310 L 120 300 L 100 260 Z', labelX: 160, labelY: 255 },
-  { name: 'Centre-Val de Loire',    family: 1, path: 'M 215 200 L 285 195 L 320 225 L 315 285 L 260 305 L 220 290 L 210 245 Z', labelX: 265, labelY: 245 },
-  { name: 'Bourgogne-Franche-Comté',family: 4, path: 'M 320 205 L 410 215 L 440 260 L 435 320 L 385 340 L 335 325 L 315 280 Z', labelX: 375, labelY: 275 },
-  { name: 'Nouvelle-Aquitaine',     family: 1, path: 'M 105 310 L 220 300 L 255 370 L 260 450 L 215 490 L 155 485 L 95 440 L 85 365 Z', labelX: 175, labelY: 400 },
-  { name: 'Auvergne-Rhône-Alpes',   family: 2, path: 'M 260 310 L 380 325 L 435 355 L 450 420 L 425 470 L 370 480 L 310 460 L 275 410 L 260 360 Z', labelX: 355, labelY: 395 },
-  { name: 'Occitanie',              family: 1, path: 'M 180 475 L 305 475 L 365 490 L 375 535 L 325 565 L 245 575 L 185 555 L 160 510 Z', labelX: 275, labelY: 525 },
-  { name: 'PACA',                   family: 4, path: 'M 380 465 L 455 455 L 495 490 L 495 540 L 450 565 L 385 555 L 370 510 Z', labelX: 440, labelY: 510 },
-  { name: 'Corse',                  family: 4, path: 'M 535 510 L 575 505 L 585 555 L 570 595 L 545 590 L 530 555 Z', labelX: 560, labelY: 550 },
-]
+// Mapping id du fichier data/france-map.js → nom utilisé par getBareme()
+const REGION_ID_TO_NAME = {
+  ara: 'Auvergne-Rhône-Alpes',
+  bfc: 'Bourgogne-Franche-Comté',
+  bre: 'Bretagne',
+  cvl: 'Centre-Val de Loire',
+  cor: 'Corse',
+  ges: 'Grand Est',
+  hdf: 'Hauts-de-France',
+  idf: 'Île-de-France',
+  nor: 'Normandie',
+  naq: 'Nouvelle-Aquitaine',
+  occ: 'Occitanie',
+  pdl: 'Pays de la Loire',
+  pac: 'PACA',
+}
 
-function FranceMap({ onRegionClick }) {
-  const familyColors = {
-    1: { fill: '#d1fae5', hover: '#10b981', stroke: '#059669', text: '#065f46' },
-    2: { fill: '#fef3c7', hover: '#f59e0b', stroke: '#d97706', text: '#78350f' },
-    3: { fill: '#fef3c7', hover: '#f59e0b', stroke: '#d97706', text: '#78350f' },
-    4: { fill: '#ffe4e6', hover: '#f43f5e', stroke: '#e11d48', text: '#881337' },
-  }
-  const noneColor = { fill: '#e2e8f0', hover: '#94a3b8', stroke: '#94a3b8', text: '#475569' }
+function FranceMap({ onRegionClick, hoveredRegion, setHoveredRegion }) {
+  // Couleur par famille pour le fill de chaque région
+  const familyFill = { 1: '#a7f3d0', 2: '#fde68a', 3: '#fde68a', 4: '#fecdd3' }
+  const familyHoverFill = { 1: '#34d399', 2: '#f59e0b', 3: '#f59e0b', 4: '#f43f5e' }
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <svg viewBox="0 0 600 610" className="w-full h-auto" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.08))' }}>
-        {FRANCE_REGIONS.map(r => {
-          const c = r.family ? familyColors[r.family] : noneColor
-          const clickable = !!r.family
+      <svg
+        viewBox={FranceMapData.viewBox}
+        className="w-full h-auto"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Carte des régions de France"
+        style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.08))' }}
+      >
+        {FranceMapData.locations.map(loc => {
+          const regionName = REGION_ID_TO_NAME[loc.id]
+          const bareme = regionName ? getBareme(regionName) : null
+          const family = bareme?.id || null
+          const isHovered = hoveredRegion === loc.id
+          const fill = family
+            ? (isHovered ? familyHoverFill[family] : familyFill[family])
+            : '#e2e8f0'
           return (
-            <g
-              key={r.name}
-              className={clickable ? 'cursor-pointer' : 'cursor-not-allowed'}
-              onClick={clickable ? () => onRegionClick(r.name) : undefined}
+            <path
+              key={loc.id}
+              d={loc.path}
+              aria-label={loc.name}
+              tabIndex={family ? 0 : -1}
+              role={family ? 'button' : undefined}
+              fill={fill}
+              stroke="white"
+              strokeWidth="1.5"
+              style={{ cursor: family ? 'pointer' : 'default', transition: 'fill 0.15s' }}
+              onClick={family ? () => onRegionClick(regionName) : undefined}
+              onKeyDown={family ? (e) => { if (e.key === 'Enter') onRegionClick(regionName) } : undefined}
+              onMouseEnter={() => setHoveredRegion(loc.id)}
+              onMouseLeave={() => setHoveredRegion(null)}
             >
-              <path
-                d={r.path}
-                fill={c.fill}
-                stroke="white"
-                strokeWidth="2.5"
-                style={{ transition: 'fill 0.2s' }}
-                onMouseEnter={(e) => { if (clickable) e.currentTarget.setAttribute('fill', c.hover) }}
-                onMouseLeave={(e) => { if (clickable) e.currentTarget.setAttribute('fill', c.fill) }}
-              />
-              <text
-                x={r.labelX}
-                y={r.labelY}
-                textAnchor="middle"
-                fill={c.text}
-                fontSize="11"
-                fontWeight="800"
-                style={{ pointerEvents: 'none', userSelect: 'none' }}
-              >
-                {r.name.length > 15 ? r.name.split(' ').map((w, i) => (
-                  <tspan key={i} x={r.labelX} dy={i === 0 ? 0 : 12}>{w}</tspan>
-                )) : r.name}
-              </text>
-            </g>
+              <title>{loc.name}{bareme ? ` — Famille ${bareme.id} (${NIVEAUX.find(n => n.id === bareme.niveau)?.label})` : ''}</title>
+            </path>
           )
         })}
       </svg>
@@ -112,6 +109,7 @@ export default function ExamenPage() {
   // Steps: null (popup), choix_region, loading, epreuve, correcting, resultat
   const [step, setStep] = useState('loading')
   const [selectedRegion, setSelectedRegion] = useState(null)
+  const [hoveredRegion, setHoveredRegion] = useState(null)
   const [error, setError] = useState('')
   const [loadingStep, setLoadingStep] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
@@ -508,8 +506,19 @@ export default function ExamenPage() {
                     </div>
                   )}
 
+                  {/* Indication région survolée */}
+                  <div className="text-center mb-3 h-6">
+                    {hoveredRegion ? (
+                      <span className="text-sm font-black text-slate-900">
+                        {REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
+                      </span>
+                    ) : (
+                      <span className="text-sm text-slate-400">Survolez une région puis cliquez pour lancer l'examen</span>
+                    )}
+                  </div>
+
                   {/* Carte interactive */}
-                  <FranceMap onRegionClick={selectRegionAndStart} />
+                  <FranceMap onRegionClick={selectRegionAndStart} hoveredRegion={hoveredRegion} setHoveredRegion={setHoveredRegion} />
 
                   {/* Légende */}
                   <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
