@@ -342,7 +342,7 @@ export default function AnnalePage() {
                           <Info className={`w-5 h-5 ${p.icon} shrink-0 mt-0.5`} strokeWidth={2} />
                           <div className={`text-sm ${p.text} font-medium flex-1`}>
                             <div className="flex items-center gap-2 flex-wrap mb-3">
-                              <p className={`font-black ${p.textDark}`}>Barème de cette annale</p>
+                              <p className={`font-black ${p.textDark}`}>La {getRegionDisplayName(annale.region_nom)} utilise ce barème</p>
                               <span className={`${p.badgeBg} ${p.badgeText} px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider`}>
                                 Famille {family.id} — {family.titre}
                               </span>
@@ -372,18 +372,15 @@ export default function AnnalePage() {
                               {family.regle.map((item, i) => <li key={i}>{item}</li>)}
                             </ul>
 
-                            {/* Régions pratiquant ce barème */}
+                            {/* Autres régions pratiquant le même barème */}
                             {(() => {
                               const regions = getRegionsForFamily(family.id)
                               const currentDisplay = getRegionDisplayName(annale.region_nom)
                               const others = regions.filter(r => r !== currentDisplay)
+                              if (others.length === 0) return null
                               return (
-                                <div className={`text-xs mb-3 ${p.textDark}`}>
-                                  <span className="font-bold">Pratiqué par </span>
-                                  <span className={`font-black ${p.badgeText}`}>{currentDisplay}</span>
-                                  {others.length > 0 && (
-                                    <> — également appliqué en {others.join(', ')}</>
-                                  )}
+                                <div className={`text-xs mb-3 ${p.textDark} opacity-80`}>
+                                  <span className="font-bold">Également appliqué en </span>{others.join(', ')}
                                 </div>
                               )
                             })()}
