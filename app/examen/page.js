@@ -519,7 +519,7 @@ export default function ExamenPage() {
 
                   {/* Légende niveaux (au-dessus) */}
                   <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs">
-                    <span className="text-slate-500 font-bold uppercase tracking-wider">Niveau :</span>
+                    <span className="text-slate-500 font-bold uppercase tracking-wider">Barème :</span>
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
                       <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
                     </span>
