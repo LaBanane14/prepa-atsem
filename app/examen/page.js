@@ -35,7 +35,7 @@ function FranceMap({ onRegionClick, hoveredRegion, setHoveredRegion }) {
   const familyHoverFill = { 1: '#34d399', 2: '#f59e0b', 3: '#f59e0b', 4: '#f43f5e' }
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto">
       <svg
         viewBox={FranceMapData.viewBox}
         className="w-full h-auto"
@@ -495,7 +495,7 @@ export default function ExamenPage() {
                     <MapPin size={30} strokeWidth={2.2} className="text-yellow-400" />
                     Choisissez votre région d'examen
                   </h1>
-                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">Le barème de votre examen blanc s'adaptera aux règles de la région sélectionnée.</p>
+                  <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">Cela permettra de vous habituer aux barèmes réels.</p>
                 </div>
 
                 <div className="p-5 sm:p-8">
@@ -505,6 +505,20 @@ export default function ExamenPage() {
                       {error}
                     </div>
                   )}
+
+                  {/* Légende niveaux (au-dessus) */}
+                  <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+                    <span className="text-slate-500 font-bold uppercase tracking-wider">Niveau :</span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-black">
+                      <span className="w-2 h-2 rounded-full bg-amber-500"></span>Normal
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 font-black">
+                      <span className="w-2 h-2 rounded-full bg-rose-400"></span>Difficile
+                    </span>
+                  </div>
 
                   {/* Indication région survolée */}
                   <div className="text-center mb-3 h-6">
@@ -519,20 +533,6 @@ export default function ExamenPage() {
 
                   {/* Carte interactive */}
                   <FranceMap onRegionClick={selectRegionAndStart} hoveredRegion={hoveredRegion} setHoveredRegion={setHoveredRegion} />
-
-                  {/* Légende */}
-                  <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
-                    <span className="text-slate-500 font-bold uppercase tracking-wider">Niveau :</span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-black">
-                      <span className="w-2 h-2 rounded-full bg-amber-500"></span>Normal
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 font-black">
-                      <span className="w-2 h-2 rounded-full bg-rose-400"></span>Difficile
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
