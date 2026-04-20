@@ -29,10 +29,21 @@ const REGION_ID_TO_NAME = {
   pac: 'PACA',
 }
 
+// Groupes liés : régions qui partagent la même pénalité exacte et qu'on veut highlighter ensemble
+// PACA & Corse utilisent toutes deux F4 avec override −1 → on les lie visuellement
+const LINKED_GROUPS = [
+  ['pac', 'cor'], // PACA + Corse
+]
+function getLinkedIds(id) {
+  const group = LINKED_GROUPS.find(g => g.includes(id))
+  return group || [id]
+}
+
 function FranceMap({ onRegionClick, hoveredRegion, setHoveredRegion }) {
   // Couleur par famille pour le fill de chaque région
   const familyFill = { 1: '#a7f3d0', 2: '#fde68a', 3: '#fde68a', 4: '#fecdd3' }
   const familyHoverFill = { 1: '#34d399', 2: '#f59e0b', 3: '#f59e0b', 4: '#f43f5e' }
+  const linkedIds = hoveredRegion ? getLinkedIds(hoveredRegion) : []
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -48,7 +59,7 @@ function FranceMap({ onRegionClick, hoveredRegion, setHoveredRegion }) {
           const regionName = REGION_ID_TO_NAME[loc.id]
           const bareme = regionName ? getBareme(regionName) : null
           const family = bareme?.id || null
-          const isHovered = hoveredRegion === loc.id
+          const isHovered = linkedIds.includes(loc.id)
           const fill = family
             ? (isHovered ? familyHoverFill[family] : familyFill[family])
             : '#e2e8f0'
@@ -524,7 +535,9 @@ export default function ExamenPage() {
                   <div className="text-center mb-3 h-6">
                     {hoveredRegion ? (
                       <span className="text-sm font-black text-slate-900">
-                        {REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
+                        {(hoveredRegion === 'pac' || hoveredRegion === 'cor')
+                          ? 'PACA + Corse'
+                          : REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
                       </span>
                     ) : (
                       <span className="text-sm text-slate-400">Survolez une région puis cliquez pour lancer l'examen</span>
