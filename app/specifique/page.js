@@ -256,17 +256,15 @@ export default function SpecifiquePage() {
 
           {/* ===== CHOIX CATÉGORIE (design Editorial Cards colorées) ===== */}
           {step === 'choix' && (
-            <div className="animate-fade-in v1-bg relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-10">
+            <div className="animate-fade-in v1-bg relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5">
 
-              {/* Topbar — bouton retour uniquement */}
-              <div className="flex items-center justify-end mb-8 sm:mb-10">
-                <a href="/dashboard" className="w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </a>
-              </div>
+              {/* Croix retour — flottante en haut à droite */}
+              <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </a>
 
               {/* Hero */}
-              <div className="mb-12 sm:mb-14 max-w-3xl">
+              <div className="mb-10 sm:mb-12 max-w-3xl pr-14">
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">
                   Choisissez votre <em className="v1-hero-em">thématique</em>.
                 </h1>
