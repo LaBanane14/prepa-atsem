@@ -167,7 +167,7 @@ export default function AnnalePage() {
   const questions = annale?.questions || []
   const answeredCount = Object.values(reponses).filter(arr => arr.length > 0).length
   const annaleTitle = annale ? `${annale.region_nom} ${annale.annee}` : ''
-  const annaleFull = annale ? `Annale ${annale.region_nom} ${annale.annee}${annale.cdg ? ' (' + annale.cdg + ')' : ''}` : ''
+  const annaleFull = annale ? `Annale ${annale.region_nom} ${annale.annee}` : ''
 
   if (authLoading || loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"></div></div>
   if (!annale) return null
