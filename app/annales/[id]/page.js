@@ -317,11 +317,10 @@ export default function AnnalePage() {
                     if (family) {
                       const palette = {
                         emerald: { border: 'border-emerald-200', bg: 'bg-emerald-50', text: 'text-emerald-800', textDark: 'text-emerald-900', icon: 'text-emerald-500', marker: 'marker:text-emerald-400', badgeBg: 'bg-emerald-100', badgeText: 'text-emerald-700', stratBg: 'bg-emerald-100/70', stratBorder: 'border-emerald-300' },
-                        sky:     { border: 'border-sky-200', bg: 'bg-sky-50', text: 'text-sky-800', textDark: 'text-sky-900', icon: 'text-sky-500', marker: 'marker:text-sky-400', badgeBg: 'bg-sky-100', badgeText: 'text-sky-700', stratBg: 'bg-sky-100/70', stratBorder: 'border-sky-300' },
                         amber:   { border: 'border-amber-200', bg: 'bg-amber-50', text: 'text-amber-800', textDark: 'text-amber-900', icon: 'text-amber-500', marker: 'marker:text-amber-400', badgeBg: 'bg-amber-100', badgeText: 'text-amber-700', stratBg: 'bg-amber-100/70', stratBorder: 'border-amber-300' },
-                        rose:    { border: 'border-rose-200', bg: 'bg-rose-50', text: 'text-rose-800', textDark: 'text-rose-900', icon: 'text-rose-500', marker: 'marker:text-rose-400', badgeBg: 'bg-rose-100', badgeText: 'text-rose-700', stratBg: 'bg-rose-100/70', stratBorder: 'border-rose-300' },
+                        rose:    { border: 'border-rose-200', bg: 'bg-rose-50', text: 'text-rose-700', textDark: 'text-rose-800', icon: 'text-rose-400', marker: 'marker:text-rose-300', badgeBg: 'bg-rose-100', badgeText: 'text-rose-600', stratBg: 'bg-rose-100/70', stratBorder: 'border-rose-200' },
                       }
-                      const p = palette[family.couleur] || palette.sky
+                      const p = palette[family.couleur] || palette.amber
                       return (
                         <div className={`${p.bg} border ${p.border} rounded-xl p-4 mb-6 flex items-start gap-3`}>
                           <svg className={`w-5 h-5 ${p.icon} shrink-0 mt-0.5`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
@@ -340,7 +339,7 @@ export default function AnnalePage() {
                                 const activeColors = {
                                   1: 'bg-emerald-100 text-emerald-700 border-emerald-300',
                                   2: 'bg-amber-100 text-amber-700 border-amber-300',
-                                  3: 'bg-red-100 text-red-700 border-red-300',
+                                  3: 'bg-rose-100 text-rose-600 border-rose-200',
                                 }
                                 return (
                                   <div
