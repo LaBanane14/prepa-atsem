@@ -378,9 +378,9 @@ export default function OralPage() {
               <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
               </a>
-              <div className="max-w-3xl w-full">
+              <div className="max-w-5xl w-full">
                 <div className="text-center mb-8">
-                  <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral</em> ATSEM.</h1>
+                  <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5 whitespace-nowrap">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
                   <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">Choisissez votre mode d'entraînement.</p>
                 </div>
 
