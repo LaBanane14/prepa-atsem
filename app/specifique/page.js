@@ -259,7 +259,7 @@ export default function SpecifiquePage() {
             <div className="animate-fade-in v1-bg relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5">
 
               {/* Croix retour — flottante en haut à droite */}
-              <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
+              <a href="/dashboard" className="!absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
               </a>
 
@@ -269,7 +269,7 @@ export default function SpecifiquePage() {
                   Choisissez votre <em className="v1-hero-em">thématique</em>.
                 </h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">
-                  10 questions générées par IA sur la catégorie choisie. Une bonne réponse sur 4 — concentrez-vous, vous démarrez quand vous voulez.
+                  Perfectionnez-vous en vous focalisant sur un thème précis.
                 </p>
               </div>
 
