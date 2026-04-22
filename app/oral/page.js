@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Upload, Shuffle, Sparkles, MessageCircleQuestion, Mic, MicOff, ChevronLeft, ChevronRight, Check, X } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Upload, Shuffle, Sparkles, MessageCircleQuestion, Mic, MicOff, ChevronLeft, ChevronRight, Check, X, ArrowRight } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -309,6 +309,16 @@ export default function OralPage() {
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
+        .v1-card { transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s; }
+        .v1-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -24px rgba(26, 19, 37, 0.22); }
+        .v1-card .v1-icon { transition: transform 0.3s, background 0.3s, color 0.3s; background: var(--c-tint); color: var(--c-color); }
+        .v1-card:hover .v1-icon { background: var(--c-color); color: #fff; transform: scale(1.05) rotate(-4deg); }
+        .v1-card .v1-arrow { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s, color 0.25s; background: var(--c-tint); color: var(--c-color); }
+        .v1-card:hover .v1-arrow { background: var(--c-color); color: #fff; transform: translateX(6px); }
+        .v1-card-top { background: var(--c-soft); }
+        .v1-num { color: var(--c-color); border-color: var(--c-tint); }
+        .v1-qcount { color: var(--c-color); display: flex; align-items: center; gap: 8px; }
+        .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
       `}</style>
 
       {/* TOAST */}
@@ -370,30 +380,52 @@ export default function OralPage() {
                   <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">Choisissez votre mode d'entraînement.</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Card 1: Avec mon CV */}
-                  <button onClick={startModeCV} className="bg-white border-2 border-slate-200 hover:border-indigo-600 rounded-2xl p-6 sm:p-8 text-left transition-all hover:shadow-lg hover:shadow-indigo-100 group cursor-pointer">
-                    <div className="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                      <Upload size={26} strokeWidth={1.8} />
+                  <button
+                    onClick={startModeCV}
+                    className="v1-card group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col min-h-[300px] text-left cursor-pointer"
+                    style={{'--c-color': '#4f46e5', '--c-tint': '#e0e7ff', '--c-soft': '#eef2ff'}}
+                  >
+                    <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
+                      <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
+                        <Upload size={26} strokeWidth={1.8} />
+                      </div>
+                      <div className="v1-num px-2.5 py-1.5 rounded-full bg-white border text-[11px] font-black tracking-[0.15em]">01</div>
                     </div>
-                    <h3 className="text-lg font-black text-slate-900 mb-2">Avec mon CV</h3>
-                    <p className="text-sm text-slate-500 font-medium leading-relaxed">Uploadez votre CV et l'IA génère 10 questions personnalisées basées sur votre parcours</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-indigo-600 font-bold text-sm">
-                      Commencer
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                    <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
+                      <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">Avec mon CV</h3>
+                      <p className="text-[14px] text-slate-500 leading-relaxed mb-auto">Uploadez votre CV et l'IA génère 10 questions personnalisées basées sur votre parcours.</p>
+                      <div className="flex items-center justify-between mt-6 pt-5 border-t border-dashed border-slate-200">
+                        <span className="v1-qcount text-xs font-black tracking-[0.1em] uppercase">10 questions</span>
+                        <span className="v1-arrow w-10 h-10 rounded-full grid place-items-center shrink-0">
+                          <ArrowRight size={16} strokeWidth={2} />
+                        </span>
+                      </div>
                     </div>
                   </button>
 
                   {/* Card 2: Questions au sort */}
-                  <button onClick={startModeAleatoire} className="bg-white border-2 border-slate-200 hover:border-pink-600 rounded-2xl p-6 sm:p-8 text-left transition-all hover:shadow-lg hover:shadow-pink-100 group cursor-pointer">
-                    <div className="w-14 h-14 bg-pink-600 text-white rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                      <Shuffle size={26} strokeWidth={1.8} />
+                  <button
+                    onClick={startModeAleatoire}
+                    className="v1-card group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col min-h-[300px] text-left cursor-pointer"
+                    style={{'--c-color': '#ec4899', '--c-tint': '#fce7f3', '--c-soft': '#fdf2f8'}}
+                  >
+                    <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
+                      <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
+                        <Shuffle size={26} strokeWidth={1.8} />
+                      </div>
+                      <div className="v1-num px-2.5 py-1.5 rounded-full bg-white border text-[11px] font-black tracking-[0.15em]">02</div>
                     </div>
-                    <h3 className="text-lg font-black text-slate-900 mb-2">Questions au sort</h3>
-                    <p className="text-sm text-slate-500 font-medium leading-relaxed">20 questions tirées aléatoirement parmi 300 questions réelles du concours</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-pink-600 font-bold text-sm">
-                      Commencer
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                    <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
+                      <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">Questions au sort</h3>
+                      <p className="text-[14px] text-slate-500 leading-relaxed mb-auto">20 questions tirées aléatoirement parmi 300 questions réelles du concours.</p>
+                      <div className="flex items-center justify-between mt-6 pt-5 border-t border-dashed border-slate-200">
+                        <span className="v1-qcount text-xs font-black tracking-[0.1em] uppercase">20 questions</span>
+                        <span className="v1-arrow w-10 h-10 rounded-full grid place-items-center shrink-0">
+                          <ArrowRight size={16} strokeWidth={2} />
+                        </span>
+                      </div>
                     </div>
                   </button>
                 </div>
