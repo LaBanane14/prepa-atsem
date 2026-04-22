@@ -373,7 +373,11 @@ export default function OralPage() {
 
           {/* ===== MODE SELECTION ===== */}
           {step === null && (
-            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
+            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center relative">
+              {/* Croix retour — flottante en haut à droite */}
+              <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </a>
               <div className="max-w-3xl w-full">
                 <div className="text-center mb-8">
                   <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral</em> ATSEM.</h1>
@@ -430,9 +434,6 @@ export default function OralPage() {
                   </button>
                 </div>
 
-                <div className="text-center mt-6">
-                  <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-6 py-3 rounded-xl transition">Retour au tableau de bord</a>
-                </div>
               </div>
             </div>
           )}
