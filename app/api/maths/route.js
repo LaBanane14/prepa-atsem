@@ -1,8 +1,68 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { SYSTEM_EXAMEN_ATSEM, PROMPT_QUESTIONS_ONLY, PROMPT_CORRECTION_ONLY } from '@/lib/prompts/examen'
+import { SYSTEM_BASE, FACTS_BY_THEME, PIEGES, THEME_LABELS, PROMPT_CORRECTION_ONLY } from '@/lib/prompts/examen'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { supabase } from '@/lib/supabase'
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5)
+}
+
+// Construit un system prompt dynamique : pioche ~33% des faits par thème
+// + 3 pièges sur 8. Évite la répétition des mêmes questions entre sessions.
+function buildDynamicSystem() {
+  let block = SYSTEM_BASE + '\n\n## FAITS À MOBILISER POUR CETTE SESSION (non exhaustifs)\n'
+  for (const [key, label] of Object.entries(THEME_LABELS)) {
+    const facts = FACTS_BY_THEME[key] || []
+    const n = Math.max(2, Math.ceil(facts.length * 0.33))
+    const picked = shuffle(facts).slice(0, n)
+    block += `\n### ${label}\n` + picked.map(f => `- ${f}`).join('\n') + '\n'
+  }
+  const pieges = shuffle(PIEGES).slice(0, 3)
+  block += `\n## PIÈGES À INTÉGRER DANS CE QCM (au moins 2 parmi ces 3)\n` + pieges.map((p, i) => `${i + 1}. ${p}`).join('\n')
+  return block
+}
+
+// Construit le prompt utilisateur avec répartition thématique légèrement randomisée
+function buildQuestionsPrompt() {
+  // Cibles de base : 3-4 / 3-4 / 3-4 / 2 / 2-3 / 2-3 / 1-2 — on randomise dans la tolérance
+  const base = { missions_statut: 4, hygiene_produits: 4, sante_secours: 4, maladies_evictions: 2, vie_scolaire: 3, developpement_enfant: 2, protection_enfance: 1 }
+  const keys = Object.keys(base)
+  const counts = { ...base }
+  // ±1 sur 2 thèmes au hasard, en maintenant le total à 20
+  for (let i = 0; i < 2; i++) {
+    const up = keys[Math.floor(Math.random() * keys.length)]
+    const down = keys[Math.floor(Math.random() * keys.length)]
+    if (up !== down && counts[up] < 5 && counts[down] > 1) { counts[up]++; counts[down]-- }
+  }
+  const lignes = keys.map(k => `- ${THEME_LABELS[k]} : ${counts[k]} question(s)`).join('\n')
+  const includeCalcul = Math.random() < 0.5
+  const contrainteCalcul = includeCalcul ? '- Inclure 1 question avec un calcul (dilution, quantité de matériel, conversion).\n' : ''
+
+  return `Génère un QCM de 20 questions simulant l'épreuve écrite du concours externe d'ATSEM principal de 2e classe.
+
+Répartition thématique (tolérance ±1) :
+${lignes}
+
+${contrainteCalcul}Inclus au moins 1 question formulée en NÉGATIF.
+
+Réponds UNIQUEMENT avec le JSON ci-dessous. NE GÉNÈRE PAS la correction. Aucun texte avant ni après, aucun backtick.
+{
+  "questions": [
+    {
+      "numero": 1,
+      "theme": "missions_statut",
+      "enonce": "Énoncé complet de la question SANS inclure les propositions de réponse. L'énoncé doit se terminer par un point d'interrogation ou un deux-points.",
+      "propositions": [
+        {"lettre": "A", "texte": "Proposition A"},
+        {"lettre": "B", "texte": "Proposition B"},
+        {"lettre": "C", "texte": "Proposition C"},
+        {"lettre": "D", "texte": "Proposition D"}
+      ]
+    }
+  ]
+}`
+}
 
 // Récupère 3 annales aléatoires et en extrait un échantillon de questions réelles
 // pour servir d'exemples d'inspiration à Claude (style, vocabulaire, pièges).
@@ -49,6 +109,7 @@ async function callClaude(system, userPrompt, retries = 2) {
       const stream = await client.messages.stream({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 24000,
+        temperature: 1,
         system,
         messages: [
           { role: 'user', content: userPrompt },
@@ -134,9 +195,10 @@ export async function POST(request) {
       const randomContext = contexts[Math.floor(Math.random() * contexts.length)]
       const randomSeed = Math.floor(Math.random() * 100000)
       const inspiration = await fetchAnnalesInspiration()
-      const diversityPrompt = PROMPT_QUESTIONS_ONLY + `\n\nIMPORTANT : Contextualise certaines questions autour de cette situation : "${randomContext}". Seed de variabilité : #${randomSeed}. Génère des questions DIFFÉRENTES des sessions précédentes. Varie les formulations, les contextes et les pièges.` + inspiration
+      const dynamicSystem = buildDynamicSystem()
+      const diversityPrompt = buildQuestionsPrompt() + `\n\nIMPORTANT : Contextualise certaines questions autour de cette situation : "${randomContext}". Seed de variabilité : #${randomSeed}. Génère des questions DIFFÉRENTES des sessions précédentes. Varie les formulations, les contextes et les pièges.` + inspiration
 
-      const text = await callClaude(SYSTEM_EXAMEN_ATSEM, diversityPrompt)
+      const text = await callClaude(dynamicSystem, diversityPrompt)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
       const raw = parseJSON(text)
@@ -149,7 +211,7 @@ export async function POST(request) {
       if (!questions) return NextResponse.json({ error: 'Questions requises.' }, { status: 400 })
 
       const prompt = PROMPT_CORRECTION_ONLY.replace('{QUESTIONS_JSON}', JSON.stringify(questions, null, 2))
-      const text = await callClaude(SYSTEM_EXAMEN_ATSEM, prompt)
+      const text = await callClaude(SYSTEM_BASE, prompt)
       if (!text) return NextResponse.json({ error: 'Réponse Claude vide' }, { status: 500 })
 
       const raw = parseJSON(text)
