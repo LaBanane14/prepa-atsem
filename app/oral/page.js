@@ -365,7 +365,7 @@ export default function OralPage() {
             <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
               <div className="max-w-3xl w-full">
                 <div className="text-center mb-8">
-                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Préparation à l'oral ATSEM</h1>
+                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Préparez-vous à l'oral ATSEM</h1>
                   <p className="text-slate-500 font-medium text-sm sm:text-base">Choisissez votre mode d'entraînement</p>
                 </div>
 
