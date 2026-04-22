@@ -16,7 +16,7 @@ const sidebarItems = [
 const CATEGORIES = [
   { id: 'institutionnel', titre: 'Institutionnel', description: 'Statut, missions, hiérarchie, cadre légal', icon: Building2, color: '#8b5cf6', tint: '#ede9fe', soft: '#f5f3ff' },
   { id: 'hygiene', titre: 'Hygiène', description: 'Bionettoyage, dilutions, protocoles, HACCP', icon: SprayCan, color: '#10b981', tint: '#d1fae5', soft: '#ecfdf5' },
-  { id: 'sante', titre: 'Santé', description: 'Premiers secours, PAI, gestes d\'urgence', icon: Heart, color: '#ef4444', tint: '#fee2e2', soft: '#fef2f2' },
+  { id: 'sante', titre: 'Santé', description: 'Premiers secours, PAI, gestes d\'urgence', icon: Heart, color: '#64748b', tint: '#e2e8f0', soft: '#f1f5f9' },
   { id: 'pedagogie', titre: 'Pédagogie', description: 'Programme, sieste, ateliers, développement', icon: GraduationCap, color: '#f59e0b', tint: '#fef3c7', soft: '#fffbeb' },
   { id: 'relations', titre: 'Relations pro', description: 'Discrétion, devoir de réserve, communication', icon: Users, color: '#0ea5e9', tint: '#e0f2fe', soft: '#f0f9ff' },
   { id: 'calculs', titre: 'Calculs', description: 'Dilutions, surfaces, proportions', icon: Calculator, color: '#ec4899', tint: '#fce7f3', soft: '#fdf2f8' },
