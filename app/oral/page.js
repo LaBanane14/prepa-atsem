@@ -308,6 +308,7 @@ export default function OralPage() {
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
+        .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
       `}</style>
 
       {/* TOAST */}
@@ -365,7 +366,7 @@ export default function OralPage() {
             <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
               <div className="max-w-3xl w-full">
                 <div className="text-center mb-8">
-                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Préparez-vous à l'oral ATSEM</h1>
+                  <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral</em> ATSEM.</h1>
                   <p className="text-slate-500 font-medium text-sm sm:text-base">Choisissez votre mode d'entraînement</p>
                 </div>
 
