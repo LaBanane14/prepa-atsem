@@ -437,30 +437,29 @@ export default function OralPage() {
 
           {/* ===== UPLOAD (Mode CV) ===== */}
           {step === 'upload' && (
-            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-2xl w-full p-6 sm:p-10">
+            <div className="animate-fade-in relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5">
+              {/* Croix retour — flottante en haut à droite */}
+              <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </a>
 
-                <div className="flex items-center justify-between mb-6">
-                  <button onClick={restart} className="text-slate-500 hover:text-slate-700 font-bold text-sm flex items-center gap-1 transition cursor-pointer">
-                    <ChevronLeft size={16} /> Retour
-                  </button>
-                  <a href="/dashboard" className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2">
-                    Quitter l'exercice
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                  </a>
-                </div>
+              <div className="mb-10 sm:mb-12 max-w-3xl pr-14">
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Déposez votre <em className="v1-hero-em">CV</em>.</h1>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">L'IA analyse votre parcours et génère 10 questions d'entretien personnalisées.</p>
+              </div>
 
+              <div className="max-w-3xl mx-auto">
                 {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-4 rounded-xl mb-6 text-center">{error}</div>}
 
-                <label className="block cursor-pointer mb-6">
-                  <div className="bg-gradient-to-br from-purple-50 to-violet-50 border-2 border-dashed border-purple-300 hover:border-purple-500 rounded-3xl p-8 sm:p-12 lg:p-16 text-center transition-all hover:shadow-lg hover:shadow-purple-100 group">
-                    <div className="w-20 h-20 bg-white text-purple-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-100 group-hover:scale-110 transition-transform">
+                <label className="block cursor-pointer mb-4">
+                  <div className="bg-white border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-3xl p-8 sm:p-12 lg:p-16 text-center transition-all hover:shadow-lg hover:shadow-indigo-100 group">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                       <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
                     </div>
-                    <p className="font-black text-slate-800 text-xl mb-2">Déposez votre CV ici</p>
+                    <p className="font-black text-slate-900 text-xl mb-2">Déposez votre CV ici</p>
                     <p className="text-slate-500 font-medium mb-6">ou cliquez pour parcourir vos fichiers</p>
-                    <div className="inline-flex items-center gap-2 bg-purple-800 hover:bg-purple-900 text-white font-bold px-4 sm:px-8 py-2.5 sm:py-3 rounded-xl transition shadow-lg shadow-purple-200">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <div className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-indigo-200">
+                      <Upload size={18} strokeWidth={2} />
                       Importer mon CV
                     </div>
                     <p className="text-xs text-slate-400 mt-4">PDF uniquement — 10 Mo max</p>
