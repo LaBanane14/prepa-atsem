@@ -495,14 +495,14 @@ export default function ExamenPage() {
 
           {/* ===== CHOIX RÉGION ===== */}
           {step === 'choix_region' && (
-            <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
+            <div className="animate-fade-in max-w-4xl mx-auto py-4 sm:py-8">
               <div className="mb-10 sm:mb-12 max-w-3xl mx-auto px-4 sm:px-0">
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-                <div className="p-5 sm:p-8">
+              <div className="max-w-2xl mx-auto">
+                <div className="p-2 sm:p-4">
                   {error && (
                     <div className="mb-5 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
                       <XCircle size={18} className="shrink-0" />
