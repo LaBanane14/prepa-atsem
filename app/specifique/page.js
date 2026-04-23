@@ -405,11 +405,6 @@ export default function SpecifiquePage() {
             return (
               <div className="la-root animate-fade-in" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
                 <div className="la-page">
-                  <div className="la-topbar">
-                    <div className="la-crumb">
-                      Quiz <span className="sep">›</span> <span>{selectedCategorie.titre}</span> <span className="sep">›</span> Préparation
-                    </div>
-                  </div>
                   <div className="la-frame">
                     <div className="lf-head">
                       <div className="lf-icon-chip"><Icon size={26} strokeWidth={1.8} /></div>
