@@ -251,7 +251,7 @@ export default function SpecifiquePage() {
         .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
         .arc-svg { transform: rotate(-90deg); }
         .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
-        .arc-fill { stroke: var(--tc-main); stroke-width: 10; fill: none; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--tc-soft-2)); transition: stroke-dashoffset 0.15s linear; }
+        .arc-fill { stroke: var(--tc-main, #8b5cf6); stroke-width: 10; fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.15s linear; }
         .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
         .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
         .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -403,7 +403,7 @@ export default function SpecifiquePage() {
             const stepIdx = STEPS.reduce((a, s, i) => progress >= s.at ? i : a, 0)
             const Icon = selectedCategorie.icon
             return (
-              <div className="la-root animate-fade-in min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-2.5rem)] flex items-center justify-center" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
+              <div className="la-root animate-fade-in fixed top-14 lg:top-0 right-0 bottom-0 left-0 lg:left-[90px] z-40 flex items-center justify-center overflow-y-auto p-4" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
                 <div className="la-page">
                   <div className="la-frame">
                     <div className="lf-head">
