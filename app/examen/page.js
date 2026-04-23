@@ -501,7 +501,7 @@ export default function ExamenPage() {
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
 
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-[400px] mx-auto">
                 <div className="p-2 sm:p-4">
                   {error && (
                     <div className="mb-5 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
