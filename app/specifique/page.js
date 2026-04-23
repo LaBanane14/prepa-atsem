@@ -417,12 +417,9 @@ export default function SpecifiquePage() {
                         <h2>{selectedCategorie.description}</h2>
                         <h1>{selectedCategorie.titre}</h1>
                       </div>
-                      <div className="lf-status">
-                        <span className="lf-status-dot" /> Génération IA
-                      </div>
                     </div>
                     <h2 className="lf-title">Votre quiz est <em>en préparation</em>.</h2>
-                    <p className="lf-sub">10 questions générées sur mesure à partir du référentiel de la catégorie <b>{selectedCategorie.titre}</b>. L'IA finalise — quelques secondes.</p>
+                    <p className="lf-sub">10 questions générées sur mesure à partir du référentiel de la catégorie <b>{selectedCategorie.titre}</b>.</p>
                     <div className="anim-arc">
                       <div className="arc-wrap">
                         <svg className="arc-svg" width="220" height="220" viewBox="0 0 220 220">
@@ -439,12 +436,6 @@ export default function SpecifiquePage() {
                         <h3>{STEPS[stepIdx].label}</h3>
                         <p>L'IA rédige des questions calibrées sur le thème {selectedCategorie.titre.toLowerCase()}. Vous commencez dès que c'est prêt.</p>
                       </div>
-                    </div>
-                    <div className="lf-footer">
-                      <span className="lf-pill"><b>10</b> questions</span>
-                      <span className="lf-pill"><b>4</b> réponses par question</span>
-                      <span className="lf-pill"><b>~4 min</b> de session</span>
-                      <span className="lf-pill" style={{ marginLeft: 'auto' }}>Étape <b>{stepIdx + 1}/{STEPS.length}</b></span>
                     </div>
                   </div>
                 </div>
