@@ -439,37 +439,44 @@ export default function OralPage() {
             </div>
           )}
 
-          {/* ===== POPUP UPLOAD CV ===== */}
+          {/* ===== POPUP UPLOAD CV (style v1-card) ===== */}
           {showCVPopup && (
             <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCVPopup(false)}>
-              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
-                <div className="bg-slate-900 px-6 py-5 relative">
-                  <button onClick={() => setShowCVPopup(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              <div
+                className="v1-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col max-w-md w-full animate-fade-in"
+                style={{'--c-color': '#4f46e5', '--c-tint': '#e0e7ff', '--c-soft': '#eef2ff'}}
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
+                  <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
+                    <Upload size={26} strokeWidth={1.8} />
+                  </div>
+                  <button onClick={() => setShowCVPopup(false)} className="w-9 h-9 bg-white hover:bg-slate-50 border border-slate-200 rounded-full grid place-items-center text-slate-600 hover:text-slate-900 transition shrink-0 cursor-pointer shadow-sm">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
-                  <h2 className="text-lg font-black text-white pr-8">Intégrer votre CV</h2>
-                  <p className="text-slate-400 text-sm font-medium mt-1">L'IA génère 10 questions d'entretien à partir de votre parcours.</p>
                 </div>
-                <div className="p-6">
+
+                <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
+                  <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">Intégrer votre CV</h3>
+                  <p className="text-[14px] text-slate-500 leading-relaxed mb-4">L'IA analyse votre parcours et génère 10 questions d'entretien personnalisées.</p>
+
                   {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-3 rounded-xl mb-4 text-center">{error}</div>}
-                  <label className="block cursor-pointer">
-                    <div className="bg-white border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-2xl p-6 sm:p-8 text-center transition-all hover:bg-indigo-50 group">
-                      <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
-                      </div>
-                      <p className="font-black text-slate-900 mb-1">Déposez votre CV ici</p>
-                      <p className="text-slate-500 text-xs font-medium mb-4">ou cliquez pour parcourir vos fichiers</p>
-                      <div className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md">
-                        <Upload size={16} strokeWidth={2} />
+
+                  <label className="block cursor-pointer mb-auto">
+                    <div className="border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-2xl p-5 text-center transition-all hover:bg-indigo-50/40 group">
+                      <p className="font-black text-slate-700 text-sm mb-1 group-hover:text-indigo-700 transition">Déposez votre CV ici</p>
+                      <p className="text-xs text-slate-400 font-medium mb-3">ou cliquez pour parcourir</p>
+                      <div className="inline-flex items-center gap-2 bg-indigo-600 group-hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition">
+                        <Upload size={14} strokeWidth={2} />
                         Importer mon CV
                       </div>
-                      <p className="text-[11px] text-slate-400 mt-3">PDF uniquement — 10 Mo max</p>
                     </div>
                     <input type="file" accept=".pdf,application/pdf" onChange={handleUpload} className="hidden" />
                   </label>
-                  <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
-                    <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                    <p className="text-xs text-amber-800 font-medium"><strong>Pas de notation !</strong> Le but est seulement de vous préparer au mieux pour le jour J.</p>
+
+                  <div className="flex items-center justify-between mt-6 pt-5 border-t border-dashed border-slate-200">
+                    <span className="v1-qcount text-xs font-black tracking-[0.1em] uppercase">PDF · 10 Mo max</span>
+                    <span className="text-[11px] text-slate-400 font-bold">Pas de notation</span>
                   </div>
                 </div>
               </div>
