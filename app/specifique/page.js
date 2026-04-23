@@ -201,7 +201,7 @@ export default function SpecifiquePage() {
   )
 
   return (
-    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse 800px 500px at 15% 10%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 85% 30%, rgba(251,191,36,0.14), transparent 60%), radial-gradient(ellipse 700px 500px at 25% 70%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse 800px 500px at 80% 90%, rgba(14,165,233,0.12), transparent 60%)', backgroundAttachment: 'fixed', fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse 800px 500px at 15% 10%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 85% 30%, rgba(251,191,36,0.14), transparent 60%), radial-gradient(ellipse 700px 500px at 25% 70%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse 800px 500px at 80% 90%, rgba(14,165,233,0.12), transparent 60%)', backgroundAttachment: 'fixed', fontFamily: "'Nunito', sans-serif", '--nav-color': selectedCategorie?.color || '#7c3aed', '--nav-tint': selectedCategorie?.tint || '#f5f3ff'}}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         html, body { background: #faf8ff; }
@@ -221,6 +221,10 @@ export default function SpecifiquePage() {
         .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
         .v1-bg > * { position: relative; z-index: 1; }
+        .sf-nav-logo { background: var(--nav-color); }
+        .sf-nav-item { color: #0f172a; transition: background 0.15s, color 0.15s; }
+        .sf-nav-item:hover { background: var(--nav-tint); color: var(--nav-color); }
+        .sf-brand-accent { color: var(--nav-color); }
 
         /* === LoaderArc (écran de chargement après choix de catégorie) === */
         .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
@@ -273,11 +277,11 @@ export default function SpecifiquePage() {
       {/* SIDEBAR */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]">
-          <a href="/" className="mb-4"><div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
+          <a href="/" className="mb-4"><div className="sf-nav-logo w-10 h-10 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><LogoIcon size={20} strokeWidth={2.5} /></div></a>
           <div className="w-7 h-px bg-slate-200 mb-3"></div>
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {sidebarItems.filter(item => !item.premium || !isPremium).map(item => (
-              <a key={item.id} href={item.href} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all text-center group ${item.premium ? 'text-amber-500 hover:bg-amber-50 hover:text-amber-600' : 'text-slate-900 hover:bg-purple-50 hover:text-purple-600'}`}>
+              <a key={item.id} href={item.href} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all text-center group ${item.premium ? 'text-amber-500 hover:bg-amber-50 hover:text-amber-600' : 'sf-nav-item'}`}>
                 <item.icon size={21} strokeWidth={1.6} className={`transition-transform duration-200 group-hover:scale-125 ${item.premium ? 'premium-scan' : ''}`} />
                 <span>{item.label}</span>
               </a>
@@ -297,7 +301,7 @@ export default function SpecifiquePage() {
       <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] max-w-full overflow-x-hidden">
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition"><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-          <span className="font-black text-lg text-slate-900">Prépa <span className="text-purple-600">ATSEM</span></span>
+          <span className="font-black text-lg text-slate-900">Prépa <span className="sf-brand-accent">ATSEM</span></span>
           <a href="/dashboard" className="text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </a>
