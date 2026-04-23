@@ -224,7 +224,7 @@ export default function SpecifiquePage() {
 
         /* === LoaderArc (écran de chargement après choix de catégorie) === */
         .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
-        .la-page { padding: 24px 8px 40px; position: relative; }
+        .la-page { padding: 24px 8px 40px; position: relative; display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 6rem); width: 100%; }
         .la-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
         .la-crumb { font-size: 12px; color: #6b5b8e; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .la-crumb::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); box-shadow: 0 0 0 4px var(--tc-soft-2); flex-shrink: 0; }
@@ -412,7 +412,7 @@ export default function SpecifiquePage() {
                         <h2>{selectedCategorie.description}</h2>
                         <h1>{selectedCategorie.titre}</h1>
                       </div>
-                      <button onClick={restart} className="ml-auto shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer">
+                      <button onClick={restart} className="ml-auto shrink-0 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer">
                         Quitter l'exercice
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                       </button>
