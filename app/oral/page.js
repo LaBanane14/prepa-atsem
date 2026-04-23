@@ -458,7 +458,7 @@ export default function OralPage() {
 
                 <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
                   <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">Intégrer votre CV</h3>
-                  <p className="text-[14px] text-slate-500 leading-relaxed mb-4">L'IA analyse votre parcours et génère 10 questions d'entretien personnalisées.</p>
+                  <p className="text-[14px] text-slate-500 leading-relaxed mb-4">Nous analysons votre parcours. Préparation des 10 questions d'entretien personnalisées.</p>
 
                   {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-3 rounded-xl mb-4 text-center">{error}</div>}
 
