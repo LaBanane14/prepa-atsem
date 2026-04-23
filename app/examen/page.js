@@ -123,6 +123,7 @@ export default function ExamenPage() {
   const [hoveredRegion, setHoveredRegion] = useState(null)
   const [error, setError] = useState('')
   const [loadingStep, setLoadingStep] = useState(0)
+  const [loadingProgress, setLoadingProgress] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
 
   // QCM state
@@ -163,13 +164,19 @@ export default function ExamenPage() {
     })
   }, [])
 
-  // Loading animation — 5s par étape, step 4 reste en loading
+  // Loading progress — asymptotique, démarre doucement puis ralentit vers 99%
   useEffect(() => {
-    if (step !== 'loading') return
-    const t1 = setTimeout(() => setLoadingStep(1), 5000)
-    const t2 = setTimeout(() => setLoadingStep(2), 10000)
-    const t3 = setTimeout(() => setLoadingStep(3), 15000)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    if (step !== 'loading') { setLoadingProgress(0); setLoadingStep(0); return }
+    const t0 = performance.now()
+    let raf
+    const tick = (now) => {
+      const t = (now - t0) / 1000
+      const v = 99 * (1 - Math.exp(-Math.pow(t, 1.5) / 18))
+      setLoadingProgress(v)
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [step])
 
   // Correcting animation
@@ -389,6 +396,39 @@ export default function ExamenPage() {
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
+
+        /* === LoaderArc (écran de chargement examen) === */
+        .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
+        .la-page { padding: 24px 8px 40px; position: relative; width: 100%; }
+        .la-frame { background: white; border-radius: 24px; border: 1px solid #ece9f0; padding: 32px 28px 28px; max-width: 880px; margin: 0 auto; width: 100%; position: relative; overflow: hidden; box-sizing: border-box; }
+        @media (min-width: 640px) { .la-frame { padding: 48px 48px 40px; border-radius: 28px; } }
+        .la-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--tc-soft-2), transparent 60%); pointer-events: none; }
+        .la-frame > * { position: relative; }
+        .lf-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .lf-icon-chip { width: 56px; height: 56px; border-radius: 16px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; flex-shrink: 0; }
+        .lf-head-text { flex: 1; min-width: 0; }
+        .lf-head-text h2 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); }
+        .lf-head-text h1 { margin: 2px 0 0; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
+        .lf-title { font-size: 30px; font-weight: 900; letter-spacing: -0.025em; margin: 8px 0 12px; line-height: 1.05; }
+        @media (min-width: 640px) { .lf-title { font-size: 42px; } }
+        .lf-title em { font-style: normal; background: linear-gradient(135deg, var(--tc-main) 0%, var(--tc-bright) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .lf-sub { font-size: 15px; line-height: 1.55; color: #5e5270; margin: 0 0 32px; max-width: 540px; }
+        .anim-arc { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 16px 0 8px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .anim-arc { gap: 56px; } }
+        .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
+        .arc-svg { transform: rotate(-90deg); }
+        .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
+        .arc-fill { stroke: var(--tc-main, #f59e0b); stroke-width: 10; fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.15s linear; }
+        .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
+        .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
+        .arc-count { font-size: 12px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.08em; text-transform: uppercase; }
+        .arc-count b { color: var(--tc-main); }
+        .arc-side { flex: 1; min-width: 220px; max-width: 320px; }
+        .arc-step-num { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .arc-step-num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--tc-main); }
+        .arc-side h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
+        .arc-side p { margin: 0; font-size: 14px; line-height: 1.55; color: #5e5270; }
         @keyframes bellSwing { 0%, 100% { transform: rotate(0deg); } 15% { transform: rotate(8deg); } 30% { transform: rotate(-6deg); } 45% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 75% { transform: rotate(0deg); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
@@ -545,118 +585,61 @@ export default function ExamenPage() {
             </div>
           )}
 
-          {/* ===== LOADING ===== */}
-          {step === 'loading' && (
-            <div className="animate-fade-in min-h-full lg:h-[calc(100vh-2.5rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md sm:max-w-xl w-full flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8" style={{fontFamily: "'Nunito', sans-serif"}}>
-                <div className="mb-6 sm:mb-8">
-                  <svg viewBox="0 0 200 140" className="w-48 h-32 sm:w-56 sm:h-36" xmlns="http://www.w3.org/2000/svg">
-                    {/* Ciel */}
-                    <rect width="200" height="140" fill="#e0f2fe"/>
-                    {/* Soleil qui tourne */}
-                    <g>
-                      <circle cx="170" cy="30" r="16" fill="#fbbf24"/>
-                      <g stroke="#fbbf24" strokeWidth="2" strokeLinecap="round">
-                        <line x1="170" y1="8" x2="170" y2="3"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
-                        <line x1="170" y1="52" x2="170" y2="57"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
-                        <line x1="148" y1="30" x2="143" y2="30"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
-                        <line x1="192" y1="30" x2="197" y2="30"><animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/></line>
-                      </g>
-                      <animateTransform attributeName="transform" type="rotate" from="0 170 30" to="360 170 30" dur="20s" repeatCount="indefinite"/>
-                    </g>
-                    {/* Prairie */}
-                    <rect x="0" y="100" width="200" height="40" fill="#86efac" rx="0"/>
-                    <path d="M0 100 Q50 90 100 100 Q150 110 200 100 L200 140 L0 140Z" fill="#4ade80"/>
-                    {/* Herbe */}
-                    <g stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round">
-                      <line x1="15" y1="105" x2="13" y2="95"/><line x1="20" y1="103" x2="22" y2="93"/>
-                      <line x1="55" y1="107" x2="53" y2="97"/><line x1="60" y1="105" x2="62" y2="95"/>
-                      <line x1="140" y1="106" x2="138" y2="96"/><line x1="145" y1="104" x2="147" y2="94"/>
-                      <line x1="180" y1="105" x2="178" y2="95"/><line x1="185" y1="103" x2="187" y2="93"/>
-                    </g>
-                    {/* Petites fleurs */}
-                    <circle cx="30" cy="103" r="3" fill="#f472b6"/><circle cx="30" cy="103" r="1" fill="#fbbf24"/>
-                    <circle cx="160" cy="105" r="3" fill="#c084fc"/><circle cx="160" cy="105" r="1" fill="#fbbf24"/>
-                    <circle cx="120" cy="102" r="2.5" fill="#fb923c"/><circle cx="120" cy="102" r="0.8" fill="#fbbf24"/>
-                    {/* Maison qui pousse */}
-                    <g>
-                      <animateTransform attributeName="transform" type="translate" values="0 40;0 0" dur="8s" fill="freeze"/>
-                      <animate attributeName="opacity" values="0;0;1;1" dur="8s" fill="freeze" keyTimes="0;0.1;0.4;1"/>
-                      {/* Murs */}
-                      <rect x="60" y="68" width="40" height="32" fill="#fef3c7" stroke="#d97706" strokeWidth="1.5" rx="1"/>
-                      {/* Toit */}
-                      <path d="M55 68 L80 48 L105 68Z" fill="#dc2626" stroke="#b91c1c" strokeWidth="1.5" strokeLinejoin="round"/>
-                      {/* Porte */}
-                      <rect x="75" y="80" width="10" height="20" fill="#92400e" rx="1"/>
-                      <circle cx="83" cy="91" r="1" fill="#fbbf24"/>
-                      {/* Fenetre */}
-                      <rect x="64" y="75" width="8" height="8" fill="#bfdbfe" stroke="#d97706" strokeWidth="1" rx="0.5"/>
-                      <line x1="68" y1="75" x2="68" y2="83" stroke="#d97706" strokeWidth="0.8"/>
-                      <line x1="64" y1="79" x2="72" y2="79" stroke="#d97706" strokeWidth="0.8"/>
-                      {/* Cheminee */}
-                      <rect x="90" y="52" width="6" height="12" fill="#92400e" rx="0.5"/>
-                      {/* Fumee */}
-                      <circle cx="93" cy="48" r="3" fill="#94a3b8" opacity="0.4">
-                        <animate attributeName="cy" values="48;35;22" dur="3s" repeatCount="indefinite"/>
-                        <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.4;0.2;0" dur="3s" repeatCount="indefinite"/>
-                      </circle>
-                      <circle cx="95" cy="45" r="2.5" fill="#94a3b8" opacity="0.3">
-                        <animate attributeName="cy" values="45;32;19" dur="3s" repeatCount="indefinite" begin="1s"/>
-                        <animate attributeName="r" values="2.5;4;2" dur="3s" repeatCount="indefinite" begin="1s"/>
-                        <animate attributeName="opacity" values="0.3;0.15;0" dur="3s" repeatCount="indefinite" begin="1s"/>
-                      </circle>
-                    </g>
-                    {/* Arbre qui pousse */}
-                    <g>
-                      <animateTransform attributeName="transform" type="translate" values="0 30;0 0" dur="6s" fill="freeze"/>
-                      <animate attributeName="opacity" values="0;1;1" dur="4s" fill="freeze"/>
-                      {/* Tronc */}
-                      <rect x="33" y="78" width="6" height="22" fill="#92400e" rx="1"/>
-                      {/* Feuillage */}
-                      <circle cx="36" cy="68" r="14" fill="#22c55e" opacity="0.7"/>
-                      <circle cx="28" cy="72" r="10" fill="#16a34a" opacity="0.6"/>
-                      <circle cx="44" cy="72" r="10" fill="#16a34a" opacity="0.6"/>
-                      <circle cx="36" cy="60" r="10" fill="#4ade80" opacity="0.7"/>
-                      {/* Feuillage qui grandit */}
-                      <circle cx="36" cy="65" r="0" fill="#86efac" opacity="0.5">
-                        <animate attributeName="r" values="0;12" dur="6s" fill="freeze" begin="3s"/>
-                      </circle>
-                    </g>
-                    {/* Nuage qui passe */}
-                    <g opacity="0.6">
-                      <animate attributeName="opacity" values="0;0.6;0.6;0" dur="12s" repeatCount="indefinite"/>
-                      <ellipse rx="18" ry="8" fill="white">
-                        <animate attributeName="cx" values="-20;220" dur="12s" repeatCount="indefinite"/>
-                        <animate attributeName="cy" values="25;25" dur="12s" repeatCount="indefinite"/>
-                      </ellipse>
-                      <ellipse rx="12" ry="6" fill="white">
-                        <animate attributeName="cx" values="-10;230" dur="12s" repeatCount="indefinite"/>
-                        <animate attributeName="cy" values="20;20" dur="12s" repeatCount="indefinite"/>
-                      </ellipse>
-                    </g>
-                  </svg>
-                </div>
-                <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-2 text-center">Préparation de l'examen blanc...</h2>
-                <p className="text-slate-500 font-medium text-xs sm:text-sm text-center mb-6 sm:mb-8">Nous générons votre QCM de 20 questions.</p>
-                <div className="w-full max-w-md space-y-3">
-                  {[
-                    { label: 'Analyse des sujets CDG' },
-                    { label: 'Génération des 20 questions QCM' },
-                    { label: 'Répartition des 7 thématiques' },
-                    { label: 'Mise en forme de l\'épreuve' }
-                  ].map((ls, i) => (
-                    <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i <= loadingStep ? 'bg-yellow-50 border border-yellow-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
-                      <span className={`font-bold text-sm flex-grow ${i <= loadingStep ? 'text-yellow-700' : 'text-slate-400'}`}>{ls.label}</span>
-                      {i < loadingStep && <svg className="w-5 h-5 text-yellow-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
-                      {i === loadingStep && <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin shrink-0"></div>}
-                      <span className="text-xs font-bold text-slate-400">{i + 1}/4</span>
+          {/* ===== LOADING (arc style Spécifique, 4 étapes examen) ===== */}
+          {step === 'loading' && (() => {
+            const tv = { main: '#f59e0b', bright: '#fcd34d', tint: '#fef3c7', soft: 'rgba(245,158,11,0.18)', soft2: 'rgba(245,158,11,0.08)' }
+            const STEPS = [
+              { label: 'Analyse des sujets CDG', desc: 'Lecture des annales récentes et du référentiel officiel du concours ATSEM.', at: 0 },
+              { label: 'Génération des 20 questions QCM', desc: 'L\'IA rédige des énoncés réalistes, calibrés sur les situations concrètes du métier.', at: 25 },
+              { label: 'Répartition des 7 thématiques', desc: 'Statut, hygiène, santé, maladies, vie scolaire, développement, protection de l\'enfance.', at: 55 },
+              { label: 'Mise en forme de l\'épreuve', desc: 'Finalisation du QCM et préparation de la correction détaillée.', at: 85 },
+            ]
+            const progress = loadingProgress
+            const r = 92
+            const c = 2 * Math.PI * r
+            const offset = c - (progress / 100) * c
+            const shown = Math.max(1, Math.min(20, Math.round(progress / 5)))
+            const stepIdx = STEPS.reduce((a, s, i) => progress >= s.at ? i : a, 0)
+            return (
+              <div className="la-root animate-fade-in fixed top-14 lg:top-0 right-0 bottom-0 left-0 lg:left-[90px] z-40 flex items-center justify-center overflow-y-auto p-4" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
+                <div className="la-page">
+                  <div className="la-frame">
+                    <div className="lf-head">
+                      <div className="lf-icon-chip"><ClipboardCheck size={26} strokeWidth={1.8} /></div>
+                      <div className="lf-head-text">
+                        <h2>Concours ATSEM — conditions réelles</h2>
+                        <h1>Examen blanc{selectedRegion ? ` — ${selectedRegion}` : ''}</h1>
+                      </div>
+                      <button onClick={() => setStep('choix_region')} className="ml-auto shrink-0 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer">
+                        Quitter l'exercice
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      </button>
                     </div>
-                  ))}
+                    <h2 className="lf-title">Votre examen est <em>en préparation</em>.</h2>
+                    <p className="lf-sub">20 questions générées par IA à partir des annales CDG. Durée 45 min, note sur 20.</p>
+                    <div className="anim-arc">
+                      <div className="arc-wrap">
+                        <svg className="arc-svg" width="220" height="220" viewBox="0 0 220 220">
+                          <circle className="arc-track" cx="110" cy="110" r={r} />
+                          <circle className="arc-fill" cx="110" cy="110" r={r} strokeDasharray={c} strokeDashoffset={offset} />
+                        </svg>
+                        <div className="arc-center">
+                          <div className="arc-icon"><ClipboardCheck size={22} strokeWidth={1.8} /></div>
+                          <div className="arc-percent">{Math.round(progress)}%</div>
+                          <div className="arc-count"><b>{shown}</b> / 20 questions</div>
+                        </div>
+                      </div>
+                      <div className="arc-side">
+                        <div className="arc-step-num">Étape {stepIdx + 1}/{STEPS.length}</div>
+                        <h3>{STEPS[stepIdx].label}</h3>
+                        <p>{STEPS[stepIdx].desc}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* ===== EPREUVE QCM ===== */}
           {step === 'epreuve' && questions.length > 0 && (
