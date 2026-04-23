@@ -448,8 +448,11 @@ export default function SpecifiquePage() {
             const hasAnswered = !!validated[data.numero]
             const userAnswer = reponses[data.numero]
             const isCorrect = hasAnswered && userAnswer === data.reponse_correcte
+            const catColor = selectedCategorie.color
+            const catTint = selectedCategorie.tint
+            const catSoft = selectedCategorie.soft
             return (
-              <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-6 xl:gap-8 items-start w-full">
+              <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-6 xl:gap-8 items-start w-full" style={{'--c-color': catColor, '--c-tint': catTint, '--c-soft': catSoft}}>
 
                 {/* Colonne 1 : spacer */}
                 <div className="hidden xl:block"></div>
@@ -457,18 +460,18 @@ export default function SpecifiquePage() {
                 {/* Colonne 2 : QCM CARD */}
                 <div className="w-full max-w-2xl mx-auto xl:w-[650px] relative mt-2 sm:mt-4">
                   {/* Croix quitter */}
-                  <button onClick={restart} className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-20 w-9 h-9 sm:w-10 sm:h-10 bg-purple-800 hover:bg-purple-900 text-white rounded-full flex items-center justify-center transition shadow-lg cursor-pointer">
+                  <button onClick={restart} className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-20 w-9 h-9 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center transition shadow-lg cursor-pointer hover:brightness-90" style={{backgroundColor: catColor}}>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
 
-                  <div className="bg-purple-100/60 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 shadow-sm">
+                  <div className="rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 shadow-sm" style={{backgroundColor: catSoft}}>
                     <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
                       {/* Header */}
                       <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
                         <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{questions.length}</span>
-                        <span className="bg-purple-50 text-purple-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase">{selectedCategorie.titre}</span>
-                        <div className="absolute bottom-0 left-0 w-full h-2 bg-purple-100">
-                          <div className="h-full bg-purple-700 transition-all duration-500" style={{width: `${progress}%`}}></div>
+                        <span className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase" style={{backgroundColor: catTint, color: catColor}}>{selectedCategorie.titre}</span>
+                        <div className="absolute bottom-0 left-0 w-full h-2" style={{backgroundColor: catTint}}>
+                          <div className="h-full transition-all duration-500" style={{width: `${progress}%`, backgroundColor: catColor}}></div>
                         </div>
                       </div>
 
@@ -499,19 +502,26 @@ export default function SpecifiquePage() {
                                 circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                               }
                             } else if (isSelected) {
-                              optClass += 'border-purple-800 bg-purple-50 shadow-[0_0_0_4px_rgba(91,33,182,0.05)] cursor-pointer '
-                              letterClass += 'bg-purple-800 text-white '
-                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-purple-800 flex items-center justify-center"><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-800 rounded-full"></div></div>
+                              optClass += 'cursor-pointer '
+                              letterClass += 'text-white '
+                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center" style={{borderColor: catColor}}><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full" style={{backgroundColor: catColor}}></div></div>
                             } else {
                               optClass += 'border-slate-200 cursor-pointer hover:bg-slate-50 '
                               letterClass += 'bg-slate-100 text-slate-500 group-hover:bg-slate-200 '
                               circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                             }
 
+                            const optInlineStyle = (!hasAnswered && isSelected)
+                              ? { borderColor: catColor, backgroundColor: catTint }
+                              : {}
+                            const letterInlineStyle = (!hasAnswered && isSelected)
+                              ? { backgroundColor: catColor }
+                              : {}
+
                             return (
-                              <div key={lettre} className={optClass} onClick={() => selectAnswer(data.numero, lettre)}>
+                              <div key={lettre} className={optClass} style={optInlineStyle} onClick={() => selectAnswer(data.numero, lettre)}>
                                 <div className="flex items-center gap-3 sm:gap-4">
-                                  <span className={letterClass}>{lettre}</span>
+                                  <span className={letterClass} style={letterInlineStyle}>{lettre}</span>
                                   <span className="font-bold text-slate-800 text-sm sm:text-base">{prop.texte}</span>
                                 </div>
                                 {circleContent}
@@ -532,7 +542,8 @@ export default function SpecifiquePage() {
                         <button
                           onClick={handleAction}
                           disabled={!hasAnswered && !userAnswer}
-                          className={`flex-grow bg-purple-800 text-white font-bold py-3 px-4 rounded-xl transition-colors hover:bg-purple-900 flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          style={{backgroundColor: catColor}}
+                          className={`flex-grow text-white font-bold py-3 px-4 rounded-xl transition hover:brightness-90 flex items-center justify-center gap-2 text-sm sm:text-base shadow-md ${!hasAnswered && !userAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           {!hasAnswered ? (
                             <>Valider ma réponse <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></>
