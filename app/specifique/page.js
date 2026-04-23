@@ -33,7 +33,7 @@ export default function SpecifiquePage() {
   const [questions, setQuestions] = useState([])
   const [error, setError] = useState('')
   const [loadingCategorie, setLoadingCategorie] = useState(null)
-  const [loadingStep, setLoadingStep] = useState(0)
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   const [current, setCurrent] = useState(0)
   const [reponses, setReponses] = useState({}) // { numero: 'A' } — sélection (avant ou après validation)
@@ -56,14 +56,19 @@ export default function SpecifiquePage() {
     })
   }, [])
 
-  // Loading animation
+  // Loading progress (RAF-based, caps at 95% jusqu'à ce que l'API réponde)
   useEffect(() => {
-    if (step !== 'loading') return
-    setLoadingStep(0)
-    const t1 = setTimeout(() => setLoadingStep(1), 3000)
-    const t2 = setTimeout(() => setLoadingStep(2), 6000)
-    const t3 = setTimeout(() => setLoadingStep(3), 9000)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    if (step !== 'loading') { setLoadingProgress(0); return }
+    const t0 = performance.now()
+    const duration = 18000
+    let raf
+    const tick = (now) => {
+      const v = Math.min(95, ((now - t0) / duration) * 100)
+      setLoadingProgress(v)
+      if (v < 95) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [step])
 
   // Scroll-to-top
@@ -215,6 +220,51 @@ export default function SpecifiquePage() {
         .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
         .v1-bg > * { position: relative; z-index: 1; }
+
+        /* === LoaderArc (écran de chargement après choix de catégorie) === */
+        .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
+        .la-page { padding: 24px 8px 40px; position: relative; }
+        .la-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 420px; background: radial-gradient(ellipse at 15% 0%, var(--tc-soft), transparent 55%), radial-gradient(ellipse at 85% 10%, rgba(251,191,36,0.10), transparent 55%), radial-gradient(ellipse at 55% 0%, var(--tc-soft-2), transparent 60%); pointer-events: none; z-index: 0; }
+        .la-page > * { position: relative; z-index: 1; }
+        .la-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
+        .la-crumb { font-size: 12px; color: #6b5b8e; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .la-crumb::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); box-shadow: 0 0 0 4px var(--tc-soft-2); flex-shrink: 0; }
+        .la-crumb span { color: #1a1325; }
+        .la-crumb .sep { color: #bfb3d6; font-weight: 700; }
+        .la-frame { background: white; border-radius: 24px; border: 1px solid #ece9f0; padding: 32px 28px 28px; max-width: 880px; margin: 0 auto; width: 100%; position: relative; overflow: hidden; box-sizing: border-box; }
+        @media (min-width: 640px) { .la-frame { padding: 48px 48px 40px; border-radius: 28px; } }
+        .la-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--tc-soft-2), transparent 60%); pointer-events: none; }
+        .la-frame > * { position: relative; }
+        .lf-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .lf-icon-chip { width: 56px; height: 56px; border-radius: 16px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; flex-shrink: 0; }
+        .lf-head-text { flex: 1; min-width: 0; }
+        .lf-head-text h2 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); }
+        .lf-head-text h1 { margin: 2px 0 0; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
+        .lf-status { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: #6b5b8e; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; border-radius: 999px; background: #f9f6ff; border: 1px solid #ece9f0; flex-shrink: 0; }
+        .lf-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); animation: lf-status-pulse 1.4s infinite; }
+        @keyframes lf-status-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+        .lf-title { font-size: 30px; font-weight: 900; letter-spacing: -0.025em; margin: 8px 0 12px; line-height: 1.05; }
+        @media (min-width: 640px) { .lf-title { font-size: 42px; } }
+        .lf-title em { font-style: normal; background: linear-gradient(135deg, var(--tc-main) 0%, var(--tc-bright) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .lf-sub { font-size: 15px; line-height: 1.55; color: #5e5270; margin: 0 0 32px; max-width: 540px; }
+        .anim-arc { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 16px 0 8px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .anim-arc { gap: 56px; } }
+        .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
+        .arc-svg { transform: rotate(-90deg); }
+        .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
+        .arc-fill { stroke: var(--tc-main); stroke-width: 10; fill: none; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--tc-soft-2)); transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
+        .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
+        .arc-count { font-size: 12px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.08em; text-transform: uppercase; }
+        .arc-count b { color: var(--tc-main); }
+        .arc-side { flex: 1; min-width: 220px; max-width: 320px; }
+        .arc-side h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
+        .arc-side p { margin: 0; font-size: 14px; line-height: 1.55; color: #5e5270; }
+        .lf-footer { display: flex; gap: 10px; margin-top: 28px; padding-top: 20px; border-top: 1px dashed #ece9f0; font-size: 11px; font-weight: 700; flex-wrap: wrap; }
+        .lf-pill { padding: 6px 12px; border-radius: 999px; background: #faf8ff; border: 1px solid #ece9f0; color: #5e5270; display: flex; align-items: center; gap: 8px; }
+        .lf-pill b { color: var(--tc-main); font-weight: 900; }
+        .lf-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--tc-main); }
       `}</style>
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
@@ -325,37 +375,81 @@ export default function SpecifiquePage() {
             </div>
           )}
 
-          {/* ===== LOADING ===== */}
-          {step === 'loading' && selectedCategorie && (
-            <div className="animate-fade-in min-h-[calc(100vh-8rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-md w-full p-6 sm:p-8 text-center">
-                <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                </div>
-                <h2 className="text-xl font-black text-slate-900 mb-2">Génération en cours…</h2>
-                <p className="text-sm text-slate-500 font-medium mb-6">QCM sur <span className="text-purple-600 font-black">{selectedCategorie.titre}</span></p>
-                <div className="space-y-2.5 text-left">
-                  {[
-                    'Sélection des thèmes pertinents',
-                    'Rédaction des énoncés et propositions',
-                    'Préparation des explications',
-                    'Finalisation du QCM'
-                  ].map((s, i) => (
-                    <div key={i} className={`flex items-center gap-3 transition-opacity ${i <= loadingStep ? 'opacity-100' : 'opacity-30'}`}>
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${i < loadingStep ? 'bg-emerald-500' : i === loadingStep ? 'bg-purple-600' : 'bg-slate-200'}`}>
-                        {i < loadingStep ? (
-                          <CheckCircle2 size={14} className="text-white" strokeWidth={2.5} />
-                        ) : i === loadingStep ? (
-                          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                        ) : null}
-                      </div>
-                      <span className={`text-sm font-medium ${i <= loadingStep ? 'text-slate-700' : 'text-slate-400'}`}>{s}</span>
+          {/* ===== LOADING (LoaderArc) ===== */}
+          {step === 'loading' && selectedCategorie && (() => {
+            const THEME_VARS = {
+              institutionnel: { main: '#8b5cf6', bright: '#c4b5fd', tint: '#ede9fe', soft: 'rgba(139,92,246,0.18)', soft2: 'rgba(139,92,246,0.08)' },
+              hygiene:        { main: '#10b981', bright: '#6ee7b7', tint: '#d1fae5', soft: 'rgba(16,185,129,0.18)',  soft2: 'rgba(16,185,129,0.08)' },
+              sante:          { main: '#64748b', bright: '#94a3b8', tint: '#e2e8f0', soft: 'rgba(100,116,139,0.18)', soft2: 'rgba(100,116,139,0.08)' },
+              pedagogie:      { main: '#f59e0b', bright: '#fcd34d', tint: '#fef3c7', soft: 'rgba(245,158,11,0.18)',  soft2: 'rgba(245,158,11,0.08)' },
+              relations:      { main: '#0ea5e9', bright: '#7dd3fc', tint: '#e0f2fe', soft: 'rgba(14,165,233,0.18)',  soft2: 'rgba(14,165,233,0.08)' },
+              calculs:        { main: '#ec4899', bright: '#f9a8d4', tint: '#fce7f3', soft: 'rgba(236,72,153,0.18)',  soft2: 'rgba(236,72,153,0.08)' },
+            }
+            const tv = THEME_VARS[selectedCategorie.id] || THEME_VARS.institutionnel
+            const STEPS = [
+              { label: "Analyse du référentiel de la catégorie",   at: 0 },
+              { label: "Sélection des concepts à évaluer",         at: 18 },
+              { label: "Génération des 10 questions par l'IA",     at: 36 },
+              { label: "Construction des distracteurs plausibles", at: 58 },
+              { label: "Vérification des réponses attendues",      at: 78 },
+              { label: "Finalisation et mise en forme",            at: 92 },
+            ]
+            const progress = loadingProgress
+            const r = 92
+            const c = 2 * Math.PI * r
+            const offset = c - (progress / 100) * c
+            const shown = Math.max(1, Math.min(10, Math.round(progress / 10)))
+            const stepIdx = STEPS.reduce((a, s, i) => progress >= s.at ? i : a, 0)
+            const Icon = selectedCategorie.icon
+            return (
+              <div className="la-root animate-fade-in" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
+                <div className="la-page">
+                  <div className="la-topbar">
+                    <div className="la-crumb">
+                      Quiz <span className="sep">›</span> <span>{selectedCategorie.titre}</span> <span className="sep">›</span> Préparation
                     </div>
-                  ))}
+                  </div>
+                  <div className="la-frame">
+                    <div className="lf-head">
+                      <div className="lf-icon-chip"><Icon size={26} strokeWidth={1.8} /></div>
+                      <div className="lf-head-text">
+                        <h2>{selectedCategorie.description}</h2>
+                        <h1>{selectedCategorie.titre}</h1>
+                      </div>
+                      <div className="lf-status">
+                        <span className="lf-status-dot" /> Génération IA
+                      </div>
+                    </div>
+                    <h2 className="lf-title">Votre quiz est <em>en préparation</em>.</h2>
+                    <p className="lf-sub">10 questions générées sur mesure à partir du référentiel de la catégorie <b>{selectedCategorie.titre}</b>. L'IA finalise — quelques secondes.</p>
+                    <div className="anim-arc">
+                      <div className="arc-wrap">
+                        <svg className="arc-svg" width="220" height="220" viewBox="0 0 220 220">
+                          <circle className="arc-track" cx="110" cy="110" r={r} />
+                          <circle className="arc-fill" cx="110" cy="110" r={r} strokeDasharray={c} strokeDashoffset={offset} />
+                        </svg>
+                        <div className="arc-center">
+                          <div className="arc-icon"><Icon size={22} strokeWidth={1.8} /></div>
+                          <div className="arc-percent">{Math.round(progress)}%</div>
+                          <div className="arc-count"><b>{shown}</b> / 10 questions</div>
+                        </div>
+                      </div>
+                      <div className="arc-side">
+                        <h3>{STEPS[stepIdx].label}</h3>
+                        <p>L'IA rédige des questions calibrées sur le thème {selectedCategorie.titre.toLowerCase()}. Vous commencez dès que c'est prêt.</p>
+                      </div>
+                    </div>
+                    <div className="lf-footer">
+                      <span className="lf-pill"><b>10</b> questions</span>
+                      <span className="lf-pill"><b>4</b> réponses par question</span>
+                      <span className="lf-pill"><b>~4 min</b> de session</span>
+                      <span className="lf-pill" style={{ marginLeft: 'auto' }}>Étape <b>{stepIdx + 1}/{STEPS.length}</b></span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* ===== ÉPREUVE (design exact /qcm) ===== */}
           {step === 'epreuve' && data && selectedCategorie && (() => {
