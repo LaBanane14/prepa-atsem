@@ -63,8 +63,8 @@ export default function SpecifiquePage() {
     let raf
     const tick = (now) => {
       const t = (now - t0) / 1000
-      // Atteint ~50% à 4s, ~75% à 9s, ~90% à 17s, ~95% à 24s, ~99% à 40s
-      const v = 99 * (1 - Math.exp(-t / 6))
+      // Démarre doucement puis asymptote vers 99% : ~5% à 1s, ~15% à 3s, ~46% à 5s, ~82% à 10s
+      const v = 99 * (1 - Math.exp(-Math.pow(t, 1.5) / 18))
       setLoadingProgress(v)
       raf = requestAnimationFrame(tick)
     }
@@ -260,6 +260,8 @@ export default function SpecifiquePage() {
         .arc-count { font-size: 12px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.08em; text-transform: uppercase; }
         .arc-count b { color: var(--tc-main); }
         .arc-side { flex: 1; min-width: 220px; max-width: 320px; }
+        .arc-step-num { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .arc-step-num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--tc-main); }
         .arc-side h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
         .arc-side p { margin: 0; font-size: 14px; line-height: 1.55; color: #5e5270; }
         .lf-footer { display: flex; gap: 10px; margin-top: 28px; padding-top: 20px; border-top: 1px dashed #ece9f0; font-size: 11px; font-weight: 700; flex-wrap: wrap; }
@@ -432,6 +434,7 @@ export default function SpecifiquePage() {
                         </div>
                       </div>
                       <div className="arc-side">
+                        <div className="arc-step-num">Étape {stepIdx + 1}/{STEPS.length}</div>
                         <h3>{STEPS[stepIdx].label}</h3>
                         <p>L'IA rédige des questions calibrées sur le thème {selectedCategorie.titre.toLowerCase()}. Vous commencez dès que c'est prêt.</p>
                       </div>
