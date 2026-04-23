@@ -502,7 +502,7 @@ export default function ExamenPage() {
               </a>
 
               <div className="mb-6 sm:mb-8 max-w-3xl pr-14">
-                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre<br/><em className="v1-hero-em">région</em> d'examen.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
 
