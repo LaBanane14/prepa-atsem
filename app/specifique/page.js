@@ -468,10 +468,10 @@ export default function SpecifiquePage() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
 
-                  <div className="rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 shadow-sm" style={{backgroundColor: catSoft}}>
-                    <div className="bg-white rounded-xl sm:rounded-[2rem] shadow-xl flex flex-col overflow-hidden relative">
+                  <div className="rounded-2xl sm:rounded-[2rem] p-3 sm:p-4 shadow-sm" style={{backgroundColor: catSoft}}>
+                    <div className="bg-white rounded-xl sm:rounded-[1.5rem] shadow-xl flex flex-col overflow-hidden relative">
                       {/* Header */}
-                      <div className="relative flex flex-wrap justify-between items-center p-3 sm:p-5 border-b border-slate-100 gap-2">
+                      <div className="relative flex flex-wrap justify-between items-center p-2.5 sm:p-4 border-b border-slate-100 gap-2">
                         <span className="text-slate-600 font-bold text-xs sm:text-sm tracking-wide">Question {current + 1}/{questions.length}</span>
                         <span className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold tracking-wide uppercase" style={{backgroundColor: catTint, color: catColor}}>{selectedCategorie.titre}</span>
                         <div className="absolute bottom-0 left-0 w-full h-2" style={{backgroundColor: catTint}}>
@@ -480,14 +480,14 @@ export default function SpecifiquePage() {
                       </div>
 
                       {/* Question */}
-                      <div className="p-4 sm:p-6 flex-grow">
-                        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-4 sm:mb-5 leading-relaxed">{data.enonce}</h2>
-                        <div className="space-y-2 sm:space-y-3">
+                      <div className="p-3 sm:p-5 flex-grow">
+                        <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4 leading-snug">{data.enonce}</h2>
+                        <div className="space-y-1.5 sm:space-y-2">
                           {(data.propositions || []).map(prop => {
                             const lettre = String(prop.lettre).toUpperCase()
                             const isSelected = userAnswer === lettre
                             const isGood = data.reponse_correcte === lettre
-                            let optClass = 'p-3 sm:p-4 border rounded-xl flex items-center group transition-all '
+                            let optClass = 'p-2.5 sm:p-3 border rounded-xl flex items-center group transition-all '
                             let letterClass = 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold flex items-center justify-center text-xs sm:text-sm shrink-0 transition-all '
 
                             if (hasAnswered) {
@@ -529,7 +529,7 @@ export default function SpecifiquePage() {
                       </div>
 
                       {/* Actions */}
-                      <div className="p-4 sm:p-5 pt-0 flex gap-3">
+                      <div className="p-3 sm:p-4 pt-0 flex gap-3">
                         {current > 0 && (
                           <button onClick={goPrev} className="bg-slate-100 text-slate-700 font-bold py-3 px-4 sm:px-5 rounded-xl transition-colors hover:bg-slate-200 flex items-center justify-center gap-2 text-sm cursor-pointer">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg>
