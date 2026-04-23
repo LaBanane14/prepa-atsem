@@ -382,7 +382,7 @@ export default function OralPage() {
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Choisissez votre mode d'entraînement.</p>
               </div>
-              <div className="max-w-3xl">
+              <div className="max-w-3xl mx-auto">
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Card 1: Avec mon CV */}
