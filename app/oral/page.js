@@ -36,6 +36,7 @@ export default function OralPage() {
 
   // Mode: null = selection, 'cv', 'aleatoire'
   const [mode, setMode] = useState(null)
+  const [showCVPopup, setShowCVPopup] = useState(false)
   // Steps: null (mode selection), 'upload', 'loading', 'questions', 'done'
   const [step, setStep] = useState(null)
   const [questions, setQuestions] = useState([])
@@ -96,7 +97,8 @@ export default function OralPage() {
   // === MODE CV ===
   function startModeCV() {
     setMode('cv')
-    setStep('upload')
+    setError('')
+    setShowCVPopup(true)
   }
 
   async function handleUpload(e) {
@@ -105,6 +107,7 @@ export default function OralPage() {
     if (file.type !== 'application/pdf') { setError('Seuls les fichiers PDF sont acceptés.'); return }
     if (file.size > 10 * 1024 * 1024) { setError('Le fichier ne doit pas dépasser 10 Mo.'); return }
 
+    setShowCVPopup(false)
     setFileName(file.name)
     setError('')
     setUploadSuccess(true)
@@ -119,7 +122,7 @@ export default function OralPage() {
       const startTime = Date.now()
       const res = await fetch('/api/oral', { method: 'POST', body: formData })
       const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || "Erreur lors de l'analyse du CV."); setStep('upload'); return }
+      if (!res.ok || data.error) { setError(data.error || "Erreur lors de l'analyse du CV."); setStep(null); setShowCVPopup(true); return }
       const elapsedMs = Date.now() - startTime
       if (elapsedMs < 9000) await new Promise(r => setTimeout(r, 9000 - elapsedMs))
       setQuestions(data.questions)
@@ -130,7 +133,8 @@ export default function OralPage() {
       setStep('questions')
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
-      setStep('upload')
+      setStep(null)
+      setShowCVPopup(true)
     }
   }
 
@@ -435,41 +439,38 @@ export default function OralPage() {
             </div>
           )}
 
-          {/* ===== UPLOAD (Mode CV) ===== */}
-          {step === 'upload' && (
-            <div className="animate-fade-in relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5">
-              {/* Croix retour — flottante en haut à droite */}
-              <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-              </a>
-
-              <div className="mb-10 sm:mb-12 max-w-3xl pr-14">
-                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Déposez votre <em className="v1-hero-em">CV</em>.</h1>
-                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">L'IA analyse votre parcours et génère 10 questions d'entretien personnalisées.</p>
-              </div>
-
-              <div className="max-w-3xl mx-auto">
-                {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-4 rounded-xl mb-6 text-center">{error}</div>}
-
-                <label className="block cursor-pointer mb-4">
-                  <div className="bg-white border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-3xl p-8 sm:p-12 lg:p-16 text-center transition-all hover:shadow-lg hover:shadow-indigo-100 group">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+          {/* ===== POPUP UPLOAD CV ===== */}
+          {showCVPopup && (
+            <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCVPopup(false)}>
+              <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-fade-in overflow-hidden" onClick={e => e.stopPropagation()}>
+                <div className="bg-slate-900 px-6 py-5 relative">
+                  <button onClick={() => setShowCVPopup(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 text-white transition cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                  <h2 className="text-lg font-black text-white pr-8">Intégrer votre CV</h2>
+                  <p className="text-slate-400 text-sm font-medium mt-1">L'IA génère 10 questions d'entretien à partir de votre parcours.</p>
+                </div>
+                <div className="p-6">
+                  {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-3 rounded-xl mb-4 text-center">{error}</div>}
+                  <label className="block cursor-pointer">
+                    <div className="bg-white border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-2xl p-6 sm:p-8 text-center transition-all hover:bg-indigo-50 group">
+                      <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+                      </div>
+                      <p className="font-black text-slate-900 mb-1">Déposez votre CV ici</p>
+                      <p className="text-slate-500 text-xs font-medium mb-4">ou cliquez pour parcourir vos fichiers</p>
+                      <div className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md">
+                        <Upload size={16} strokeWidth={2} />
+                        Importer mon CV
+                      </div>
+                      <p className="text-[11px] text-slate-400 mt-3">PDF uniquement — 10 Mo max</p>
                     </div>
-                    <p className="font-black text-slate-900 text-xl mb-2">Déposez votre CV ici</p>
-                    <p className="text-slate-500 font-medium mb-6">ou cliquez pour parcourir vos fichiers</p>
-                    <div className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-indigo-200">
-                      <Upload size={18} strokeWidth={2} />
-                      Importer mon CV
-                    </div>
-                    <p className="text-xs text-slate-400 mt-4">PDF uniquement — 10 Mo max</p>
+                    <input type="file" accept=".pdf,application/pdf" onChange={handleUpload} className="hidden" />
+                  </label>
+                  <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
+                    <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+                    <p className="text-xs text-amber-800 font-medium"><strong>Pas de notation !</strong> Le but est seulement de vous préparer au mieux pour le jour J.</p>
                   </div>
-                  <input type="file" accept=".pdf,application/pdf" onChange={handleUpload} className="hidden" />
-                </label>
-
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
-                  <svg className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-                  <p className="text-sm text-amber-800 font-medium"><strong>Pas de notation !</strong> Le but est seulement de vous préparer au mieux pour le jour J.</p>
                 </div>
               </div>
             </div>
