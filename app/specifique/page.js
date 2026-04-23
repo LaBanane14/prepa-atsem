@@ -225,8 +225,6 @@ export default function SpecifiquePage() {
         /* === LoaderArc (écran de chargement après choix de catégorie) === */
         .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
         .la-page { padding: 24px 8px 40px; position: relative; }
-        .la-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 420px; background: radial-gradient(ellipse at 15% 0%, var(--tc-soft), transparent 55%), radial-gradient(ellipse at 85% 10%, rgba(251,191,36,0.10), transparent 55%), radial-gradient(ellipse at 55% 0%, var(--tc-soft-2), transparent 60%); pointer-events: none; z-index: 0; }
-        .la-page > * { position: relative; z-index: 1; }
         .la-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
         .la-crumb { font-size: 12px; color: #6b5b8e; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .la-crumb::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); box-shadow: 0 0 0 4px var(--tc-soft-2); flex-shrink: 0; }
@@ -242,6 +240,8 @@ export default function SpecifiquePage() {
         .lf-head-text h2 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); }
         .lf-head-text h1 { margin: 2px 0 0; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
         .lf-status { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: #6b5b8e; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; border-radius: 999px; background: #f9f6ff; border: 1px solid #ece9f0; flex-shrink: 0; }
+        .lf-quit { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: #5e5270; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; border-radius: 999px; background: #f9f6ff; border: 1px solid #ece9f0; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; flex-shrink: 0; font-family: inherit; }
+        .lf-quit:hover { background: #1a1325; color: #fff; border-color: #1a1325; }
         .lf-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); animation: lf-status-pulse 1.4s infinite; }
         @keyframes lf-status-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
         .lf-title { font-size: 30px; font-weight: 900; letter-spacing: -0.025em; margin: 8px 0 12px; line-height: 1.05; }
@@ -417,6 +417,10 @@ export default function SpecifiquePage() {
                         <h2>{selectedCategorie.description}</h2>
                         <h1>{selectedCategorie.titre}</h1>
                       </div>
+                      <button onClick={restart} className="lf-quit" title="Quitter l'exercice">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        Quitter l'exercice
+                      </button>
                     </div>
                     <h2 className="lf-title">Votre quiz est <em>en préparation</em>.</h2>
                     <p className="lf-sub">10 questions générées sur mesure à partir du référentiel de la catégorie <b>{selectedCategorie.titre}</b>.</p>
