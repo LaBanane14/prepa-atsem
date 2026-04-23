@@ -138,9 +138,7 @@ export default function OralPage() {
   async function startModeAleatoire() {
     setMode('aleatoire')
     setError('')
-    setStep('loading')
-    setLoadingStep(0)
-
+    // Pas d'écran de chargement : la sélection est locale et instantanée
     try {
       const res = await fetch('/api/oral', {
         method: 'POST',
@@ -148,7 +146,7 @@ export default function OralPage() {
         body: JSON.stringify({ action: 'aleatoire', nb_questions: 20 })
       })
       const data = await res.json()
-      if (!res.ok || data.error) { setError(data.error || 'Erreur lors du chargement des questions.'); setStep(null); setMode(null); return }
+      if (!res.ok || data.error) { setError(data.error || 'Erreur lors du chargement des questions.'); setMode(null); return }
       setQuestions(data.questions)
       setElapsed(0)
       setTimerActive(true)
@@ -158,7 +156,6 @@ export default function OralPage() {
       setStep('questions')
     } catch (err) {
       setError('Erreur de connexion. Réessayez.')
-      setStep(null)
       setMode(null)
     }
   }
