@@ -24,6 +24,25 @@ async function callClaude(system, userPrompt) {
   return '{' + message.content[0].text
 }
 
+// Rebrassage des propositions pour casser le biais LLM (tendance à placer la bonne réponse en A/B).
+// Mélange aléatoire + réattribution des lettres A, B, C, D... dans l'ordre.
+function shuffleAnswers(question) {
+  const props = Array.isArray(question.propositions) ? question.propositions : []
+  if (props.length < 2) return question
+  const correctLetter = String(question.reponse_correcte || '').toUpperCase()
+  const correctProp = props.find(p => String(p.lettre).toUpperCase() === correctLetter)
+  if (!correctProp) return question
+  const shuffled = [...props].sort(() => Math.random() - 0.5)
+  const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  const newProps = shuffled.map((p, i) => ({ ...p, lettre: LETTERS[i] }))
+  const newCorrectIdx = shuffled.findIndex(p => p === correctProp)
+  return {
+    ...question,
+    propositions: newProps,
+    reponse_correcte: LETTERS[newCorrectIdx]
+  }
+}
+
 function parseJSON(text) {
   function clean(str) {
     return str.replace(/```json\n?/g, '').replace(/```\n?/g, '')
@@ -97,7 +116,7 @@ export async function POST(request) {
         }
       }
       if (!data) return NextResponse.json({ error: 'Erreur de génération : ' + (lastErr || 'JSON invalide après plusieurs tentatives') }, { status: 500 })
-      const questions = (data.questions || []).map((q, i) => ({
+      const questions = (data.questions || []).map((q, i) => shuffleAnswers({
         numero: q.numero || i + 1,
         enonce: q.enonce || '',
         propositions: q.propositions || [],
