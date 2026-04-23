@@ -501,7 +501,7 @@ export default function ExamenPage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
               </a>
 
-              <div className="mb-6 sm:mb-8 max-w-3xl pr-14">
+              <div className="mb-10 sm:mb-12 max-w-3xl pr-14">
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre<br/><em className="v1-hero-em">région</em> d'examen.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
