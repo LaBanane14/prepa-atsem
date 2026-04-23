@@ -462,7 +462,7 @@ export default function SpecifiquePage() {
                 <div className="hidden xl:block"></div>
 
                 {/* Colonne 2 : QCM CARD */}
-                <div className="w-full max-w-2xl mx-auto xl:w-[650px] relative mt-2 sm:mt-4">
+                <div className="w-full max-w-[540px] mx-auto xl:w-[520px] relative mt-2 sm:mt-4">
                   {/* Croix quitter */}
                   <button onClick={restart} className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 z-20 w-9 h-9 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center transition shadow-lg cursor-pointer hover:brightness-90" style={{backgroundColor: catColor}}>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
