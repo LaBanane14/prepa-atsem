@@ -501,6 +501,20 @@ export default function ExamenPage() {
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
 
+              {/* Légende niveaux (remontée sous le sous-titre) */}
+              <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+                <span className="text-slate-500 font-bold uppercase tracking-wider">Barème :</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-black">
+                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>Normal
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 font-black">
+                  <span className="w-2 h-2 rounded-full bg-rose-400"></span>Difficile
+                </span>
+              </div>
+
               <div className="max-w-[400px] mx-auto">
                 <div className="p-2 sm:p-4">
                   {error && (
@@ -510,30 +524,14 @@ export default function ExamenPage() {
                     </div>
                   )}
 
-                  {/* Légende niveaux (au-dessus) */}
-                  <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs">
-                    <span className="text-slate-500 font-bold uppercase tracking-wider">Barème :</span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-black">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>Souple
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-black">
-                      <span className="w-2 h-2 rounded-full bg-amber-500"></span>Normal
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 font-black">
-                      <span className="w-2 h-2 rounded-full bg-rose-400"></span>Difficile
-                    </span>
-                  </div>
-
                   {/* Indication région survolée */}
                   <div className="text-center mb-3 h-6">
-                    {hoveredRegion ? (
+                    {hoveredRegion && (
                       <span className="text-sm font-black text-slate-900">
                         {(hoveredRegion === 'pac' || hoveredRegion === 'cor')
                           ? 'PACA + Corse'
                           : REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
                       </span>
-                    ) : (
-                      <span className="text-sm text-slate-400">Survolez une région puis cliquez pour lancer l'examen</span>
                     )}
                   </div>
 
