@@ -388,6 +388,7 @@ export default function ExamenPage() {
       <style>{`
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
         @keyframes bellSwing { 0%, 100% { transform: rotate(0deg); } 15% { transform: rotate(8deg); } 30% { transform: rotate(-6deg); } 45% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 75% { transform: rotate(0deg); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
@@ -495,17 +496,12 @@ export default function ExamenPage() {
           {/* ===== CHOIX RÉGION ===== */}
           {step === 'choix_region' && (
             <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
+              <div className="max-w-3xl mx-auto mb-8 px-4 sm:px-0">
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
+              </div>
+
               <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-
-                {/* Header sombre */}
-                <div className="bg-slate-900 px-6 py-4 sm:py-5 text-center">
-                  <h1 className="text-xl sm:text-2xl font-black text-white mb-2 flex items-center justify-center gap-2">
-                    <MapPin size={22} strokeWidth={2.2} className="text-yellow-400" />
-                    Choisissez votre région d'examen
-                  </h1>
-                  <p className="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto">Cela permettra de vous habituer aux barèmes réels.</p>
-                </div>
-
                 <div className="p-5 sm:p-8">
                   {error && (
                     <div className="mb-5 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
