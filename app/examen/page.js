@@ -495,9 +495,9 @@ export default function ExamenPage() {
 
           {/* ===== CHOIX RÉGION ===== */}
           {step === 'choix_region' && (
-            <div className="animate-fade-in max-w-4xl mx-auto py-4 sm:py-8">
-              <div className="mb-10 sm:mb-12 max-w-3xl mx-auto px-4 sm:px-0">
-                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
+            <div className="animate-fade-in max-w-4xl mx-auto py-2 sm:py-4">
+              <div className="mb-5 sm:mb-6 max-w-3xl mx-auto px-4 sm:px-0">
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-3 sm:mb-4">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
 
@@ -515,29 +515,27 @@ export default function ExamenPage() {
                 </span>
               </div>
 
-              <div className="max-w-[400px] mx-auto">
-                <div className="p-2 sm:p-4">
-                  {error && (
-                    <div className="mb-5 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
-                      <XCircle size={18} className="shrink-0" />
-                      {error}
-                    </div>
-                  )}
-
-                  {/* Indication région survolée */}
-                  <div className="text-center mb-3 h-6">
-                    {hoveredRegion && (
-                      <span className="text-sm font-black text-slate-900">
-                        {(hoveredRegion === 'pac' || hoveredRegion === 'cor')
-                          ? 'PACA + Corse'
-                          : REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
-                      </span>
-                    )}
+              <div className="max-w-[400px] mx-auto px-2">
+                {error && (
+                  <div className="mb-3 bg-red-50 border border-red-200 text-red-700 font-bold text-sm px-4 py-3 rounded-xl flex items-center gap-2">
+                    <XCircle size={18} className="shrink-0" />
+                    {error}
                   </div>
+                )}
 
-                  {/* Carte interactive */}
-                  <FranceMap onRegionClick={selectRegionAndStart} hoveredRegion={hoveredRegion} setHoveredRegion={setHoveredRegion} />
+                {/* Indication région survolée */}
+                <div className="text-center mb-1 h-5">
+                  {hoveredRegion && (
+                    <span className="text-sm font-black text-slate-900">
+                      {(hoveredRegion === 'pac' || hoveredRegion === 'cor')
+                        ? 'PACA + Corse'
+                        : REGION_ID_TO_NAME[hoveredRegion] || FranceMapData.locations.find(l => l.id === hoveredRegion)?.name}
+                    </span>
+                  )}
                 </div>
+
+                {/* Carte interactive */}
+                <FranceMap onRegionClick={selectRegionAndStart} hoveredRegion={hoveredRegion} setHoveredRegion={setHoveredRegion} />
               </div>
             </div>
           )}
