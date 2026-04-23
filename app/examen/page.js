@@ -418,7 +418,7 @@ export default function ExamenPage() {
         .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
         .arc-svg { transform: rotate(-90deg); }
         .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
-        .arc-fill { stroke: var(--tc-main, #f59e0b); stroke-width: 10; fill: none; stroke-linecap: round; transition: stroke-dashoffset 0.15s linear; }
+        .arc-fill { stroke: var(--tc-main, #f59e0b); stroke-width: 10; fill: none; stroke-linecap: round; }
         .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
         .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
         .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -616,7 +616,7 @@ export default function ExamenPage() {
                       </button>
                     </div>
                     <h2 className="lf-title">Votre examen est <em>en préparation</em>.</h2>
-                    <p className="lf-sub">20 questions générées par IA à partir des annales CDG. Durée 45 min, note sur 20.</p>
+                    <p className="lf-sub">20 questions générées par IA à partir des annales CDG.<br/>Durée 45 min, note sur 20.</p>
                     <div className="anim-arc">
                       <div className="arc-wrap">
                         <svg className="arc-svg" width="220" height="220" viewBox="0 0 220 220">
