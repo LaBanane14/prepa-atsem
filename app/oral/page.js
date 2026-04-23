@@ -795,7 +795,7 @@ export default function OralPage() {
           {step === 'done' && mode === 'cv' && (
             <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
               <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-lg w-full p-8 text-center">
-                <div className="w-16 h-16 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center mx-auto mb-5">
+                <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-5">
                   <Check size={32} strokeWidth={2.5} />
                 </div>
                 <h2 className="text-2xl font-black text-slate-900 mb-2">Entretien terminé !</h2>
@@ -803,7 +803,7 @@ export default function OralPage() {
                 <p className="text-slate-400 text-sm mb-8">Votre entraînement a été enregistré dans votre historique.</p>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <button onClick={restart} className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm cursor-pointer">
+                  <button onClick={restart} className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg text-sm cursor-pointer">
                     Nouvel entraînement
                   </button>
                   <a href="/dashboard" className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition text-sm">
