@@ -691,12 +691,12 @@ export default function SpecifiquePage() {
 
               {/* Actions */}
               <div className="flex items-center justify-center gap-4 pb-4 flex-wrap">
-                <button onClick={retryCategorie} className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-purple-200/50 text-sm flex items-center gap-2 cursor-pointer">
+                <button onClick={retryCategorie} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm flex items-center gap-2 cursor-pointer">
                   <RotateCcw size={16} />
-                  Refaire {selectedCategorie.titre}
+                  Refaire l'exercice
                 </button>
                 <button onClick={restart} className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Choisir une autre thématique</button>
-                <a href="/dashboard" className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition text-sm">Retour au dashboard</a>
+                <a href="/dashboard" style={{backgroundColor: selectedCategorie.color}} className="text-white font-bold px-6 py-3 rounded-xl transition hover:brightness-90 text-sm shadow-lg">Retour au dashboard</a>
               </div>
             </div>
           )}
