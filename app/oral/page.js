@@ -593,7 +593,7 @@ export default function OralPage() {
                     <h2 className="text-base sm:text-2xl font-black text-white truncate mr-3">Préparation à l'oral</h2>
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                       <div className="flex items-center gap-1 sm:gap-2 font-black text-sm sm:text-lg tabular-nums text-white">
-                        <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                         {String(oralMinutes).padStart(2, '0')}:{String(oralSeconds).padStart(2, '0')}
                       </div>
                       <a href="/dashboard" className="hidden sm:flex bg-white/15 hover:bg-white/25 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition items-center gap-2">
@@ -603,7 +603,7 @@ export default function OralPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-3">
-                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-purple-300">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-amber-300">
                       Question {currentQ + 1}/{questions.length}
                     </span>
                     <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider ${colors.badge}`}>
@@ -611,7 +611,7 @@ export default function OralPage() {
                     </span>
                   </div>
                   <div className="mt-3 w-full h-1 bg-white/10 rounded-full">
-                    <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${progress}%`}}></div>
+                    <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{width: `${progress}%`}}></div>
                   </div>
                 </div>
 
@@ -625,9 +625,9 @@ export default function OralPage() {
                       value={answers[q.id] || ''}
                       onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
                       placeholder="Rédigez votre réponse ou utilisez le micro pour dicter..."
-                      className="w-full px-4 py-3 pr-14 bg-slate-50 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:bg-white focus:border-purple-400 outline-none font-medium text-sm resize-y transition"
+                      className="w-full px-4 py-3 pr-14 bg-slate-50 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:bg-white focus:border-amber-400 outline-none font-medium text-sm resize-y transition"
                     />
-                    <button onClick={toggleRecording} className={`absolute top-3 right-3 w-10 h-10 rounded-xl flex items-center justify-center transition cursor-pointer ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-200 text-slate-600 hover:bg-purple-100 hover:text-purple-800'}`} title={isRecording ? 'Arrêter le micro' : 'Dicter ma réponse'}>
+                    <button onClick={toggleRecording} className={`absolute top-3 right-3 w-10 h-10 rounded-xl flex items-center justify-center transition cursor-pointer ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-200 text-slate-600 hover:bg-amber-100 hover:text-amber-700'}`} title={isRecording ? 'Arrêter le micro' : 'Dicter ma réponse'}>
                       {isRecording ? (
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
                       ) : (
@@ -651,7 +651,7 @@ export default function OralPage() {
                         <ChevronRight size={16} />
                       </button>
                     ) : (
-                      <button onClick={finishExercice} className="bg-purple-800 hover:bg-purple-900 text-white font-bold py-3 px-4 sm:px-5 rounded-xl text-sm flex items-center gap-2 shadow-md transition cursor-pointer">
+                      <button onClick={finishExercice} className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 sm:px-5 rounded-xl text-sm flex items-center gap-2 shadow-md transition cursor-pointer">
                         Terminer l'exercice
                         <Check size={16} />
                       </button>
