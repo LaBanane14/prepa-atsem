@@ -224,7 +224,7 @@ export default function SpecifiquePage() {
 
         /* === LoaderArc (écran de chargement après choix de catégorie) === */
         .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
-        .la-page { padding: 24px 8px 40px; position: relative; display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 6rem); width: 100%; }
+        .la-page { padding: 24px 8px 40px; position: relative; width: 100%; }
         .la-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
         .la-crumb { font-size: 12px; color: #6b5b8e; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .la-crumb::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--tc-main); box-shadow: 0 0 0 4px var(--tc-soft-2); flex-shrink: 0; }
@@ -403,7 +403,7 @@ export default function SpecifiquePage() {
             const stepIdx = STEPS.reduce((a, s, i) => progress >= s.at ? i : a, 0)
             const Icon = selectedCategorie.icon
             return (
-              <div className="la-root animate-fade-in" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
+              <div className="la-root animate-fade-in min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-2.5rem)] flex items-center justify-center" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
                 <div className="la-page">
                   <div className="la-frame">
                     <div className="lf-head">
