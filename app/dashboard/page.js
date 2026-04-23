@@ -700,7 +700,7 @@ function DashboardContent() {
                       <span className="text-xs font-black text-slate-400">{monthData.count}/20 exercices</span>
                     </div>
                     <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
-                      <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
+                      <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
                     </div>
                     <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center">
                       <p className="text-sm font-bold text-emerald-700">Continue comme ça, c'est très bien !</p>
