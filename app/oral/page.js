@@ -663,7 +663,7 @@ export default function OralPage() {
                     <div className="animate-fade-in">
                       <p className="text-sm font-bold text-slate-600 text-center mb-3">Comment avez-vous répondu ?</p>
                       <div className="grid grid-cols-3 gap-3">
-                        <button onClick={() => handleSelfEval(q.id, 'savais')} className="bg-pink-50 border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-100 text-pink-700 font-bold py-3 px-3 rounded-xl transition cursor-pointer text-sm flex flex-col items-center gap-1">
+                        <button onClick={() => handleSelfEval(q.id, 'savais')} className="bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-100 text-emerald-700 font-bold py-3 px-3 rounded-xl transition cursor-pointer text-sm flex flex-col items-center gap-1">
                           <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                           Je savais
                         </button>
@@ -681,7 +681,7 @@ export default function OralPage() {
 
                   {/* Already evaluated indicator */}
                   {selfEvals[q.id] && (
-                    <div className={`text-center text-sm font-bold py-2 rounded-xl ${selfEvals[q.id] === 'savais' ? 'text-pink-600' : selfEvals[q.id] === 'hesite' ? 'text-amber-600' : 'text-red-600'}`}>
+                    <div className={`text-center text-sm font-bold py-2 rounded-xl ${selfEvals[q.id] === 'savais' ? 'text-emerald-600' : selfEvals[q.id] === 'hesite' ? 'text-amber-600' : 'text-red-600'}`}>
                       {selfEvals[q.id] === 'savais' ? 'Vous saviez' : selfEvals[q.id] === 'hesite' ? 'Vous avez hésité' : 'Vous ne saviez pas'}
                     </div>
                   )}
@@ -712,7 +712,7 @@ export default function OralPage() {
                   <div className="mt-4 grid grid-cols-5 sm:grid-cols-10 gap-2 max-w-md mx-auto">
                     {questions.map((qq, i) => {
                       const ev = selfEvals[qq.id]
-                      const bgColor = ev === 'savais' ? 'bg-pink-500 text-white' : ev === 'hesite' ? 'bg-amber-500 text-white' : ev === 'passu' ? 'bg-red-500 text-white' : 'bg-slate-900 text-white opacity-40'
+                      const bgColor = ev === 'savais' ? 'bg-emerald-500 text-white' : ev === 'hesite' ? 'bg-amber-500 text-white' : ev === 'passu' ? 'bg-red-500 text-white' : 'bg-slate-900 text-white opacity-40'
                       return (
                         <button key={qq.id} onClick={() => { setCurrentQ(i); setShowAnswer(false) }} className={`aspect-square rounded-lg text-xs font-bold transition cursor-pointer ${bgColor} ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900 opacity-100' : ev ? 'opacity-100' : 'hover:opacity-60'}`}>
                           {i + 1}
@@ -762,11 +762,11 @@ export default function OralPage() {
 
                 {/* Score recap */}
                 <div className="space-y-3 mb-8">
-                  <div className="flex items-center gap-3 bg-pink-50 border border-pink-200 rounded-xl p-4">
-                    <div className="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-black text-lg">{scoreSavais}</div>
+                  <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                    <div className="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center font-black text-lg">{scoreSavais}</div>
                     <div>
-                      <p className="font-black text-pink-700 text-sm">Je savais</p>
-                      <p className="text-pink-600 text-xs font-medium">{questions.length > 0 ? Math.round((scoreSavais / questions.length) * 100) : 0}% de bonnes réponses</p>
+                      <p className="font-black text-emerald-700 text-sm">Je savais</p>
+                      <p className="text-emerald-600 text-xs font-medium">{questions.length > 0 ? Math.round((scoreSavais / questions.length) * 100) : 0}% de bonnes réponses</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4">
