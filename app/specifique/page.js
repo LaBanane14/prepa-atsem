@@ -483,32 +483,26 @@ export default function SpecifiquePage() {
                             const lettre = String(prop.lettre).toUpperCase()
                             const isSelected = userAnswer === lettre
                             const isGood = data.reponse_correcte === lettre
-                            let optClass = 'p-3 sm:p-4 border rounded-xl flex justify-between items-center group transition-all '
+                            let optClass = 'p-3 sm:p-4 border rounded-xl flex items-center group transition-all '
                             let letterClass = 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg font-bold flex items-center justify-center text-xs sm:text-sm shrink-0 transition-all '
-                            let circleContent = null
 
                             if (hasAnswered) {
                               if (isGood) {
                                 optClass += 'border-green-500 bg-green-50 '
                                 letterClass += 'bg-green-500 text-white '
-                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                               } else if (isSelected) {
                                 optClass += 'border-red-500 bg-red-50 '
                                 letterClass += 'bg-red-500 text-white '
-                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500 flex items-center justify-center"><svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></div>
                               } else {
                                 optClass += 'border-slate-200 opacity-50 '
                                 letterClass += 'bg-slate-100 text-slate-500 '
-                                circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                               }
                             } else if (isSelected) {
                               optClass += 'cursor-pointer '
                               letterClass += 'text-white '
-                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center" style={{borderColor: catColor}}><div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full" style={{backgroundColor: catColor}}></div></div>
                             } else {
                               optClass += 'border-slate-200 cursor-pointer hover:bg-slate-50 '
                               letterClass += 'bg-slate-100 text-slate-500 group-hover:bg-slate-200 '
-                              circleContent = <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300"></div>
                             }
 
                             const optInlineStyle = (!hasAnswered && isSelected)
@@ -524,7 +518,6 @@ export default function SpecifiquePage() {
                                   <span className={letterClass} style={letterInlineStyle}>{lettre}</span>
                                   <span className="font-bold text-slate-800 text-sm sm:text-base">{prop.texte}</span>
                                 </div>
-                                {circleContent}
                               </div>
                             )
                           })}
