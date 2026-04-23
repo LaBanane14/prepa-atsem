@@ -339,7 +339,7 @@ export default function OralPage() {
         .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
         .arc-svg { transform: rotate(-90deg); }
         .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
-        .arc-fill { stroke: var(--tc-main, #4f46e5); stroke-width: 10; fill: none; stroke-linecap: round; }
+        .arc-fill { stroke: var(--tc-main, #8b5cf6); stroke-width: 10; fill: none; stroke-linecap: round; }
         .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
         .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
         .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -430,7 +430,7 @@ export default function OralPage() {
                   <button
                     onClick={startModeCV}
                     className="v1-card group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col min-h-[300px] text-left cursor-pointer"
-                    style={{'--c-color': '#4f46e5', '--c-tint': '#e0e7ff', '--c-soft': '#eef2ff'}}
+                    style={{'--c-color': '#8b5cf6', '--c-tint': '#ede9fe', '--c-soft': '#f5f3ff'}}
                   >
                     <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
                       <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
@@ -484,7 +484,7 @@ export default function OralPage() {
             <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCVPopup(false)}>
               <div
                 className="v1-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col max-w-md w-full animate-fade-in"
-                style={{'--c-color': '#4f46e5', '--c-tint': '#e0e7ff', '--c-soft': '#eef2ff'}}
+                style={{'--c-color': '#8b5cf6', '--c-tint': '#ede9fe', '--c-soft': '#f5f3ff'}}
                 onClick={e => e.stopPropagation()}
               >
                 <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
@@ -503,10 +503,10 @@ export default function OralPage() {
                   {error && <div className="bg-red-50 border border-red-200 text-red-700 font-bold text-sm p-3 rounded-xl mb-4 text-center">{error}</div>}
 
                   <label className="block cursor-pointer mb-auto">
-                    <div className="border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-2xl p-5 text-center transition-all hover:bg-indigo-50/40 group">
-                      <p className="font-black text-slate-700 text-sm mb-1 group-hover:text-indigo-700 transition">Déposez votre CV ici</p>
+                    <div className="border-2 border-dashed border-purple-300 hover:border-purple-500 rounded-2xl p-5 text-center transition-all hover:bg-purple-50/40 group">
+                      <p className="font-black text-slate-700 text-sm mb-1 group-hover:text-purple-700 transition">Déposez votre CV ici</p>
                       <p className="text-xs text-slate-400 font-medium mb-3">ou cliquez pour parcourir</p>
-                      <div className="inline-flex items-center gap-2 bg-indigo-600 group-hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition">
+                      <div className="inline-flex items-center gap-2 bg-purple-600 group-hover:bg-purple-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition">
                         <Upload size={14} strokeWidth={2} />
                         Importer mon CV
                       </div>
@@ -525,7 +525,7 @@ export default function OralPage() {
 
           {/* ===== LOADING (arc style Spécifique) ===== */}
           {step === 'loading' && (() => {
-            const tv = { main: '#4f46e5', bright: '#a5b4fc', tint: '#e0e7ff', soft: 'rgba(79,70,229,0.18)', soft2: 'rgba(79,70,229,0.08)' }
+            const tv = { main: '#8b5cf6', bright: '#c4b5fd', tint: '#ede9fe', soft: 'rgba(139,92,246,0.18)', soft2: 'rgba(139,92,246,0.08)' }
             const STEPS = [
               { label: 'Analyse de votre CV', desc: "L'IA parcourt votre parcours, vos expériences et vos diplômes.", at: 0 },
               { label: 'Personnalisation des questions', desc: 'Construction de questions adaptées à votre profil (motivations, mises en situation, posture).', at: 33 },
