@@ -496,7 +496,7 @@ export default function ExamenPage() {
           {/* ===== CHOIX RÉGION ===== */}
           {step === 'choix_region' && (
             <div className="animate-fade-in max-w-5xl mx-auto py-4 sm:py-8">
-              <div className="max-w-3xl mx-auto mb-8 px-4 sm:px-0">
+              <div className="mb-10 sm:mb-12 max-w-3xl mx-auto px-4 sm:px-0">
                 <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Choisissez votre <em className="v1-hero-em">région</em> d'examen.</h1>
                 <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Cela permettra de vous habituer aux barèmes réels.</p>
               </div>
