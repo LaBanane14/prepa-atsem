@@ -373,16 +373,16 @@ export default function OralPage() {
 
           {/* ===== MODE SELECTION ===== */}
           {step === null && (
-            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center relative">
+            <div className="animate-fade-in relative max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-5">
               {/* Croix retour — flottante en haut à droite */}
               <a href="/dashboard" className="absolute top-3 right-3 sm:top-5 sm:right-8 z-10 w-10 h-10 rounded-xl bg-slate-900 hover:bg-black flex items-center justify-center text-white transition cursor-pointer shadow-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
               </a>
-              <div className="max-w-3xl w-full">
-                <div className="mb-10 sm:mb-12">
-                  <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
-                  <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Choisissez votre mode d'entraînement.</p>
-                </div>
+              <div className="mb-10 sm:mb-12 max-w-3xl pr-14">
+                <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl">Choisissez votre mode d'entraînement.</p>
+              </div>
+              <div className="max-w-3xl">
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Card 1: Avec mon CV */}
