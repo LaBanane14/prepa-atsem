@@ -46,6 +46,7 @@ export default function OralPage() {
   const [fileName, setFileName] = useState('')
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   // Timer (elapsed)
   const [elapsed, setElapsed] = useState(0)
@@ -74,13 +75,19 @@ export default function OralPage() {
     })
   }, [])
 
-  // Loading animation for CV mode
+  // Loading progress — asymptotique (style Spécifique)
   useEffect(() => {
-    if (step !== 'loading') return
-    setLoadingStep(0)
-    const t1 = setTimeout(() => setLoadingStep(1), 3000)
-    const t2 = setTimeout(() => setLoadingStep(2), 6000)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
+    if (step !== 'loading') { setLoadingProgress(0); setLoadingStep(0); return }
+    const t0 = performance.now()
+    let raf
+    const tick = (now) => {
+      const t = (now - t0) / 1000
+      const v = 99 * (1 - Math.exp(-Math.pow(t, 1.5) / 18))
+      setLoadingProgress(v)
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [step])
 
   // Timer
@@ -310,6 +317,39 @@ export default function OralPage() {
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
         @keyframes morph { 0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; } 66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; } }
         .v1-hero-em { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-style: normal; }
+
+        /* === LoaderArc (écran de chargement après upload CV) === */
+        .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
+        .la-page { padding: 24px 8px 40px; position: relative; width: 100%; }
+        .la-frame { background: white; border-radius: 24px; border: 1px solid #ece9f0; padding: 32px 28px 28px; max-width: 880px; margin: 0 auto; width: 100%; position: relative; overflow: hidden; box-sizing: border-box; }
+        @media (min-width: 640px) { .la-frame { padding: 48px 48px 40px; border-radius: 28px; } }
+        .la-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--tc-soft-2), transparent 60%); pointer-events: none; }
+        .la-frame > * { position: relative; }
+        .lf-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .lf-icon-chip { width: 56px; height: 56px; border-radius: 16px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; flex-shrink: 0; }
+        .lf-head-text { flex: 1; min-width: 0; }
+        .lf-head-text h2 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); }
+        .lf-head-text h1 { margin: 2px 0 0; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
+        .lf-title { font-size: 30px; font-weight: 900; letter-spacing: -0.025em; margin: 8px 0 12px; line-height: 1.05; }
+        @media (min-width: 640px) { .lf-title { font-size: 42px; } }
+        .lf-title em { font-style: normal; background: linear-gradient(135deg, var(--tc-main) 0%, var(--tc-bright) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .lf-sub { font-size: 15px; line-height: 1.55; color: #5e5270; margin: 0 0 32px; max-width: 540px; }
+        .anim-arc { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 16px 0 8px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .anim-arc { gap: 56px; } }
+        .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
+        .arc-svg { transform: rotate(-90deg); }
+        .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
+        .arc-fill { stroke: var(--tc-main, #4f46e5); stroke-width: 10; fill: none; stroke-linecap: round; }
+        .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
+        .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
+        .arc-count { font-size: 12px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.08em; text-transform: uppercase; }
+        .arc-count b { color: var(--tc-main); }
+        .arc-side { flex: 1; min-width: 220px; max-width: 320px; }
+        .arc-step-num { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .arc-step-num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--tc-main); }
+        .arc-side h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
+        .arc-side p { margin: 0; font-size: 14px; line-height: 1.55; color: #5e5270; }
         .v1-card { transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s; }
         .v1-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -24px rgba(26, 19, 37, 0.22); }
         .v1-card .v1-icon { transition: transform 0.3s, background 0.3s, color 0.3s; background: var(--c-tint); color: var(--c-color); }
@@ -483,42 +523,60 @@ export default function OralPage() {
             </div>
           )}
 
-          {/* ===== LOADING ===== */}
-          {step === 'loading' && (
-            <div className="animate-fade-in min-h-[calc(100vh-6rem)] flex items-center justify-center">
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm max-w-xl w-full flex flex-col items-center justify-center py-12 px-8">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-800 to-violet-600 shadow-xl shadow-purple-200 mb-8" style={{animation: 'morph 4s ease-in-out infinite'}}></div>
-                <h2 className="text-xl font-black text-slate-900 mb-2">
-                  {mode === 'cv' ? 'Analyse de votre CV en cours...' : 'Préparation des questions...'}
-                </h2>
-                <p className="text-slate-500 font-medium text-sm text-center mb-8">
-                  {mode === 'cv' ? 'Nous parcourons votre CV et préparons vos questions personnalisées.' : 'Tirage aléatoire parmi 300 questions du concours ATSEM.'}
-                </p>
-                {mode === 'cv' && (
-                  <div className="w-full max-w-md space-y-3">
-                    {[
-                      { label: 'Analyse de votre CV' },
-                      { label: 'Personnalisation des questions' },
-                      { label: "Préparation de l'entretien" }
-                    ].map((ls, i) => (
-                      <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${i < loadingStep ? 'bg-green-50 border border-green-200' : i === loadingStep ? 'bg-purple-50 border border-purple-200' : 'bg-slate-50 border border-slate-100 opacity-40'}`}>
-                        <span className={`font-bold text-sm flex-grow ${i < loadingStep ? 'text-green-700' : i === loadingStep ? 'text-purple-800' : 'text-slate-400'}`}>{ls.label}</span>
-                        {i < loadingStep && <svg className="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
-                        {i === loadingStep && <div className="w-4 h-4 border-2 border-purple-800 border-t-transparent rounded-full animate-spin shrink-0"></div>}
-                        <span className="text-xs font-bold text-slate-400">{i + 1}/3</span>
+          {/* ===== LOADING (arc style Spécifique) ===== */}
+          {step === 'loading' && (() => {
+            const tv = { main: '#4f46e5', bright: '#a5b4fc', tint: '#e0e7ff', soft: 'rgba(79,70,229,0.18)', soft2: 'rgba(79,70,229,0.08)' }
+            const STEPS = [
+              { label: 'Analyse de votre CV', desc: "L'IA parcourt votre parcours, vos expériences et vos diplômes.", at: 0 },
+              { label: 'Personnalisation des questions', desc: 'Construction de questions adaptées à votre profil (motivations, mises en situation, posture).', at: 33 },
+              { label: "Préparation de l'entretien", desc: "Finalisation des 10 questions d'entretien sur mesure pour le jour J.", at: 70 },
+            ]
+            const progress = loadingProgress
+            const r = 92
+            const c = 2 * Math.PI * r
+            const offset = c - (progress / 100) * c
+            const shown = Math.max(1, Math.min(10, Math.round(progress / 10)))
+            const stepIdx = STEPS.reduce((a, s, i) => progress >= s.at ? i : a, 0)
+            return (
+              <div className="la-root animate-fade-in fixed top-14 lg:top-0 right-0 bottom-0 left-0 lg:left-[90px] z-40 flex items-center justify-center overflow-y-auto p-4" style={{ '--tc-main': tv.main, '--tc-bright': tv.bright, '--tc-tint': tv.tint, '--tc-soft': tv.soft, '--tc-soft-2': tv.soft2 }}>
+                <div className="la-page">
+                  <div className="la-frame">
+                    <div className="lf-head">
+                      <div className="lf-icon-chip"><Upload size={26} strokeWidth={1.8} /></div>
+                      <div className="lf-head-text">
+                        <h2>Entretien oral personnalisé</h2>
+                        <h1>{fileName || 'Votre CV'}</h1>
                       </div>
-                    ))}
+                      <button onClick={restart} className="ml-auto shrink-0 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer">
+                        Quitter l'exercice
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                      </button>
+                    </div>
+                    <h2 className="lf-title">Votre entretien est <em>en préparation</em>.</h2>
+                    <p className="lf-sub">10 questions d'entretien générées sur mesure à partir de votre CV.</p>
+                    <div className="anim-arc">
+                      <div className="arc-wrap">
+                        <svg className="arc-svg" width="220" height="220" viewBox="0 0 220 220">
+                          <circle className="arc-track" cx="110" cy="110" r={r} />
+                          <circle className="arc-fill" cx="110" cy="110" r={r} strokeDasharray={c} strokeDashoffset={offset} />
+                        </svg>
+                        <div className="arc-center">
+                          <div className="arc-icon"><Upload size={22} strokeWidth={1.8} /></div>
+                          <div className="arc-percent">{Math.round(progress)}%</div>
+                          <div className="arc-count"><b>{shown}</b> / 10 questions</div>
+                        </div>
+                      </div>
+                      <div className="arc-side">
+                        <div className="arc-step-num">Étape {stepIdx + 1}/{STEPS.length}</div>
+                        <h3>{STEPS[stepIdx].label}</h3>
+                        <p>{STEPS[stepIdx].desc}</p>
+                      </div>
+                    </div>
                   </div>
-                )}
-                {mode === 'aleatoire' && (
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-purple-800 border-t-transparent rounded-full animate-spin"></div>
-                    <span className="text-sm font-bold text-purple-800">Chargement...</span>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* ===== QUESTIONS (Mode CV) ===== */}
           {step === 'questions' && mode === 'cv' && q && (
