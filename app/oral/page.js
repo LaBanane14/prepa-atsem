@@ -380,7 +380,7 @@ export default function OralPage() {
               </a>
               <div className="max-w-5xl w-full">
                 <div className="text-center mb-8">
-                  <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5 whitespace-nowrap">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
+                  <h1 className="text-[40px] sm:text-5xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-900 mb-4 sm:mb-5">Préparez-vous à l'<em className="v1-hero-em">oral ATSEM</em>.</h1>
                   <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">Choisissez votre mode d'entraînement.</p>
                 </div>
 
