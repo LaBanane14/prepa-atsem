@@ -29,8 +29,8 @@ const FAQ_ITEMS = [
 ]
 
 const TIMELINE_STEPS = [
-  { num: '1', label: 'Inscriptions',     month: 'Jusqu\'au 29 avril', year: '', detail: 'Ouverture le 24 mars sur concours-territorial.fr', cls: 'cal-tl-1', endsAt: '2026-04-29T23:59:59' },
-  { num: '2', label: 'Dépôt dossier',    month: '7 mai',    year: '',                   detail: 'Pièces justificatives + diplôme CAP AEPE',          cls: 'cal-tl-2', endsAt: '2026-05-07T23:59:59' },
+  { num: '1', label: 'Inscriptions',     month: 'Jusqu\'au 29 avril', year: '', detail: 'Inscription sur concours-territorial.fr',           cls: 'cal-tl-1', endsAt: '2026-04-29T23:59:59' },
+  { num: '2', label: 'Dépôt dossier',    month: '7 mai',    year: '',                   detail: 'Pièces justificatives',                            cls: 'cal-tl-2', endsAt: '2026-05-07T23:59:59' },
   { num: '3', label: 'Épreuves écrites', month: '14 oct.',  year: '',                   detail: 'QCM de 20 questions en 45 min',                    cls: 'cal-tl-3', endsAt: '2026-10-14T23:59:59' },
   { num: '4', label: 'Résultats',        month: 'Nov/Déc',  year: '',                   detail: 'Liste des candidats admissibles à l\'oral',         cls: 'cal-tl-4', endsAt: '2026-12-31T23:59:59' },
   { num: '5', label: 'Oraux',            month: 'Déc/Janv', year: '2026 / 2027',        detail: 'Entretien avec le jury, admission finale',         cls: 'cal-tl-5', endsAt: '2027-01-31T23:59:59' },
