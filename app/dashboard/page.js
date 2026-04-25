@@ -702,8 +702,24 @@ function DashboardContent() {
                     <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
                       <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
                     </div>
-                    <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center">
-                      <p className="text-sm font-bold text-emerald-700">{20 - monthData.count > 0 ? `Plus que ${20 - monthData.count} exercice${20 - monthData.count > 1 ? 's' : ''} pour atteindre l'objectif !` : 'Objectif atteint, bravo !'}</p>
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center gap-3">
+                      <svg viewBox="0 0 60 60" className="w-10 h-10 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                        {/* étincelles */}
+                        <g fill="#10b981" opacity="0.7">
+                          <path d="M8 14 L9 11 L10 14 L13 15 L10 16 L9 19 L8 16 L5 15 Z"/>
+                          <path d="M52 42 L53 39 L54 42 L57 43 L54 44 L53 47 L52 44 L49 43 Z"/>
+                          <circle cx="50" cy="14" r="1.5"/>
+                        </g>
+                        {/* cible */}
+                        <circle cx="30" cy="32" r="18" fill="#d1fae5" stroke="#10b981" strokeWidth="2"/>
+                        <circle cx="30" cy="32" r="12" fill="white" stroke="#10b981" strokeWidth="1.8"/>
+                        <circle cx="30" cy="32" r="5" fill="#10b981"/>
+                        {/* flèche plantée */}
+                        <line x1="30" y1="32" x2="48" y2="14" stroke="#1a1325" strokeWidth="2.5" strokeLinecap="round"/>
+                        <polygon points="46,14 48,16 50,12" fill="#1a1325"/>
+                        <path d="M30 32 L26 28 M30 32 L34 28" stroke="#1a1325" strokeWidth="1.8" strokeLinecap="round"/>
+                      </svg>
+                      <p className="text-sm font-bold text-emerald-700 leading-tight">{20 - monthData.count > 0 ? `Plus que ${20 - monthData.count} exercice${20 - monthData.count > 1 ? 's' : ''} pour atteindre l'objectif !` : 'Objectif atteint, bravo !'}</p>
                     </div>
                   </div>
                 )}
