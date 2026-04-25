@@ -18,7 +18,13 @@ const LogoSvg = ({ className }) => (
     <path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
   </svg>
 )
-const Check = ({className}) => <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+
+const FEATURES = [
+  'QCM ATSEM illimités',
+  'Annales corrigées chronométrées',
+  'Simulation d\'oral par IA',
+  'Dashboard personnalisé',
+]
 
 export default function TarifsPage() {
   const [user, setUser] = useState(null)
@@ -50,11 +56,193 @@ export default function TarifsPage() {
   ]
 
   return (
-    <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
-      <style>{`html { scroll-behavior: smooth; scroll-padding-top: 7rem; }`}</style>
+    <div className="min-h-screen" style={{ background: '#faf8ff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
-      {/* ─── NAVBAR ─── */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
+      <style>{`
+        html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+
+        .t-wrap { position: relative; padding: 56px 0 80px; min-height: 100vh; }
+        .t-wrap::before {
+          content: ''; position: absolute; inset: 0;
+          background:
+            radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%),
+            radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%),
+            radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%),
+            radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%),
+            radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%),
+            radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%),
+            radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%);
+          pointer-events: none;
+        }
+        .t-wrap > * { position: relative; }
+        .t-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
+
+        /* HERO */
+        .t-hero { margin-bottom: 56px; max-width: 920px; }
+        .t-hero h1 { font-size: 64px; font-weight: 900; line-height: 1.02; margin: 0 0 20px; letter-spacing: -0.03em; color: #1a1325; }
+        .t-hero h1 em {
+          font-style: normal;
+          background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+        }
+        .t-hero p { font-size: 18px; line-height: 1.5; color: #5e5270; margin: 0; max-width: 680px; }
+        .t-hero-meta { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; font-size: 13px; font-weight: 700; }
+        .t-hero-meta span {
+          display: flex; align-items: center; gap: 8px;
+          padding: 8px 14px; border-radius: 999px;
+          background: white; border: 1px solid #ece9f0; color: #3a2f4a;
+        }
+        .t-hero-meta b { font-weight: 900; }
+        .t-hero-meta span:nth-child(1) b { color: #8b5cf6; }
+        .t-hero-meta span:nth-child(2) b { color: #ec4899; }
+        .t-hero-meta span:nth-child(3) b { color: #f59e0b; }
+
+        /* SECTION HEAD */
+        .t-section { margin-bottom: 56px; }
+        .t-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .t-section-title {
+          font-size: 13px; font-weight: 800; letter-spacing: 0.15em;
+          text-transform: uppercase; color: #6b5b8e;
+          display: flex; align-items: center; gap: 10px;
+        }
+        .t-section-title svg { width: 16px; height: 16px; color: #8b5cf6; }
+
+        /* PRICING GRID */
+        .t-pricing-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; }
+        @media (max-width: 980px) { .t-pricing-grid { grid-template-columns: 1fr; } }
+
+        .t-card { border-radius: 28px; padding: 44px 40px 40px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
+        .t-card.light {
+          background: white; border: 1px solid #ece9f0;
+          box-shadow: 0 18px 40px -24px rgba(20, 10, 40, 0.18);
+        }
+        .t-card.light::before {
+          content: ''; position: absolute; inset: 0;
+          background: radial-gradient(circle at 0% 0%, rgba(139,92,246,0.07), transparent 55%), radial-gradient(circle at 100% 100%, rgba(236,72,153,0.06), transparent 55%);
+          pointer-events: none;
+        }
+        .t-card.light > * { position: relative; }
+
+        .t-card.dark {
+          background: #1a1325; color: white;
+          box-shadow: 0 30px 60px -28px rgba(139, 92, 246, 0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
+        }
+        .t-card.dark::before {
+          content: ''; position: absolute; inset: 0;
+          background:
+            radial-gradient(ellipse at 90% 0%, rgba(168, 85, 247, 0.35), transparent 55%),
+            radial-gradient(ellipse at 0% 100%, rgba(236, 72, 153, 0.22), transparent 55%),
+            radial-gradient(ellipse at 50% 50%, rgba(251, 191, 36, 0.06), transparent 60%);
+          pointer-events: none;
+        }
+        .t-card.dark > * { position: relative; }
+        .t-card.dark .t-tagline, .t-card.dark .t-period { color: rgba(255,255,255,0.7); }
+        .t-card.dark .t-feat { color: rgba(255,255,255,0.92); }
+        .t-card.dark .t-feat::before { background-color: rgba(168, 85, 247, 0.2); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23d8b4fe' stroke-width='3' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7'/%3E%3C/svg%3E"); }
+        .t-card.dark .t-divider { border-color: rgba(255,255,255,0.1); }
+        .t-card.dark .t-foot-note { color: rgba(255,255,255,0.55); }
+
+        .t-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 12px; flex-wrap: wrap; }
+        .t-eyebrow { font-size: 12px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: #6b5b8e; }
+        .t-card.dark .t-eyebrow { color: rgba(255,255,255,0.65); }
+        .t-ribbon {
+          display: inline-flex; align-items: center; gap: 6px;
+          padding: 6px 12px; border-radius: 999px;
+          background: linear-gradient(135deg, #f59e0b, #ec4899);
+          color: white; font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;
+          box-shadow: 0 6px 18px -6px rgba(236,72,153,0.6);
+        }
+
+        .t-name { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin: 0 0 8px; }
+        .t-tagline { font-size: 15px; line-height: 1.5; color: #5e5270; margin: 0 0 28px; max-width: 38ch; }
+
+        .t-price { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 4px; }
+        .t-amount {
+          font-size: 64px; font-weight: 900; letter-spacing: -0.03em; line-height: 1;
+          background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+        }
+        .t-card.dark .t-amount {
+          background: linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fcd34d 100%);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+        }
+        .t-period { font-size: 16px; font-weight: 700; color: #6b5b8e; padding-bottom: 10px; }
+        .t-strike { font-size: 13px; font-weight: 700; color: #9b8eb8; margin: 0 0 22px; }
+        .t-strike s { opacity: 0.7; margin-right: 8px; }
+        .t-strike b { color: #ec4899; }
+        .t-card.dark .t-strike { color: rgba(255,255,255,0.6); }
+        .t-card.dark .t-strike b { color: #fcd34d; }
+
+        .t-divider { height: 1px; border: 0; border-top: 1px dashed #ece9f0; margin: 8px 0 26px; }
+
+        .t-feats { list-style: none; padding: 0; margin: 0 0 32px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+        .t-feat { display: flex; align-items: flex-start; gap: 14px; font-size: 15px; font-weight: 600; color: #2d2540; line-height: 1.4; }
+        .t-feat::before {
+          content: ''; flex: 0 0 22px; height: 22px; border-radius: 50%;
+          background-color: #ede9fe;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%236b21a8' stroke-width='3' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+          background-repeat: no-repeat; background-position: center; background-size: 13px 13px;
+          margin-top: 1px;
+        }
+
+        .t-cta {
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          width: 100%; padding: 18px 28px; border-radius: 999px;
+          font-size: 15px; font-weight: 900; letter-spacing: 0.02em;
+          transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+        }
+        .t-cta svg { width: 18px; height: 18px; }
+        .t-cta-light { background: #1a1325; color: white; }
+        .t-cta-light:hover { background: #2d1b4e; transform: translateY(-2px); box-shadow: 0 18px 30px -14px rgba(20,10,40,0.5); }
+        .t-cta-dark { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); color: white; box-shadow: 0 18px 30px -10px rgba(139,92,246,0.55); }
+        .t-cta-dark:hover { transform: translateY(-2px); box-shadow: 0 24px 40px -12px rgba(236,72,153,0.6); }
+
+        .t-foot-note { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #6b5b8e; text-align: center; margin-top: 14px; text-transform: uppercase; }
+
+        /* REASSURE — trust strip */
+        .t-reassure { margin-top: 32px; }
+        .t-trust {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+          background: white; border: 1px solid #ece9f0; border-radius: 20px;
+          overflow: hidden; box-shadow: 0 12px 28px -20px rgba(20,10,40,0.15);
+        }
+        .t-trust .t-rs-item { display: flex; align-items: center; gap: 14px; padding: 22px 24px; border-right: 1px solid #f3effc; }
+        .t-trust .t-rs-item:last-child { border-right: none; }
+        .t-trust .t-rs-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; }
+        .t-trust .t-rs-icon svg { width: 20px; height: 20px; }
+        .t-trust .t-rs-item:nth-child(1) .t-rs-icon { background: #ecfdf5; color: #047857; }
+        .t-trust .t-rs-item:nth-child(2) .t-rs-icon { background: #f3efff; color: #6d28d9; }
+        .t-trust .t-rs-item:nth-child(3) .t-rs-icon { background: #fef3c7; color: #b45309; }
+        .t-trust .t-rs-item:nth-child(4) .t-rs-icon { background: #fce7f3; color: #be185d; }
+        .t-trust .t-rs-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .t-trust .t-rs-title { font-size: 13px; font-weight: 900; color: #1a1325; letter-spacing: -0.01em; }
+        .t-trust .t-rs-sub { font-size: 12px; font-weight: 600; color: #6b5b8e; }
+        @media (max-width: 980px) {
+          .t-trust { grid-template-columns: repeat(2, 1fr); }
+          .t-trust .t-rs-item:nth-child(2) { border-right: none; }
+          .t-trust .t-rs-item:nth-child(1), .t-trust .t-rs-item:nth-child(2) { border-bottom: 1px solid #f3effc; }
+        }
+
+        @media (max-width: 1100px) {
+          .t-wrap { padding: 40px 0 60px; }
+          .t-inner { padding: 0 32px; }
+        }
+        @media (max-width: 720px) {
+          .t-wrap { padding: 28px 0 56px; }
+          .t-inner { padding: 0 18px; }
+          .t-hero h1 { font-size: 36px; }
+          .t-amount { font-size: 48px; }
+          .t-card { padding: 32px 26px 28px; }
+        }
+      `}</style>
+
+      {/* ─── NAVBAR (conservée) ─── */}
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
@@ -65,7 +253,7 @@ export default function TarifsPage() {
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
             </div>
           </a>
-          <div className="hidden md:flex items-center gap-8 font-semibold text-slate-500">
+          <div className="hidden md:flex items-center gap-8 font-bold text-slate-500">
             {navLinks.map(link => (
               <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
@@ -108,111 +296,124 @@ export default function TarifsPage() {
         )}
       </nav>
 
-      {/* ─── HEADER TARIFS ─── */}
-      <header className="pt-16 pb-12 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 tracking-tight">Préparez le concours ATSEM <span className="text-purple-800">sereinement</span></h1>
-          <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">Accédez à tous les outils pour réussir le concours ATSEM : QCM, annales, oral et fiches de révision.</p>
-        </div>
-      </header>
+      {/* ─── CONTENU NEW DESIGN ─── */}
+      <div className="t-wrap">
+        <div className="t-inner">
 
-      {/* ─── SECTION CARTES DE PRIX ─── */}
-      <section className="py-12 md:py-16 relative">
-        <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'radial-gradient(circle, #581c87 1px, transparent 1px)', backgroundSize: '24px 24px'}}></div>
-        <div className="max-w-5xl mx-auto px-4 relative z-10">
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+          {/* HERO */}
+          <header className="t-hero">
+            <h1>Préparez le concours ATSEM <em>sereinement</em></h1>
+            <p>Accédez à tous les outils pour réussir le concours ATSEM : QCM illimités, annales corrigées, simulation d'oral et dashboard personnalisé.</p>
+            <div className="t-hero-meta">
+              <span><b>~2 500</b> postes en 2026</span>
+              <span><b>80 000</b> candidats</span>
+              <span><b>3%</b> de taux de réussite</span>
+            </div>
+          </header>
 
-            {/* Plan Mensuel */}
-            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col relative transition hover:shadow-md">
-              <div className="mb-8">
-                <h3 className="text-xl font-black text-slate-900 mb-2 uppercase tracking-tight">Formule Mensuelle</h3>
-                <p className="text-slate-500 font-bold text-sm">Flexibilité totale pour réviser à votre rythme.<br/>Sans engagement.</p>
+          {/* PRICING */}
+          <section className="t-section">
+            <div className="t-section-head">
+              <div className="t-section-title">
+                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18 7a6 6 0 100 10M5 10h8M5 14h8"/></svg>
+                Nos formules
               </div>
-              <div className="mb-10">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900 tracking-tight">9,99€</span>
-                  <span className="text-slate-500 font-bold">/mois</span>
+            </div>
+
+            <div className="t-pricing-grid">
+              {/* Mensuel */}
+              <article className="t-card light">
+                <div className="t-card-head">
+                  <span className="t-eyebrow">Formule mensuelle</span>
                 </div>
-                <p className="text-slate-400 text-xs font-bold mt-2 uppercase">- Renouvellement automatique</p>
-              </div>
-              <div className="flex-1">
-                <ul className="space-y-4 mb-10">
-                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-slate-700 font-bold text-sm">
-                      <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <a href="/signup" className="w-full py-4 px-6 bg-slate-900 hover:bg-black text-white font-black rounded-2xl text-center transition shadow-lg block">S'abonner maintenant</a>
-            </div>
-
-            {/* Pack Concours 6 mois */}
-            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border-2 border-purple-800 shadow-[0_20px_50px_rgba(88,28,135,0.1)] relative flex flex-col transform md:scale-105 z-10 overflow-hidden">
-              <div className="absolute -right-10 -top-10 text-purple-100 opacity-10 transform rotate-12">
-                <LogoSvg className="w-48 h-48" />
-              </div>
-              <div className="absolute top-6 right-8">
-                <div className="bg-purple-50 text-purple-800 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">Économie</div>
-              </div>
-              <div className="mb-8 relative">
-                <h3 className="text-xl font-black text-slate-900 mb-2 uppercase tracking-tight">Pack Concours 6 mois</h3>
-                <p className="text-slate-500 font-bold text-sm">Accès complet au site pendant 6 mois.</p>
-              </div>
-              <div className="mb-10 relative">
-                <div className="flex items-baseline gap-1 text-purple-800">
-                  <span className="text-4xl font-black tracking-tight">49,99€</span>
-                  <span className="text-slate-500 font-bold">pour 6 mois</span>
+                <h2 className="t-name">Mensuel</h2>
+                <p className="t-tagline">Flexibilité totale pour réviser à votre rythme. Sans engagement, résiliable en un clic.</p>
+                <div className="t-price">
+                  <span className="t-amount">9,99€</span>
+                  <span className="t-period">/ mois</span>
                 </div>
-                <p className="text-purple-600 text-xs font-black mt-2 uppercase tracking-wide">- 1 seul paiement<br/>- Pas de renouvellement automatique</p>
-              </div>
-              <div className="flex-1 relative">
-                <ul className="space-y-4 mb-10">
-                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
-                      <div className="bg-purple-100 p-1 rounded-md flex-shrink-0"><Check className="w-4 h-4 text-purple-800" /></div>
-                      {item}
-                    </li>
-                  ))}
+                <hr className="t-divider" />
+                <ul className="t-feats">
+                  {FEATURES.map((f, i) => <li key={i} className="t-feat">{f}</li>)}
                 </ul>
+                <a href="/signup" className="t-cta t-cta-light">
+                  S'abonner maintenant
+                  <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <p className="t-foot-note">Sans engagement · Résiliable à tout moment</p>
+              </article>
+
+              {/* Pack 6 mois */}
+              <article className="t-card dark">
+                <div className="t-card-head">
+                  <span className="t-eyebrow">Pack concours</span>
+                  <span className="t-ribbon">− 17% Économie</span>
+                </div>
+                <h2 className="t-name">Pack 6 mois</h2>
+                <p className="t-tagline">La formule la plus complète pour préparer sereinement votre concours. Un seul paiement, zéro renouvellement automatique.</p>
+                <div className="t-price">
+                  <span className="t-amount">49,99€</span>
+                  <span className="t-period">pour 6 mois</span>
+                </div>
+                <p className="t-strike"><s>59,94€</s><b>Soit 8,33€/mois</b></p>
+                <hr className="t-divider" />
+                <ul className="t-feats">
+                  {FEATURES.map((f, i) => <li key={i} className="t-feat">{f}</li>)}
+                </ul>
+                <a href="/signup" className="t-cta t-cta-dark">
+                  S'inscrire maintenant
+                  <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <p className="t-foot-note">Paiement unique · Aucun renouvellement</p>
+              </article>
+            </div>
+
+            {/* RÉASSURANCE */}
+            <div className="t-reassure">
+              <div className="t-trust">
+                <div className="t-rs-item">
+                  <div className="t-rs-icon">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div className="t-rs-text">
+                    <span className="t-rs-title">Paiement sécurisé</span>
+                    <span className="t-rs-sub">Stripe · 3D Secure</span>
+                  </div>
+                </div>
+                <div className="t-rs-item">
+                  <div className="t-rs-icon">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                  </div>
+                  <div className="t-rs-text">
+                    <span className="t-rs-title">Activation immédiate</span>
+                    <span className="t-rs-sub">Accès en 30 secondes</span>
+                  </div>
+                </div>
+                <div className="t-rs-item">
+                  <div className="t-rs-icon">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                  </div>
+                  <div className="t-rs-text">
+                    <span className="t-rs-title">Tous moyens de paiement</span>
+                    <span className="t-rs-sub">CB · Apple Pay · SEPA</span>
+                  </div>
+                </div>
+                <div className="t-rs-item">
+                  <div className="t-rs-icon">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  </div>
+                  <div className="t-rs-text">
+                    <span className="t-rs-title">Essai gratuit 7 jours</span>
+                    <span className="t-rs-sub">Sans carte bancaire</span>
+                  </div>
+                </div>
               </div>
-              <a href="/signup" className="w-full py-5 px-6 bg-purple-800 hover:bg-purple-900 text-white font-black rounded-2xl text-center transition shadow-lg shadow-purple-800/30 text-lg relative block">S'abonner maintenant</a>
             </div>
-
-          </div>
+          </section>
         </div>
-      </section>
+      </div>
 
-      {/* ─── SECTION RÉASSURANCE ─── */}
-      <section className="py-12">
-        <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8">
-          <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Paiement 100% sécurisé</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Cartes bancaires</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Activation immédiate</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <svg className="w-8 h-8 text-purple-600 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Sans engagement (Mensuel)</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <div className="w-8 h-8 bg-[#635BFF] rounded-lg flex items-center justify-center mb-3">
-              <svg className="h-4" viewBox="0 0 60 25" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M60 12.8C60 8.55 57.95 5.18 54.04 5.18C50.11 5.18 47.72 8.55 47.72 12.77C47.72 17.73 50.53 20.33 54.52 20.33C56.47 20.33 57.95 19.87 59.08 19.22V16.08C57.95 16.66 56.65 17.01 55.01 17.01C53.4 17.01 51.97 16.43 51.79 14.5H59.96C59.96 14.29 60 13.33 60 12.8ZM51.73 11.73C51.73 9.88 52.78 9.1 54.02 9.1C55.22 9.1 56.21 9.88 56.21 11.73H51.73ZM41.3 5.18C39.67 5.18 38.6 5.95 38.01 6.48L37.81 5.41H34.38V24.84L38.19 24.03V20.1C38.8 20.53 39.69 21.14 41.28 21.14C44.54 21.14 47.5 18.55 47.5 12.72C47.48 7.41 44.48 5.18 41.3 5.18ZM40.45 17.36C39.36 17.36 38.72 16.97 38.29 16.5L38.19 9.36C38.66 8.83 39.32 8.47 40.45 8.47C42.22 8.47 43.45 10.42 43.45 12.9C43.45 15.43 42.24 17.36 40.45 17.36ZM29.1 4.13L32.93 3.32V0.12L29.1 0.92V4.13ZM29.1 5.43H32.93V20.85H29.1V5.43ZM24.76 6.62L24.52 5.43H21.15V20.85H24.96V9.75C25.87 8.55 27.4 8.78 27.87 8.95V5.43C27.38 5.24 25.67 4.9 24.76 6.62ZM17.01 1.69L13.28 2.48L13.26 16.29C13.26 18.57 14.95 20.35 17.23 20.35C18.48 20.35 19.4 20.12 19.91 19.85V16.64C19.42 16.83 17.01 17.53 17.01 15.25V8.73H19.91V5.43H17.01V1.69ZM5.26 9.36C5.26 8.7 5.8 8.43 6.67 8.43C7.94 8.43 9.54 8.83 10.81 9.55V5.93C9.42 5.37 8.05 5.16 6.67 5.16C3.49 5.16 1.38 6.86 1.38 9.55C1.38 13.76 7.08 13.1 7.08 14.89C7.08 15.68 6.42 15.95 5.49 15.95C4.1 15.95 2.33 15.39 0.92 14.58V18.25C2.49 18.93 4.08 19.22 5.49 19.22C8.75 19.22 10.98 17.57 10.98 14.84C10.96 10.29 5.26 11.09 5.26 9.36Z" fill="white"/></svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Partenaire de paiement</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FOOTER ─── */}
+      {/* ─── FOOTER (conservé) ─── */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
