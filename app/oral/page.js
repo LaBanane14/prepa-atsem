@@ -606,7 +606,7 @@ export default function OralPage() {
                     <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-white/15 text-amber-300">
                       Question {currentQ + 1}/{questions.length}
                     </span>
-                    <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider ${colors.badge}`}>
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-amber-100 text-amber-700">
                       {q.category}
                     </span>
                   </div>
