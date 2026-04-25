@@ -41,6 +41,7 @@ export default function CalendrierPage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
   const [hoveredRegion, setHoveredRegion] = useState(null)
+  const [selectedRegion, setSelectedRegion] = useState(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -86,6 +87,7 @@ export default function CalendrierPage() {
   }
 
   const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
+  const selectedData = selectedRegion ? getRegionData(selectedRegion) : null
   const nb2026 = REGIONS.filter(r => r.concours_2026).length
   // Étape en cours selon la date du jour (calculé seulement après mount pour éviter les écarts SSR/CSR)
   const currentStepIdx = mounted
@@ -273,11 +275,46 @@ export default function CalendrierPage() {
         .cal-map-card, .cal-map-info { background: white; border: 1px solid #ece9f0; border-radius: 24px; padding: 32px; }
         .cal-map-card { display: flex; flex-direction: column; align-items: center; }
         .cal-map-svg { width: 100%; max-width: 460px; }
-        .cal-region-path { transition: fill 0.2s; cursor: pointer; outline: none; }
+        .cal-region-path { transition: fill 0.2s, stroke 0.2s, stroke-width 0.2s; cursor: pointer; outline: none; }
         .cal-region-path.active { fill: #c4b5fd; stroke: white; stroke-width: 1.5; }
         .cal-region-path.active:hover { fill: #8b5cf6; }
         .cal-region-path.inactive { fill: #e5e1ed; stroke: white; stroke-width: 1.5; }
         .cal-region-path.inactive:hover { fill: #cbc5d6; }
+        .cal-region-path.selected { fill: #6b21a8 !important; stroke: #1a1325; stroke-width: 2.5; }
+        .cal-region-path.inactive.selected { fill: #64748b !important; stroke: #1a1325; stroke-width: 2.5; }
+
+        /* Détail région dans le panneau */
+        .cal-detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+        .cal-detail-close {
+          width: 32px; height: 32px; border-radius: 8px;
+          background: #f3efff; color: #6b5b8e;
+          display: grid; place-items: center;
+          transition: background 0.15s, color 0.15s;
+          flex-shrink: 0;
+        }
+        .cal-detail-close:hover { background: #1a1325; color: white; }
+        .cal-detail-close svg { width: 16px; height: 16px; }
+        .cal-detail-dates { background: #faf8ff; border: 1px solid #ece9f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+        .cal-detail-date-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; }
+        .cal-detail-date-row + .cal-detail-date-row { border-top: 1px dashed #ece9f0; }
+        .cal-detail-date-row span { color: #6b5b8e; font-weight: 600; }
+        .cal-detail-date-row b { color: #1a1325; font-weight: 800; text-align: right; }
+        .cal-detail-subtitle { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #6b5b8e; margin: 0 0 10px; }
+        .cal-detail-cdg { list-style: none; padding: 0; margin: 0 0 18px; }
+        .cal-detail-cdg li { background: white; border: 1px solid #ece9f0; border-radius: 12px; padding: 10px 14px; margin-bottom: 6px; font-size: 13px; }
+        .cal-detail-cdg li b { display: block; color: #1a1325; font-weight: 800; margin-bottom: 2px; }
+        .cal-detail-cdg li .cal-deps { display: block; color: #8b7ea3; font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+        .cal-detail-cdg li a { color: #8b5cf6; font-weight: 700; font-size: 12px; }
+        .cal-detail-cdg li a:hover { text-decoration: underline; }
+        .cal-detail-cta {
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+          background: #1a1325; color: white;
+          padding: 12px 16px; border-radius: 12px;
+          font-weight: 800; font-size: 13px;
+          transition: background 0.15s;
+        }
+        .cal-detail-cta:hover { background: #2d1b4e; }
+        .cal-detail-cta svg { width: 16px; height: 16px; }
         .cal-region-name-display { text-align: center; height: 36px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
         .cal-pill { padding: 7px 16px; border-radius: 999px; font-size: 13px; font-weight: 800; }
         .cal-pill.active { background: #ede9fe; color: #6b21a8; }
@@ -510,14 +547,19 @@ export default function CalendrierPage() {
                   {FranceMap.locations.map(location => {
                     const region = getRegionData(location.id)
                     const active = region?.concours_2026
+                    const isSelected = selectedRegion === location.id
                     return (
-                      <a key={location.id} href={region ? `#${region.id}` : '#'}>
+                      <a
+                        key={location.id}
+                        href={region ? `#${region.id}` : '#'}
+                        onClick={(e) => { e.preventDefault(); if (region) setSelectedRegion(region.id) }}
+                      >
                         <path
                           d={location.path}
                           aria-label={region?.nom || location.name}
                           tabIndex={0}
                           role="link"
-                          className={`cal-region-path ${active ? 'active' : 'inactive'}`}
+                          className={`cal-region-path ${active ? 'active' : 'inactive'} ${isSelected ? 'selected' : ''}`}
                           onMouseEnter={() => setHoveredRegion(location.id)}
                           onMouseLeave={() => setHoveredRegion(null)}
                         >
@@ -535,22 +577,69 @@ export default function CalendrierPage() {
             </div>
 
             <div className="cal-map-info">
-              <h2>Comment ça marche ?</h2>
-              <p>Le concours ATSEM est organisé par les <b>Centres de Gestion (CDG)</b> de la Fonction Publique Territoriale, regroupés par région. Tous les CDG n'organisent pas le concours chaque année.</p>
-              <div className="cal-info-stats">
-                <div className="cal-info-stat">
-                  <b>{nb2026}<span style={{fontSize:14, fontWeight:700, color:'#8b7ea3'}}>/13</span></b>
-                  <span>Régions en 2026</span>
-                </div>
-                <div className="cal-info-stat">
-                  <b>~3%</b>
-                  <span>Taux de réussite</span>
-                </div>
-              </div>
-              <div className="cal-alert">
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-                <span>Inscriptions clôturées à minuit le dernier jour. Un dossier incomplet = candidature refusée.</span>
-              </div>
+              {selectedData ? (
+                <>
+                  <div className="cal-detail-head">
+                    <div>
+                      <span className={`cal-badge ${selectedData.concours_2026 ? 'active' : 'inactive'}`}>
+                        {selectedData.concours_2026 ? 'Concours 2026' : 'Prochain : 2027'}
+                      </span>
+                      <h2 style={{marginTop: 8}}>{selectedData.nom}</h2>
+                    </div>
+                    <button onClick={() => setSelectedRegion(null)} className="cal-detail-close" aria-label="Fermer">
+                      <svg fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+
+                  {selectedData.concours_2026 && (
+                    <div className="cal-detail-dates">
+                      <div className="cal-detail-date-row"><span>Inscriptions</span><b>{DATES_NATIONALES.inscription_debut} → {DATES_NATIONALES.inscription_fin}</b></div>
+                      <div className="cal-detail-date-row"><span>Dépôt dossier</span><b>{DATES_NATIONALES.depot_dossier}</b></div>
+                      <div className="cal-detail-date-row"><span>Épreuves écrites</span><b>{DATES_NATIONALES.epreuves_ecrites}</b></div>
+                      <div className="cal-detail-date-row"><span>Oraux</span><b>{DATES_NATIONALES.epreuves_orales}</b></div>
+                    </div>
+                  )}
+
+                  {selectedData.note && <p className="cal-note" style={{marginBottom: 16}}>{selectedData.note}</p>}
+
+                  <h3 className="cal-detail-subtitle">CDG organisateurs</h3>
+                  <ul className="cal-detail-cdg">
+                    {selectedData.cdg_organisateurs.map((c, i) => (
+                      <li key={i}>
+                        <b>{c.nom}</b>
+                        <span className="cal-deps">{c.departements.join(', ')}</span>
+                        {c.site && <a href={c.site} target="_blank" rel="noopener noreferrer">Site officiel →</a>}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {selectedData.concours_2026 && (
+                    <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="cal-detail-cta">
+                      S'inscrire sur concours-territorial.fr
+                      <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h2>Comment ça marche ?</h2>
+                  <p>Le concours ATSEM est organisé par les <b>Centres de Gestion (CDG)</b> de la Fonction Publique Territoriale, regroupés par région. Tous les CDG n'organisent pas le concours chaque année.</p>
+                  <div className="cal-info-stats">
+                    <div className="cal-info-stat">
+                      <b>{nb2026}<span style={{fontSize:14, fontWeight:700, color:'#8b7ea3'}}>/13</span></b>
+                      <span>Régions en 2026</span>
+                    </div>
+                    <div className="cal-info-stat">
+                      <b>~3%</b>
+                      <span>Taux de réussite</span>
+                    </div>
+                  </div>
+                  <div className="cal-alert">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                    <span>Inscriptions clôturées à minuit le dernier jour. Un dossier incomplet = candidature refusée.</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </section>
