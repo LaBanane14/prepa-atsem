@@ -424,7 +424,7 @@ export default function CalendrierPage() {
         {/* HERO */}
         <header className="cal-hero">
           <h1>Le calendrier du <em>concours ATSEM 2026</em>, par région et par CDG.</h1>
-          <p>Toutes les dates clés, les CDG organisateurs et les départements rattachés. Cliquez sur votre région pour voir le détail.</p>
+          <p>Toutes les dates clés, les CDG organisateurs et les départements rattachés.<br/>Cliquez sur votre région pour voir le détail.</p>
           <div className="cal-hero-meta">
             <span><b>{nb2026}</b> régions organisatrices</span>
             <span><b>{nbCdg}</b> CDG en 2026</span>
