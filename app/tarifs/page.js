@@ -303,7 +303,7 @@ export default function TarifsPage() {
           {/* HERO */}
           <header className="t-hero">
             <h1>Préparez le concours ATSEM sereinement</h1>
-            <p>Accédez à tous les outils pour réussir le concours ATSEM : QCM, annales, oral et fiches de révision.</p>
+            <p>Accédez à tous les outils pour réussir le concours ATSEM : QCM, annales, oral.</p>
           </header>
 
           {/* PRICING */}
