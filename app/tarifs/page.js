@@ -332,7 +332,7 @@ export default function TarifsPage() {
               </article>
 
               {/* Pack 6 mois */}
-              <article className="t-card dark">
+              <article className="t-card light">
                 <div className="t-card-head">
                   <span className="t-eyebrow">Pack Concours 6 mois</span>
                   <span className="t-ribbon">Économie</span>
