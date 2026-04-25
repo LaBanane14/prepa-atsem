@@ -220,7 +220,7 @@ export default function CalendrierPage() {
           border-radius: 999px; opacity: 0.6; z-index: 0;
         }
         .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; }
-        .cal-tl-meta { min-height: 96px; display: flex; flex-direction: column; justify-content: flex-start; }
+        .cal-tl-meta { min-height: 70px; display: flex; flex-direction: column; justify-content: flex-start; margin-bottom: 16px; }
         .cal-tl-dot {
           width: 56px; height: 56px; border-radius: 14px;
           background: white; border: 3px solid currentColor;
@@ -239,7 +239,7 @@ export default function CalendrierPage() {
         }
         .cal-tl-step:hover .cal-tl-dot::after { opacity: 0.22; }
         .cal-tl-month { font-size: 26px; font-weight: 900; letter-spacing: -0.025em; color: #1a1325; line-height: 1.05; margin-bottom: 4px; }
-        .cal-tl-year { font-size: 13px; font-weight: 800; color: #8b7ea3; margin-bottom: 12px; }
+        .cal-tl-year { font-size: 13px; font-weight: 800; color: #8b7ea3; margin-bottom: 0; }
         .cal-tl-label {
           display: inline-block; font-size: 10px; font-weight: 900; letter-spacing: 0.12em;
           text-transform: uppercase; padding: 5px 11px; border-radius: 999px;
