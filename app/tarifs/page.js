@@ -303,12 +303,7 @@ export default function TarifsPage() {
           {/* HERO */}
           <header className="t-hero">
             <h1>Préparez le concours ATSEM <em>sereinement</em></h1>
-            <p>Accédez à tous les outils pour réussir le concours ATSEM : QCM illimités, annales corrigées, simulation d'oral et dashboard personnalisé.</p>
-            <div className="t-hero-meta">
-              <span><b>~2 500</b> postes en 2026</span>
-              <span><b>80 000</b> candidats</span>
-              <span><b>3%</b> de taux de réussite</span>
-            </div>
+            <p>Accédez à tous les outils pour réussir le concours ATSEM : QCM, annales, oral et fiches de révision.</p>
           </header>
 
           {/* PRICING */}
@@ -324,10 +319,10 @@ export default function TarifsPage() {
               {/* Mensuel */}
               <article className="t-card light">
                 <div className="t-card-head">
-                  <span className="t-eyebrow">Formule mensuelle</span>
+                  <span className="t-eyebrow">Formule Mensuelle</span>
                 </div>
                 <h2 className="t-name">Mensuel</h2>
-                <p className="t-tagline">Flexibilité totale pour réviser à votre rythme. Sans engagement, résiliable en un clic.</p>
+                <p className="t-tagline">Flexibilité totale pour réviser à votre rythme. Sans engagement.</p>
                 <div className="t-price">
                   <span className="t-amount">9,99€</span>
                   <span className="t-period">/ mois</span>
@@ -340,31 +335,30 @@ export default function TarifsPage() {
                   S'abonner maintenant
                   <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </a>
-                <p className="t-foot-note">Sans engagement · Résiliable à tout moment</p>
+                <p className="t-foot-note">Renouvellement automatique</p>
               </article>
 
               {/* Pack 6 mois */}
               <article className="t-card dark">
                 <div className="t-card-head">
-                  <span className="t-eyebrow">Pack concours</span>
-                  <span className="t-ribbon">− 17% Économie</span>
+                  <span className="t-eyebrow">Pack Concours 6 mois</span>
+                  <span className="t-ribbon">Économie</span>
                 </div>
                 <h2 className="t-name">Pack 6 mois</h2>
-                <p className="t-tagline">La formule la plus complète pour préparer sereinement votre concours. Un seul paiement, zéro renouvellement automatique.</p>
+                <p className="t-tagline">Accès complet au site pendant 6 mois.</p>
                 <div className="t-price">
                   <span className="t-amount">49,99€</span>
                   <span className="t-period">pour 6 mois</span>
                 </div>
-                <p className="t-strike"><s>59,94€</s><b>Soit 8,33€/mois</b></p>
                 <hr className="t-divider" />
                 <ul className="t-feats">
                   {FEATURES.map((f, i) => <li key={i} className="t-feat">{f}</li>)}
                 </ul>
                 <a href="/signup" className="t-cta t-cta-dark">
-                  S'inscrire maintenant
+                  S'abonner maintenant
                   <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </a>
-                <p className="t-foot-note">Paiement unique · Aucun renouvellement</p>
+                <p className="t-foot-note">1 seul paiement · Pas de renouvellement automatique</p>
               </article>
             </div>
 
