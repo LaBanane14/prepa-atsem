@@ -248,24 +248,23 @@ export default function CalendrierPage() {
         .cal-tl-detail { font-size: 12px; font-weight: 600; color: #5e5270; line-height: 1.4; }
         .cal-tl-1 { color: #8b5cf6; } .cal-tl-2 { color: #ec4899; } .cal-tl-3 { color: #f43f5e; } .cal-tl-4 { color: #f59e0b; } .cal-tl-5 { color: #10b981; }
 
-        /* Étape en cours : losange agrandi + pulse */
+        /* Étape en cours : losange légèrement agrandi + pulse subtil */
         .cal-tl-current .cal-tl-dot {
-          transform: rotate(45deg) scale(1.55) translateY(-4px);
-          box-shadow: 0 16px 40px -8px currentColor;
+          transform: rotate(45deg) scale(1.18) translateY(-3px);
+          box-shadow: 0 12px 28px -8px currentColor;
           animation: cal-tl-pulse 2.4s ease-in-out infinite;
         }
-        .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.65) translateY(-6px); }
-        .cal-tl-current .cal-tl-dot::after { opacity: 0.28; transform: scale(1.55); }
-        .cal-tl-current .cal-tl-dot > span { font-size: 22px; }
-        .cal-tl-current .cal-tl-month { font-size: 32px; color: currentColor; }
-        .cal-tl-current .cal-tl-label { font-size: 11px; padding: 6px 14px; box-shadow: 0 6px 16px -4px currentColor; }
+        .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.25) translateY(-4px); }
+        .cal-tl-current .cal-tl-dot::after { opacity: 0.2; }
+        .cal-tl-current .cal-tl-month { color: currentColor; }
+        .cal-tl-current .cal-tl-label { box-shadow: 0 4px 12px -3px currentColor; }
         @keyframes cal-tl-pulse {
-          0%, 100% { box-shadow: 0 16px 40px -8px currentColor; }
-          50% { box-shadow: 0 16px 50px -4px currentColor, 0 0 0 8px rgba(0,0,0,0); }
+          0%, 100% { box-shadow: 0 12px 28px -8px currentColor; }
+          50% { box-shadow: 0 12px 36px -4px currentColor; }
         }
         @media (max-width: 1100px) {
-          .cal-tl-current .cal-tl-dot { transform: rotate(45deg) scale(1.4); }
-          .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.5); }
+          .cal-tl-current .cal-tl-dot { transform: rotate(45deg) scale(1.15); }
+          .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.22); }
         }
 
         /* MAP */
