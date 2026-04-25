@@ -308,13 +308,6 @@ export default function TarifsPage() {
 
           {/* PRICING */}
           <section className="t-section">
-            <div className="t-section-head">
-              <div className="t-section-title">
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18 7a6 6 0 100 10M5 10h8M5 14h8"/></svg>
-                Nos formules
-              </div>
-            </div>
-
             <div className="t-pricing-grid">
               {/* Mensuel */}
               <article className="t-card light">
