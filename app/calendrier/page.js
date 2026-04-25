@@ -29,11 +29,11 @@ const FAQ_ITEMS = [
 ]
 
 const TIMELINE_STEPS = [
-  { num: '1', label: 'Inscriptions', month: 'Mars', year: '→ 29 avril 2026', detail: 'Ouverture le 24 mars sur concours-territorial.fr', cls: 'cal-tl-1' },
-  { num: '2', label: 'Dépôt dossier', month: '7 mai', year: '2026', detail: 'Pièces justificatives + diplôme CAP AEPE', cls: 'cal-tl-2' },
-  { num: '3', label: 'Épreuves écrites', month: '14 oct.', year: '2026', detail: 'QCM + cas pratique en présentiel', cls: 'cal-tl-3' },
-  { num: '4', label: 'Résultats', month: 'Nov–Déc', year: '2026', detail: 'Liste des candidats admissibles à l\'oral', cls: 'cal-tl-4' },
-  { num: '5', label: 'Oraux', month: 'Déc–Janv', year: '2026 / 2027', detail: 'Entretien avec le jury, admission finale', cls: 'cal-tl-5' },
+  { num: '1', label: 'Inscriptions',     month: 'Mars',     year: 'jusqu\'au 29 avril', detail: 'Ouverture le 24 mars sur concours-territorial.fr', cls: 'cal-tl-1', endsAt: '2026-04-29T23:59:59' },
+  { num: '2', label: 'Dépôt dossier',    month: '7 mai',    year: '',                   detail: 'Pièces justificatives + diplôme CAP AEPE',          cls: 'cal-tl-2', endsAt: '2026-05-07T23:59:59' },
+  { num: '3', label: 'Épreuves écrites', month: '14 oct.',  year: '',                   detail: 'QCM + cas pratique en présentiel',                 cls: 'cal-tl-3', endsAt: '2026-10-14T23:59:59' },
+  { num: '4', label: 'Résultats',        month: 'Nov/Déc',  year: '',                   detail: 'Liste des candidats admissibles à l\'oral',         cls: 'cal-tl-4', endsAt: '2026-12-31T23:59:59' },
+  { num: '5', label: 'Oraux',            month: 'Déc/Janv', year: '2026 / 2027',        detail: 'Entretien avec le jury, admission finale',         cls: 'cal-tl-5', endsAt: '2027-01-31T23:59:59' },
 ]
 
 export default function CalendrierPage() {
@@ -87,6 +87,10 @@ export default function CalendrierPage() {
 
   const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
   const nb2026 = REGIONS.filter(r => r.concours_2026).length
+  // Étape en cours selon la date du jour (calculé seulement après mount pour éviter les écarts SSR/CSR)
+  const currentStepIdx = mounted
+    ? TIMELINE_STEPS.findIndex(s => Date.now() < new Date(s.endsAt).getTime())
+    : -1
   // Compte les CDG individuels nommés (exclut les entrées agrégées type "CDG rattachés..." ou "CDG organisateurs...")
   const nbCdg = REGIONS.reduce((s, r) => {
     if (!r.concours_2026) return s
@@ -243,6 +247,26 @@ export default function CalendrierPage() {
         .cal-tl-label span { color: white; }
         .cal-tl-detail { font-size: 12px; font-weight: 600; color: #5e5270; line-height: 1.4; }
         .cal-tl-1 { color: #8b5cf6; } .cal-tl-2 { color: #ec4899; } .cal-tl-3 { color: #f43f5e; } .cal-tl-4 { color: #f59e0b; } .cal-tl-5 { color: #10b981; }
+
+        /* Étape en cours : losange agrandi + pulse */
+        .cal-tl-current .cal-tl-dot {
+          transform: rotate(45deg) scale(1.55) translateY(-4px);
+          box-shadow: 0 16px 40px -8px currentColor;
+          animation: cal-tl-pulse 2.4s ease-in-out infinite;
+        }
+        .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.65) translateY(-6px); }
+        .cal-tl-current .cal-tl-dot::after { opacity: 0.28; transform: scale(1.55); }
+        .cal-tl-current .cal-tl-dot > span { font-size: 22px; }
+        .cal-tl-current .cal-tl-month { font-size: 32px; color: currentColor; }
+        .cal-tl-current .cal-tl-label { font-size: 11px; padding: 6px 14px; box-shadow: 0 6px 16px -4px currentColor; }
+        @keyframes cal-tl-pulse {
+          0%, 100% { box-shadow: 0 16px 40px -8px currentColor; }
+          50% { box-shadow: 0 16px 50px -4px currentColor, 0 0 0 8px rgba(0,0,0,0); }
+        }
+        @media (max-width: 1100px) {
+          .cal-tl-current .cal-tl-dot { transform: rotate(45deg) scale(1.4); }
+          .cal-tl-current:hover .cal-tl-dot { transform: rotate(45deg) scale(1.5); }
+        }
 
         /* MAP */
         .cal-map-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: stretch; }
@@ -448,11 +472,11 @@ export default function CalendrierPage() {
           <div className="cal-timeline-card">
             <div className="cal-timeline">
               {TIMELINE_STEPS.map((s, i) => (
-                <div className={`cal-tl-step ${s.cls}`} key={i}>
+                <div className={`cal-tl-step ${s.cls} ${i === currentStepIdx ? 'cal-tl-current' : ''}`} key={i}>
                   <div className="cal-tl-dot"><span>{s.num}</span></div>
                   <div className="cal-tl-label"><span>{s.label}</span></div>
                   <div className="cal-tl-month">{s.month}</div>
-                  <div className="cal-tl-year">{s.year}</div>
+                  {s.year && <div className="cal-tl-year">{s.year}</div>}
                   <div className="cal-tl-detail">{s.detail}</div>
                 </div>
               ))}
