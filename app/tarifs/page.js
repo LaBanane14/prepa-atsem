@@ -79,8 +79,8 @@ export default function TarifsPage() {
         .t-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
 
         /* HERO */
-        .t-hero { margin-bottom: 56px; max-width: 920px; }
-        .t-hero h1 { font-size: 64px; font-weight: 900; line-height: 1.02; margin: 0 0 20px; letter-spacing: -0.03em; color: #1a1325; }
+        .t-hero { margin-bottom: 56px; max-width: 1080px; }
+        .t-hero h1 { font-size: 52px; font-weight: 900; line-height: 1.02; margin: 0 0 20px; letter-spacing: -0.03em; color: #1a1325; white-space: nowrap; }
         .t-hero h1 em {
           font-style: normal;
           background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%);
@@ -235,7 +235,7 @@ export default function TarifsPage() {
         @media (max-width: 720px) {
           .t-wrap { padding: 28px 0 56px; }
           .t-inner { padding: 0 18px; }
-          .t-hero h1 { font-size: 36px; }
+          .t-hero h1 { font-size: 32px; white-space: normal; }
           .t-amount { font-size: 48px; }
           .t-card { padding: 32px 26px 28px; }
         }
