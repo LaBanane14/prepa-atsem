@@ -675,35 +675,33 @@ function DashboardContent() {
                     <p className="text-xs text-slate-400 font-bold mt-1">{monthData.count} exercices ce mois-ci</p>
                   </div>
                 ) : !weekGoalReached ? (
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                    <div className="flex items-center justify-between mb-2">
                       <p className="text-sm font-black text-slate-900">Objectif de la semaine</p>
                       <span className="text-xs font-black text-slate-400">{weekData.count}/5 exercices</span>
                     </div>
-                    <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-2">
                       <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
                     </div>
                     <div className="flex justify-between">
                       {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
-                        <div key={i} className="flex flex-col items-center gap-1">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-400'}`}>
-                            {weekData.daysWithExercise.has(i) ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
-                          </div>
+                        <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-400'}`}>
+                          {weekData.daysWithExercise.has(i) ? <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
                         </div>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                    <div className="flex items-center justify-between mb-2">
                       <p className="text-sm font-black text-slate-900">Objectif du mois</p>
                       <span className="text-xs font-black text-slate-400">{monthData.count}/20 exercices</span>
                     </div>
-                    <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-2">
                       <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
                     </div>
-                    <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 flex items-center gap-3">
-                      <svg viewBox="0 0 60 60" className="w-10 h-10 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <div className="bg-purple-50 border border-purple-200 rounded-xl px-3 py-2 flex items-center gap-2">
+                      <svg viewBox="0 0 60 60" className="w-7 h-7 shrink-0" xmlns="http://www.w3.org/2000/svg">
                         {/* étincelles */}
                         <g fill="#8b5cf6" opacity="0.7">
                           <path d="M8 14 L9 11 L10 14 L13 15 L10 16 L9 19 L8 16 L5 15 Z"/>
@@ -719,7 +717,7 @@ function DashboardContent() {
                         <polygon points="46,14 48,16 50,12" fill="#1a1325"/>
                         <path d="M30 32 L26 28 M30 32 L34 28" stroke="#1a1325" strokeWidth="1.8" strokeLinecap="round"/>
                       </svg>
-                      <p className="text-sm font-bold text-purple-700 leading-tight">{20 - monthData.count > 0 ? `Plus que ${20 - monthData.count} exercice${20 - monthData.count > 1 ? 's' : ''} pour atteindre l'objectif !` : 'Objectif atteint, bravo !'}</p>
+                      <p className="text-xs font-bold text-purple-700 leading-tight">{20 - monthData.count > 0 ? `Plus que ${20 - monthData.count} exercice${20 - monthData.count > 1 ? 's' : ''} pour atteindre l'objectif !` : 'Objectif atteint, bravo !'}</p>
                     </div>
                   </div>
                 )}
