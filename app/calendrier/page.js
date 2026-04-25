@@ -463,7 +463,7 @@ export default function CalendrierPage() {
       `}</style>
 
       {/* ─── NAVBAR (existante, conservée) ─── */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
