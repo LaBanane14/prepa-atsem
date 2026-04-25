@@ -32,7 +32,6 @@ export default function CalendrierPage() {
   const [user, setUser] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
-  const [selectedRegion, setSelectedRegion] = useState(null)
   const [hoveredRegion, setHoveredRegion] = useState(null)
   const [mounted, setMounted] = useState(false)
 
@@ -78,7 +77,6 @@ export default function CalendrierPage() {
     return REGIONS.find(r => r.id === id)
   }
 
-  const selected = selectedRegion ? getRegionData(selectedRegion) : null
   const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
 
   // ─── SEO : JSON-LD (Event + FAQ + Breadcrumb + Organization) ───
@@ -219,177 +217,49 @@ export default function CalendrierPage() {
         </div>
       </section>
 
-      {/* ─── CARTE + PANNEAU ─── */}
+      {/* ─── CARTE ─── */}
       <section className="pb-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid lg:grid-cols-5 gap-8 items-start">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-white/70 backdrop-blur rounded-3xl border border-slate-200 p-6 sm:p-8">
+            {/* Nom région au hover */}
+            <div className="text-center h-10 mb-3 flex items-center justify-center">
+              {hoveredData ? (
+                <span className={`text-base font-bold px-4 py-1.5 rounded-full ${hoveredData.concours_2026 ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-600'}`}>
+                  {hoveredData.nom} {!hoveredData.concours_2026 && '— 2027'}
+                </span>
+              ) : (
+                <span className="text-sm text-slate-400">Survolez une région</span>
+              )}
+            </div>
+            {mounted && <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
+              {FranceMap.locations.map(location => {
+                const region = getRegionData(location.id)
+                const is2026 = region?.concours_2026
+                const isHovered = hoveredRegion === location.id
+                const targetId = region?.id
 
-            {/* Carte de France — 3 colonnes */}
-            <div className="lg:col-span-3 bg-white/70 backdrop-blur rounded-3xl border border-slate-200 p-6 sm:p-8">
-              {/* Nom région au hover */}
-              <div className="text-center h-10 mb-3 flex items-center justify-center">
-                {hoveredData ? (
-                  <span className={`text-base font-bold px-4 py-1.5 rounded-full ${hoveredData.concours_2026 ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-600'}`}>
-                    {hoveredData.nom} {!hoveredData.concours_2026 && '— 2027'}
-                  </span>
-                ) : (
-                  <span className="text-sm text-slate-400">Survolez une région</span>
-                )}
-              </div>
-              {mounted && <svg viewBox={FranceMap.viewBox} className="w-full max-w-lg mx-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte des régions de France">
-                {FranceMap.locations.map(location => {
-                  const region = getRegionData(location.id)
-                  const is2026 = region?.concours_2026
-                  const isSelected = selectedRegion === location.id
-                  const isHovered = hoveredRegion === location.id
-
-                  return (
+                return (
+                  <a key={location.id} href={targetId ? `#${targetId}` : '#'}>
                     <path
-                      key={location.id}
                       d={location.path}
                       aria-label={region?.nom || location.name}
                       tabIndex={0}
-                      role="button"
+                      role="link"
                       className={`transition-all duration-200 cursor-pointer outline-none focus:outline-2 focus:outline-purple-500 ${
-                        isSelected
-                          ? 'fill-purple-600 stroke-purple-400 stroke-[2.5]'
-                          : isHovered
+                        isHovered
                           ? is2026 ? 'fill-purple-500 stroke-white stroke-[1.5]' : 'fill-slate-400 stroke-white stroke-[1.5]'
                           : is2026 ? 'fill-purple-300 stroke-white stroke-[1.5]' : 'fill-slate-200 stroke-white stroke-[1.5]'
                       }`}
-                      onClick={() => setSelectedRegion(location.id)}
-                      onKeyDown={(e) => { if (e.key === 'Enter') setSelectedRegion(location.id) }}
                       onMouseEnter={() => setHoveredRegion(location.id)}
                       onMouseLeave={() => setHoveredRegion(null)}
                     >
                       <title>{region?.nom || location.name}{!is2026 ? ' — Prochain concours : 2027' : ''}</title>
                     </path>
-                  )
-                })}
-              </svg>}
-            </div>
-
-            {/* Panneau détail — 2 colonnes */}
-            <div className="lg:col-span-2" role="region" aria-live="polite">
-              {selected ? (
-                <div className="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden animate-fade-in-up" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
-                  {/* Header */}
-                  <div className={`p-6 ${selected.concours_2026 ? 'bg-purple-800' : 'bg-slate-700'} text-white`}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className={`w-3 h-3 rounded-full ${selected.concours_2026 ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
-                        <div>
-                          <h2 className="text-lg font-bold">{selected.nom}</h2>
-                          <p className="text-sm opacity-75">{selected.concours_2026 ? 'Concours organisé en 2026' : 'Pas de concours ATSEM en 2026'}</p>
-                        </div>
-                      </div>
-                      <button onClick={() => setSelectedRegion(null)} className="opacity-60 hover:opacity-100 transition p-1">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="p-6">
-                    {selected.concours_2026 ? (
-                      <>
-                        {/* Dates */}
-                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                          Dates
-                        </h3>
-                        <div className="space-y-2 mb-6">
-                          {[
-                            { label: 'Inscriptions', value: `Du ${DATES_NATIONALES.inscription_debut} au ${DATES_NATIONALES.inscription_fin}` },
-                            { label: 'Dépôt dossier', value: DATES_NATIONALES.depot_dossier },
-                            { label: 'Épreuves écrites', value: DATES_NATIONALES.epreuves_ecrites },
-                            { label: 'Résultats', value: DATES_NATIONALES.resultats_admissibilite },
-                            { label: 'Oraux', value: DATES_NATIONALES.epreuves_orales },
-                          ].map((d, i) => (
-                            <div key={i} className="flex justify-between text-sm">
-                              <span className="text-slate-500">{d.label}</span>
-                              <span className="font-semibold text-slate-900 text-right">{d.value}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* CDG */}
-                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
-                          CDG organisateurs
-                        </h3>
-                        <div className="space-y-3 mb-6">
-                          {selected.cdg_organisateurs.map((cdg, i) => (
-                            <div key={i} className="bg-slate-50 rounded-xl p-3">
-                              <div className="flex items-center justify-between">
-                                <p className="font-bold text-slate-900 text-sm">{cdg.nom}</p>
-                                <a href={cdg.site} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 transition text-xs font-semibold">
-                                  Site →
-                                </a>
-                              </div>
-                              <p className="text-xs text-slate-500 mt-1">{cdg.departements.join(', ')}</p>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Note */}
-                        {selected.note && (
-                          <div className="bg-purple-50 border border-purple-100 rounded-xl p-3 mb-4">
-                            <p className="text-xs text-purple-800"><strong>Note :</strong> {selected.note}</p>
-                          </div>
-                        )}
-
-                        <a href="https://www.concours-territorial.fr" target="_blank" rel="noopener noreferrer" className="block w-full bg-purple-800 hover:bg-purple-900 text-white text-center font-bold py-3 rounded-xl transition text-sm">
-                          S'inscrire sur concours-territorial.fr →
-                        </a>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
-                          <p className="text-sm text-amber-800 font-medium">{selected.note}</p>
-                        </div>
-
-                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">CDG de référence</h3>
-                        <div className="space-y-3 mb-6">
-                          {selected.cdg_organisateurs.map((cdg, i) => (
-                            <div key={i} className="bg-slate-50 rounded-xl p-3">
-                              <p className="font-bold text-slate-900 text-sm">{cdg.nom}</p>
-                              <p className="text-xs text-slate-500 mt-1">{cdg.departements.join(', ')}</p>
-                              <a href={cdg.site} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 transition text-xs font-semibold">Voir le site →</a>
-                            </div>
-                          ))}
-                        </div>
-
-                        <button onClick={() => setSelectedRegion(null)} className="block w-full bg-slate-200 hover:bg-slate-300 text-slate-700 text-center font-bold py-3 rounded-xl transition text-sm">
-                          Voir les régions qui organisent en 2026
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
-                  <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Dates nationales 2026
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { label: 'Inscriptions', value: `Du ${DATES_NATIONALES.inscription_debut} au ${DATES_NATIONALES.inscription_fin}` },
-                      { label: 'Dépôt dossier', value: `${DATES_NATIONALES.depot_dossier} (dernier délai)` },
-                      { label: 'Épreuves écrites', value: `À partir du ${DATES_NATIONALES.epreuves_ecrites}` },
-                      { label: 'Résultats', value: DATES_NATIONALES.resultats_admissibilite },
-                      { label: 'Oraux', value: DATES_NATIONALES.epreuves_orales },
-                    ].map((d, i) => (
-                      <div key={i} className="flex justify-between text-sm py-2 border-b border-slate-100 last:border-0">
-                        <span className="text-slate-500">{d.label}</span>
-                        <span className="font-semibold text-slate-900 text-right">{d.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-xs text-slate-400 mt-4">Cliquez sur une région pour voir les CDG organisateurs.</p>
-                </div>
-              )}
-            </div>
+                  </a>
+                )
+              })}
+            </svg>}
+            <p className="text-center text-xs text-slate-400 mt-4">Cliquez sur une région pour voir le détail des CDG ci-dessous.</p>
           </div>
         </div>
       </section>
