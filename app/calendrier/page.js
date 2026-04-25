@@ -2,7 +2,31 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import FranceMap from '../../data/france-map'
-import { REGIONS, DATES_NATIONALES } from '../../data/calendrier-atsem-2026'
+import { REGIONS, DATES_NATIONALES, OUTRE_MER } from '../../data/calendrier-atsem-2026'
+
+// FAQ pour le SEO + utilisateurs
+const FAQ_ITEMS = [
+  {
+    q: "Quand a lieu le concours ATSEM 2026 ?",
+    r: "Les inscriptions au concours ATSEM 2026 ouvrent le 24 mars 2026 et se terminent le 29 avril 2026. Le dossier d'inscription doit être déposé au plus tard le 7 mai 2026. Les épreuves écrites se déroulent à partir du 14 octobre 2026, les résultats d'admissibilité tombent fin novembre / décembre 2026, et les oraux ont lieu en décembre 2026 et janvier 2027."
+  },
+  {
+    q: "Quels CDG organisent le concours ATSEM en 2026 ?",
+    r: "En 2026, les régions Île-de-France, Centre-Val de Loire, Auvergne-Rhône-Alpes, PACA, Corse, Grand Est, Hauts-de-France, Occitanie et Nouvelle-Aquitaine organisent le concours ATSEM. Chaque région regroupe plusieurs CDG (Centres de Gestion de la Fonction Publique Territoriale). Les régions Normandie, Bretagne, Pays de la Loire et Bourgogne-Franche-Comté n'organisent pas en 2026 — leur prochain concours est prévu en 2027."
+  },
+  {
+    q: "Comment s'inscrire au concours ATSEM 2026 ?",
+    r: "L'inscription au concours ATSEM se fait exclusivement en ligne via le portail concours-territorial.fr. Vous choisissez un seul CDG organisateur (un seul à la fois — pas d'inscription multiple). Le dossier complet (pièces justificatives, diplôme CAP AEPE, etc.) doit ensuite être renvoyé au CDG choisi avant la date limite du 7 mai 2026."
+  },
+  {
+    q: "Peut-on s'inscrire au concours ATSEM dans une autre région ?",
+    r: "Oui, la réussite au concours ATSEM est valable sur tout le territoire national. Si votre région n'organise pas le concours en 2026 (par exemple Normandie ou Bretagne), vous pouvez vous inscrire dans une région voisine qui l'organise. Vous pourrez ensuite postuler dans n'importe quelle commune française une fois reçu sur la liste d'aptitude."
+  },
+  {
+    q: "Combien y a-t-il de postes au concours ATSEM 2026 ?",
+    r: "Le concours ATSEM ouvre environ 2 500 postes en France pour plus de 80 000 candidats — un taux de réussite proche de 3%. Le nombre exact de postes par CDG est publié dans l'arrêté d'ouverture du concours par chaque centre de gestion (généralement quelques semaines avant l'ouverture des inscriptions)."
+  }
+]
 
 export default function CalendrierPage() {
   const [user, setUser] = useState(null)
@@ -57,8 +81,62 @@ export default function CalendrierPage() {
   const selected = selectedRegion ? getRegionData(selectedRegion) : null
   const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
 
+  // ─── SEO : JSON-LD (Event + FAQ + Breadcrumb + Organization) ───
+  const regionsActives = REGIONS.filter(r => r.concours_2026)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.prepa-atsem.fr/" },
+          { "@type": "ListItem", "position": 2, "name": "Calendrier 2026", "item": "https://www.prepa-atsem.fr/calendrier" }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "Prépa ATSEM",
+        "url": "https://www.prepa-atsem.fr",
+        "logo": "https://www.prepa-atsem.fr/logo.png",
+        "description": "Plateforme de préparation au concours ATSEM (Agent Territorial Spécialisé des Écoles Maternelles)."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": FAQ_ITEMS.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": { "@type": "Answer", "text": f.r }
+        }))
+      },
+      ...regionsActives.map(r => ({
+        "@type": "Event",
+        "name": `Concours ATSEM 2026 — ${r.nom}`,
+        "description": `Épreuves écrites du concours ATSEM 2026 organisées par les CDG de la région ${r.nom}.`,
+        "startDate": "2026-10-14",
+        "endDate": "2027-01-31",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+          "@type": "Place",
+          "name": r.nom,
+          "address": { "@type": "PostalAddress", "addressRegion": r.nom, "addressCountry": "FR" }
+        },
+        "organizer": r.cdg_organisateurs.map(c => ({ "@type": "Organization", "name": c.nom, "url": c.site })),
+        "url": `https://www.prepa-atsem.fr/calendrier#${r.id}`,
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.concours-territorial.fr",
+          "availabilityStarts": "2026-03-24",
+          "availabilityEnds": "2026-04-29",
+          "validFrom": "2026-03-24"
+        }
+      }))
+    ]
+  }
+
   return (
     <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ─── NAVBAR ─── */}
       <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
@@ -105,7 +183,7 @@ export default function CalendrierPage() {
       {/* ─── HERO ─── */}
       <section className="pt-16 pb-8">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl text-slate-900 leading-tight mb-3 font-bold whitespace-nowrap">Calendrier du concours ATSEM 2026</h1>
+          <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl text-slate-900 leading-tight mb-3 font-bold">Dates du concours ATSEM 2026 par CDG et par région</h1>
           <p className="text-base text-slate-500">Cliquez sur votre région pour voir les dates et les CDG organisateurs.</p>
           {/* Légende */}
           <div className="flex items-center justify-center gap-6 mt-6 text-sm">
@@ -290,6 +368,53 @@ export default function CalendrierPage() {
         </div>
       </section>
 
+      {/* ─── LISTE COMPLÈTE CDG (SEO) ─── */}
+      <section className="pb-12">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Liste des CDG organisateurs du concours ATSEM 2026 par région</h2>
+            <p className="text-sm text-slate-500 mb-6">Toutes les régions, leurs CDG (Centres de Gestion) et les départements rattachés. Cliquez sur un CDG pour accéder à son site officiel d'inscription.</p>
+            <div className="space-y-6">
+              {REGIONS.map(r => (
+                <div key={r.id} id={r.id} className="border-l-4 pl-4" style={{ borderColor: r.concours_2026 ? '#8b5cf6' : '#cbd5e1' }}>
+                  <h3 className="text-base font-bold text-slate-900 mb-1">
+                    {r.nom}
+                    <span className={`ml-2 inline-block text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${r.concours_2026 ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-600'}`}>
+                      {r.concours_2026 ? 'Concours ATSEM 2026' : 'Prochain concours : 2027'}
+                    </span>
+                  </h3>
+                  {r.concours_2026 && (
+                    <p className="text-xs text-slate-500 mb-2">Inscriptions du {DATES_NATIONALES.inscription_debut} au {DATES_NATIONALES.inscription_fin} · Épreuves écrites le {DATES_NATIONALES.epreuves_ecrites} · Oraux {DATES_NATIONALES.epreuves_orales}.</p>
+                  )}
+                  {r.note && <p className="text-xs italic text-slate-500 mb-2">{r.note}</p>}
+                  <ul className="text-sm text-slate-700 space-y-1 mt-2">
+                    {r.cdg_organisateurs.map((cdg, i) => (
+                      <li key={i}>
+                        <strong className="text-slate-900">{cdg.nom}</strong>
+                        <span className="text-slate-500"> — {cdg.departements.join(', ')}</span>
+                        {cdg.site && <> · <a href={cdg.site} target="_blank" rel="noopener noreferrer" className="text-purple-700 hover:underline">site officiel</a></>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              {/* Outre-Mer */}
+              <div className="border-l-4 border-amber-400 pl-4">
+                <h3 className="text-base font-bold text-slate-900 mb-2">Outre-Mer</h3>
+                <ul className="text-sm text-slate-700 space-y-1">
+                  {OUTRE_MER.map((dom, i) => (
+                    <li key={i}>
+                      <strong className="text-slate-900">{dom.cdg}</strong>
+                      <span className="text-slate-500"> — {dom.nom}, inscriptions du {dom.inscription_debut} au {dom.inscription_fin}.</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── DATES NATIONALES ─── */}
       <section className="pb-12">
         <div className="max-w-3xl mx-auto px-4">
@@ -310,6 +435,27 @@ export default function CalendrierPage() {
         </div>
       </section>
 
+
+      {/* ─── FAQ (SEO) ─── */}
+      <section className="pb-12">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Questions fréquentes sur le concours ATSEM 2026</h2>
+            <p className="text-sm text-slate-500 mb-6">Tout ce qu'il faut savoir sur les dates, les CDG et l'inscription au concours.</p>
+            <div className="divide-y divide-slate-200">
+              {FAQ_ITEMS.map((item, i) => (
+                <details key={i} className="py-4 group">
+                  <summary className="flex items-center justify-between cursor-pointer list-none font-bold text-sm text-slate-900 hover:text-purple-800 transition">
+                    <span>{item.q}</span>
+                    <svg className="w-4 h-4 text-slate-400 group-open:rotate-180 transition" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </summary>
+                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{item.r}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ─── CTA ─── */}
       <section className="pb-16">
