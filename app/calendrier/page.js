@@ -87,7 +87,12 @@ export default function CalendrierPage() {
 
   const hoveredData = hoveredRegion ? getRegionData(hoveredRegion) : null
   const nb2026 = REGIONS.filter(r => r.concours_2026).length
-  const nbCdg = REGIONS.reduce((s, r) => s + (r.concours_2026 ? r.cdg_organisateurs.length : 0), 0)
+  // Compte les CDG individuels nommés (exclut les entrées agrégées type "CDG rattachés..." ou "CDG organisateurs...")
+  const nbCdg = REGIONS.reduce((s, r) => {
+    if (!r.concours_2026) return s
+    const named = r.cdg_organisateurs.filter(c => !/^CDG (rattachés|organisateurs)/i.test(c.nom))
+    return s + named.length
+  }, 0)
 
   // ─── SEO : JSON-LD (Event + FAQ + Breadcrumb + Organization) ───
   const regionsActives = REGIONS.filter(r => r.concours_2026)
@@ -428,7 +433,7 @@ export default function CalendrierPage() {
           <div className="cal-hero-meta">
             <span><b>{nb2026}</b> régions organisatrices</span>
             <span><b>{nbCdg}</b> CDG en 2026</span>
-            <span><b>~2 500</b> postes ouverts</span>
+            <span><b>~2 500</b> postes attendus</span>
           </div>
         </header>
 
