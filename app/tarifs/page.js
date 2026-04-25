@@ -110,7 +110,7 @@ export default function TarifsPage() {
         .t-section-title svg { width: 16px; height: 16px; color: #8b5cf6; }
 
         /* PRICING GRID */
-        .t-pricing-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; }
+        .t-pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
         @media (max-width: 980px) { .t-pricing-grid { grid-template-columns: 1fr; } }
 
         .t-card { border-radius: 28px; padding: 44px 40px 40px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
