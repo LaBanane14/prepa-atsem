@@ -219,8 +219,8 @@ export default function CalendrierPage() {
           background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 28%, #f43f5e 52%, #f59e0b 76%, #10b981 100%);
           border-radius: 999px; opacity: 0.6; z-index: 0;
         }
-        .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; display: flex; flex-direction: column; height: 100%; }
-        .cal-tl-detail { margin-top: auto !important; padding-top: 12px; }
+        .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; }
+        .cal-tl-meta { min-height: 96px; display: flex; flex-direction: column; justify-content: flex-start; }
         .cal-tl-dot {
           width: 56px; height: 56px; border-radius: 14px;
           background: white; border: 3px solid currentColor;
@@ -475,8 +475,10 @@ export default function CalendrierPage() {
                 <div className={`cal-tl-step ${s.cls} ${i === currentStepIdx ? 'cal-tl-current' : ''}`} key={i}>
                   <div className="cal-tl-dot"><span>{s.num}</span></div>
                   <div className="cal-tl-label"><span>{s.label}</span></div>
-                  <div className="cal-tl-month">{s.month}</div>
-                  {s.year && <div className="cal-tl-year">{s.year}</div>}
+                  <div className="cal-tl-meta">
+                    <div className="cal-tl-month">{s.month}</div>
+                    {s.year && <div className="cal-tl-year">{s.year}</div>}
+                  </div>
                   <div className="cal-tl-detail">{s.detail}</div>
                 </div>
               ))}
