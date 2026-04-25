@@ -28,7 +28,7 @@ export default function ForgotPassword() {
 
   if (sent) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%), radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%), radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%), radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%), radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%)' }}>
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)' }}>
         <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl relative z-10 p-8 sm:p-10 border border-slate-100 text-center">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -42,7 +42,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen text-slate-900 flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%), radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%), radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%), radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%), radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%)' }}>
+    <div className="min-h-screen text-slate-900 flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)' }}>
       <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl relative z-10 p-8 sm:p-10 border border-slate-100">
         <a href="/auth" className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 transition bg-slate-50 hover:bg-[#eceef1] p-2 rounded-full">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
