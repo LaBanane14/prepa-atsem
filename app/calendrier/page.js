@@ -275,13 +275,11 @@ export default function CalendrierPage() {
         .cal-map-card, .cal-map-info { background: white; border: 1px solid #ece9f0; border-radius: 24px; padding: 32px; }
         .cal-map-card { display: flex; flex-direction: column; align-items: center; }
         .cal-map-svg { width: 100%; max-width: 460px; }
-        .cal-region-path { transition: fill 0.2s, stroke 0.2s, stroke-width 0.2s; cursor: pointer; outline: none; }
+        .cal-region-path { transition: fill 0.2s; cursor: pointer; outline: none; }
         .cal-region-path.active { fill: #c4b5fd; stroke: white; stroke-width: 1.5; }
-        .cal-region-path.active:hover { fill: #8b5cf6; }
+        .cal-region-path.active:hover, .cal-region-path.active.selected { fill: #8b5cf6; }
         .cal-region-path.inactive { fill: #e5e1ed; stroke: white; stroke-width: 1.5; }
-        .cal-region-path.inactive:hover { fill: #cbc5d6; }
-        .cal-region-path.selected { fill: #6b21a8 !important; stroke: #1a1325; stroke-width: 2.5; }
-        .cal-region-path.inactive.selected { fill: #64748b !important; stroke: #1a1325; stroke-width: 2.5; }
+        .cal-region-path.inactive:hover, .cal-region-path.inactive.selected { fill: #cbc5d6; }
 
         /* Détail région dans le panneau */
         .cal-detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
