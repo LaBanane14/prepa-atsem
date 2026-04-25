@@ -220,7 +220,7 @@ export default function CalendrierPage() {
           border-radius: 999px; opacity: 0.6; z-index: 0;
         }
         .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; }
-        .cal-tl-meta { min-height: 70px; display: flex; flex-direction: column; justify-content: flex-start; margin-bottom: 16px; }
+        .cal-tl-meta { min-height: 56px; display: flex; flex-direction: column; justify-content: flex-start; margin-bottom: 8px; }
         .cal-tl-dot {
           width: 56px; height: 56px; border-radius: 14px;
           background: white; border: 3px solid currentColor;
