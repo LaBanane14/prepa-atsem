@@ -148,7 +148,8 @@ export default function CalendrierPage() {
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
       <style>{`
-        .cal-wrap { position: relative; padding: 56px 72px 80px; min-height: 100vh; }
+        .cal-wrap { position: relative; padding: 56px 0 80px; min-height: 100vh; }
+        .cal-inner { max-width: 1180px; margin: 0 auto; padding: 0 48px; }
         .cal-wrap::before {
           content: '';
           position: absolute; inset: 0;
@@ -349,7 +350,8 @@ export default function CalendrierPage() {
         .cal-cta-btn svg { width: 16px; height: 16px; }
 
         @media (max-width: 1100px) {
-          .cal-wrap { padding: 40px 32px 60px; }
+          .cal-wrap { padding: 40px 0 60px; }
+          .cal-inner { padding: 0 32px; }
           .cal-map-wrap { grid-template-columns: 1fr; }
           .cal-regions-grid { grid-template-columns: 1fr; }
           .cal-timeline { grid-template-columns: 1fr; gap: 28px; }
@@ -362,7 +364,8 @@ export default function CalendrierPage() {
           .cal-tl-dot { position: absolute; left: 0; top: 0; margin: 0; }
         }
         @media (max-width: 720px) {
-          .cal-wrap { padding: 28px 18px 56px; }
+          .cal-wrap { padding: 28px 0 56px; }
+          .cal-inner { padding: 0 18px; }
           .cal-hero h1 { font-size: 36px; }
           .cal-hero p { font-size: 16px; }
           .cal-timeline-card { padding: 28px 22px; }
@@ -416,6 +419,7 @@ export default function CalendrierPage() {
 
       {/* ─── CONTENU NEW DESIGN ─── */}
       <div className="cal-wrap">
+       <div className="cal-inner">
 
         {/* HERO */}
         <header className="cal-hero">
@@ -612,6 +616,7 @@ export default function CalendrierPage() {
             </div>
           </div>
         </section>
+       </div>
       </div>
 
       {/* ─── FOOTER (existant, conservé) ─── */}
