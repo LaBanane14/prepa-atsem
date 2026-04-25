@@ -28,6 +28,14 @@ const FAQ_ITEMS = [
   }
 ]
 
+// Régions organisées conjointement (lien réciproque, scroll vers l'autre carte)
+const REGION_LINKS = {
+  idf: 'cvl',
+  cvl: 'idf',
+  pac: 'cor',
+  cor: 'pac',
+}
+
 const TIMELINE_STEPS = [
   { num: '1', label: 'Inscriptions',     month: 'Jusqu\'au 29 avril', year: '', detail: 'Inscription sur concours-territorial.fr',           cls: 'cal-tl-1', endsAt: '2026-04-29T23:59:59' },
   { num: '2', label: 'Dépôt dossier',    month: '7 mai',    year: '',                   detail: 'Pièces justificatives',                            cls: 'cal-tl-2', endsAt: '2026-05-07T23:59:59' },
@@ -355,6 +363,21 @@ export default function CalendrierPage() {
         .cal-region-card.active .cal-badge.active { background: rgba(139,92,246,0.3); color: #d4c5ff; }
         .cal-region-card.inactive .cal-badge.inactive { background: #f3f0f7; color: #6b5b8e; }
         .cal-region-card .cal-meta-line { font-size: 12px; color: #8b7ea3; margin: 0 0 12px; font-weight: 600; }
+        .cal-region-link {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+          padding: 5px 10px; border-radius: 999px;
+          background: rgba(139,92,246,0.12); color: #6b21a8;
+          margin: 0 0 10px;
+          transition: background 0.15s, color 0.15s, transform 0.15s;
+        }
+        .cal-region-link:hover { background: rgba(139,92,246,0.22); transform: translateX(2px); }
+        .cal-region-link svg { width: 12px; height: 12px; }
+        .cal-region-link b { font-weight: 800; }
+        .cal-region-card.active .cal-region-link {
+          background: rgba(196,181,253,0.18); color: #d4c5ff;
+        }
+        .cal-region-card.active .cal-region-link:hover { background: rgba(196,181,253,0.28); color: white; }
         .cal-region-card.active .cal-meta-line { color: #b8a9d1; }
         .cal-region-card .cal-note { font-size: 12px; color: #92400e; background: #fffbeb; padding: 8px 12px; border-radius: 10px; margin: 0 0 12px; font-style: italic; }
         .cal-cdg-list { list-style: none; padding: 0; margin: 0; }
@@ -651,7 +674,10 @@ export default function CalendrierPage() {
             </div>
           </div>
           <div className="cal-regions-grid">
-            {REGIONS.map((r) => (
+            {REGIONS.map((r) => {
+              const linkedId = REGION_LINKS[r.id]
+              const linked = linkedId ? REGIONS.find(x => x.id === linkedId) : null
+              return (
               <article
                 key={r.id}
                 id={r.id}
@@ -663,12 +689,18 @@ export default function CalendrierPage() {
                     {r.concours_2026 ? 'Concours 2026' : 'Prochain : 2027'}
                   </span>
                 </div>
+                {linked && (
+                  <a href={`#${linked.id}`} className="cal-region-link">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    Organisation conjointe avec <b>{linked.nom}</b>
+                  </a>
+                )}
                 {r.concours_2026 && (
                   <p className="cal-meta-line">
                     Inscriptions {DATES_NATIONALES.inscription_debut} → {DATES_NATIONALES.inscription_fin} · Écrits {DATES_NATIONALES.epreuves_ecrites}
                   </p>
                 )}
-                {r.note && <p className="cal-note">{r.note}</p>}
+                {r.note && !linked && <p className="cal-note">{r.note}</p>}
                 <ul className="cal-cdg-list">
                   {r.cdg_organisateurs.map((c, i) => (
                     <li key={i}>
@@ -678,7 +710,8 @@ export default function CalendrierPage() {
                   ))}
                 </ul>
               </article>
-            ))}
+              )
+            })}
             {/* Outre-Mer */}
             <article className="cal-region-card inactive" id="outre-mer">
               <div className="cal-region-card-head">
