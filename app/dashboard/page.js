@@ -703,7 +703,7 @@ function DashboardContent() {
                       <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
                     </div>
                     <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center">
-                      <p className="text-sm font-bold text-emerald-700">Continue comme ça, c'est très bien !</p>
+                      <p className="text-sm font-bold text-emerald-700">{20 - monthData.count > 0 ? `Plus que ${20 - monthData.count} exercice${20 - monthData.count > 1 ? 's' : ''} pour atteindre l'objectif !` : 'Objectif atteint, bravo !'}</p>
                     </div>
                   </div>
                 )}
