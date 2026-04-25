@@ -219,7 +219,8 @@ export default function CalendrierPage() {
           background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 28%, #f43f5e 52%, #f59e0b 76%, #10b981 100%);
           border-radius: 999px; opacity: 0.6; z-index: 0;
         }
-        .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; }
+        .cal-tl-step { position: relative; text-align: center; z-index: 1; padding: 0 6px; display: flex; flex-direction: column; }
+        .cal-tl-detail { margin-top: auto; }
         .cal-tl-dot {
           width: 56px; height: 56px; border-radius: 14px;
           background: white; border: 3px solid currentColor;
