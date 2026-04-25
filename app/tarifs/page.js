@@ -137,7 +137,7 @@ export default function TarifsPage() {
               </div>
               <div className="flex-1">
                 <ul className="space-y-4 mb-10">
-                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
+                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-700 font-bold text-sm">
                       <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
                       {item}
@@ -169,7 +169,7 @@ export default function TarifsPage() {
               </div>
               <div className="flex-1 relative">
                 <ul className="space-y-4 mb-10">
-                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
+                  {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                       <div className="bg-purple-100 p-1 rounded-md flex-shrink-0"><Check className="w-4 h-4 text-purple-800" /></div>
                       {item}

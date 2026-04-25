@@ -209,7 +209,6 @@ function DashboardContent() {
   const subtitle = hour < 12 ? 'Une petite session de révision ce matin ?' : hour < 18 ? 'C\'est le moment idéal pour réviser !' : 'Une dernière session avant la fin de journée ?'
   const email = user?.email || ''
   const createdAt = new Date(user?.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-  const stats = { qcm: 0, score: '-', calculs: 0, redactions: 0 }
 
   // Calcul streak (jours d'affilée)
   const getStreak = () => {
@@ -583,12 +582,6 @@ function DashboardContent() {
                         </div>
                         <button onClick={() => setPage('abonnement')} className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-4 py-2 rounded-xl transition shadow-md cursor-pointer">Devenir premium</button>
                       </div>
-                    {false && (
-                      <button onClick={() => setPage('abonnement')} className="bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 font-black text-sm px-5 py-2.5 rounded-xl shadow-md shadow-amber-200/50 hover:shadow-lg transition flex items-center gap-2 cursor-pointer">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        Devenir premium
-                      </button>
-                    )}
                   </>
                 )}
               </div>
@@ -1341,7 +1334,7 @@ function DashboardContent() {
             <div>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Devenir Premium</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Choisissez la formule qui s'adapte le plus à votre besoin.</p>
-              <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-[90%]">
+              <div className="grid md:grid-cols-3 gap-6 lg:gap-8 w-full">
 
                 {/* Essai Gratuit */}
                 <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col transition hover:shadow-md">
@@ -1358,7 +1351,7 @@ function DashboardContent() {
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
-                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
+                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                           <div className="bg-slate-200 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-slate-900" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
@@ -1414,7 +1407,7 @@ function DashboardContent() {
                   </div>
                   <div className="flex-1">
                     <ul className="space-y-3 mb-8">
-                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé", "Fiches de révision"].map((item, i) => (
+                      {["QCM ATSEM illimités", "Annales corrigées chronométrées", "Simulation d'oral par IA", "Dashboard personnalisé"].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-slate-900 font-bold text-sm">
                           <div className="bg-purple-100 p-0.5 rounded-md shrink-0"><svg className="w-3.5 h-3.5 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg></div>
                           {item}
