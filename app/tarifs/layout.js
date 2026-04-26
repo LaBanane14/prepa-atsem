@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Tarifs — Préparation au concours ATSEM | Prépa ATSEM",
-  description: "Tarifs de préparation au concours ATSEM : formule mensuelle 9,99€ ou Pack Concours 6 mois à 49,99€. Accès illimité aux QCM, annales corrigées (2015-2025), simulation d'oral par IA et fiches de révision.",
+  description: "Tarifs de préparation au concours ATSEM : formule mensuelle 9,99€ ou Pack Concours 6 mois à 49,99€. Accès illimité aux QCM, annales corrigées, examen blanc et simulation d'oral par IA.",
   keywords: [
     "tarifs concours ATSEM",
     "prix préparation ATSEM",
@@ -11,7 +11,7 @@ export const metadata = {
   ],
   openGraph: {
     title: "Tarifs de préparation au concours ATSEM | Prépa ATSEM",
-    description: "Formules d'abonnement accessibles pour réussir le concours ATSEM : QCM, annales, oral et fiches de révision.",
+    description: "Formules d'abonnement accessibles pour réussir le concours ATSEM : QCM, annales, examen blanc et oral.",
     type: "website",
     url: "https://www.prepa-atsem.fr/tarifs",
   },

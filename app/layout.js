@@ -2,27 +2,49 @@ import "./globals.css";
 
 const siteUrl = "https://www.prepa-atsem.fr";
 const siteName = "Prépa ATSEM";
-const description = "Préparez le concours ATSEM avec des QCM, annales corrigées, simulations d'oral et fiches de révision. La plateforme de référence pour réussir le concours d'Agent Territorial Spécialisé des Écoles Maternelles.";
+const description = "Préparation au concours ATSEM 2026 : QCM thématiques, annales corrigées (2015-2025), simulation d'oral par IA, calendrier des épreuves par région. Réussissez le concours ATSEM externe, interne ou 3ᵉ voie avec Prépa ATSEM.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Prépa ATSEM — Préparation au concours ATSEM 2026",
+    default: "Concours ATSEM 2026 — Préparation en ligne | Prépa ATSEM",
     template: "%s | Prépa ATSEM",
   },
   description,
   keywords: [
+    // Keyword cible principal
     "concours ATSEM",
     "concours ATSEM 2026",
+    // Variantes
     "préparation concours ATSEM",
+    "préparer concours ATSEM",
+    "se préparer au concours ATSEM",
+    "réussir concours ATSEM",
+    "s'inscrire concours ATSEM",
+    // Épreuves et contenu
     "QCM ATSEM",
+    "QCM concours ATSEM",
+    "annales ATSEM",
     "annales ATSEM corrigées",
+    "sujets concours ATSEM",
     "oral concours ATSEM",
-    "agent territorial école maternelle",
+    "épreuve écrite ATSEM",
+    "programme concours ATSEM",
+    "barème concours ATSEM",
+    // Longue traîne
+    "calendrier concours ATSEM 2026",
+    "dates concours ATSEM 2026",
+    "inscription concours ATSEM",
     "révision concours ATSEM",
-    "fiches ATSEM",
-    "reconversion ATSEM",
+    "examen blanc ATSEM",
+    "formation concours ATSEM",
+    "formation ATSEM en ligne",
+    // Persona
+    "devenir ATSEM",
+    "métier ATSEM",
     "CAP AEPE",
+    "reconversion ATSEM",
+    "agent territorial école maternelle",
     "concours fonction publique territoriale",
   ],
   authors: [{ name: siteName }],
@@ -33,7 +55,7 @@ export const metadata = {
     locale: "fr_FR",
     url: siteUrl,
     siteName,
-    title: "Prépa ATSEM — Préparation au concours ATSEM 2026",
+    title: "Concours ATSEM 2026 — Préparation en ligne | Prépa ATSEM",
     description,
     images: [
       {
@@ -46,7 +68,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prépa ATSEM — Préparation au concours ATSEM 2026",
+    title: "Concours ATSEM 2026 — Préparation en ligne | Prépa ATSEM",
     description,
     images: ["/og-image.png"],
   },
