@@ -72,7 +72,7 @@ export default function ArticlePage() {
 
   if (!loading && !article) {
     return (
-      <div className="min-h-screen bg-[#eceef1] flex items-center justify-center px-4" style={{fontFamily: "'Nunito', sans-serif"}}>
+      <div className="min-h-screen bg-[#eceef1] flex items-center justify-center px-4" style={{fontFamily: "var(--font-nunito), sans-serif"}}>
         <div className="text-center max-w-lg">
           <div className="relative mb-6 flex items-center justify-center gap-0">
             <span className="text-[120px] sm:text-[180px] font-black text-slate-900 leading-none select-none">4</span>
@@ -144,8 +144,7 @@ export default function ArticlePage() {
   }
 
   return (
-    <div className="min-h-screen text-slate-900 selection:bg-purple-200 flex flex-col" style={{ backgroundColor: '#ffffff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <div className="min-h-screen text-slate-900 selection:bg-purple-200 flex flex-col" style={{ backgroundColor: '#ffffff', color: '#1a1325', fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
       <style>{`
         .ba-wrap { flex: 1; display: flex; flex-direction: column; }
       `}</style>
@@ -155,11 +154,11 @@ export default function ArticlePage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
       {/* NAVIGATION */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm"><LogoSvg className="w-10 h-10" /></div>
-            <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+            <div style={{ fontFamily: "var(--font-nunito), sans-serif" }} className="translate-y-[2px]">
               <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM</span>
             </div>
@@ -208,6 +207,8 @@ export default function ArticlePage() {
           </div>
         )}
       </nav>
+
+      <main>
 
       {/* ARTICLE */}
       <div className="ba-wrap">
@@ -291,6 +292,8 @@ export default function ArticlePage() {
       </div>
 
       {/* FOOTER */}
+      </main>
+
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm mt-auto">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">

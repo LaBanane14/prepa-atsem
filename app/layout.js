@@ -1,4 +1,24 @@
 import "./globals.css";
+import { Sora, Nunito, Young_Serif } from "next/font/google";
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-sora",
+  display: "swap",
+});
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800", "900"],
+  variable: "--font-nunito",
+  display: "swap",
+});
+const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-young-serif",
+  display: "swap",
+});
 
 const siteUrl = "https://www.prepa-atsem.fr";
 const siteName = "Prépa ATSEM";
@@ -96,11 +116,8 @@ import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${sora.variable} ${nunito.variable} ${youngSerif.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Young+Serif&family=Nunito:wght@800;900&display=swap" rel="stylesheet" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",

@@ -162,9 +162,8 @@ export default function CalendrierPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#faf8ff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+    <div className="min-h-screen" style={{ background: '#faf8ff', color: '#1a1325', fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
       <style>{`
         .cal-wrap { position: relative; padding: 56px 0 80px; min-height: 100vh; }
@@ -471,13 +470,13 @@ export default function CalendrierPage() {
       `}</style>
 
       {/* ─── NAVBAR (existante, conservée) ─── */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
               <LogoSvg className="w-10 h-10" />
             </div>
-            <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+            <div style={{ fontFamily: "var(--font-nunito), sans-serif" }} className="translate-y-[2px]">
               <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
             </div>
@@ -521,6 +520,8 @@ export default function CalendrierPage() {
           </div>
         )}
       </nav>
+
+      <main>
 
       {/* ─── CONTENU NEW DESIGN ─── */}
       <div className="cal-wrap">
@@ -789,6 +790,8 @@ export default function CalendrierPage() {
       </div>
 
       {/* ─── FOOTER (existant, conservé) ─── */}
+      </main>
+
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">

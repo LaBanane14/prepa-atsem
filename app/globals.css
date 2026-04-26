@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    font-family: 'Sora', system-ui, sans-serif;
+    font-family: var(--font-sora), system-ui, sans-serif;
   }
   svg {
     display: inline;
@@ -10,7 +10,7 @@
 }
 
 .font-serif-display {
-  font-family: 'Young Serif', serif;
+  font-family: var(--font-young-serif), serif;
 }
 
 /* Animations */

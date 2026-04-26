@@ -101,7 +101,7 @@ export default function CGUPage() {
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
               <LogoSvg className="w-10 h-10" />
             </div>
-            <div style={{ fontFamily: "'Nunito', sans-serif" }} className="translate-y-[2px]">
+            <div style={{ fontFamily: "var(--font-nunito), sans-serif" }} className="translate-y-[2px]">
               <span className="font-black text-lg sm:text-2xl tracking-tight text-slate-900 block leading-none">Prépa <span className="text-purple-800">ATSEM</span></span>
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
             </div>

@@ -201,8 +201,7 @@ export default function SpecifiquePage() {
   )
 
   return (
-    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse 800px 500px at 15% 10%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 85% 30%, rgba(251,191,36,0.14), transparent 60%), radial-gradient(ellipse 700px 500px at 25% 70%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse 800px 500px at 80% 90%, rgba(14,165,233,0.12), transparent 60%)', backgroundAttachment: 'fixed', fontFamily: "'Nunito', sans-serif", '--nav-color': selectedCategorie?.color || '#7c3aed', '--nav-tint': selectedCategorie?.tint || '#f5f3ff'}}>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <div className="min-h-screen text-slate-900 flex overflow-x-hidden" style={{backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse 800px 500px at 15% 10%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 85% 30%, rgba(251,191,36,0.14), transparent 60%), radial-gradient(ellipse 700px 500px at 25% 70%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse 800px 500px at 80% 90%, rgba(14,165,233,0.12), transparent 60%)', backgroundAttachment: 'fixed', fontFamily: "var(--font-nunito), sans-serif", '--nav-color': selectedCategorie?.color || '#7c3aed', '--nav-tint': selectedCategorie?.tint || '#f5f3ff'}}>
       <style>{`
         html, body { background: #faf8ff; }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
@@ -227,7 +226,7 @@ export default function SpecifiquePage() {
         .sf-brand-accent { color: var(--nav-color); }
 
         /* === LoaderArc (écran de chargement après choix de catégorie) === */
-        .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
+        .la-root { font-family: var(--font-nunito), system-ui, sans-serif; color: #1a1325; }
         .la-page { padding: 24px 8px 40px; position: relative; width: 100%; }
         .la-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
         .la-crumb { font-size: 12px; color: #6b5b8e; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }

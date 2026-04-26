@@ -85,8 +85,7 @@ export default function Auth() {
 
   if (signupSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)', fontFamily: "'Nunito', system-ui, sans-serif" }}>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)', fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
         <div className="bg-white max-w-md w-full rounded-3xl shadow-2xl p-6 sm:p-10 border border-slate-100 text-center">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -100,8 +99,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen text-slate-900 flex items-center justify-center p-4 selection:bg-purple-200" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)', fontFamily: "'Nunito', system-ui, sans-serif" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <div className="min-h-screen text-slate-900 flex items-center justify-center p-4 selection:bg-purple-200" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 0% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,191,36,0.13), transparent 60%), radial-gradient(ellipse at 50% -10%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(14,165,233,0.10), transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(236,72,153,0.14), transparent 60%)', fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
       <style>{`
         @keyframes slideLeft { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(-80px) scale(.96) } }
         @keyframes slideRight { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(80px) scale(.96) } }

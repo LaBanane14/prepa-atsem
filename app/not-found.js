@@ -4,7 +4,7 @@ export const metadata = { title: 'Page introuvable' }
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#eceef1] flex items-center justify-center px-4" style={{fontFamily: "'Nunito', sans-serif"}}>
+    <div className="min-h-screen bg-[#eceef1] flex items-center justify-center px-4" style={{fontFamily: "var(--font-nunito), sans-serif"}}>
       <div className="text-center max-w-lg">
         <div className="relative mb-6 flex items-center justify-center gap-0">
           {/* 4 */}
