@@ -230,21 +230,17 @@ export default function TarifsPage() {
         .t-pay-secure span { font-size: 12px; color: #6b5b8e; font-weight: 600; }
         .t-pay-logos { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1; justify-content: center; }
         .t-pay-logo {
-          height: 32px; padding: 0 14px;
+          height: 32px; padding: 0 12px;
           border: 1px solid #ece9f0; border-radius: 8px; background: white;
           display: flex; align-items: center; justify-content: center;
-          font-size: 12px; font-weight: 900; letter-spacing: -0.02em;
         }
-        .t-pay-logo.visa { color: #1a1f71; }
-        .t-pay-logo.mc { color: #eb001b; }
-        .t-pay-logo.amex { color: #006fcf; }
-        .t-pay-logo.apple { color: #1a1325; }
-        .t-pay-logo.sepa { color: #003399; }
+        .t-pay-logo svg { display: block; height: 18px; width: auto; }
         .t-pay-stripe {
           padding-left: 24px; border-left: 1px solid #f3effc;
           font-size: 12px; font-weight: 700; color: #6b5b8e;
+          display: flex; align-items: center; gap: 8px;
         }
-        .t-pay-stripe b { color: #635bff; font-weight: 900; }
+        .t-pay-stripe svg { height: 18px; width: auto; }
         @media (max-width: 980px) {
           .t-pay { flex-direction: column; align-items: stretch; gap: 18px; padding: 20px 22px; }
           .t-pay-secure { padding-right: 0; padding-bottom: 16px; border-right: none; border-bottom: 1px solid #f3effc; }
@@ -391,14 +387,45 @@ export default function TarifsPage() {
                   </div>
                 </div>
                 <div className="t-pay-logos">
-                  <div className="t-pay-logo visa">VISA</div>
-                  <div className="t-pay-logo mc">Mastercard</div>
-                  <div className="t-pay-logo amex">AMEX</div>
-                  <div className="t-pay-logo apple"> Pay</div>
-                  <div className="t-pay-logo sepa">SEPA</div>
+                  {/* VISA */}
+                  <div className="t-pay-logo" aria-label="Visa">
+                    <svg viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg">
+                      <text x="0" y="16" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="900" fontStyle="italic" fill="#1A1F71" letterSpacing="-0.5">VISA</text>
+                    </svg>
+                  </div>
+                  {/* Mastercard */}
+                  <div className="t-pay-logo" aria-label="Mastercard">
+                    <svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="14" cy="12" r="9" fill="#EB001B"/>
+                      <circle cx="26" cy="12" r="9" fill="#F79E1B" fillOpacity="0.85"/>
+                    </svg>
+                  </div>
+                  {/* American Express */}
+                  <div className="t-pay-logo" aria-label="American Express" style={{padding: 0, border: 'none'}}>
+                    <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg" style={{height: 22}}>
+                      <rect width="60" height="22" rx="3" fill="#006FCF"/>
+                      <text x="30" y="15" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="10" fontWeight="900" fill="white" letterSpacing="0.5">AMEX</text>
+                    </svg>
+                  </div>
+                  {/* Apple Pay */}
+                  <div className="t-pay-logo" aria-label="Apple Pay">
+                    <svg viewBox="0 0 56 22" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.5 5.4c0.5-0.6 0.8-1.4 0.7-2.2-0.7 0-1.5 0.4-2 1-0.4 0.5-0.8 1.4-0.7 2.1 0.8 0.1 1.5-0.4 2-0.9zm1 1.6c-1.1 0-2 0.6-2.5 0.6-0.5 0-1.3-0.6-2.2-0.6-1.1 0-2.2 0.7-2.7 1.7-1.2 2-0.3 5 0.8 6.6 0.6 0.8 1.2 1.7 2.1 1.7 0.9 0 1.2-0.5 2.2-0.5 1 0 1.3 0.5 2.2 0.5 0.9 0 1.5-0.8 2.1-1.7 0.7-1 0.9-2 1-2-0.1-0.1-2-0.7-2-2.9 0-1.8 1.5-2.7 1.6-2.7-0.9-1.3-2.2-1.3-2.6-1.3z" fill="#1A1325"/>
+                      <text x="16" y="15" fontFamily="-apple-system, system-ui, sans-serif" fontSize="11" fontWeight="600" fill="#1A1325">Pay</text>
+                    </svg>
+                  </div>
+                  {/* SEPA */}
+                  <div className="t-pay-logo" aria-label="SEPA">
+                    <svg viewBox="0 0 56 20" xmlns="http://www.w3.org/2000/svg">
+                      <text x="0" y="16" fontFamily="Arial, sans-serif" fontSize="14" fontWeight="900" fill="#003399" letterSpacing="0.3">SEPA</text>
+                    </svg>
+                  </div>
                 </div>
                 <div className="t-pay-stripe">
-                  Sécurisé par <b>stripe</b>
+                  Sécurisé par
+                  <svg viewBox="0 0 60 25" xmlns="http://www.w3.org/2000/svg" aria-label="Stripe">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M60 12.8C60 8.55 57.95 5.18 54.04 5.18C50.11 5.18 47.72 8.55 47.72 12.77C47.72 17.73 50.53 20.33 54.52 20.33C56.47 20.33 57.95 19.87 59.08 19.22V16.08C57.95 16.66 56.65 17.01 55.01 17.01C53.4 17.01 51.97 16.43 51.79 14.5H59.96C59.96 14.29 60 13.33 60 12.8ZM51.73 11.73C51.73 9.88 52.78 9.1 54.02 9.1C55.22 9.1 56.21 9.88 56.21 11.73H51.73ZM41.3 5.18C39.67 5.18 38.6 5.95 38.01 6.48L37.81 5.41H34.38V24.84L38.19 24.03V20.1C38.8 20.53 39.69 21.14 41.28 21.14C44.54 21.14 47.5 18.55 47.5 12.72C47.48 7.41 44.48 5.18 41.3 5.18ZM40.45 17.36C39.36 17.36 38.72 16.97 38.29 16.5L38.19 9.36C38.66 8.83 39.32 8.47 40.45 8.47C42.22 8.47 43.45 10.42 43.45 12.9C43.45 15.43 42.24 17.36 40.45 17.36ZM29.1 4.13L32.93 3.32V0.12L29.1 0.92V4.13ZM29.1 5.43H32.93V20.85H29.1V5.43ZM24.76 6.62L24.52 5.43H21.15V20.85H24.96V9.75C25.87 8.55 27.4 8.78 27.87 8.95V5.43C27.38 5.24 25.67 4.9 24.76 6.62ZM17.01 1.69L13.28 2.48L13.26 16.29C13.26 18.57 14.95 20.35 17.23 20.35C18.48 20.35 19.4 20.12 19.91 19.85V16.64C19.42 16.83 17.01 17.53 17.01 15.25V8.73H19.91V5.43H17.01V1.69ZM5.26 9.36C5.26 8.7 5.8 8.43 6.67 8.43C7.94 8.43 9.54 8.83 10.81 9.55V5.93C9.42 5.37 8.05 5.16 6.67 5.16C3.49 5.16 1.38 6.86 1.38 9.55C1.38 13.76 7.08 13.1 7.08 14.89C7.08 15.68 6.42 15.95 5.49 15.95C4.1 15.95 2.33 15.39 0.92 14.58V18.25C2.49 18.93 4.08 19.22 5.49 19.22C8.75 19.22 10.98 17.57 10.98 14.84C10.96 10.29 5.26 11.09 5.26 9.36Z" fill="#635BFF"/>
+                  </svg>
                 </div>
               </div>
             </div>
