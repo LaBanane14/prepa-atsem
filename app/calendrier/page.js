@@ -507,6 +507,16 @@ export default function CalendrierPage() {
               {navLinks.map(link => (
                 <a key={link.label} href={link.href} className={`block py-3 px-4 rounded-xl font-bold transition ${link.active ? 'text-purple-800 bg-purple-50' : 'text-slate-700 hover:bg-slate-50'}`}>{link.label}</a>
               ))}
+              <div className="pt-2 border-t border-slate-100 mt-2 flex flex-col gap-2">
+                {!authLoading && (user ? (
+                  <a href="/dashboard" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 text-center">Mon espace</a>
+                ) : (
+                  <>
+                    <a href="/login" className="block py-3 px-4 rounded-xl font-bold text-slate-600 hover:bg-slate-50 transition text-center">Connexion</a>
+                    <a href="/signup" className="block py-3 px-4 rounded-xl font-bold text-white bg-purple-800 transition text-center">Inscription</a>
+                  </>
+                ))}
+              </div>
             </div>
           </div>
         )}
