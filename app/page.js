@@ -166,7 +166,7 @@ export default function HomePage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Concours ATSEM 2026
               </div>
-              <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-[3.5rem] text-slate-900 leading-[1.15] mb-6 font-bold">
+              <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-[3.5rem] text-slate-900 leading-[1.15] mb-6 font-black">
                 Préparer le concours <span className="text-purple-800">ATSEM 2026</span> en ligne.
               </h1>
               <p className="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg">
