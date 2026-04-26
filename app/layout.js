@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Sora, Nunito, Young_Serif } from "next/font/google";
+import { Sora, Nunito, Young_Serif, DM_Sans } from "next/font/google";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -17,6 +17,12 @@ const youngSerif = Young_Serif({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-young-serif",
+  display: "swap",
+});
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -116,7 +122,7 @@ import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className={`${sora.variable} ${nunito.variable} ${youngSerif.variable}`}>
+    <html lang="fr" className={`${sora.variable} ${nunito.variable} ${youngSerif.variable} ${dmSans.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context": "https://schema.org",

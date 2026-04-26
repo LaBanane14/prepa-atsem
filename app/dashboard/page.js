@@ -280,7 +280,7 @@ function DashboardContent() {
   function navigateTo(id) { setPage(id); setSidebarOpen(false) }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif"}}>
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{fontFamily: "var(--font-dm-sans), 'Inter', system-ui, sans-serif"}}>
       <style>{`
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
