@@ -249,12 +249,10 @@ export default function HomePage() {
             { num: '3%', label: "Taux d'admission", icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
             { num: '600', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
           ].map((s, i) => (
-            <div key={i} className="flex sm:flex-col items-center sm:items-center gap-3 sm:gap-1 text-left sm:text-center">
-              <svg className="w-6 h-6 sm:w-5 sm:h-5 text-purple-400 sm:mb-1 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
-              <div className="flex-1 sm:flex-none min-w-0 flex flex-col sm:items-center">
-                <span className="text-lg sm:text-2xl font-extrabold text-white leading-tight">{s.num}</span>
-                <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wide">{s.label}</span>
-              </div>
+            <div key={i} className="flex flex-col items-center gap-1 text-center">
+              <svg className="w-6 h-6 sm:w-5 sm:h-5 text-purple-400 mb-1" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
+              <span className="text-xl sm:text-2xl font-extrabold text-white leading-tight">{s.num}</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wide">{s.label}</span>
             </div>
           ))}
         </div>
