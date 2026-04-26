@@ -148,8 +148,8 @@ function QuizContent() {
 
               {/* Note globale */}
               <div className="flex justify-center items-center mb-4">
-                <span className="text-6xl sm:text-7xl font-black text-purple-800 tracking-tighter">{finalScore}</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{reorderedQuizData.length}</span>
+                <span className="text-5xl sm:text-7xl font-black text-purple-800 tracking-tighter">{finalScore}</span>
+                <span className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tighter">/{reorderedQuizData.length}</span>
               </div>
 
               <p className="text-slate-600 mb-8 font-medium text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
@@ -278,9 +278,9 @@ function QuizContent() {
 
                     return (
                       <div key={index} className={optClass} onClick={() => !hasAnswered && selectOption(index)}>
-                        <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
                           <span className={letterClass}>{letters[index]}</span>
-                          <span className="font-bold text-slate-800 text-sm sm:text-base">{option}</span>
+                          <span className="font-bold text-slate-800 text-xs sm:text-base break-words min-w-0">{option}</span>
                         </div>
                         {circleContent}
                       </div>

@@ -250,13 +250,18 @@ export default function TarifsPage() {
         @media (max-width: 1100px) {
           .t-wrap { padding: 40px 0 60px; }
           .t-inner { padding: 0 32px; }
+          .t-hero h1 { font-size: 40px; white-space: normal; }
+          .t-amount { font-size: 52px; }
         }
         @media (max-width: 720px) {
           .t-wrap { padding: 28px 0 56px; }
           .t-inner { padding: 0 18px; }
           .t-hero h1 { font-size: 32px; white-space: normal; }
-          .t-amount { font-size: 48px; }
-          .t-card { padding: 32px 26px 28px; }
+          .t-amount { font-size: 44px; }
+          .t-card { padding: 32px 24px 28px; }
+          .t-name { font-size: 26px; }
+          .t-cta { padding: 16px 20px; font-size: 14px; }
+          .t-ribbon { font-size: 10px; padding: 5px 10px; }
         }
       `}</style>
 

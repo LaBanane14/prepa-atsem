@@ -172,6 +172,12 @@ export default function BlogPage() {
           .b-wrap { padding: 28px 0 56px; }
           .b-inner { padding: 0 18px; }
           .b-hero h1 { font-size: 32px; }
+          .b-grid { gap: 16px; }
+          .b-pagination { flex-wrap: wrap; gap: 4px; margin-top: 40px; }
+          .b-pag-btn { min-width: 36px; height: 36px; font-size: 13px; padding: 0 10px; }
+        }
+        @media (max-width: 420px) {
+          .b-hero h1 { font-size: 28px; letter-spacing: -0.01em; }
         }
       `}</style>
 

@@ -219,7 +219,7 @@ export default function ArticlePage() {
         <div className="mb-10">
           <span className={`${colors.text} font-bold text-xs uppercase tracking-wider mb-3 block`}>{article.category}</span>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4 leading-tight">{article.title}</h1>
-          <div className="flex items-center gap-4 text-sm text-slate-500 font-medium">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 font-medium">
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               {new Date(article.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -236,14 +236,15 @@ export default function ArticlePage() {
         </div>
 
         {article.image_url ? (
-      <img src={article.image_url} alt={article.title} className="w-full h-64 sm:h-80 object-cover rounded-3xl mb-10 border border-slate-100" />
+      <img src={article.image_url} alt={article.title} className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-2xl sm:rounded-3xl mb-10 border border-slate-100" />
     ) : (
-      <div className={`h-64 sm:h-80 bg-gradient-to-br ${colors.bg} rounded-3xl flex items-center justify-center mb-10 border border-slate-100`}>
+      <div className={`h-48 sm:h-64 md:h-80 bg-gradient-to-br ${colors.bg} rounded-2xl sm:rounded-3xl flex items-center justify-center mb-10 border border-slate-100`}>
     <svg className={`w-20 h-20 ${colors.icon}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
   </div>
 )}
 
-        <div className={`prose prose-slate max-w-none
+        <div className={`prose prose-slate max-w-none overflow-x-hidden
+          [&_table]:!block [&_table]:!overflow-x-auto sm:[&_table]:!table
           [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-slate-900 [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:pb-3 [&_h2]:border-b [&_h2]:border-slate-200
           [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-slate-800 [&_h3]:mt-8 [&_h3]:mb-3
           [&_p]:text-slate-600 [&_p]:font-medium [&_p]:leading-relaxed [&_p]:mb-5
@@ -264,17 +265,17 @@ export default function ArticlePage() {
         `} dangerouslySetInnerHTML={{__html: article.content}}></div>
 
         {/* Like / Dislike */}
-        <div className="mt-12 flex items-start gap-3">
-          <button onClick={() => handleVote('like')} disabled={!!vote} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'like' ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300'}`}>
+        <div className="mt-12 flex flex-col sm:flex-row items-stretch sm:items-start gap-3">
+          <button onClick={() => handleVote('like')} disabled={!!vote} className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'like' ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
           </button>
-          <button onClick={() => handleVote('dislike')} disabled={!!vote} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'dislike' ? 'bg-red-100 text-red-700 border-2 border-red-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300'}`}>
+          <button onClick={() => handleVote('dislike')} disabled={!!vote} className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition cursor-pointer ${vote === 'dislike' ? 'bg-red-100 text-red-700 border-2 border-red-300' : vote ? 'bg-slate-50 text-slate-300 border border-slate-200' : 'bg-white text-slate-700 border border-slate-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
           </button>
         </div>
 
         {!user && (
-      <div className="mt-12 rounded-3xl p-10 text-center shadow-xl relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a1325 0%, #2d1b4e 100%)' }}>
+      <div className="mt-12 rounded-3xl p-6 sm:p-10 text-center shadow-xl relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a1325 0%, #2d1b4e 100%)' }}>
         <div className="absolute" style={{ width: 320, height: 320, right: -80, top: -100, background: 'radial-gradient(circle, rgba(139,92,246,0.45), transparent 70%)', pointerEvents: 'none' }}></div>
         <div className="absolute" style={{ width: 240, height: 240, left: -80, bottom: -90, background: 'radial-gradient(circle, rgba(236,72,153,0.30), transparent 70%)', pointerEvents: 'none' }}></div>
         <div className="relative">

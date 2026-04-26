@@ -459,6 +459,10 @@ export default function CalendrierPage() {
           .cal-faq-card { padding: 24px 22px; }
           .cal-cta { padding: 32px 22px; }
           .cal-cta h2 { font-size: 22px; }
+          .cal-region-card { padding: 18px 20px; }
+          .cal-region-link { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          .cal-map-card, .cal-map-info { padding: 22px 18px; }
+          .cal-detail-cdg li { padding: 10px 12px; }
         }
       `}</style>
 

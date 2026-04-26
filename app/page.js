@@ -109,7 +109,7 @@ export default function HomePage() {
                 <a href="/signup" className="hidden md:inline-flex bg-purple-800 hover:bg-purple-900 text-white px-5 py-2.5 rounded-full font-semibold shadow-lg transition">Inscription</a>
               </>
             ))}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-slate-700 p-3 rounded-lg hover:bg-slate-100 transition" aria-label="Menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
           </div>
@@ -139,7 +139,7 @@ export default function HomePage() {
       <section className="pt-12 pb-20 lg:pt-20 lg:pb-28 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         {/* Dessins d'enfants en arrière-plan */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.33]">
+        <div className="hidden sm:block absolute inset-0 pointer-events-none overflow-hidden opacity-[0.33]">
           {/* Bonhomme bâton 1 - bras levés */}
           <svg className="absolute top-16 left-[5%] w-24 h-24 text-purple-800" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="30" cy="12" r="8"/><line x1="30" y1="20" x2="30" y2="50"/><line x1="30" y1="50" x2="20" y2="70"/><line x1="30" y1="50" x2="40" y2="70"/><line x1="30" y1="30" x2="15" y2="18"/><line x1="30" y1="30" x2="45" y2="18"/></svg>
           {/* Soleil enfantin */}
@@ -188,7 +188,7 @@ export default function HomePage() {
             </div>
 
             {/* QCM interactif */}
-            <div className="relative lg:ml-auto w-full max-w-md mx-auto animate-fade-in-up-delay">
+            <div className="relative lg:ml-auto w-full max-w-sm sm:max-w-md mx-auto animate-fade-in-up-delay">
               <div className="absolute -inset-6 bg-purple-100/30 rounded-[3rem] -z-10 blur-xl"></div>
               <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
                 <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
@@ -241,7 +241,7 @@ export default function HomePage() {
 
       {/* ─── STATS BAR ─── */}
       <section className="py-10 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-6 text-center">
           {[
             { num: 'Illimités', label: 'QCM générés par IA', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
             { num: '+ de 50', label: 'Annales corrigées', icon: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z' },
@@ -260,7 +260,7 @@ export default function HomePage() {
 
       {/* ─── FONCTIONNALITÉS ─── */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.33]">
+        <div className="hidden sm:block absolute inset-0 pointer-events-none opacity-[0.33]">
           {/* Chat */}
           <svg className="absolute top-8 left-[4%] w-18 h-18 text-purple-700" viewBox="0 0 45 45" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8 15 L5 5 L12 11"/><path d="M32 15 L35 5 L28 11"/><circle cx="20" cy="22" r="12"/><circle cx="16" cy="20" r="1.5" fill="currentColor"/><circle cx="24" cy="20" r="1.5" fill="currentColor"/><path d="M20 24 L18 26 L22 26z" fill="currentColor" stroke="none"/><path d="M20 26 L20 28"/><path d="M13 24 L5 22"/><path d="M13 26 L6 27"/><path d="M27 24 L35 22"/><path d="M27 26 L34 27"/><path d="M20 34 Q20 40 25 42" strokeWidth="2"/></svg>
 
@@ -275,7 +275,7 @@ export default function HomePage() {
         </div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-4">Vos outils de révision</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">Vos outils de révision</h2>
             <p className="text-lg text-slate-500">Tout ce qu'il faut pour arriver serein le jour du concours.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-5">
@@ -379,7 +379,7 @@ export default function HomePage() {
           <div className="space-y-3">
             {faqData.map((faq, index) => (
               <div key={index} className={`bg-white border rounded-2xl transition-all ${activeFaq === index ? 'border-purple-200 shadow-sm' : 'border-slate-200'}`}>
-                <button className="w-full px-6 py-5 text-left flex justify-between items-center" onClick={() => setActiveFaq(activeFaq === index ? null : index)}>
+                <button className="w-full px-4 sm:px-6 py-5 text-left flex justify-between items-center gap-2" onClick={() => setActiveFaq(activeFaq === index ? null : index)}>
                   <span className="font-bold text-slate-900 pr-4 text-sm">{faq.q}</span>
                   <svg className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-300 ${activeFaq === index ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6"/></svg>
                 </button>
@@ -401,7 +401,7 @@ export default function HomePage() {
 
       {/* ─── FOOTER ─── */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <LogoSvg className="w-5 h-5 text-purple-500" />
