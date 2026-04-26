@@ -280,7 +280,7 @@ function DashboardContent() {
   function navigateTo(id) { setPage(id); setSidebarOpen(false) }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex" style={{fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif"}}>
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
@@ -322,7 +322,7 @@ function DashboardContent() {
       </div>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px]">
+      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] min-w-0 max-w-full">
         {/* Mobile top bar */}
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-30">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
