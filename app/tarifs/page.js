@@ -203,6 +203,7 @@ export default function TarifsPage() {
         .t-cta-dark:hover { transform: translateY(-2px); box-shadow: 0 24px 40px -12px rgba(236,72,153,0.6); }
 
         .t-foot-note { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #6b5b8e; text-align: center; margin-top: 14px; text-transform: uppercase; }
+        .t-foot-note.t-foot-above { margin-top: -16px; margin-bottom: 18px; }
 
         /* REASSURE — trust strip */
         .t-reassure { margin-top: 32px; }
@@ -324,11 +325,11 @@ export default function TarifsPage() {
                 <ul className="t-feats">
                   {FEATURES.map((f, i) => <li key={i} className="t-feat">{f}</li>)}
                 </ul>
+                <p className="t-foot-note t-foot-above">Renouvellement automatique</p>
                 <a href="/signup" className="t-cta t-cta-light">
                   S'abonner maintenant
                   <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </a>
-                <p className="t-foot-note">Renouvellement automatique</p>
               </article>
 
               {/* Pack 6 mois */}
@@ -347,11 +348,11 @@ export default function TarifsPage() {
                 <ul className="t-feats">
                   {FEATURES.map((f, i) => <li key={i} className="t-feat">{f}</li>)}
                 </ul>
+                <p className="t-foot-note t-foot-above">1 seul paiement · Pas de renouvellement automatique</p>
                 <a href="/signup" className="t-cta t-cta-dark">
                   S'abonner maintenant
                   <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </a>
-                <p className="t-foot-note">1 seul paiement · Pas de renouvellement automatique</p>
               </article>
             </div>
 
