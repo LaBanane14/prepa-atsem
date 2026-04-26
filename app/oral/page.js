@@ -677,9 +677,9 @@ export default function OralPage() {
                   </div>
 
                   {/* Grille navigation */}
-                  <div className="mt-4 grid grid-cols-5 sm:grid-cols-10 gap-2 max-w-md mx-auto">
+                  <div className="mt-4 grid grid-cols-10 gap-1 sm:gap-2 max-w-md mx-auto">
                     {questions.map((qq, i) => (
-                      <button key={qq.id} onClick={() => setCurrentQ(i)} className={`aspect-square rounded-lg text-xs font-bold transition cursor-pointer bg-slate-900 text-white ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900' : answers[qq.id] ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
+                      <button key={qq.id} onClick={() => setCurrentQ(i)} className={`aspect-square rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold transition cursor-pointer bg-slate-900 text-white ${i === currentQ ? 'ring-2 ring-offset-1 sm:ring-offset-2 ring-slate-900' : answers[qq.id] ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}>
                         {i + 1}
                       </button>
                     ))}
@@ -793,12 +793,12 @@ export default function OralPage() {
                   </div>
 
                   {/* Grille navigation */}
-                  <div className="mt-4 grid grid-cols-5 sm:grid-cols-10 gap-2 max-w-md mx-auto">
+                  <div className="mt-4 grid grid-cols-10 gap-1 sm:gap-2 max-w-md mx-auto">
                     {questions.map((qq, i) => {
                       const ev = selfEvals[qq.id]
                       const bgColor = ev === 'savais' ? 'bg-emerald-500 text-white' : ev === 'hesite' ? 'bg-amber-500 text-white' : ev === 'passu' ? 'bg-red-500 text-white' : 'bg-slate-900 text-white opacity-40'
                       return (
-                        <button key={qq.id} onClick={() => { setCurrentQ(i); setShowAnswer(false) }} className={`aspect-square rounded-lg text-xs font-bold transition cursor-pointer ${bgColor} ${i === currentQ ? 'ring-2 ring-offset-2 ring-slate-900 opacity-100' : ev ? 'opacity-100' : 'hover:opacity-60'}`}>
+                        <button key={qq.id} onClick={() => { setCurrentQ(i); setShowAnswer(false) }} className={`aspect-square rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold transition cursor-pointer ${bgColor} ${i === currentQ ? 'ring-2 ring-offset-1 sm:ring-offset-2 ring-slate-900 opacity-100' : ev ? 'opacity-100' : 'hover:opacity-60'}`}>
                           {i + 1}
                         </button>
                       )
