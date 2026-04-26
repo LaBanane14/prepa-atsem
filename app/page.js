@@ -353,8 +353,8 @@ export default function HomePage() {
           <p className="text-center text-slate-500 mb-10">Choisissez la voie qui correspond à votre profil :</p>
           <div className="space-y-4">
             {[
-              { voie: 'Externe', pct: '60% des postes', condition: 'Titulaire du CAP AEPE (Petite Enfance)', color: 'purple' },
-              { voie: 'Interne', pct: '30% des postes', condition: 'Agent public + 2 ans de service auprès d\'enfants', color: 'blue' },
+              { voie: 'Externe', pct: '30% des postes', condition: 'Titulaire du CAP AEPE (Petite Enfance)', color: 'purple' },
+              { voie: 'Interne', pct: '60% des postes', condition: 'Agent public + 2 ans de service auprès d\'enfants', color: 'blue' },
               { voie: '3ème concours', pct: '10% des postes', condition: '4 ans d\'expérience pro (privé, associatif)', color: 'emerald' }
             ].map((item, i) => (
               <div key={i} className={`bg-white/70 backdrop-blur border border-${item.color}-200/50 rounded-2xl p-6 flex items-center gap-5`}>
