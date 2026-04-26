@@ -1150,7 +1150,15 @@ function DashboardContent() {
                       return (
                         <button
                           key={day}
-                          onClick={() => setSelectedDay(isSelected ? null : day)}
+                          onClick={() => {
+                            const willSelect = !isSelected
+                            setSelectedDay(isSelected ? null : day)
+                            if (willSelect && typeof window !== 'undefined' && window.innerWidth < 1024) {
+                              setTimeout(() => {
+                                document.getElementById('historique-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                              }, 60)
+                            }
+                          }}
                           className={`aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-sm font-bold transition cursor-pointer relative
                             ${isSelected ? 'bg-purple-800 text-white' : isSignupDay ? 'bg-yellow-50 text-yellow-600 border border-yellow-300' : isToday ? 'bg-purple-50 text-purple-800 border border-purple-200' : hasExercises ? 'bg-slate-50 hover:bg-slate-100 text-slate-900' : isWeekend ? 'bg-slate-100 text-slate-500 hover:bg-slate-200' : 'text-slate-400 hover:bg-slate-50'}`}
                         >
@@ -1184,7 +1192,7 @@ function DashboardContent() {
                 </div>
 
                 {/* Détail du jour sélectionné */}
-                <div className="flex-1">
+                <div id="historique-detail" className="flex-1 min-h-[220px]" style={{ scrollMarginTop: '72px' }}>
                   {selectedDay ? (
                     <div>
                       <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{selectedDay} {monthNames[calMonth]} {calYear}</h3>
