@@ -80,7 +80,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+    <div className="min-h-screen text-slate-900" style={{ backgroundColor: '#faf8ff', backgroundImage: 'radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%), radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%), radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%), radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%), radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%), radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%), radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%)', backgroundAttachment: 'fixed', fontFamily: "'Nunito', system-ui, sans-serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
       {/* ─── NAVBAR ─── */}
