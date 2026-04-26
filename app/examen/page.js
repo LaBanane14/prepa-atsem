@@ -1,16 +1,9 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp, MapPin, Info } from 'lucide-react'
+import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, Timer, Sparkles, ClipboardCheck, GraduationCap, CheckCircle2, XCircle, ChevronUp, Info } from 'lucide-react'
 import { getBareme, scoreQuestion, BAREME_FAMILIES, getRegionsForFamily, NIVEAUX, getRegionDisplayName } from '../../lib/baremes-atsem'
 import FranceMapData from '../../data/france-map'
-
-const EXAMEN_REGIONS_PAR_FAMILLE = [
-  { familyId: 1, regions: ['Occitanie', 'Nouvelle-Aquitaine', 'Normandie', 'Hauts-de-France', 'Centre-Val de Loire'] },
-  { familyId: 2, regions: ['Auvergne-Rhône-Alpes'] },
-  { familyId: 3, regions: ['Pays de la Loire'] },
-  { familyId: 4, regions: ['Île-de-France', 'Bretagne', 'Grand Est', 'Bourgogne-Franche-Comté', 'PACA', 'Corse'] },
-]
 
 // Mapping id du fichier data/france-map.js → nom utilisé par getBareme()
 const REGION_ID_TO_NAME = {
@@ -122,7 +115,6 @@ export default function ExamenPage() {
   const [selectedRegion, setSelectedRegion] = useState(null)
   const [hoveredRegion, setHoveredRegion] = useState(null)
   const [error, setError] = useState('')
-  const [loadingStep, setLoadingStep] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [correctingStep, setCorrectingStep] = useState(0)
 
@@ -166,7 +158,7 @@ export default function ExamenPage() {
 
   // Loading progress — asymptotique, démarre doucement puis ralentit vers 99%
   useEffect(() => {
-    if (step !== 'loading') { setLoadingProgress(0); setLoadingStep(0); return }
+    if (step !== 'loading') { setLoadingProgress(0); return }
     const t0 = performance.now()
     let raf
     const tick = (now) => {
@@ -233,7 +225,6 @@ export default function ExamenPage() {
 
   async function genererSujets() {
     setError('')
-    setLoadingStep(0)
     setStep('loading')
 
     try {
@@ -354,7 +345,7 @@ export default function ExamenPage() {
 
   function restart() {
     setQuestions([]); setCorrection([]); setReponses({}); setScore(null)
-    setError(''); setLoadingStep(0); setTimeLeft(EXAM_DURATION); setTimerActive(false)
+    setError(''); setTimeLeft(EXAM_DURATION); setTimerActive(false)
     setSelectedRegion(null)
     setStep('choix_region')
   }

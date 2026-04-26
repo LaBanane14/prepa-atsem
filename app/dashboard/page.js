@@ -35,7 +35,6 @@ function DashboardContent() {
   const [trialDays, setTrialDays] = useState(7)
   const [isPremium, setIsPremium] = useState(false)
   const [subscriptionPlan, setSubscriptionPlan] = useState(null)
-  const [subscriptionEnd, setSubscriptionEnd] = useState(null)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const [tipIndex, setTipIndex] = useState(0)
@@ -84,7 +83,6 @@ function DashboardContent() {
       if (sub && new Date(sub.current_period_end) > new Date()) {
         setIsPremium(true)
         setSubscriptionPlan(sub.plan)
-        setSubscriptionEnd(sub.current_period_end)
       }
       // Calcul trial
       const created = new Date(session.user.created_at)
