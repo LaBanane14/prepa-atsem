@@ -336,7 +336,7 @@ export default function SpecifiquePage() {
               )}
 
               {/* Grid de 6 cartes */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
                 {CATEGORIES.map((cat, i) => {
                   const Icon = cat.icon
                   const isLoading = loadingCategorie === cat.id
@@ -346,30 +346,32 @@ export default function SpecifiquePage() {
                       key={cat.id}
                       onClick={() => !loadingCategorie && startCategorie(cat)}
                       disabled={isDisabled}
-                      className={`v1-card group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col min-h-[300px] text-left cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      className={`v1-card group bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col min-h-[200px] sm:min-h-[300px] text-left cursor-pointer ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}
                       style={{'--c-color': cat.color, '--c-tint': cat.tint, '--c-soft': cat.soft}}
                     >
-                      <div className="v1-card-top px-7 pt-6 pb-5 flex items-start justify-between gap-4 border-b border-slate-200">
-                        <div className="v1-icon w-14 h-14 rounded-2xl grid place-items-center shrink-0">
+                      <div className="v1-card-top px-3 pt-3 pb-3 sm:px-7 sm:pt-6 sm:pb-5 flex items-start justify-between gap-2 sm:gap-4 border-b border-slate-200">
+                        <div className="v1-icon w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl grid place-items-center shrink-0">
                           {isLoading
-                            ? <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
-                            : <Icon size={26} strokeWidth={1.8} />
+                            ? <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                            : <Icon size={20} strokeWidth={1.8} className="sm:hidden" />
                           }
+                          {!isLoading && <Icon size={26} strokeWidth={1.8} className="hidden sm:block" />}
                         </div>
-                        <div className="v1-num px-2.5 py-1.5 rounded-full bg-white border text-[11px] font-black tracking-[0.15em]">
+                        <div className="v1-num px-1.5 py-0.5 sm:px-2.5 sm:py-1.5 rounded-full bg-white border text-[9px] sm:text-[11px] font-black tracking-[0.1em] sm:tracking-[0.15em]">
                           0{i + 1}
                         </div>
                       </div>
 
-                      <div className="px-7 pb-6 pt-5 flex flex-col flex-grow">
-                        <h3 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-2">{cat.titre}</h3>
-                        <p className="text-[14px] text-slate-500 leading-relaxed mb-auto">{cat.description}</p>
-                        <div className="flex items-center justify-between mt-6 pt-5 border-t border-dashed border-slate-200">
-                          <span className="v1-qcount text-xs font-black tracking-[0.1em] uppercase">
+                      <div className="px-3 pb-3 pt-3 sm:px-7 sm:pb-6 sm:pt-5 flex flex-col flex-grow">
+                        <h3 className="text-base sm:text-[28px] font-black text-slate-900 tracking-tight leading-tight mb-1 sm:mb-2">{cat.titre}</h3>
+                        <p className="hidden sm:block text-[14px] text-slate-500 leading-relaxed mb-auto">{cat.description}</p>
+                        <div className="flex items-center justify-between mt-3 sm:mt-6 pt-3 sm:pt-5 border-t border-dashed border-slate-200">
+                          <span className="v1-qcount text-[9px] sm:text-xs font-black tracking-[0.08em] sm:tracking-[0.1em] uppercase">
                             10 questions
                           </span>
-                          <span className="v1-arrow w-10 h-10 rounded-full grid place-items-center shrink-0">
-                            <ArrowRight size={16} strokeWidth={2} />
+                          <span className="v1-arrow w-7 h-7 sm:w-10 sm:h-10 rounded-full grid place-items-center shrink-0">
+                            <ArrowRight size={14} strokeWidth={2} className="sm:hidden" />
+                            <ArrowRight size={16} strokeWidth={2} className="hidden sm:block" />
                           </span>
                         </div>
                       </div>
