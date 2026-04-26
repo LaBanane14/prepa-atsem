@@ -334,7 +334,7 @@ function DashboardContent() {
           <div className="w-9"></div>
         </header>
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto overflow-x-hidden min-w-0">
 
           {/* Pop-up succès abonnement */}
           {showSuccessPopup && (
@@ -1109,9 +1109,9 @@ function DashboardContent() {
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row gap-6">
+              <div className="flex flex-col lg:flex-row gap-6 min-w-0">
                 {/* Calendrier */}
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:w-[420px] shrink-0">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:w-[420px] shrink-0 min-w-0">
                   {/* Navigation mois */}
                   <div className="flex items-center justify-between mb-6">
                     <button onClick={prevMonth} className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
@@ -1192,7 +1192,7 @@ function DashboardContent() {
                 </div>
 
                 {/* Détail du jour sélectionné */}
-                <div id="historique-detail" className="flex-1 min-h-[220px]" style={{ scrollMarginTop: '72px' }}>
+                <div id="historique-detail" className="flex-1 min-h-[220px] min-w-0 w-full" style={{ scrollMarginTop: '72px' }}>
                   {selectedDay ? (
                     <div>
                       <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">{selectedDay} {monthNames[calMonth]} {calYear}</h3>
@@ -1227,7 +1227,7 @@ function DashboardContent() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <p className="font-bold text-sm text-slate-900 truncate">{item.label}</p>
-                                  <p className="text-xs text-slate-400 font-medium">{item.time}{item.nb_questions ? ` · ${item.nb_questions} questions` : ''}{item.duration_minutes ? ` · ${item.duration_minutes} min` : ''}</p>
+                                  <p className="text-xs text-slate-400 font-medium truncate">{item.time}{item.nb_questions ? ` · ${item.nb_questions} questions` : ''}{item.duration_minutes ? ` · ${item.duration_minutes} min` : ''}</p>
                                 </div>
                                 <div className="text-right shrink-0">
                                   {item.note != null ? (
