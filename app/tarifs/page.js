@@ -22,6 +22,7 @@ const LogoSvg = ({ className }) => (
 const FEATURES = [
   'QCM ATSEM illimités',
   'Annales corrigées chronométrées',
+  'Examen blanc généré par IA',
   'Simulation d\'oral par IA',
   'Dashboard personnalisé',
 ]
