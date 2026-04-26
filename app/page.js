@@ -353,16 +353,16 @@ export default function HomePage() {
           <p className="text-center text-slate-500 mb-10">Choisissez la voie qui correspond à votre profil :</p>
           <div className="space-y-4">
             {[
-              { voie: 'Externe', pct: '30% des postes', condition: 'Titulaire du CAP AEPE (Petite Enfance)', color: 'purple' },
-              { voie: 'Interne', pct: '60% des postes', condition: 'Agent public + 2 ans de service auprès d\'enfants', color: 'blue' },
-              { voie: '3ème concours', pct: '10% des postes', condition: '4 ans d\'expérience pro (privé, associatif)', color: 'emerald' }
+              { voie: 'Externe', pct: '30%', condition: 'Titulaire du CAP AEPE (Petite Enfance)', cls: { border: 'border-purple-200/50', bg: 'bg-purple-100', text: 'text-purple-800' } },
+              { voie: 'Interne', pct: '60%', condition: 'Agent public + 2 ans de service auprès d\'enfants', cls: { border: 'border-blue-200/50', bg: 'bg-blue-100', text: 'text-blue-800' } },
+              { voie: '3ème concours', pct: '10%', condition: '4 ans d\'expérience pro (privé, associatif)', cls: { border: 'border-emerald-200/50', bg: 'bg-emerald-100', text: 'text-emerald-800' } }
             ].map((item, i) => (
-              <div key={i} className={`bg-white/70 backdrop-blur border border-${item.color}-200/50 rounded-2xl p-6 flex items-center gap-5`}>
-                <div className={`w-12 h-12 bg-${item.color}-100 text-${item.color}-800 rounded-xl flex items-center justify-center shrink-0 font-extrabold text-lg`}>{i + 1}</div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
+              <div key={i} className={`bg-white/70 backdrop-blur border ${item.cls.border} rounded-2xl p-4 sm:p-6 flex items-center gap-4 sm:gap-5`}>
+                <div className={`w-11 h-11 sm:w-12 sm:h-12 ${item.cls.bg} ${item.cls.text} rounded-xl flex items-center justify-center shrink-0 font-extrabold text-lg`}>{i + 1}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
                     <h3 className="font-bold text-slate-900">Concours {item.voie}</h3>
-                    <span className={`text-xs font-bold bg-${item.color}-100 text-${item.color}-800 px-2 py-0.5 rounded-full`}>{item.pct}</span>
+                    <span className={`text-xs font-black ${item.cls.bg} ${item.cls.text} px-2.5 py-0.5 rounded-full`}>{item.pct}</span>
                   </div>
                   <p className="text-sm text-slate-500">{item.condition}</p>
                 </div>
