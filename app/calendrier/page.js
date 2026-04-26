@@ -449,6 +449,8 @@ export default function CalendrierPage() {
           }
           .cal-tl-step { text-align: left; padding-left: 80px; }
           .cal-tl-dot { position: absolute; left: 0; top: 0; margin: 0; }
+          .cal-tl-meta { min-height: 0; margin-bottom: 2px; }
+          .cal-tl-month { margin-bottom: 0; line-height: 1.1; }
         }
         @media (max-width: 720px) {
           .cal-wrap { padding: 28px 0 56px; }
