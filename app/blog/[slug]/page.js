@@ -144,23 +144,10 @@ export default function ArticlePage() {
   }
 
   return (
-    <div className="min-h-screen text-slate-900 selection:bg-purple-200 flex flex-col" style={{ backgroundColor: '#faf8ff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+    <div className="min-h-screen text-slate-900 selection:bg-purple-200 flex flex-col" style={{ backgroundColor: '#ffffff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
       <style>{`
-        .ba-wrap { position: relative; flex: 1; display: flex; flex-direction: column; }
-        .ba-wrap::before {
-          content: ''; position: absolute; inset: 0;
-          background:
-            radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%),
-            radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%),
-            radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%),
-            radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%),
-            radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%),
-            radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%),
-            radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%);
-          pointer-events: none;
-        }
-        .ba-wrap > * { position: relative; }
+        .ba-wrap { flex: 1; display: flex; flex-direction: column; }
       `}</style>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
