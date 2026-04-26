@@ -346,29 +346,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── COMMENT ÇA MARCHE ─── */}
-      <section className="py-20 bg-[#f1f0fb]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
-          <h2 className="text-3xl font-extrabold text-slate-900 text-center mb-14">Comment ça marche</h2>
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-8 left-[20%] right-[20%] h-0.5 bg-purple-200"></div>
-            {[
-              { step: '1', title: 'Inscrivez-vous', desc: 'Créez votre compte en 30 secondes. 7 jours d\'essai gratuit, sans carte bancaire.', icon: 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z' },
-              { step: '2', title: 'Entraînez-vous', desc: 'QCM adaptés, annales chronométrées, fiches mémo. Progressez à votre rythme.', icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z' },
-              { step: '3', title: 'Réussissez !', desc: 'Arrivez le jour J préparée et sereine. Rejoignez les écoles maternelles.', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' }
-            ].map((s, i) => (
-              <div key={i} className="text-center relative z-10">
-                <div className="w-16 h-16 bg-purple-800 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-200">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{s.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── ÉLIGIBILITÉ ─── */}
       <section className="py-20 bg-white">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-up">
