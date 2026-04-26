@@ -80,10 +80,11 @@ export default function HomePage() {
   )
 
   return (
-    <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)' }}>
+    <div className="min-h-screen text-slate-900" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f3f0ff 15%, #ede9fe 30%, #f5f3ff 50%, #faf5ff 65%, #fdf4ff 80%, #fce7f3 100%)', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
       {/* ─── NAVBAR ─── */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm">
@@ -94,7 +95,7 @@ export default function HomePage() {
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM <svg className="inline w-4 h-3 align-middle ml-0.5 relative -top-[1.5px]" viewBox="0 0 30 20"><rect width="30" height="20" rx="1" stroke="#00000030" strokeWidth="1.5" fill="none"/><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ED2939"/></svg></span>
             </div>
           </a>
-          <div className="hidden md:flex items-center gap-8 font-semibold text-slate-500">
+          <div className="hidden md:flex items-center gap-8 font-bold text-slate-500">
             {navLinks.map(link => (
               <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
@@ -166,10 +167,11 @@ export default function HomePage() {
                 Concours ATSEM 2026
               </div>
               <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-[3.5rem] text-slate-900 leading-[1.15] mb-6 font-bold">
-                Préparez le concours <span className="text-purple-800">ATSEM</span> sereinement.
+                Préparer le concours <span className="text-purple-800">ATSEM 2026</span> en ligne.
               </h1>
               <p className="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg">
-                La première plateforme de préparation au concours d'Agent Territorial Spécialisé des Écoles Maternelles.<br/>QCM illimités, annales corrigées des CDG et simulations d'oral par IA.              </p>
+                La plateforme de référence pour préparer le concours ATSEM (Agent Territorial Spécialisé des Écoles Maternelles) : QCM illimités, annales corrigées des CDG (2015-2025) et simulations d'oral par IA.
+              </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <a href="/signup" className="bg-purple-800 hover:bg-purple-900 text-white px-6 py-3.5 rounded-2xl font-bold text-center shadow-lg shadow-purple-200 transition-all hover:-translate-y-0.5">
                   Commencer l'entraînement
