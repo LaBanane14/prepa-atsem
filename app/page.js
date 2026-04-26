@@ -247,7 +247,7 @@ export default function HomePage() {
             { num: '6', label: 'Familles thématiques', icon: 'M4 6h16M4 10h16M4 14h16M4 18h16' },
             { num: 'x2', label: "L'oral compte double", icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
             { num: '3%', label: "Taux d'admission", icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
-            { num: '4 300', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
+            { num: '600', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center gap-1">
               <svg className="w-5 h-5 text-purple-400 mb-1" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
