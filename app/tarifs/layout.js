@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tarifs — Préparation au concours ATSEM | Prépa ATSEM",
+  title: "Tarifs — Préparation au concours ATSEM",
   description: "Tarifs de préparation au concours ATSEM : formule mensuelle 9,99€ ou Pack Concours 6 mois à 49,99€. Accès illimité aux QCM, annales corrigées, examen blanc et simulation d'oral par IA.",
   keywords: [
     "tarifs concours ATSEM",

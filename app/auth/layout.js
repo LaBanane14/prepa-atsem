@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Connexion | Prépa ATSEM",
+  title: "Connexion",
   description: "Connectez-vous ou créez votre compte Prépa ATSEM pour commencer votre préparation au concours ATSEM.",
   robots: { index: false, follow: false },
 }

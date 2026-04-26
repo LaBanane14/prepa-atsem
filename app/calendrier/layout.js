@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Calendrier du concours ATSEM 2026 | Prépa ATSEM",
+  title: "Calendrier du concours ATSEM 2026",
   description: "Toutes les dates du concours ATSEM 2026 par région : inscriptions, épreuves écrites, oraux d'admission. Carte interactive des CDG organisateurs département par département.",
   keywords: [
     "calendrier concours ATSEM 2026",

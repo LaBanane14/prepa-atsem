@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "QCM gratuit du concours ATSEM | Prépa ATSEM",
+  title: "QCM gratuit du concours ATSEM",
   description: "QCM gratuit pour préparer le concours ATSEM : 20 questions types sur l'hygiène, la santé, la pédagogie, le statut, les relations pro et les calculs pratiques. Correction détaillée pour chaque question.",
   keywords: [
     "QCM ATSEM",

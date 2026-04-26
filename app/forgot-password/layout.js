@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Mot de passe oublié | Prépa ATSEM",
+  title: "Mot de passe oublié",
   robots: { index: false, follow: false },
 }
 export default function ForgotPasswordLayout({ children }) { return children }

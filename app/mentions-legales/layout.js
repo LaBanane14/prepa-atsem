@@ -1,2 +1,2 @@
-export const metadata = { title: "Mentions légales | Prépa ATSEM", description: "Mentions légales de Prépa ATSEM : éditeur LP Labs, hébergeur Vercel, protection des données personnelles (RGPD), cookies.", keywords: "mentions légales, Prépa ATSEM, RGPD, LP Labs, concours ATSEM", alternates: { canonical: "https://www.prepa-atsem.fr/mentions-legales" } }
+export const metadata = { title: "Mentions légales", description: "Mentions légales de Prépa ATSEM : éditeur LP Labs, hébergeur Vercel, protection des données personnelles (RGPD), cookies.", keywords: "mentions légales, Prépa ATSEM, RGPD, LP Labs, concours ATSEM", alternates: { canonical: "https://www.prepa-atsem.fr/mentions-legales" } }
 export default function MentionsLegalesLayout({ children }) { return children }

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Blog — Conseils pour le concours ATSEM | Prépa ATSEM",
+  title: "Blog — Conseils pour le concours ATSEM",
   description: "Articles et conseils pour réussir le concours ATSEM : programme des épreuves, calendrier 2026, préparation aux QCM, entretien d'oral, reconversion et témoignages de candidates admises.",
   keywords: [
     "blog concours ATSEM",
