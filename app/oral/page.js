@@ -44,7 +44,6 @@ export default function OralPage() {
   const [answers, setAnswers] = useState({})
   const [error, setError] = useState('')
   const [fileName, setFileName] = useState('')
-  const [uploadSuccess, setUploadSuccess] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [loadingProgress, setLoadingProgress] = useState(0)
 
@@ -117,8 +116,6 @@ export default function OralPage() {
     setShowCVPopup(false)
     setFileName(file.name)
     setError('')
-    setUploadSuccess(true)
-    setTimeout(() => setUploadSuccess(false), 3000)
     setLoadingStep(0)
     setStep('loading')
 
@@ -379,14 +376,6 @@ export default function OralPage() {
         .v1-qcount { color: var(--c-color); display: flex; align-items: center; gap: 8px; }
         .v1-qcount::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-color); }
       `}</style>
-
-      {/* TOAST */}
-      {uploadSuccess && (
-        <div className="fixed top-4 right-4 z-[100] bg-slate-900 text-white font-bold text-sm px-5 py-3 rounded-xl shadow-lg animate-fade-in flex items-center gap-2">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-          Fichier {fileName} uploadé avec succès !
-        </div>
-      )}
 
       {sidebarOpen && <div className="fixed top-14 lg:top-0 inset-x-0 bottom-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
 
