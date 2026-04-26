@@ -245,7 +245,7 @@ export default function HomePage() {
           {[
             { num: 'Illimités', label: 'QCM générés par IA', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
             { num: '+ de 50', label: 'Annales corrigées', icon: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z' },
-            { num: 'Simulation oral', label: "L'oral compte double", icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
+            { num: 'Simulation oral', label: "L'oral compte double", icon: 'M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3Z M19 10v2a7 7 0 01-14 0v-2 M12 19v3 M8 22h8' },
             { num: '3%', label: "Taux d'admission", icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
             { num: '600', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
           ].map((s, i) => (
@@ -282,7 +282,7 @@ export default function HomePage() {
             {[
               { title: 'QCM dynamiques par IA', desc: 'Entraînez-vous sur les 6 familles thématiques avec des QCM à réponses multiples — comme au vrai concours. Corrections détaillées à chaque question.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
               { title: 'Annales chronométrées', desc: 'Vrais sujets des CDG (2015-2025). Timer 45 min, correction détaillée, classement percentile. Conditions réelles du concours.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-              { title: 'Simulation d\'oral par IA', desc: 'L\'oral compte double ! Notre IA simule un jury : mises en situation, motivations, relation ATSEM/enseignant. Préparez l\'épreuve que tout le monde néglige.', icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
+              { title: 'Simulation d\'oral par IA', desc: 'L\'oral compte double ! Notre IA simule un jury : mises en situation, motivations, relation ATSEM/enseignant. Préparez l\'épreuve que tout le monde néglige.', icon: 'M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3Z M19 10v2a7 7 0 01-14 0v-2 M12 19v3 M8 22h8' },
               { title: 'Examen blanc IA', desc: 'L\'IA génère un examen complet de 20 questions en 45 min, conditions réelles du concours. Note sur 20, correction détaillée et progression mesurable.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7v.01M9 16h6' }
             ].map((f, i) => (
               <div key={i} className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex gap-5">
