@@ -206,28 +206,49 @@ export default function TarifsPage() {
         .t-foot-note { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #6b5b8e; text-align: center; margin-top: 14px; text-transform: uppercase; }
         .t-foot-note.t-foot-above { margin-top: -16px; margin-bottom: 18px; }
 
-        /* REASSURE — trust strip */
+        /* REASSURE — pay strip (sobre & pro) */
         .t-reassure { margin-top: 32px; }
-        .t-trust {
-          display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+        .t-pay {
+          display: flex; align-items: center; justify-content: space-between; gap: 24px;
+          padding: 22px 32px;
           background: white; border: 1px solid #ece9f0; border-radius: 20px;
-          overflow: hidden; box-shadow: 0 12px 28px -20px rgba(20,10,40,0.15);
+          flex-wrap: wrap;
         }
-        .t-trust .t-rs-item { display: flex; align-items: center; gap: 14px; padding: 22px 24px; border-right: 1px solid #f3effc; }
-        .t-trust .t-rs-item:last-child { border-right: none; }
-        .t-trust .t-rs-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; }
-        .t-trust .t-rs-icon svg { width: 20px; height: 20px; }
-        .t-trust .t-rs-item:nth-child(1) .t-rs-icon { background: #ecfdf5; color: #047857; }
-        .t-trust .t-rs-item:nth-child(2) .t-rs-icon { background: #f3efff; color: #6d28d9; }
-        .t-trust .t-rs-item:nth-child(3) .t-rs-icon { background: #fef3c7; color: #b45309; }
-        .t-trust .t-rs-item:nth-child(4) .t-rs-icon { background: #fce7f3; color: #be185d; }
-        .t-trust .t-rs-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-        .t-trust .t-rs-title { font-size: 13px; font-weight: 900; color: #1a1325; letter-spacing: -0.01em; }
-        .t-trust .t-rs-sub { font-size: 12px; font-weight: 600; color: #6b5b8e; }
+        .t-pay-secure {
+          display: flex; align-items: center; gap: 14px;
+          padding-right: 24px; border-right: 1px solid #f3effc;
+        }
+        .t-pay-secure .t-pay-icon {
+          width: 44px; height: 44px; border-radius: 12px;
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white; display: grid; place-items: center;
+          box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.6);
+        }
+        .t-pay-secure svg { width: 22px; height: 22px; }
+        .t-pay-secure-text { display: flex; flex-direction: column; }
+        .t-pay-secure b { font-size: 14px; font-weight: 900; color: #1a1325; }
+        .t-pay-secure span { font-size: 12px; color: #6b5b8e; font-weight: 600; }
+        .t-pay-logos { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1; justify-content: center; }
+        .t-pay-logo {
+          height: 32px; padding: 0 14px;
+          border: 1px solid #ece9f0; border-radius: 8px; background: white;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 12px; font-weight: 900; letter-spacing: -0.02em;
+        }
+        .t-pay-logo.visa { color: #1a1f71; }
+        .t-pay-logo.mc { color: #eb001b; }
+        .t-pay-logo.amex { color: #006fcf; }
+        .t-pay-logo.apple { color: #1a1325; }
+        .t-pay-logo.sepa { color: #003399; }
+        .t-pay-stripe {
+          padding-left: 24px; border-left: 1px solid #f3effc;
+          font-size: 12px; font-weight: 700; color: #6b5b8e;
+        }
+        .t-pay-stripe b { color: #635bff; font-weight: 900; }
         @media (max-width: 980px) {
-          .t-trust { grid-template-columns: repeat(2, 1fr); }
-          .t-trust .t-rs-item:nth-child(2) { border-right: none; }
-          .t-trust .t-rs-item:nth-child(1), .t-trust .t-rs-item:nth-child(2) { border-bottom: 1px solid #f3effc; }
+          .t-pay { flex-direction: column; align-items: stretch; gap: 18px; padding: 20px 22px; }
+          .t-pay-secure { padding-right: 0; padding-bottom: 16px; border-right: none; border-bottom: 1px solid #f3effc; }
+          .t-pay-stripe { padding-left: 0; padding-top: 16px; border-left: none; border-top: 1px solid #f3effc; text-align: center; }
         }
 
         @media (max-width: 1100px) {
@@ -357,44 +378,27 @@ export default function TarifsPage() {
               </article>
             </div>
 
-            {/* RÉASSURANCE */}
+            {/* RÉASSURANCE — bandeau paiement sobre */}
             <div className="t-reassure">
-              <div className="t-trust">
-                <div className="t-rs-item">
-                  <div className="t-rs-icon">
+              <div className="t-pay">
+                <div className="t-pay-secure">
+                  <div className="t-pay-icon">
                     <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   </div>
-                  <div className="t-rs-text">
-                    <span className="t-rs-title">Paiement sécurisé</span>
-                    <span className="t-rs-sub">Stripe · 3D Secure</span>
+                  <div className="t-pay-secure-text">
+                    <b>Paiement 100% sécurisé</b>
+                    <span>Cryptage SSL · 3D Secure</span>
                   </div>
                 </div>
-                <div className="t-rs-item">
-                  <div className="t-rs-icon">
-                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-                  </div>
-                  <div className="t-rs-text">
-                    <span className="t-rs-title">Activation immédiate</span>
-                    <span className="t-rs-sub">Accès en 30 secondes</span>
-                  </div>
+                <div className="t-pay-logos">
+                  <div className="t-pay-logo visa">VISA</div>
+                  <div className="t-pay-logo mc">Mastercard</div>
+                  <div className="t-pay-logo amex">AMEX</div>
+                  <div className="t-pay-logo apple"> Pay</div>
+                  <div className="t-pay-logo sepa">SEPA</div>
                 </div>
-                <div className="t-rs-item">
-                  <div className="t-rs-icon">
-                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                  </div>
-                  <div className="t-rs-text">
-                    <span className="t-rs-title">Tous moyens de paiement</span>
-                    <span className="t-rs-sub">CB · Apple Pay · SEPA</span>
-                  </div>
-                </div>
-                <div className="t-rs-item">
-                  <div className="t-rs-icon">
-                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                  </div>
-                  <div className="t-rs-text">
-                    <span className="t-rs-title">Essai gratuit 7 jours</span>
-                    <span className="t-rs-sub">Sans carte bancaire</span>
-                  </div>
+                <div className="t-pay-stripe">
+                  Sécurisé par <b>stripe</b>
                 </div>
               </div>
             </div>
