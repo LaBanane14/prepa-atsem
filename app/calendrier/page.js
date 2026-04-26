@@ -439,8 +439,10 @@ export default function CalendrierPage() {
         @media (max-width: 1100px) {
           .cal-wrap { padding: 40px 0 60px; }
           .cal-inner { padding: 0 32px; }
-          .cal-map-wrap { grid-template-columns: 1fr; }
-          .cal-regions-grid { grid-template-columns: 1fr; }
+          .cal-map-wrap { grid-template-columns: minmax(0, 1fr); }
+          .cal-regions-grid { grid-template-columns: minmax(0, 1fr); }
+          .cal-region-card { min-width: 0; overflow: hidden; }
+          .cal-cdg-list li { overflow-wrap: anywhere; }
           .cal-timeline { grid-template-columns: 1fr; gap: 28px; }
           .cal-timeline::before {
             top: 0; bottom: 0; left: 27px; right: auto;
