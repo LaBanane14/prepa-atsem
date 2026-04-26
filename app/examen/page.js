@@ -400,35 +400,49 @@ export default function ExamenPage() {
         /* === LoaderArc (écran de chargement examen) === */
         .la-root { font-family: 'Nunito', system-ui, sans-serif; color: #1a1325; }
         .la-page { padding: 24px 8px 40px; position: relative; width: 100%; }
-        .la-frame { background: white; border-radius: 24px; border: 1px solid #ece9f0; padding: 32px 28px 28px; max-width: 880px; margin: 0 auto; width: 100%; position: relative; overflow: hidden; box-sizing: border-box; }
+        .la-frame { background: white; border-radius: 20px; border: 1px solid #ece9f0; padding: 20px 16px 18px; max-width: 880px; margin: 0 auto; width: 100%; position: relative; overflow: hidden; box-sizing: border-box; }
         @media (min-width: 640px) { .la-frame { padding: 48px 48px 40px; border-radius: 28px; } }
         .la-frame::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top right, var(--tc-soft-2), transparent 60%); pointer-events: none; }
         .la-frame > * { position: relative; }
-        .lf-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
-        .lf-icon-chip { width: 56px; height: 56px; border-radius: 16px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; flex-shrink: 0; }
+        .lf-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .lf-head { gap: 16px; margin-bottom: 28px; } }
+        .lf-icon-chip { width: 44px; height: 44px; border-radius: 12px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; flex-shrink: 0; }
+        @media (min-width: 640px) { .lf-icon-chip { width: 56px; height: 56px; border-radius: 16px; } }
         .lf-head-text { flex: 1; min-width: 0; }
-        .lf-head-text h2 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); }
-        .lf-head-text h1 { margin: 2px 0 0; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
-        .lf-title { font-size: 30px; font-weight: 900; letter-spacing: -0.025em; margin: 8px 0 12px; line-height: 1.05; }
-        @media (min-width: 640px) { .lf-title { font-size: 42px; } }
+        .lf-head-text h2 { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tc-main); }
+        @media (min-width: 640px) { .lf-head-text h2 { font-size: 12px; letter-spacing: 0.12em; } }
+        .lf-head-text h1 { margin: 2px 0 0; font-size: 18px; font-weight: 900; letter-spacing: -0.02em; color: #1a1325; }
+        @media (min-width: 640px) { .lf-head-text h1 { font-size: 24px; } }
+        .lf-title { font-size: 24px; font-weight: 900; letter-spacing: -0.025em; margin: 6px 0 8px; line-height: 1.1; }
+        @media (min-width: 640px) { .lf-title { font-size: 42px; margin: 8px 0 12px; line-height: 1.05; } }
         .lf-title em { font-style: normal; background: linear-gradient(135deg, var(--tc-main) 0%, var(--tc-bright) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .lf-sub { font-size: 15px; line-height: 1.55; color: #5e5270; margin: 0 0 32px; max-width: 540px; }
-        .anim-arc { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 16px 0 8px; flex-wrap: wrap; }
-        @media (min-width: 640px) { .anim-arc { gap: 56px; } }
-        .arc-wrap { position: relative; width: 220px; height: 220px; flex-shrink: 0; }
-        .arc-svg { transform: rotate(-90deg); }
+        .lf-sub { font-size: 13px; line-height: 1.5; color: #5e5270; margin: 0 0 20px; max-width: 540px; }
+        @media (min-width: 640px) { .lf-sub { font-size: 15px; line-height: 1.55; margin: 0 0 32px; } }
+        .anim-arc { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 8px 0 4px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .anim-arc { gap: 56px; padding: 16px 0 8px; } }
+        .arc-wrap { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+        @media (min-width: 640px) { .arc-wrap { width: 220px; height: 220px; } }
+        .arc-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
         .arc-track { stroke: #ece9f0; stroke-width: 10; fill: none; }
         .arc-fill { stroke: var(--tc-main, #f59e0b); stroke-width: 10; fill: none; stroke-linecap: round; }
-        .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
-        .arc-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 4px; }
-        .arc-percent { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
-        .arc-count { font-size: 12px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.08em; text-transform: uppercase; }
+        .arc-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        @media (min-width: 640px) { .arc-center { gap: 6px; } }
+        .arc-icon { width: 36px; height: 36px; border-radius: 12px; background: var(--tc-tint); color: var(--tc-main); display: grid; place-items: center; margin-bottom: 2px; }
+        @media (min-width: 640px) { .arc-icon { width: 44px; height: 44px; border-radius: 14px; margin-bottom: 4px; } }
+        .arc-percent { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; color: #1a1325; line-height: 1; font-variant-numeric: tabular-nums; }
+        @media (min-width: 640px) { .arc-percent { font-size: 36px; } }
+        .arc-count { font-size: 10px; font-weight: 700; color: #8b7ea3; letter-spacing: 0.06em; text-transform: uppercase; }
+        @media (min-width: 640px) { .arc-count { font-size: 12px; letter-spacing: 0.08em; } }
         .arc-count b { color: var(--tc-main); }
-        .arc-side { flex: 1; min-width: 220px; max-width: 320px; }
-        .arc-step-num { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tc-main); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .arc-side { flex: 1; min-width: 0; max-width: 320px; text-align: center; }
+        @media (min-width: 640px) { .arc-side { min-width: 220px; text-align: left; } }
+        .arc-step-num { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tc-main); margin-bottom: 4px; display: inline-flex; align-items: center; gap: 6px; }
+        @media (min-width: 640px) { .arc-step-num { font-size: 11px; letter-spacing: 0.12em; margin-bottom: 6px; gap: 8px; } }
         .arc-step-num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--tc-main); }
-        .arc-side h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
-        .arc-side p { margin: 0; font-size: 14px; line-height: 1.55; color: #5e5270; }
+        .arc-side h3 { margin: 0 0 6px; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: #1a1325; }
+        @media (min-width: 640px) { .arc-side h3 { font-size: 18px; margin: 0 0 8px; } }
+        .arc-side p { margin: 0; font-size: 12px; line-height: 1.5; color: #5e5270; }
+        @media (min-width: 640px) { .arc-side p { font-size: 14px; line-height: 1.55; } }
         @keyframes bellSwing { 0%, 100% { transform: rotate(0deg); } 15% { transform: rotate(8deg); } 30% { transform: rotate(-6deg); } 45% { transform: rotate(4deg); } 60% { transform: rotate(-2deg); } 75% { transform: rotate(0deg); } }
         @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
         .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
@@ -610,8 +624,8 @@ export default function ExamenPage() {
                         <h2>Concours ATSEM — conditions réelles</h2>
                         <h1>Examen blanc{selectedRegion ? ` — ${selectedRegion}` : ''}</h1>
                       </div>
-                      <button onClick={() => setStep('choix_region')} className="ml-auto shrink-0 bg-slate-900 hover:bg-black text-white font-bold text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer">
-                        Quitter l'exercice
+                      <button onClick={() => setStep('choix_region')} className="ml-auto shrink-0 bg-slate-900 hover:bg-black text-white font-bold text-sm px-3 py-2.5 sm:px-5 rounded-xl transition flex items-center gap-2 cursor-pointer">
+                        <span className="hidden sm:inline">Quitter l'exercice</span>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                       </button>
                     </div>
