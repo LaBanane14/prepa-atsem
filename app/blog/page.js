@@ -232,7 +232,7 @@ export default function BlogPage() {
         <div className="b-inner">
           {/* HERO */}
           <header className="b-hero">
-            <h1>Toutes les infos pour réussir le concours <em>ATSEM</em></h1>
+            <h1>Toutes les infos pour le concours <em>ATSEM</em></h1>
             <p>Actualités, conseils et astuces pour préparer au mieux votre concours ATSEM.</p>
           </header>
 
