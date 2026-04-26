@@ -241,7 +241,7 @@ export default function HomePage() {
 
       {/* ─── STATS BAR ─── */}
       <section className="py-10 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-6 text-center">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
           {[
             { num: 'Illimités', label: 'QCM générés par IA', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4' },
             { num: '+ de 50', label: 'Annales corrigées', icon: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z' },
@@ -249,10 +249,12 @@ export default function HomePage() {
             { num: '3%', label: "Taux d'admission", icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
             { num: '600', label: 'Candidats inscrits', icon: 'M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M20 8v6M23 11h-6M13 7a4 4 0 11-8 0 4 4 0 018 0z' }
           ].map((s, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
-              <svg className="w-5 h-5 text-purple-400 mb-1" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
-              <span className="text-2xl font-extrabold text-white">{s.num}</span>
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{s.label}</span>
+            <div key={i} className="flex sm:flex-col items-center sm:items-center gap-3 sm:gap-1 text-left sm:text-center">
+              <svg className="w-6 h-6 sm:w-5 sm:h-5 text-purple-400 sm:mb-1 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={s.icon}/></svg>
+              <div className="flex-1 sm:flex-none min-w-0 flex flex-col sm:items-center">
+                <span className="text-lg sm:text-2xl font-extrabold text-white leading-tight">{s.num}</span>
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wide">{s.label}</span>
+              </div>
             </div>
           ))}
         </div>
