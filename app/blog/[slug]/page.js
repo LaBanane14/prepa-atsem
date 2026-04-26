@@ -144,14 +144,31 @@ export default function ArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-purple-200 flex flex-col">
+    <div className="min-h-screen text-slate-900 selection:bg-purple-200 flex flex-col" style={{ backgroundColor: '#faf8ff', color: '#1a1325', fontFamily: "'Nunito', system-ui, sans-serif" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+      <style>{`
+        .ba-wrap { position: relative; flex: 1; display: flex; flex-direction: column; }
+        .ba-wrap::before {
+          content: ''; position: absolute; inset: 0;
+          background:
+            radial-gradient(ellipse at 15% 0%, rgba(139,92,246,0.20), transparent 55%),
+            radial-gradient(ellipse at 85% 8%, rgba(251,191,36,0.15), transparent 55%),
+            radial-gradient(ellipse at 55% 0%, rgba(236,72,153,0.12), transparent 60%),
+            radial-gradient(ellipse at 10% 45%, rgba(14,165,233,0.10), transparent 55%),
+            radial-gradient(ellipse at 95% 55%, rgba(139,92,246,0.13), transparent 55%),
+            radial-gradient(ellipse at 30% 80%, rgba(236,72,153,0.10), transparent 55%),
+            radial-gradient(ellipse at 80% 95%, rgba(251,191,36,0.10), transparent 55%);
+          pointer-events: none;
+        }
+        .ba-wrap > * { position: relative; }
+      `}</style>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       {schemaExtra && (Array.isArray(schemaExtra) ? schemaExtra : [schemaExtra]).map((s, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
       {/* NAVIGATION */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50" style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <div className="bg-purple-800 text-white p-1 rounded-xl shadow-sm"><LogoSvg className="w-10 h-10" /></div>
@@ -160,7 +177,7 @@ export default function ArticlePage() {
               <span className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-widest uppercase">Concours ATSEM</span>
             </div>
           </a>
-          <div className="hidden md:flex items-center gap-8 font-semibold text-slate-600">
+          <div className="hidden md:flex items-center gap-8 font-bold text-slate-500">
             {[{href:'/',label:'Accueil'},{href:'/calendrier',label:'Calendrier'},{href:'/blog',label:'Blog',active:true},{href:'/tarifs',label:'Tarifs'}].map(link => (
               <a key={link.label} href={link.href} className={link.active ? 'text-purple-800' : 'hover:text-purple-800 transition'}>{link.label}</a>
             ))}
@@ -206,7 +223,8 @@ export default function ArticlePage() {
       </nav>
 
       {/* ARTICLE */}
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex-grow">
+      <div className="ba-wrap">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex-grow w-full">
         <a href="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-purple-800 transition mb-8">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7-7 7 7 7"/></svg> Retour au blog
         </a>
@@ -269,15 +287,20 @@ export default function ArticlePage() {
         </div>
 
         {!user && (
-      <div className="mt-12 bg-gradient-to-br from-purple-900 to-purple-700 rounded-3xl p-10 text-center shadow-xl">
-        <h3 className="text-xl font-black text-white mb-3">Prêt(e) à préparer le concours ATSEM ?</h3>
-        <p className="text-purple-100 font-medium mb-6">Rejoignez Prépa ATSEM et commencez votre entraînement dès maintenant.</p>
-        <a href="/signup" className="inline-flex items-center gap-2 bg-white hover:bg-purple-50 text-purple-800 font-bold px-8 py-4 rounded-xl transition shadow-lg">
-          Inscrivez-vous dès maintenant <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
-        </a>
+      <div className="mt-12 rounded-3xl p-10 text-center shadow-xl relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #1a1325 0%, #2d1b4e 100%)' }}>
+        <div className="absolute" style={{ width: 320, height: 320, right: -80, top: -100, background: 'radial-gradient(circle, rgba(139,92,246,0.45), transparent 70%)', pointerEvents: 'none' }}></div>
+        <div className="absolute" style={{ width: 240, height: 240, left: -80, bottom: -90, background: 'radial-gradient(circle, rgba(236,72,153,0.30), transparent 70%)', pointerEvents: 'none' }}></div>
+        <div className="relative">
+          <h3 className="text-xl font-black text-white mb-3">Prêt(e) à préparer le concours <em style={{ fontStyle: 'normal', background: 'linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fcd34d 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent', color: 'transparent' }}>ATSEM</em> ?</h3>
+          <p className="text-purple-100 font-medium mb-6">Rejoignez Prépa ATSEM et commencez votre entraînement dès maintenant.</p>
+          <a href="/signup" className="inline-flex items-center gap-2 bg-white hover:bg-purple-50 text-slate-900 font-black px-8 py-4 rounded-full transition shadow-lg">
+            Inscrivez-vous dès maintenant <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          </a>
+        </div>
       </div>
 )}
       </article>
+      </div>
 
       {/* FOOTER */}
       <footer className="bg-slate-950 text-slate-400 py-12 text-sm mt-auto">
