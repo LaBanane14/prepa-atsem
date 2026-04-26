@@ -1,11 +1,28 @@
 export const metadata = {
-  title: "Blog — Conseils et actualités concours ATSEM",
-  description: "Articles, conseils et actualités pour réussir le concours ATSEM. Calendrier des épreuves, préparation QCM, entraînement oral et retours d'expérience de candidates admises.",
-  keywords: ["concours ATSEM", "QCM ATSEM", "blog concours ATSEM", "préparation ATSEM", "épreuves ATSEM", "conseils concours ATSEM", "calendrier concours ATSEM"],
+  title: "Blog — Conseils pour le concours ATSEM | Prépa ATSEM",
+  description: "Articles et conseils pour réussir le concours ATSEM : programme des épreuves, calendrier 2026, préparation aux QCM, entretien d'oral, reconversion et témoignages de candidates admises.",
+  keywords: [
+    "blog concours ATSEM",
+    "conseils concours ATSEM",
+    "actualités concours ATSEM",
+    "programme concours ATSEM",
+    "préparation concours ATSEM",
+    "épreuves ATSEM",
+    "entretien oral ATSEM",
+    "reconversion ATSEM",
+    "témoignages ATSEM",
+    "CAP AEPE",
+  ],
   openGraph: {
-    title: "Blog | Prépa ATSEM",
-    description: "Articles, conseils et actualités pour réussir le concours ATSEM.",
+    title: "Blog concours ATSEM | Prépa ATSEM",
+    description: "Conseils et actualités pour réussir le concours ATSEM.",
     type: "website",
+    url: "https://www.prepa-atsem.fr/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog concours ATSEM | Prépa ATSEM",
+    description: "Conseils et actualités pour réussir le concours ATSEM.",
   },
   alternates: {
     canonical: "https://www.prepa-atsem.fr/blog",
