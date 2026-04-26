@@ -82,7 +82,7 @@ export default function OralPage() {
     let raf
     const tick = (now) => {
       const t = (now - t0) / 1000
-      const v = 99 * (1 - Math.exp(-Math.pow(t, 1.5) / 100))
+      const v = 99 * (1 - Math.exp(-Math.pow(t, 1.5) / 50))
       setLoadingProgress(v)
       raf = requestAnimationFrame(tick)
     }
