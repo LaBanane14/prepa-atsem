@@ -1005,15 +1005,15 @@ function DashboardContent() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                   {badges.map(b => (
-                    <div key={b.id} className={`relative rounded-2xl border p-4 text-center transition-all ${b.unlocked ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-slate-100 opacity-50'}`}>
+                    <div key={b.id} className={`relative rounded-2xl border p-4 text-center transition-all ${b.unlocked ? 'bg-slate-900 border-slate-900 shadow-sm' : 'bg-slate-50 border-slate-100 opacity-50'}`}>
                       {b.unlocked && (
-                        <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
+                        <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-yellow-400 text-black rounded-full flex items-center justify-center">
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                         </div>
                       )}
                       <span className="text-2xl block mb-2">{b.icon}</span>
-                      <p className={`text-xs font-bold leading-tight ${b.unlocked ? 'text-slate-900' : 'text-slate-400'}`}>{b.label}</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">{b.desc}</p>
+                      <p className={`text-xs font-bold leading-tight ${b.unlocked ? 'text-white' : 'text-slate-400'}`}>{b.label}</p>
+                      <p className={`text-[10px] mt-0.5 ${b.unlocked ? 'text-slate-400' : 'text-slate-400'}`}>{b.desc}</p>
                     </div>
                   ))}
                 </div>
