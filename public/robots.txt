@@ -1,2 +1,20 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+# Pages privées / utilisateurs
+Disallow: /api/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+
+# Pages d'exercices (réservées aux comptes)
+Disallow: /examen
+Disallow: /specifique
+Disallow: /oral
+Disallow: /annales
+
+Sitemap: https://www.prepa-atsem.fr/sitemap.xml
