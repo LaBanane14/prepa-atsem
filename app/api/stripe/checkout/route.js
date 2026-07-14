@@ -34,6 +34,9 @@ export async function POST(req) {
       line_items: [{ price: priceId, quantity: 1 }],
       metadata: { userId, plan: isRecurring ? 'monthly' : 'yearly', site: 'prepa-atsem' },
       automatic_tax: { enabled: true },
+      // Les clients existants du compte partage n'ont pas toujours d'adresse :
+      // on enregistre celle saisie dans Checkout (requis par automatic_tax)
+      customer_update: { address: 'auto' },
       success_url: `${req.headers.get('origin')}/dashboard?success=true`,
       cancel_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&canceled=true`,
     }
