@@ -567,7 +567,7 @@ function DashboardContent() {
                 {isPremium ? (
                   <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 px-4 py-2 rounded-xl flex items-center gap-2 shadow-md shadow-amber-200/50">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                    <span className="font-black text-sm">Premium {subscriptionPlan === 'monthly' ? 'Mensuel' : 'Annuel'}</span>
+                    <span className="font-black text-sm">Premium {subscriptionPlan === 'monthly' ? 'Mensuel' : 'Pack 6 mois'}</span>
                   </div>
                 ) : (
                   <>

@@ -31,6 +31,8 @@ export async function POST(req) {
         const userId = session.metadata?.userId
         const plan = session.metadata?.plan
 
+        // Compte Stripe partagé avec Prépa FPC : on ignore les paiements des autres sites
+        if (session.metadata?.site !== 'prepa-atsem') break
         if (!userId) { console.error('checkout.session.completed - no userId'); break }
 
         if (plan === 'monthly' && session.subscription) {
@@ -48,8 +50,9 @@ export async function POST(req) {
         }
 
         if (plan === 'yearly') {
+          // Pack Concours 6 mois (le nom 'yearly' est un heritage du fork FPC)
           const expiresAt = new Date()
-          expiresAt.setFullYear(expiresAt.getFullYear() + 1)
+          expiresAt.setMonth(expiresAt.getMonth() + 6)
           const { error } = await supabaseAdmin.from('subscriptions').upsert({
             user_id: userId,
             stripe_customer_id: session.customer,
@@ -68,10 +71,11 @@ export async function POST(req) {
         const userId = paymentIntent.metadata?.userId
         const plan = paymentIntent.metadata?.plan
 
+        if (paymentIntent.metadata?.site !== 'prepa-atsem') break
         if (!userId || plan !== 'yearly') break
 
         const expiresAt = new Date()
-        expiresAt.setFullYear(expiresAt.getFullYear() + 1)
+        expiresAt.setMonth(expiresAt.getMonth() + 6)
 
         const { error } = await supabaseAdmin.from('subscriptions').upsert({
           user_id: userId,
@@ -93,6 +97,7 @@ export async function POST(req) {
         const subscription = await stripe.subscriptions.retrieve(subId)
         const userId = subscription.metadata?.userId
 
+        if (subscription.metadata?.site !== 'prepa-atsem') break
         if (!userId) {
           console.error('Missing userId in subscription metadata. Sub ID:', subId)
           break

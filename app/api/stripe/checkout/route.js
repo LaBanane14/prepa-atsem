@@ -32,7 +32,7 @@ export async function POST(req) {
       customer: customer.id,
       mode: isRecurring ? 'subscription' : 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
-      metadata: { userId, plan: isRecurring ? 'monthly' : 'yearly' },
+      metadata: { userId, plan: isRecurring ? 'monthly' : 'yearly', site: 'prepa-atsem' },
       automatic_tax: { enabled: true },
       success_url: `${req.headers.get('origin')}/dashboard?success=true`,
       cancel_url: `${req.headers.get('origin')}/dashboard?tab=abonnement&canceled=true`,
@@ -40,9 +40,9 @@ export async function POST(req) {
 
     // Transférer les metadata vers le payment_intent (annuel) ou la subscription (mensuel)
     if (isRecurring) {
-      sessionParams.subscription_data = { metadata: { userId, plan: 'monthly' } }
+      sessionParams.subscription_data = { metadata: { userId, plan: 'monthly', site: 'prepa-atsem' } }
     } else {
-      sessionParams.payment_intent_data = { metadata: { userId, plan: 'yearly' } }
+      sessionParams.payment_intent_data = { metadata: { userId, plan: 'yearly', site: 'prepa-atsem' } }
     }
 
     const session = await getStripe().checkout.sessions.create(sessionParams)
