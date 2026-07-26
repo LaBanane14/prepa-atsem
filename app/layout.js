@@ -173,7 +173,7 @@ export default function RootLayout({ children }) {
             {
               "@type": "Offer",
               "name": "Formule mensuelle",
-              "price": "9.99",
+              "price": "12.99",
               "priceCurrency": "EUR",
               "url": "https://www.prepa-atsem.fr/tarifs"
             },
