@@ -27,6 +27,9 @@ export const metadata = {
   alternates: {
     canonical: "https://www.prepa-atsem.fr/annales",
   },
+  // Page réservée aux comptes (redirection vers /auth si non connecté) :
+  // pas d'indexation tant qu'il n'existe pas de vitrine publique des annales
+  robots: { index: false, follow: false },
 }
 
 export default function AnnalesLayout({ children }) {

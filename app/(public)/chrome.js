@@ -209,6 +209,7 @@ export default function ChromePublic({ children }) {
             <div>
               <h4 className="text-xs font-extrabold uppercase tracking-widest mb-4">Ressources</h4>
               <ul className="space-y-3 text-[15px] text-white/85">
+                <li><a href="/qcm" className="hover:text-white transition">QCM gratuit</a></li>
                 <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
                 <li><a href="/calendrier" className="hover:text-white transition">Calendrier 2026</a></li>
                 <li><a href="mailto:support@prepa-atsem.fr" className="font-bold text-white hover:text-white/80 transition">support@prepa-atsem.fr</a></li>
