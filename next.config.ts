@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
         destination: "/:path*",
         permanent: true,
       },
+      // L'ancienne page QCM gratuit renvoie vers la section entraînement de l'accueil
+      {
+        source: "/qcm",
+        destination: "/#entrainement-qcm",
+        permanent: true,
+      },
       // Les anciennes pages de connexion/inscription mènent au nouvel écran unique
       {
         source: "/login",

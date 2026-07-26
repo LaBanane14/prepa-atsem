@@ -12,7 +12,6 @@ export default async function sitemap() {
     { url: '/calendrier', priority: 0.9, changeFrequency: 'weekly' },
     { url: '/tarifs', priority: 0.9, changeFrequency: 'monthly' },
     { url: '/blog', priority: 0.8, changeFrequency: 'weekly' },
-    { url: '/qcm', priority: 0.8, changeFrequency: 'monthly' },
     { url: '/cgu', priority: 0.3, changeFrequency: 'yearly' },
     { url: '/mentions-legales', priority: 0.3, changeFrequency: 'yearly' },
   ]
