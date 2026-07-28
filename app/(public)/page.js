@@ -400,6 +400,11 @@ export default function AccueilPage() {
               <p className="text-[1.45rem] leading-[1.15] text-purple-500 -rotate-3" style={{fontFamily: "'Caveat', cursive", fontWeight: 700}}>Prepa ATSEM est spécialisé pour cette voie</p>
               <svg className="w-24 h-20 text-purple-500/80 ml-[88px] mt-1" viewBox="0 0 60 50" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8 6 C 18 22, 30 34, 50 42"/><path d="M40 43.5 50 42 47 32"/></svg>
             </div>
+            {/* Variante mobile de l'annotation : au-dessus de la carte externe, flèche vers la carte */}
+            <div aria-hidden="true" className="md:hidden pointer-events-none flex items-start justify-center gap-1 mb-2 pl-1">
+              <p className="text-[1.4rem] leading-[1.1] text-purple-500 -rotate-2 max-w-[200px]" style={{fontFamily: "'Caveat', cursive", fontWeight: 700}}>Prepa ATSEM est spécialisé pour cette voie</p>
+              <svg className="w-12 h-14 text-purple-500/80 mt-3 shrink-0" viewBox="0 0 40 52" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 6 C 22 12, 30 26, 27 44"/><path d="M20 37.5 27 44 33.5 36.5"/></svg>
+            </div>
             <style>{`
               @keyframes frise-pop { from { opacity: 0; transform: translateY(18px) scale(0.92); } to { opacity: 1; transform: none; } }
               .frise-etape { opacity: 0; }
@@ -469,14 +474,19 @@ export default function AccueilPage() {
                     ? { backgroundColor: c.bord, color: '#ffffff', boxShadow: `0 6px 18px ${c.bord}55` }
                     : { backgroundColor: '#ffffff', color: 'rgba(0,0,0,0.35)', boxShadow: '0 0 0 2px rgba(0,0,0,0.10)' }}
                 >{c.num}</div>
+                {/* Titre au-dessus de l'aperçu sur mobile */}
+                <div className="md:hidden -mb-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest mb-2" style={{color: c.bord}}>{c.titre}</p>
+                  <h3 className="text-2xl font-extrabold tracking-[-0.02em] leading-tight">{c.sur}</h3>
+                </div>
                 {/* Aperçu d'interface */}
                 <div className={`${i % 2 === 1 ? 'md:order-2' : ''}`}>
                   <ApercuModule i={i} bord={c.bord} teinte={c.teinte} titre={c.titre} badgeFenetre={['Sans note', '41:26', '32:12', 'Question 2/10'][i]} />
                 </div>
                 {/* Explication */}
                 <div className={`${i % 2 === 1 ? 'md:order-1' : ''}`}>
-                  <p className="text-xs font-extrabold uppercase tracking-widest mb-3" style={{color: c.bord}}>{c.titre}</p>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] leading-tight mb-5">{c.sur}</h3>
+                  <p className="hidden md:block text-xs font-extrabold uppercase tracking-widest mb-3" style={{color: c.bord}}>{c.titre}</p>
+                  <h3 className="hidden md:block text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] leading-tight mb-5">{c.sur}</h3>
                   <ul className="space-y-3.5">
                     {c.points.map((p, j) => (
                       <li key={j} className="flex items-start gap-3">
@@ -567,26 +577,38 @@ export default function AccueilPage() {
             </div>
           </div>
 
-          {/* ===== Version mobile : frise verticale ===== */}
-          <div className="md:hidden space-y-3">
-            {[...ECRIT, ...ORAL].map((s, i) => (
-              <div key={i}>
-                {(i === 0 || i === 1) && (
-                  <div className="flex items-center gap-2.5 mb-3 mt-5 first:mt-0">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{background: s.bg}}></span>
-                    <h3 className="text-base font-extrabold text-white">{i === 0 ? 'Épreuve écrite' : 'Épreuve orale'}</h3>
-                    <span className="text-[13px] font-bold text-white/45">{i === 0 ? '45 min · coeff. 1' : '15 min · coeff. 2'}</span>
-                  </div>
-                )}
-                <div className="flex items-stretch gap-3">
-                  <div className="w-[64px] shrink-0 rounded-xl flex items-center justify-center text-center text-[13px] leading-tight font-extrabold text-white" style={{background: s.bg}}>{s.duree}</div>
-                  <div className="flex-1 bg-white/[0.04] ring-1 ring-white/[0.06] rounded-xl px-4 py-3">
-                    <p className="font-bold text-white text-[14px]">{s.titre} <span className="ml-1 text-[11px] font-extrabold px-1.5 py-0.5 rounded-md align-middle" style={{background: `${s.bg}33`, color: s.clair}}>{s.etiquette}</span></p>
-                    <p className="text-[13px] text-white/55 font-medium leading-relaxed mt-0.5">{s.desc}</p>
-                  </div>
+          {/* ===== Version mobile : parcours vertical (écrit, seuil, oral) ===== */}
+          <div className="md:hidden">
+            {/* Épreuve écrite */}
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shrink-0"></span>
+              <h3 className="text-base font-extrabold text-white">Épreuve écrite</h3>
+              <span className="text-[13px] font-bold text-white/45">45 min · coeff. 1</span>
+            </div>
+            <div className="chrono-detail bg-white/[0.04] ring-1 ring-white/[0.06] rounded-2xl p-5" style={{animationDelay: '0.1s'}}>
+              <div className="h-1 w-9 rounded-full mb-3.5" style={{background: ECRIT[0].bg}}></div>
+              <p className="font-bold text-white text-[15px]">{ECRIT[0].titre} <span className="ml-1 text-[11px] font-extrabold px-1.5 py-0.5 rounded-md align-middle whitespace-nowrap" style={{background: `${ECRIT[0].bg}33`, color: ECRIT[0].clair}}>45 min · /20</span></p>
+              <p className="text-[13px] text-white/55 font-medium leading-relaxed mt-1.5">{ECRIT[0].desc}</p>
+            </div>
+            {/* Passerelle entre les deux épreuves : le seuil d'admissibilité */}
+            <div className="chrono-detail ml-6 my-2 pl-5 py-2 border-l-2 border-dashed border-purple-400/35" style={{animationDelay: '0.4s'}}>
+              <p className="text-[13px] text-white/55 font-medium leading-relaxed"><span className="font-extrabold text-purple-300">Seuil d’admissibilité</span> fixé par le jury (souvent autour de 13/20) : au-dessus, vous êtes convoqué à l’oral.</p>
+            </div>
+            {/* Épreuve orale */}
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0"></span>
+              <h3 className="text-base font-extrabold text-white">Épreuve orale</h3>
+              <span className="text-[13px] font-bold text-white/45">15 min · coeff. 2</span>
+            </div>
+            <div className="space-y-3">
+              {ORAL.map((s, i) => (
+                <div key={i} className="chrono-detail bg-white/[0.04] ring-1 ring-white/[0.06] rounded-2xl p-5" style={{animationDelay: `${0.6 + i * 0.2}s`}}>
+                  <div className="h-1 w-9 rounded-full mb-3.5" style={{background: s.bg}}></div>
+                  <p className="font-bold text-white text-[15px]">{s.titre} <span className="ml-1 text-[11px] font-extrabold px-1.5 py-0.5 rounded-md align-middle whitespace-nowrap" style={{background: `${s.bg}33`, color: s.clair}}>{s.etiquette}</span></p>
+                  <p className="text-[13px] text-white/55 font-medium leading-relaxed mt-1.5">{s.desc}</p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Détails des 4 temps forts (desktop, alignés sous la frise) */}

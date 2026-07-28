@@ -61,7 +61,56 @@ export default function TarifsPage() {
           <svg className="w-14 h-14 text-purple-400/80 ml-8 mt-1" viewBox="0 0 60 50" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M52 5 C 42 24, 28 36, 12 41"/><path d="M22 43 12 41 14 31"/></svg>
         </div>
 
-        <div className="relative max-w-4xl mx-auto grid" style={{gridTemplateColumns: '1.35fr 0.9fr 1fr'}}>
+        {/* ===== Version mobile : deux cartes empilées (le tableau ne tient pas en largeur) ===== */}
+        <div className="sm:hidden relative max-w-md mx-auto space-y-5">
+          {/* Pack Concours, mis en avant en premier */}
+          <div className="rounded-[24px] p-6" style={{background: 'rgba(147,51,234,0.12)', border: '2px solid #9333ea'}}>
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-purple-400">Pack Concours 6 mois</p>
+              <span className="micro-beat shrink-0 bg-purple-600 text-white px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-lg shadow-purple-600/25">−36&nbsp;%</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-4xl font-extrabold tracking-[-0.03em] tabular-nums text-purple-400">49,99€</span>
+              <span className="text-white/45 font-bold text-sm">pour 6 mois</span>
+            </div>
+            <p className="mt-1.5 text-[13px] font-bold"><span className="line-through text-white/30">77,94€</span> <span className="text-purple-400">soit 8,33€/mois</span></p>
+            <p className="text-white/45 text-[12px] font-bold mt-1.5 leading-snug">1 seul paiement, pas de renouvellement automatique</p>
+            <ul className="mt-5 space-y-2.5">
+              {LIGNES.map((l, i) => (
+                <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/70 font-medium">
+                  {l.pack
+                    ? <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-purple-500/20"><Check stroke="#c084fc" size="w-3 h-3" /></span>
+                    : <span className="shrink-0 w-5 h-5 flex items-center justify-center"><Tiret /></span>}
+                  <span className={l.pack ? '' : 'text-white/35'}>{l.label}</span>
+                </li>
+              ))}
+            </ul>
+            <a href="/auth?mode=signup" className="btn-shine mt-6 w-full inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[15px] py-3 rounded-full transition shadow-lg shadow-purple-600/25 group">
+              S&apos;abonner
+              <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </a>
+          </div>
+          {/* Formule mensuelle */}
+          <div className="rounded-[24px] p-6" style={COL_M}>
+            <p className="text-xs font-extrabold uppercase tracking-widest text-white/50 mb-4">Formule mensuelle</p>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-4xl font-extrabold tracking-[-0.03em] tabular-nums text-white">12,99€</span>
+              <span className="text-white/45 font-bold text-sm">/mois</span>
+            </div>
+            <p className="text-white/45 text-[12px] font-bold mt-1.5 leading-snug">Renouvellement automatique, résiliable en un clic</p>
+            <ul className="mt-5 space-y-2.5">
+              {LIGNES.map((l, i) => (
+                <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/70 font-medium">
+                  <span className="shrink-0 w-5 h-5 flex items-center justify-center">{l.mensuel ? <Check stroke="#ffffff" /> : <Tiret />}</span>
+                  {l.label}
+                </li>
+              ))}
+            </ul>
+            <a href="/auth?mode=signup" className="mt-6 w-full inline-flex items-center justify-center bg-white hover:bg-white/90 text-[#0d0d0d] font-bold text-[15px] py-3 rounded-full transition">S&apos;abonner</a>
+          </div>
+        </div>
+
+        <div className="relative max-w-4xl mx-auto hidden sm:grid" style={{gridTemplateColumns: '1.35fr 0.9fr 1fr'}}>
 
           {/* Ligne d'en-tête : noms des formules et prix */}
           <div></div>

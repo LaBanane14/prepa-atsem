@@ -245,6 +245,10 @@ export default function AuthPage() {
           <div aria-hidden="true" className="absolute -top-32 -right-24 w-[32rem] h-[24rem] bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
         </>
       )}
+      {/* Brume violette en haut sur mobile (le panneau décoré de droite est masqué) */}
+      {!sombre && (
+        <div aria-hidden="true" className="lg:hidden absolute inset-x-0 top-0 h-[280px] pointer-events-none" style={{background: 'radial-gradient(ellipse 70% 220px at 50% -40px, rgba(107,33,168,0.14), transparent 70%), radial-gradient(ellipse 45% 200px at 100% 20px, rgba(107,33,168,0.10), transparent 70%)'}}></div>
+      )}
       <style>{`
         @keyframes glisseSortieG { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(-80px) scale(.96) } }
         @keyframes glisseSortieD { from { opacity:1; transform:translateX(0) } to { opacity:0; transform:translateX(80px) scale(.96) } }
@@ -271,7 +275,7 @@ export default function AuthPage() {
       `}</style>
 
       {/* ===================== COLONNE GAUCHE : FORMULAIRE ===================== */}
-      <div className="relative flex items-center justify-center px-6 pt-[110px] pb-14 min-h-screen">
+      <div className="relative flex items-center justify-center px-6 pt-[88px] lg:pt-[110px] pb-14 min-h-screen">
         {signupSuccess ? (
           <div className="max-w-[420px] w-full text-center">
             <div className="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5">
@@ -283,13 +287,20 @@ export default function AuthPage() {
           </div>
         ) : (
         <div className={`max-w-[420px] w-full ${sliding}`} style={{marginTop: '3vh'}}>
-          <h1 className={`font-extrabold tracking-[-0.03em] leading-[1.05] mb-3 text-4xl sm:text-[2.55rem] ${mode === 'login' ? 'whitespace-nowrap' : ''} ${sombre ? 'text-white' : ''}`}>
-            {mode === 'login' ? 'Ravis de vous revoir !' : 'Débutez votre essai de 7 jours'}
+          <h1 className={`font-extrabold tracking-[-0.03em] leading-[1.05] mb-3 text-[2.1rem] sm:text-[2.55rem] ${mode === 'login' ? 'sm:whitespace-nowrap' : ''} ${sombre ? 'text-white' : ''}`}>
+            {mode === 'login' ? 'Ravis de vous revoir !' : 'Débutez votre essai de 7 jours'}
           </h1>
           <p className={`font-medium text-lg mb-8 ${sombre ? 'text-white/55' : 'text-black/50'}`}>
             {mode === 'login' ? 'Connectez-vous pour reprendre votre entraînement.' : 'Commencez votre entraînement pour le concours ATSEM, sans frais.'}
           </p>
 
+          {/* Annotation manuscrite version mobile, au-dessus du bouton Google */}
+          <div aria-hidden="true" className="lg:hidden flex justify-end pr-3 -mt-3 -mb-1 pointer-events-none">
+            <div>
+              <p className="text-[1.3rem] text-purple-500 whitespace-nowrap" style={{fontFamily: "'Caveat', cursive", fontWeight: 700, transform: 'rotate(-2deg)'}}>Privilégiez Google&nbsp;!</p>
+              <svg className="w-9 h-9 text-purple-500/80 ml-5 -mt-1" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M33 4 C 28 15, 20 23, 9 29"/><path d="M17 30.5 9 29 11 21"/></svg>
+            </div>
+          </div>
           <div className="relative">
             {/* Annotation manuscrite vers le bouton Google */}
             <div aria-hidden="true" className="absolute hidden lg:block pointer-events-none" style={{left: 'calc(100% + 18px)', top: '-44px', width: '170px'}}>
