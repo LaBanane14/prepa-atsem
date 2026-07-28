@@ -193,6 +193,11 @@ export default function RootLayout({ children }) {
           gtag('js', new Date());
           gtag('config', 'G-W24Z96D93P');
         `}</Script>
+        <Script
+          src="https://analytics-hub-gamma.vercel.app/tracker.js"
+          data-site="prj_piEk48qkG2bvQSi1a2E02TqPVnXg"
+          strategy="afterInteractive"
+        />
       </head>
       <body>{children}</body>
     </html>
