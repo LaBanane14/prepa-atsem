@@ -580,12 +580,14 @@ export default function AccueilPage() {
           {/* ===== Version mobile : parcours vertical (écrit, seuil, oral) ===== */}
           <div className="md:hidden">
             {/* Épreuve écrite */}
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-500 shrink-0"></span>
-              <h3 className="text-base font-extrabold text-white">Épreuve écrite</h3>
-              <span className="text-[13px] font-bold text-white/45">45 min · coeff. 1</span>
+            <div className="flex items-center gap-3 mb-3.5">
+              <span className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-base font-extrabold text-white" style={{background: '#9333ea', boxShadow: '0 6px 18px rgba(147,51,234,0.33)'}}>1</span>
+              <div>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Épreuve écrite</h3>
+                <p className="text-[12px] font-bold text-white/45 mt-0.5">45 min · 20 points · coeff. 1</p>
+              </div>
             </div>
-            <div className="chrono-detail bg-white/[0.04] ring-1 ring-white/[0.06] rounded-2xl p-5" style={{animationDelay: '0.1s'}}>
+            <div className="chrono-detail rounded-2xl p-5" style={{animationDelay: '0.1s', background: 'rgba(147,51,234,0.14)', border: '1px solid rgba(192,132,252,0.28)'}}>
               <div className="h-1 w-9 rounded-full mb-3.5" style={{background: ECRIT[0].bg}}></div>
               <p className="font-bold text-white text-[15px]">{ECRIT[0].titre} <span className="ml-1 text-[11px] font-extrabold px-1.5 py-0.5 rounded-md align-middle whitespace-nowrap" style={{background: `${ECRIT[0].bg}33`, color: ECRIT[0].clair}}>45 min · /20</span></p>
               <p className="text-[13px] text-white/55 font-medium leading-relaxed mt-1.5">{ECRIT[0].desc}</p>
@@ -595,14 +597,16 @@ export default function AccueilPage() {
               <p className="text-[13px] text-white/55 font-medium leading-relaxed"><span className="font-extrabold text-purple-300">Seuil d’admissibilité</span> fixé par le jury (souvent autour de 13/20) : au-dessus, vous êtes convoqué à l’oral.</p>
             </div>
             {/* Épreuve orale */}
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0"></span>
-              <h3 className="text-base font-extrabold text-white">Épreuve orale</h3>
-              <span className="text-[13px] font-bold text-white/45">15 min · coeff. 2</span>
+            <div className="flex items-center gap-3 mb-3.5">
+              <span className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-base font-extrabold text-white" style={{background: '#2563eb', boxShadow: '0 6px 18px rgba(37,99,235,0.33)'}}>2</span>
+              <div>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Épreuve orale</h3>
+                <p className="text-[12px] font-bold text-white/45 mt-0.5">15 min · 20 points · coeff. 2</p>
+              </div>
             </div>
             <div className="space-y-3">
               {ORAL.map((s, i) => (
-                <div key={i} className="chrono-detail bg-white/[0.04] ring-1 ring-white/[0.06] rounded-2xl p-5" style={{animationDelay: `${0.6 + i * 0.2}s`}}>
+                <div key={i} className="chrono-detail rounded-2xl p-5" style={{animationDelay: `${0.6 + i * 0.2}s`, background: `${s.bg}24`, border: '1px solid rgba(147,197,253,0.28)'}}>
                   <div className="h-1 w-9 rounded-full mb-3.5" style={{background: s.bg}}></div>
                   <p className="font-bold text-white text-[15px]">{s.titre} <span className="ml-1 text-[11px] font-extrabold px-1.5 py-0.5 rounded-md align-middle whitespace-nowrap" style={{background: `${s.bg}33`, color: s.clair}}>{s.etiquette}</span></p>
                   <p className="text-[13px] text-white/55 font-medium leading-relaxed mt-1.5">{s.desc}</p>
