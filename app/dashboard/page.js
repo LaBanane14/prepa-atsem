@@ -1,8 +1,9 @@
 'use client'
 import { useState, useEffect, Suspense } from 'react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
-import { Home, TrendingUp, RotateCcw, UserRound, BadgeCheck, LogOut, CircleX, CreditCard, Lightbulb, MessageCircle, CircleHelp } from 'lucide-react'
+import { LayoutDashboard, ChartNoAxesColumn, History, CircleUserRound, BadgeCheck, LogOut, CircleX, CreditCard, Lightbulb, MessageCircle, CircleHelp } from 'lucide-react'
 
 const LogoIcon = ({size, strokeWidth, className}) => <svg viewBox="2 -2 36 26" fill="currentColor" className={className} width={size} height={size}><circle cx="12" cy="4" r="3.5"/><path d="M12 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M5 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M19 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="10" y="14" width="1.8" height="6" rx="0.9"/><rect x="12.5" y="14" width="1.8" height="6" rx="0.9"/><circle cx="28" cy="4" r="3.5"/><circle cx="32" cy="3" r="1.8"/><path d="M31 2.5c1.2-0.5 2.2 0 2.5 1" stroke="currentColor" strokeWidth="1.2" fill="none"/><path d="M28 7.5c-1.8 0-3 1-3 2.5v4h6v-4c0-1.5-1.2-2.5-3-2.5z"/><path d="M21 11.5l4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><path d="M35 11.5l-4.5-2.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/><rect x="26" y="14" width="1.8" height="6" rx="0.9"/><rect x="28.5" y="14" width="1.8" height="6" rx="0.9"/><polygon points="20,1 21,3.5 23.5,3.8 21.5,5.5 22,8 20,6.8 18,8 18.5,5.5 16.5,3.8 19,3.5"/><path d="M7 22c4-1.5 8-2 13-1.5s9 1 13-0.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>
 
@@ -11,10 +12,10 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, P
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 const menuItems = [
-  { id: 'dashboard', label: 'Accueil', icon: Home },
-  { id: 'progression', label: 'Mes stats', icon: TrendingUp },
-  { id: 'historique', label: 'Historique', icon: RotateCcw },
-  { id: 'profil', label: 'Compte', icon: UserRound },
+  { id: 'dashboard', label: 'Accueil', icon: LayoutDashboard },
+  { id: 'progression', label: 'Mes stats', icon: ChartNoAxesColumn },
+  { id: 'historique', label: 'Historique', icon: History },
+  { id: 'profil', label: 'Compte', icon: CircleUserRound },
   { id: 'abonnement', label: 'Devenir Premium', icon: BadgeCheck, premium: true }
 ]
 
@@ -198,7 +199,7 @@ function DashboardContent() {
   }
 
   if (loading) {
-    return <div className="min-h-screen bg-slate-100 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>
+    return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-purple-800 border-t-transparent rounded-full"></div></div>
   }
 
   const firstName = user?.user_metadata?.first_name || user?.user_metadata?.full_name?.split(' ')[0] || user?.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || 'Utilisateur'
@@ -278,17 +279,13 @@ function DashboardContent() {
   function navigateTo(id) { setPage(id); setSidebarOpen(false) }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex overflow-x-hidden" style={{fontFamily: "var(--font-dm-sans), 'Inter', system-ui, sans-serif"}}>
-      <style>{`
-        @keyframes premiumScan { 0%, 80% { opacity: 1; } 85% { opacity: 0.4; transform: scale(1.15); } 90% { opacity: 1; transform: scale(1); filter: brightness(1.5); } 95% { filter: brightness(1); } 100% { opacity: 1; } }
-        .premium-scan { animation: premiumScan 5s ease-in-out infinite; }
-      `}</style>
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex overflow-x-hidden" style={{fontFamily: "var(--font-dm-sans), 'Inter', system-ui, sans-serif"}}>
 
       {sidebarOpen && <div className="fixed top-14 lg:top-0 inset-x-0 bottom-0 bg-black/30 z-[45] lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
 
       {/* SIDEBAR FLOTTANTE */}
       <div className={`fixed top-14 lg:top-0 bottom-0 left-0 z-50 flex items-start lg:items-center pl-0 lg:pl-3 py-0 lg:py-5 transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <aside className="w-[72px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "var(--font-nunito), sans-serif"}}>
+        <aside className="w-[84px] bg-white rounded-none rounded-br-2xl lg:rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/60 border-t-0 lg:border-t flex flex-col items-center py-5 h-full lg:h-[calc(100vh-2.5rem)]" style={{fontFamily: "var(--font-sora), var(--font-dm-sans), sans-serif"}}>
           <a href="/" className="mb-4">
             <div className="w-10 h-10 bg-purple-800 text-white rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
               <LogoIcon size={20} strokeWidth={2.5} />
@@ -298,8 +295,15 @@ function DashboardContent() {
 
           <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5">
             {menuItems.filter(item => !item.premium || !isPremium).map(item => (
-              <button key={item.id} onClick={() => navigateTo(item.id)} className={`w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-bold transition-all cursor-pointer text-center group ${item.premium ? (page === item.id ? 'bg-amber-50 text-amber-600' : 'text-amber-500 hover:bg-amber-50 hover:text-amber-600') : (page === item.id ? 'bg-purple-50 text-purple-800' : 'text-slate-900 hover:bg-purple-50 hover:text-purple-800')}`}>
-                <item.icon size={21} strokeWidth={1.6} className={`transition-transform duration-200 group-hover:scale-125 ${item.premium ? 'premium-scan' : ''}`} />
+              <button key={item.id} onClick={() => navigateTo(item.id)} className={`relative w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-[11px] font-semibold transition-all cursor-pointer text-center group ${item.premium ? (page === item.id ? 'bg-amber-50 text-amber-600' : 'text-amber-500 hover:bg-amber-50 hover:text-amber-600') : (page === item.id ? 'bg-purple-50 text-purple-800' : 'text-slate-900 hover:bg-purple-50 hover:text-purple-800')}`}>
+                {page === item.id && <span className={`absolute -left-1.5 top-1/2 -translate-y-1/2 w-[3px] h-7 rounded-full ${item.premium ? 'bg-amber-400' : 'bg-purple-800'}`}></span>}
+                {item.premium ? (
+                  <span className="w-8 h-8 bg-gradient-to-br from-amber-400 to-yellow-500 text-amber-950 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+                    <item.icon size={18} strokeWidth={2} />
+                  </span>
+                ) : (
+                  <item.icon size={20} strokeWidth={1.8} className="transition-transform duration-200 group-hover:scale-125" />
+                )}
                 <span>{item.label}</span>
               </button>
             ))}
@@ -318,7 +322,7 @@ function DashboardContent() {
       </div>
 
       {/* MAIN */}
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-[90px] min-w-0 max-w-full">
+      <div className="flex-1 flex flex-col min-h-screen lg:pl-[102px] min-w-0 max-w-full">
         {/* Mobile top bar */}
         <header className="lg:hidden h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shrink-0 sticky top-0 z-30">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
@@ -400,7 +404,7 @@ function DashboardContent() {
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Un commentaire ? <span className="font-normal text-slate-400">(optionnel)</span></p>
                       <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400 transition h-28"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition h-28"
                         placeholder="Ce que vous aimez, ce qu'on pourrait améliorer..."
                         value={reviewComment}
                         onChange={e => setReviewComment(e.target.value)}
@@ -500,7 +504,7 @@ function DashboardContent() {
                       </div>
                       <p className="text-sm font-bold text-slate-700 mb-2">Votre message</p>
                       <textarea
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400 transition h-28 mb-4"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition h-28 mb-4"
                         placeholder="Décrivez votre problème ou votre suggestion..."
                         value={supportMessage}
                         onChange={e => setSupportMessage(e.target.value)}
@@ -570,59 +574,58 @@ function DashboardContent() {
                     <span className="font-black text-sm">Premium {subscriptionPlan === 'monthly' ? 'Mensuel' : 'Pack 6 mois'}</span>
                   </div>
                 ) : (
-                  <>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                        <div onClick={trialDays === 0 ? () => setPage('abonnement') : undefined} className={`${trialDays === 0 ? 'bg-purple-500 text-white cursor-pointer hover:bg-purple-800 transition' : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950'} px-4 py-2 rounded-xl flex items-center gap-2 shadow-md shrink-0`}>
-                          <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                          <span className="font-black text-sm whitespace-nowrap">{trialDays === 0 ? 'Essai expiré' : `${trialDays}j restant${trialDays > 1 ? 's' : ''}`}</span>
-                        </div>
-                        <button onClick={() => setPage('abonnement')} className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-4 py-2 rounded-xl transition shadow-md cursor-pointer shrink-0 whitespace-nowrap">Devenir premium</button>
-                      </div>
-                  </>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <div onClick={trialDays === 0 ? () => setPage('abonnement') : undefined} className={`${trialDays === 0 ? 'bg-red-50 text-red-600 border border-red-200 cursor-pointer hover:bg-red-100 transition' : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 shadow-md'} px-4 py-2 rounded-xl flex items-center gap-2 shrink-0`}>
+                      <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                      <span className="font-black text-sm whitespace-nowrap">{trialDays === 0 ? 'Essai expiré' : `${trialDays}j restant${trialDays > 1 ? 's' : ''}`}</span>
+                    </div>
+                    <button onClick={() => setPage('abonnement')} className="bg-slate-900 hover:bg-black text-white font-bold text-sm px-4 py-2 rounded-xl transition shadow-md cursor-pointer shrink-0 whitespace-nowrap">Devenir premium</button>
+                  </div>
                 )}
               </div>
 
               {/* ENTRAÎNEMENTS */}
-              <h2 className="text-lg font-black text-slate-900 mb-4">Commencer à m'entraîner</h2>
+              <h2 className="text-xs font-black uppercase tracking-widest text-slate-900 mb-4">Commencer à m'entraîner</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                <a href="/specifique" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-purple-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center">
-                  <div className="w-11 h-11 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Link href="/specifique" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center text-center">
+                  <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><path d="M9 5a2 2 0 002 2h2a2 2 0 002-2"/><path d="M9 14l2 2 4-4"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">QCM thématiques</h3>
                   <p className="text-xs text-slate-500 flex-1">Choisissez une famille : hygiène, institutionnel, santé, pédagogie, relations pro, calculs</p>
-                  <span className="text-[10px] mt-2 text-purple-600 font-bold">Ne compte pas dans la moyenne</span>
-                </a>
-                <a href="/annales" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-blue-600 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="text-[10px] font-black bg-purple-50 text-purple-600 px-2 py-0.5 rounded-md mt-3">Ne compte pas dans la moyenne</span>
+                </Link>
+                <Link href="/annales" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md">45 min</span>
-                  <div className="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Annales corrigées</h3>
                   <p className="text-xs text-slate-500 flex-1">Vrais sujets des CDG avec timer 45 min et correction détaillée question par question</p>
-                  <span className="text-[10px] font-black text-blue-600 mt-2">Note /20</span>
-                </a>
-                <a href="/examen" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-amber-500 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
-                  <span className="absolute top-2 right-2 text-[9px] font-black text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-md">45 min</span>
-                  <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <span className="text-[10px] font-black bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md mt-3">Note /20</span>
+                </Link>
+                <Link href="/examen" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-amber-200 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center text-center relative">
+                  <span className="absolute top-2 right-2 text-[9px] font-black text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md">45 min</span>
+                  <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Examen blanc</h3>
                   <p className="text-xs text-slate-500 flex-1">Conditions réelles : 20 questions générées par IA, 45 min, sans aide. Classement percentile</p>
-                  <span className="text-[10px] font-black text-amber-500 mt-2">Note /20</span>
-                </a>
-                <a href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border-2 border-pink-400 shadow-sm hover:shadow-md transition group flex flex-col items-center text-center relative">
+                  <span className="text-[10px] font-black bg-amber-50 text-amber-600 px-2 py-0.5 rounded-md mt-3">Note /20</span>
+                </Link>
+                <Link href="/oral" onClick={e => { if (trialDays === 0 && !isPremium) { e.preventDefault(); setShowBlockPopup(true) } }} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-pink-200 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center text-center relative">
                   <span className="absolute top-2 right-2 text-[9px] font-black text-pink-500 bg-pink-50 px-1.5 py-0.5 rounded-md">15 min</span>
-                  <div className="w-11 h-11 bg-pink-50 text-pink-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 bg-pink-50 text-pink-500 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
                   </div>
                   <h3 className="font-bold text-slate-900 text-sm mb-1">Simulation d'oral</h3>
                   <p className="text-xs text-slate-500 flex-1">L'IA génère des questions de jury : mises en situation, motivations, relation ATSEM/enseignant</p>
-                  <span className="text-[10px] mt-2 text-pink-500 font-bold">Pas de note</span>
-                </a>
+                  <span className="text-[10px] font-black bg-pink-50 text-pink-500 px-2 py-0.5 rounded-md mt-3">Pas de note</span>
+                </Link>
               </div>
 
               {/* STREAK + MOYENNE + OBJECTIF SEMAINE */}
+              <h2 className="text-xs font-black uppercase tracking-widest text-slate-900 mb-4">Ma progression</h2>
               <div className="grid sm:grid-cols-3 gap-4 mb-10">
                 {/* Streak */}
                 <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
@@ -636,6 +639,7 @@ function DashboardContent() {
                     )}
                   </div>
                   <div>
+                    <p className="text-sm font-black text-slate-900 mb-1">Ma série</p>
                     <p className="text-2xl font-black text-slate-900">{streak} <span className="text-xs font-bold text-slate-400">jour(s) d'affilée</span></p>
                   </div>
                 </div>
@@ -669,12 +673,12 @@ function DashboardContent() {
                       <p className="text-sm font-black text-slate-900">Objectif de la semaine</p>
                       <span className="text-xs font-black text-slate-400">{weekData.count}/5 exercices</span>
                     </div>
-                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-2">
-                      <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
+                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2">
+                      <div className="h-full bg-gradient-to-r from-purple-600 to-purple-800 rounded-full transition-all duration-500" style={{width: `${weekProgress}%`}}></div>
                     </div>
                     <div className="flex justify-between">
                       {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
-                        <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-400'}`}>
+                        <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${weekData.daysWithExercise.has(i) ? 'bg-purple-800 text-white shadow-sm shadow-purple-200' : 'bg-slate-100 text-slate-400'}`}>
                           {weekData.daysWithExercise.has(i) ? <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg> : day}
                         </div>
                       ))}
@@ -686,8 +690,8 @@ function DashboardContent() {
                       <p className="text-sm font-black text-slate-900">Objectif du mois</p>
                       <span className="text-xs font-black text-slate-400">{monthData.count}/20 exercices</span>
                     </div>
-                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-2">
-                      <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
+                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-2">
+                      <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500" style={{width: `${monthProgress}%`}}></div>
                     </div>
                     <div className="bg-purple-50 border border-purple-200 rounded-xl px-3 py-2 flex items-center gap-2">
                       <svg viewBox="0 0 60 60" className="w-7 h-7 shrink-0" xmlns="http://www.w3.org/2000/svg">
@@ -713,9 +717,9 @@ function DashboardContent() {
               </div>
 
               {/* RACCOURCIS UTILES */}
-              <h2 className="text-lg font-black text-slate-900 mb-4">Raccourcis utiles</h2>
+              <h2 className="text-xs font-black uppercase tracking-widest text-slate-900 mb-4">Raccourcis utiles</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                <a href="/specifique" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
+                <a href="/specifique" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 hover:-translate-y-0.5 transition-all duration-200 group flex items-center gap-3">
                   <div className="w-10 h-10 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h3M13 14h3M8 18h3M13 18h3"/></svg>
                   </div>
@@ -724,7 +728,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 font-medium">Entraînement</p>
                   </div>
                 </a>
-                <a href="/blog" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3">
+                <a href="/blog" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 hover:-translate-y-0.5 transition-all duration-200 group flex items-center gap-3">
                   <div className="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
                   </div>
@@ -733,7 +737,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 font-medium">Articles</p>
                   </div>
                 </a>
-                <button onClick={() => { setShowReviewPopup(true); setReviewRating(0); setReviewComment(''); setReviewSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 transition group flex items-center gap-3 cursor-pointer text-left">
+                <button onClick={() => { setShowReviewPopup(true); setReviewRating(0); setReviewComment(''); setReviewSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-200 hover:-translate-y-0.5 transition-all duration-200 group flex items-center gap-3 cursor-pointer text-left">
                   <div className="w-10 h-10 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                   </div>
@@ -742,7 +746,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 font-medium">Donnez votre avis</p>
                   </div>
                 </button>
-                <button onClick={() => { setShowSupportPopup(true); setSupportCategory(''); setSupportMessage(''); setSupportFile(null); setSupportSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition group flex items-center gap-3 cursor-pointer text-left">
+                <button onClick={() => { setShowSupportPopup(true); setSupportCategory(''); setSupportMessage(''); setSupportFile(null); setSupportSent(false) }} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 group flex items-center gap-3 cursor-pointer text-left">
                   <div className="w-10 h-10 bg-slate-100 text-slate-500 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <CircleHelp size={20} strokeWidth={1.8} />
                   </div>
@@ -755,7 +759,7 @@ function DashboardContent() {
 
               {/* CTA Premium */}
               {!isPremium && (
-                <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-lg shadow-slate-900/10 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 mb-2"><span className="bg-slate-700 text-slate-300 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Plan gratuit</span></div>
                     <h3 className="text-lg font-black text-white mb-1">Passez au niveau supérieur</h3>
@@ -828,7 +832,7 @@ function DashboardContent() {
             return (
             <div>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Mes stats</h1>
-              <p className="text-slate-400 text-sm mb-8">Suivez votre progression et débloquez vos diplômes.</p>
+              <p className="text-slate-500 font-medium text-sm mb-8">Suivez votre progression et débloquez vos diplômes.</p>
 
               {historique.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center">
@@ -841,7 +845,7 @@ function DashboardContent() {
                 <>
                   {/* Stats rapides - 4 cartes */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
                       <div className="w-11 h-11 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                       </div>
@@ -850,7 +854,7 @@ function DashboardContent() {
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Exercices faits</p>
                       </div>
                     </div>
-                    <div className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
                       <div className="w-11 h-11 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                       </div>
@@ -859,7 +863,7 @@ function DashboardContent() {
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Temps total</p>
                       </div>
                     </div>
-                    <div className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
                       <div className="w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
                       </div>
@@ -868,7 +872,7 @@ function DashboardContent() {
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Meilleure note</p>
                       </div>
                     </div>
-                    <div className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
                       <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
                       </div>
@@ -882,7 +886,7 @@ function DashboardContent() {
                   {/* Graphiques */}
                   <div className="grid lg:grid-cols-5 gap-6 mb-8">
                     {/* Barres : exercices par jour */}
-                    <div className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 p-6">
+                    <div className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
                       <div className="flex items-center justify-between mb-5">
                         <h3 className="font-bold text-slate-900 text-sm">Activité des 14 derniers jours</h3>
                         <span className="text-xs text-slate-400 font-medium">{dailyData.reduce((s, d) => s + d.count, 0)} exercices</span>
@@ -911,7 +915,7 @@ function DashboardContent() {
                     </div>
 
                     {/* Doughnut : répartition par type */}
-                    <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6">
+                    <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
                       <h3 className="font-bold text-slate-900 text-sm mb-5">Répartition</h3>
                       <div className="max-w-[200px] mx-auto">
                         <Doughnut
@@ -950,7 +954,7 @@ function DashboardContent() {
 
                   {/* Ligne : évolution de la moyenne */}
                   {moyenneEvolution.length >= 2 && (
-                    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-8">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
                       <div className="flex items-center justify-between mb-5">
                         <h3 className="font-bold text-slate-900 text-sm">Évolution de la moyenne</h3>
                         <span className="text-xs font-bold text-slate-900 bg-slate-100 px-2.5 py-1 rounded-lg">{moyenneEvolution[moyenneEvolution.length - 1].moy}/20</span>
@@ -996,7 +1000,7 @@ function DashboardContent() {
               {/* Diplômes */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-slate-900 text-sm">Diplômes</h3>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Diplômes</h3>
                   <span className="text-xs text-slate-400 font-semibold">{unlockedCount}/{badges.length} débloqués</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -1082,26 +1086,46 @@ function DashboardContent() {
 
             return (
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Mon historique</h1>
-              <p className="text-slate-500 font-medium text-sm mb-6">Retrouvez vos entraînements passés.</p>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Mon historique</h1>
+              <p className="text-slate-500 font-medium text-sm mb-8">Retrouvez vos entraînements passés.</p>
 
               {/* Stats rapides */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl font-black text-slate-900">{totalExercices}</p>
-                  <p className="text-xs font-bold text-slate-400 uppercase mt-1">Exercices</p>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
+                  <div className="w-11 h-11 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-slate-900 leading-none">{totalExercices}</p>
+                    <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Exercices faits</p>
+                  </div>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl font-black text-purple-800">{moyenne || '—'}<span className="text-sm">/20</span></p>
-                  <p className="text-xs font-bold text-slate-400 uppercase mt-1">Moyenne</p>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
+                  <div className="w-11 h-11 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-slate-900 leading-none">{moyenne || '—'}<span className="text-sm text-slate-400">/20</span></p>
+                    <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Moyenne</p>
+                  </div>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl font-black text-slate-900">{meilleur || '—'}<span className="text-sm">/20</span></p>
-                  <p className="text-xs font-bold text-slate-400 uppercase mt-1">Meilleur score</p>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
+                  <div className="w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-slate-900 leading-none">{meilleur || '—'}<span className="text-sm text-slate-400">/20</span></p>
+                    <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Meilleur score</p>
+                  </div>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 text-center">
-                  <p className="text-2xl font-black text-slate-900">{totalMinutes < 60 ? `${totalMinutes} min` : `${totalH}h${totalM > 0 ? String(totalM).padStart(2, '0') : ''}`}</p>
-                  <p className="text-xs font-bold text-slate-400 uppercase mt-1">Temps total</p>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
+                  <div className="w-11 h-11 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-black text-slate-900 leading-none">{totalMinutes < 60 ? `${totalMinutes} min` : `${totalH}h${totalM > 0 ? String(totalM).padStart(2, '0') : ''}`}</p>
+                    <p className="text-[11px] text-slate-400 font-semibold mt-0.5">Temps total</p>
+                  </div>
                 </div>
               </div>
 
@@ -1264,9 +1288,9 @@ function DashboardContent() {
           {/* ============ MON COMPTE ============ */}
           {page === 'profil' && (
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Mon compte</h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Mon compte</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Gérez vos informations personnelles.</p>
-              {profileMsg && <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${profileMsg.startsWith('Erreur') ? 'bg-purple-50 text-purple-900 border border-purple-200' : 'bg-purple-50 text-purple-800 border border-purple-200'}`}>{profileMsg}</div>}
+              {profileMsg && <div className={`p-4 rounded-xl mb-6 font-bold text-sm ${profileMsg.startsWith('Erreur') ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}`}>{profileMsg}</div>}
               <div className="flex flex-col lg:flex-row lg:items-stretch gap-6">
                 <form onSubmit={updateProfile} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-5 flex-1">
                   <div>
@@ -1336,7 +1360,7 @@ function DashboardContent() {
           {/* ============ DEVENIR PREMIUM ============ */}
           {page === 'abonnement' && (
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Devenir Premium</h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">Devenir Premium</h1>
               <p className="text-slate-500 font-medium text-sm mb-8">Choisissez la formule qui s'adapte le plus à votre besoin.</p>
               <div className="grid md:grid-cols-3 gap-6 lg:gap-8 w-full">
 
